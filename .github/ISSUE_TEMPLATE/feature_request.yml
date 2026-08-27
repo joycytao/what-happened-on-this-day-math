@@ -1,0 +1,36 @@
+name: Feature Request
+description: Suggest an improvement with a clear user need and expected outcome.
+title: "[Feature]: "
+labels:
+  - "type: feature"
+  - "status: pending review"
+body:
+  - type: textarea
+    id: use_case
+    attributes:
+      label: User story or use case
+      description: Who needs this, what are they trying to do, and why is the current experience insufficient?
+    validations:
+      required: true
+  - type: textarea
+    id: expected_result
+    attributes:
+      label: Expected result
+      description: Explain what success looks like from the user's perspective.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed solution
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true

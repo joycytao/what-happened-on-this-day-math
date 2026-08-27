@@ -1,0 +1,35 @@
+name: Sync issue labels
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or update shared labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              ['type: bug', 'd73a4a', 'Something is not working as expected'],
+              ['type: feature', 'a2eeef', 'A request for new or improved functionality'],
+              ['type: documentation', '0075ca', 'Documentation changes or improvements'],
+              ['priority: high', 'b60205', 'High-impact or urgent work'],
+              ['priority: low', 'cfd3d7', 'Useful but lower-priority work'],
+              ['status: blocked', 'e4e669', 'Cannot proceed until a dependency or decision is resolved'],
+              ['status: pending review', 'fbca04', 'Waiting for review or triage'],
+              ['status: ready to pickup', '0e8a16', 'Approved and ready for an agent to pick up']
+            ];
+            for (const [name, color, description] of labels) {
+              try {
+                await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name });
+                await github.rest.issues.updateLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
+              }
+            }
