@@ -1,0 +1,47 @@
+name: Announce next agent pickup
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  announce-next:
+    if: github.event.issue.pull_request == null
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find and announce the next ready Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const q = `repo:${context.repo.owner}/${context.repo.repo} is:open label:"status: ready to pickup" -label:"status: blocked"`;
+            const result = await github.paginate(github.rest.search.issuesAndPullRequests, {
+              q,
+              per_page: 100,
+              sort: 'created',
+              order: 'asc'
+            });
+            const sequenced = result
+              .filter(item => !item.pull_request)
+              .map(item => ({ item, match: item.title.match(/^\[(\d+)\/(\d+)\]/) }))
+              .filter(entry => entry.match)
+              .sort((a, b) => Number(a.match[1]) - Number(b.match[1]));
+            const next = sequenced[0]?.item;
+
+            if (!next) {
+              core.info('No open, unblocked Issue is ready for pickup.');
+              return;
+            }
+
+            const marker = '<!-- codex-agent-pickup -->';
+            const sequence = next.title.match(/^\[(\d+)\/(\d+)\]/);
+            const body = `${marker}\nCODEX_AGENT_PICKUP\n\nNext eligible Issue after #${context.payload.issue.number} closed: **#${next.number} ${next.title}**\n\nSelection rule: explicit execution sequence [${sequence[1]}/${sequence[2]}], requiring \`status: ready to pickup\` and excluding \`status: blocked\`. Issues without a sequence marker are not auto-picked up.\n\n${next.html_url}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body
+            });
