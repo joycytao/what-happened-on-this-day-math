@@ -1,4 +1,4 @@
-# AGENT.md
+# AGENTS.md
 
 ## Project purpose
 
@@ -198,6 +198,117 @@ If a PDF or printable packet is requested, preserve the five-part layout model
 and page-count rules above. Do not replace the requested artifact with a plain
 text summary.
 
+## Worksheet template reuse
+
+Worksheet designs supplied later as PDF or PNG files are reusable project
+templates or visual references. Treat the supplied design as the source of
+truth for the worksheet’s visual system unless the user explicitly requests a
+redesign.
+
+Before generating worksheets from a template, inspect and document its:
+
+- page size and orientation;
+- margins, safe areas, and print boundaries;
+- typography hierarchy and approximate text capacity;
+- colors, decorative elements, illustrations, and recurring branding;
+- locations and intended roles of replaceable fields;
+- page variants for Reading Passage, Level 1, Level 2, Level 3, and Answer Key.
+
+Preserve the template’s overall composition, visual hierarchy, spacing, and
+page identity. Replace only the content fields and assets needed for the new
+month. Do not permanently alter the reusable source asset for a one-month
+output; create a versioned template variant when the design itself must
+change.
+
+If the PDF or PNG is editable in the chosen production workflow, use its
+editable structure. If it is not editable, use it as a visual reference and
+reconstruct the layout in a reliable printable format such as HTML/CSS,
+SVG, or another PDF-capable representation. The reconstruction must preserve
+the observable design rather than placing new text carelessly on top of a
+flattened image.
+
+Use the same template system for all daily modules while allowing the page
+variant to change for Reading Passage, Level 1, Level 2, Level 3, and Answer
+Key. Inject each day’s Date, Title, Story, Trivia, math tasks, and answers into
+the correct fields. Keep content within the template’s intended text areas;
+shorten or reflow copy when necessary instead of allowing overflow or
+overlapping elements.
+
+When a new template is introduced, preserve the original asset, record its
+filename and version, and make the mapping between template fields and content
+fields explicit. If the design does not clearly identify a replaceable area,
+report the ambiguity before producing a large monthly packet.
+
+Template-based output must be visually checked after rendering. Verify page
+dimensions, orientation, margins, resolution, text overflow, clipping,
+overlaps, legibility, image quality, page order, and the required 126-page or
+130-page total. A content validation pass alone is not sufficient for claiming
+that a worksheet template was reused successfully.
+
 When generating a monthly packet, begin by stating the target month, number of
 calendar days, expected page count, and source files used. Finish by reporting
 the validation result and any remaining issues.
+
+## GitHub issue execution order
+
+GitHub Issues are the project backlog and execution plan. Issue numbers and
+creation time do not define implementation order. Before starting work, the
+agent must inspect all open issues, read their current descriptions and
+statuses, identify dependencies, and choose the next unblocked issue.
+
+The current default dependency order is:
+
+```text
+#1 + #2
+  → #3
+  → #4
+  → #14
+  → #15
+  → #5
+  → #6 + #11 + #12 + #13 + #8
+  → #9
+  → #10
+```
+
+The order means:
+
+- #1 and #2 may be worked on in parallel.
+- #3 depends on the content schema from #1.
+- #4 depends on the pilot content from #3 and the schema from #1.
+- #14 depends on the agreed content schema and generation rules.
+- #15 depends on the monthly CSV output from #14 and the validation rules
+  from #4.
+- #5 establishes the template asset and field mapping.
+- #6, #8, #11, #12, and #13 depend on the relevant schema, validation, CSV,
+  and template mapping work; these page-specific tasks may run in parallel
+  once their prerequisites are satisfied.
+- #9 depends on the completed daily page renderers and Answer Key renderer.
+- #10 depends on the complete monthly orchestration from #9 and is the final
+  content and PDF release gate.
+
+When a new issue is created, an existing issue changes scope or status, or a
+new dependency is discovered, recalculate the execution order before starting
+the next task. Do not assume that a newly created issue belongs at the end of
+the backlog. Update the order by identifying its prerequisites, the issues it
+blocks, and any issues that can now run in parallel.
+
+Before executing an issue, confirm that:
+
+- the issue is open and not superseded;
+- every prerequisite issue is complete or explicitly waived by the user;
+- the issue does not duplicate another open issue;
+- its expected output and acceptance criteria are clear;
+- no newly created or modified issue changes the dependency graph.
+
+If an issue is blocked, do not implement it prematurely. Record the blocking
+issue and select the next unblocked issue. If no issue is unblocked, report the
+blocker rather than inventing an execution order.
+
+Issue #7, “Implement daily Level 1, Level 2, and Level 3 template injection,”
+was superseded by the separate atomic issues #11, #12, and #13. Do not execute
+#7 unless the user explicitly reopens it.
+
+At the beginning of each implementation session, report the current issue,
+its prerequisites, the issues that remain, and any parallel work available.
+After completing an issue, report the result and recalculate the remaining
+execution order before proceeding.
