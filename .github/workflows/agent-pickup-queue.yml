@@ -24,21 +24,16 @@ jobs:
               sort: 'created',
               order: 'asc'
             });
-            const sequenced = result
-              .filter(item => !item.pull_request)
-              .map(item => ({ item, match: item.title.match(/^\[(\d+)\/(\d+)\]/) }))
-              .filter(entry => entry.match)
-              .sort((a, b) => Number(a.match[1]) - Number(b.match[1]));
-            const next = sequenced[0]?.item;
+            const candidates = result.filter(item => !item.pull_request);
 
-            if (!next) {
+            if (!candidates.length) {
               core.info('No open, unblocked Issue is ready for pickup.');
               return;
             }
 
             const marker = '<!-- codex-agent-pickup -->';
-            const sequence = next.title.match(/^\[(\d+)\/(\d+)\]/);
-            const body = `${marker}\nCODEX_AGENT_PICKUP\n\nNext eligible Issue after #${context.payload.issue.number} closed: **#${next.number} ${next.title}**\n\nSelection rule: explicit execution sequence [${sequence[1]}/${sequence[2]}], requiring \`status: ready to pickup\` and excluding \`status: blocked\`. Issues without a sequence marker are not auto-picked up.\n\n${next.html_url}`;
+            const list = candidates.map(item => `- #${item.number} ${item.title} — ${item.html_url}`).join('\n');
+            const body = `${marker}\nCODEX_AGENT_PICKUP\n\nEligible pickup queue after #${context.payload.issue.number} closed:\n\n${list}\n\nThe agent must determine execution order from the full Issue context and project dependencies. Requires \`status: ready to pickup\`; excludes \`status: blocked\`.`;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
