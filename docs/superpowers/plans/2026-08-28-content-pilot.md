@@ -34,8 +34,8 @@
 - [x] Run `node --test tests/content-pilot.test.mjs` and confirm it fails because the fixture is missing.
 - [x] Add the NASA-sourced JSON record with reading, trivia, differentiated math, answers, and source metadata.
 - [x] Add the focused test to the `npm test` command.
-- [ ] Run the focused test and full `npm test` command.
-- [ ] Run `git diff --check` and commit the focused change.
+- [x] Run the focused test and full `npm test` command.
+- [x] Run `git diff --check` and commit the focused change.
 
 **Verification:**
 
