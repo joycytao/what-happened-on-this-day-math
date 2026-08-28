@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "test": "node scripts/validate-content-example.mjs"
+  },
+  "devDependencies": {}
+}
