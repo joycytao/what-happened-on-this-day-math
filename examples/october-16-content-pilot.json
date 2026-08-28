@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "month": "1983-10",
+  "days": [
+    {
+      "date": "1983-10-16",
+      "emoji": "🚀",
+      "theme": "inventions_daily_life",
+      "title": "The Shuttle That Took a Bow",
+      "hook": "Have you ever shown off a model that took ages to build? Imagine unveiling a whole space shuttle!",
+      "readingPassage": "Have you ever shown off a model that took ages to build? Imagine unveiling a whole space shuttle! On **October 16, 1983**, NASA rolled out **Space Shuttle Discovery** for its first public appearance at a factory in Palmdale, California. Workers had spent about **3 years** building it, so this was a very big “ta-da!” moment. Discovery was not ready to zoom into space that day; it was ready to let workers, visitors, and astronauts see the finished spacecraft. Six astronauts had been assigned to its first mission, and five of them attended the rollout. After the ceremony, workers carefully moved Discovery **36 miles** by truck to a NASA flight center. That trip took about **10 hours**, which is a long road trip for a spaceship that cannot stop for snacks! Discovery finally began its space career in 1984. NASA reports that it flew **39 missions** over a career spanning more than **26 years** before its final mission in 2011. Today, the shuttle is displayed at the Smithsonian’s National Air and Space Museum, where visitors can see the giant machine up close.",
+      "trivia": [
+        "Discovery was named after historic exploration ships.",
+        "The first public rollout happened before Discovery’s first spaceflight."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "Discovery flew 39 missions. If a classroom poster highlights 3 missions, how many missions are not highlighted?",
+          "numbersUsed": [{"value": 39, "unit": "missions", "source": "NASA reports that Discovery flew 39 missions."}, {"value": 3, "unit": "missions highlighted", "source": "Problem scenario."}]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Six astronauts were assigned to Discovery’s first mission. If each astronaut draws 3 shuttle stars for a class display, how many stars will they draw altogether?",
+          "numbersUsed": [{"value": 6, "unit": "astronauts", "source": "NASA reports a six-person first-mission crew."}, {"value": 3, "unit": "stars per astronaut", "source": "Problem scenario."}]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "multi_step_addition",
+          "prompt": "Discovery took about 3 years to build and then had a space career spanning more than 26 years. Using those numbers, how many years is that altogether?",
+          "numbersUsed": [{"value": 3, "unit": "years building", "source": "NASA reports that Discovery was under construction for three years."}, {"value": 26, "unit": "years in career", "source": "NASA reports a career spanning more than 26 years."}]
+        }
+      },
+      "answers": {
+        "level1": {"equation": "39 - 3 = 36", "work": "Subtract the 3 highlighted missions from the 39 total missions.", "finalAnswer": "36 missions would not be highlighted."},
+        "level2": {"equation": "6 x 3 = 18", "work": "Multiply 6 astronauts by 3 stars for each astronaut.", "finalAnswer": "The astronauts would draw 18 stars altogether."},
+        "level3": {"equation": "3 + 26 = 29", "work": "Add the 3 building years and the 26 career years.", "finalAnswer": "That is 29 years altogether using the stated numbers."}
+      },
+      "answerKeyEntries": ["1983-10-16:level1", "1983-10-16:level2", "1983-10-16:level3"],
+      "sourceIds": ["nasa-discovery-public-debut"]
+    }
+  ],
+  "answerKey": {
+    "level1": [{"entryId": "1983-10-16:level1", "date": "1983-10-16", "level": "level1", "equation": "39 - 3 = 36", "work": "Subtract the 3 highlighted missions from the 39 total missions.", "finalAnswer": "36 missions would not be highlighted."}],
+    "level2": [{"entryId": "1983-10-16:level2", "date": "1983-10-16", "level": "level2", "equation": "6 x 3 = 18", "work": "Multiply 6 astronauts by 3 stars for each astronaut.", "finalAnswer": "The astronauts would draw 18 stars altogether."}],
+    "level3": [{"entryId": "1983-10-16:level3", "date": "1983-10-16", "level": "level3", "equation": "3 + 26 = 29", "work": "Add the 3 building years and the 26 career years.", "finalAnswer": "That is 29 years altogether using the stated numbers."}]
+  },
+  "sources": [{"id": "nasa-discovery-public-debut", "title": "40 Years Ago: Space Shuttle Discovery Makes its Public Debut", "publisher": "NASA", "url": "https://www.nasa.gov/history/40-years-ago-space-shuttle-discovery-makes-its-public-debut/", "accessedDate": "2026-08-28"}]
+}
