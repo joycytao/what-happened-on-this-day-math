@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "1.0.0",
+  "month": "1969-07",
+  "days": [
+    {
+      "date": "1969-07-20",
+      "emoji": "🚀",
+      "theme": "incredible_challenges",
+      "title": "The Landing With Seconds to Spare",
+      "hook": "Have you ever tried to land a toy airplane exactly on a tiny spot without bumping anything?",
+      "readingPassage": "Have you ever tried to land a toy airplane exactly on a tiny spot without bumping anything? On **July 20, 1969**, **Neil Armstrong** had to do something much harder: land the Apollo 11 lunar module, called **Eagle**, on the Moon. The crew had launched on **July 16** with three astronauts: Armstrong, **Buzz Aldrin**, and **Michael Collins**. While Collins stayed in orbit, Armstrong and Aldrin rode Eagle toward the gray surface. Then the computer flashed alarms, and Armstrong saw that the planned landing area was too rocky. He steered past the boulders like a careful driver looking for the last open parking space. When Eagle finally touched down, NASA says only about **30 seconds** of fuel remained. Later that night, Armstrong climbed down the ladder and became the first person to step on the Moon. Around **650 million** people watched on television as a risky space trip turned into one of history's biggest exploration moments.",
+      "trivia": [
+        "Apollo 11 carried three astronauts, but only Armstrong and Aldrin walked on the Moon.",
+        "The lunar module's name was Eagle, and the command module's name was Columbia."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "Eagle had about 30 seconds of fuel left. If it had used 8 more seconds before landing, how many seconds would be left?",
+          "numbersUsed": [
+            {
+              "value": 30,
+              "unit": "seconds",
+              "source": "NASA reports about 30 seconds of fuel remained at landing."
+            },
+            {
+              "value": 8,
+              "unit": "seconds",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Three astronauts flew on Apollo 11. If each astronaut packed 4 pretend moon snacks for a classroom model, how many snacks would they have altogether?",
+          "numbersUsed": [
+            {
+              "value": 3,
+              "unit": "astronauts",
+              "source": "Apollo 11 crew count."
+            },
+            {
+              "value": 4,
+              "unit": "snacks per astronaut",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "elapsed_time_days",
+          "prompt": "Apollo 11 launched on July 16 and landed on the Moon on July 20. How many days passed between launch day and Moon landing day?",
+          "numbersUsed": [
+            {
+              "value": 16,
+              "unit": "July day",
+              "source": "NASA launch date."
+            },
+            {
+              "value": 20,
+              "unit": "July day",
+              "source": "NASA Moon landing date."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "30 - 8 = 22",
+          "work": "Start with 30 seconds and subtract the 8 extra seconds.",
+          "finalAnswer": "22 seconds of fuel would be left."
+        },
+        "level2": {
+          "equation": "3 x 4 = 12",
+          "work": "There are 3 astronauts, and each has 4 snacks.",
+          "finalAnswer": "They would have 12 snacks altogether."
+        },
+        "level3": {
+          "equation": "20 - 16 = 4",
+          "work": "Count the calendar-day difference from July 16 to July 20.",
+          "finalAnswer": "4 days passed between launch day and Moon landing day."
+        }
+      },
+      "answerKeyEntries": [
+        "1969-07-20:level1",
+        "1969-07-20:level2",
+        "1969-07-20:level3"
+      ],
+      "sourceIds": [
+        "nasa-apollo-11-overview",
+        "nasa-one-giant-leap"
+      ]
+    }
+  ],
+  "answerKey": {
+    "level1": [
+      {
+        "entryId": "1969-07-20:level1",
+        "date": "1969-07-20",
+        "level": "level1",
+        "equation": "30 - 8 = 22",
+        "work": "Start with 30 seconds and subtract the 8 extra seconds.",
+        "finalAnswer": "22 seconds of fuel would be left."
+      }
+    ],
+    "level2": [
+      {
+        "entryId": "1969-07-20:level2",
+        "date": "1969-07-20",
+        "level": "level2",
+        "equation": "3 x 4 = 12",
+        "work": "There are 3 astronauts, and each has 4 snacks.",
+        "finalAnswer": "They would have 12 snacks altogether."
+      }
+    ],
+    "level3": [
+      {
+        "entryId": "1969-07-20:level3",
+        "date": "1969-07-20",
+        "level": "level3",
+        "equation": "20 - 16 = 4",
+        "work": "Count the calendar-day difference from July 16 to July 20.",
+        "finalAnswer": "4 days passed between launch day and Moon landing day."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "nasa-apollo-11-overview",
+      "title": "Apollo 11 Mission Overview",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/history/apollo-11-mission-overview/",
+      "accessedDate": "2026-08-28"
+    },
+    {
+      "id": "nasa-one-giant-leap",
+      "title": "July 20, 1969: One Giant Leap For Mankind",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/history/july-20-1969-one-giant-leap-for-mankind/",
+      "accessedDate": "2026-08-28"
+    }
+  ]
+}
