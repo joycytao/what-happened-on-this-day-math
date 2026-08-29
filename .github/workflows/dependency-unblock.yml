@@ -1,0 +1,44 @@
+name: Unblock dependent work
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  unblock:
+    if: contains(github.event.issue.body, 'CODEX_DEPENDENCY_FOR:') && contains(github.event.issue.body, 'CODEX_BLOCKED_PR:')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove blocked labels from dependent work
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const issueRef = body.match(/CODEX_DEPENDENCY_FOR:\s*([^\s#]+\/[^\s#]+)#(\d+)/);
+            const prRef = body.match(/CODEX_BLOCKED_PR:\s*([^\s#]+\/[^\s#]+)#(\d+)/);
+            if (!issueRef || !prRef || issueRef[1] !== `${context.repo.owner}/${context.repo.repo}` || prRef[1] !== `${context.repo.owner}/${context.repo.repo}`) {
+              core.info('Dependency markers are missing or point to another repository.');
+              return;
+            }
+
+            const removeBlocked = async (issue_number) => {
+              try {
+                await github.rest.issues.removeLabel({ owner: context.repo.owner, repo: context.repo.repo, issue_number, name: 'status: blocked' });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                core.info(`status: blocked was not present on #${issue_number}.`);
+              }
+            };
+
+            await removeBlocked(Number(issueRef[2]));
+            await removeBlocked(Number(prRef[2]));
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(issueRef[2]),
+              body: `Dependency #${context.payload.issue.number} was closed. Removed \`status: blocked\` from this Issue and PR #${prRef[2]}. Human review is required before this Issue is marked \`status: ready to pickup\`.`
+            });
