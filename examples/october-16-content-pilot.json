@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "month": "1923-10",
+  "days": [
+    {
+      "date": "1923-10-16",
+      "emoji": "🎬",
+      "theme": "inventions_daily_life",
+      "title": "Before the Famous Mouse",
+      "hook": "Have you ever made a tiny cartoon flipbook and wondered if anyone else would watch it?",
+      "readingPassage": "Have you ever made a tiny cartoon flipbook and wondered if anyone else would watch it? On **October 16, 1923**, **Walt Disney** signed a contract to distribute a cartoon series called the **Alice Comedies**. That contract became the official start of the Disney company. Walt and his brother **Roy** worked together as equal partners, first calling their business the **Disney Brothers Cartoon Studio**. Their studio was small, but their idea was huge: mix a real girl with an animated cartoon world. Walt made the Alice Comedies for **4 years**, creating **56 short films**. Then, in **1927**, he switched to an all-cartoon series starring **Oswald the Lucky Rabbit**. Within one year, Walt made **26 Oswald cartoons**. The famous mouse that many children know today came later, so Disney’s story did not begin with Mickey. It began with a contract, two brothers, and a lot of drawings. You can imagine papers, pencils, and cartoon characters taking over a room faster than toys after a busy playdate! That small studio grew into a company known around the world for animation and storytelling.",
+      "trivia": ["The Alice Comedies mixed live-action scenes with animation.", "Disney’s first named recurring animated character was Julius, a cat in the Alice cartoons."],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "Walt made 26 Oswald cartoons in one year. If a class poster shows 6 of them, how many are not shown?",
+          "numbersUsed": [{"value": 26, "unit": "cartoons", "source": "D23 reports that Walt made 26 Oswald cartoons within one year."}, {"value": 6, "unit": "cartoons shown", "source": "Problem scenario."}]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Walt and Roy were the two partners in the Disney Brothers Cartoon Studio. If each partner sketches 4 practice characters, how many characters do they sketch altogether?",
+          "numbersUsed": [{"value": 2, "unit": "partners", "source": "D23 identifies Walt and Roy Disney as equal partners."}, {"value": 4, "unit": "characters per partner", "source": "Problem scenario."}]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "Walt made the Alice Comedies for 4 years. If each year has 12 months, how many months did that project last?",
+          "numbersUsed": [{"value": 4, "unit": "years", "source": "D23 reports that Walt made the Alice Comedies for four years."}, {"value": 12, "unit": "months per year", "source": "Standard calendar conversion given in the task."}]
+        }
+      },
+      "answers": {
+        "level1": {"equation": "26 - 6 = 20", "work": "Subtract the 6 cartoons shown from the 26 cartoons made.", "finalAnswer": "20 cartoons would not be shown."},
+        "level2": {"equation": "2 x 4 = 8", "work": "Multiply 2 partners by 4 characters for each partner.", "finalAnswer": "They would sketch 8 characters altogether."},
+        "level3": {"equation": "4 x 12 = 48", "work": "Multiply 4 years by 12 months in each year.", "finalAnswer": "The project lasted 48 months using the stated numbers."}
+      },
+      "answerKeyEntries": ["1923-10-16:level1", "1923-10-16:level2", "1923-10-16:level3"],
+      "sourceIds": ["d23-official-start-disney"]
+    }
+  ],
+  "answerKey": {
+    "level1": [{"entryId": "1923-10-16:level1", "date": "1923-10-16", "level": "level1", "equation": "26 - 6 = 20", "work": "Subtract the 6 cartoons shown from the 26 cartoons made.", "finalAnswer": "20 cartoons would not be shown."}],
+    "level2": [{"entryId": "1923-10-16:level2", "date": "1923-10-16", "level": "level2", "equation": "2 x 4 = 8", "work": "Multiply 2 partners by 4 characters for each partner.", "finalAnswer": "They would sketch 8 characters altogether."}],
+    "level3": [{"entryId": "1923-10-16:level3", "date": "1923-10-16", "level": "level3", "equation": "4 x 12 = 48", "work": "Multiply 4 years by 12 months in each year.", "finalAnswer": "The project lasted 48 months using the stated numbers."}]
+  },
+  "sources": [{"id": "d23-official-start-disney", "title": "Official Start of The Walt Disney Company", "publisher": "D23", "url": "https://d23.com/this-day/official-start-of-the-walt-disney-company/", "accessedDate": "2026-08-29"}]
+}
