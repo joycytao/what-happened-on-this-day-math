@@ -83,6 +83,16 @@ The example validator at `scripts/validate-content-example.mjs` checks the repos
 - daily source IDs resolve to top-level sources;
 - answer-key IDs link each date and level to the grouped answer key.
 
+The reusable validator at `src/content-validation.mjs` additionally checks each daily record before rendering:
+
+- required fields, approved themes, real dates, source references, and duplicate dates;
+- 150-250-word reading passages and exactly one topic emoji;
+- level-appropriate skills and story/task number relationships;
+- arithmetic equations by independently evaluating both sides and matching the final answer;
+- answer-key entries against the corresponding daily answers.
+
+It returns `{ valid, errors }`, where each error includes the row-like path to the invalid field. Invalid fixtures should assert both a failing result and the actionable reason.
+
 Run:
 
 ```bash

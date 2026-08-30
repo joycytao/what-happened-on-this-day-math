@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { readFile } from 'node:fs/promises';
+import { validateContent } from '../src/content-validation.mjs';
 
 const schemaPath = new URL('../schemas/monthly-content.schema.json', import.meta.url);
 const examplePath = new URL('../examples/monthly-content.example.json', import.meta.url);
@@ -155,5 +156,8 @@ const [schema, example, docs] = await Promise.all([
 validateExample(example, schema);
 validateSchemaShape(schema);
 validateDocs(docs);
+
+const contentValidation = validateContent(example);
+assert(contentValidation.valid, `content validation failed:\n${contentValidation.errors.join('\n')}`);
 
 console.log('content schema example is valid');
