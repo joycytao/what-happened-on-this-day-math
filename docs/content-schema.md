@@ -93,6 +93,24 @@ The reusable validator at `src/content-validation.mjs` additionally checks each 
 
 It returns `{ valid, errors }`, where each error includes the row-like path to the invalid field. Invalid fixtures should assert both a failing result and the actionable reason.
 
+## Canonical CSV Contract
+
+The monthly CSV generator uses this exact header order:
+
+```text
+Date,Emoji,Title,Hook,Core_Story,Trivia,Math_Level_1,Math_Level_2,Math_Level_3,Math_Answer_1,Math_Answer_2,Math_Answer_3,Source_IDs,Source_URLs,Source_Titles,Source_Accessed_Dates
+```
+
+`Math_Level_1` through `Math_Level_3` contain the three task prompts. Each `Math_Answer_*` cell contains a JSON object with `equation`, `work`, and `finalAnswer`. `Trivia` and the plural `Source_*` cells contain JSON arrays so commas, quotes, line breaks, Markdown, emoji, and multiple sources round-trip without an implicit delimiter. New files do not include the legacy `Math_Challenge` or `Math_Answer` columns. The renderer should read only these canonical columns.
+
+Generate or update a file with:
+
+```bash
+npm run csv:generate -- examples/monthly-content.example.json history_today_1969-07.csv
+```
+
+When the destination already exists, its canonical header is required, matching dates are replaced, and unrelated existing rows are retained.
+
 Run:
 
 ```bash
