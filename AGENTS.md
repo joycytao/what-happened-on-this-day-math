@@ -198,6 +198,24 @@ If a PDF or printable packet is requested, preserve the five-part layout model
 and page-count rules above. Do not replace the requested artifact with a plain
 text summary.
 
+## Evidence-First Workflow Changes
+
+When changing this workflow or its agent instructions, cite the concrete
+trigger in the task record: a user correction, a generated artifact, a failed
+validation, a missing GitHub label, a review comment, or a repeated issue
+pattern. State the resulting rule and one testable acceptance criterion. Do not
+add generic educational or production advice without such evidence.
+
+Keep content, mathematics, and layout checks separate. A passing content or
+answer-key check does not prove that the rendered PDF has the correct page
+count, page order, margins, or absence of overflow. A passing renderer check
+does not prove that the historical claims or answers are correct.
+
+Before modifying the issue workflow, recalculate the dependency graph from the
+current open Issues and update the documented order when a new Issue, scope
+change, closure, or prerequisite changes the graph. Preserve unrelated local
+changes and report any unresolved evidence gap instead of guessing.
+
 ## Worksheet template reuse
 
 Worksheet designs supplied later as PDF or PNG files are reusable project
