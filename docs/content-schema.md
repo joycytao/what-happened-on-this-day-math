@@ -111,6 +111,14 @@ npm run csv:generate -- examples/monthly-content.example.json history_today_1969
 
 When the destination already exists, its canonical header is required, matching dates are replaced, and unrelated existing rows are retained.
 
+Validate a monthly CSV before worksheet rendering with:
+
+```bash
+npm run csv:validate -- history_today_1969-07.csv [validation-report.json]
+```
+
+Validation checks the exact canonical header, row widths, complete real dates in chronological calendar order, required story/math fields, 150-250-word passages, JSON arrays for trivia and sources, aligned HTTPS source metadata, and independently recomputed answer equations. It exits non-zero and prints row- and field-level errors when invalid; the report records the inferred month, expected date count, row count, and date-order result.
+
 Run:
 
 ```bash
