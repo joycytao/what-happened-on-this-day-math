@@ -13,7 +13,6 @@
   <g fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
     <text x="772" y="365" font-size="47" font-weight="700">JUL</text>
     <text x="772" y="482" font-size="66" font-weight="700">20</text>
-    <text x="772" y="575" font-size="42">🚀</text>
   </g>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
     <text x="155" y="610" font-size="34" font-weight="700">The Landing With Seconds to Spare</text><text x="155" y="684" font-size="34" font-weight="600">Have you ever tried to land a toy airplane exactly on a tiny spot</text>
@@ -31,13 +30,14 @@
     <text x="155" y="1268" font-size="34">climbed down the ladder and became the first person to step on the</text>
     <text x="155" y="1310" font-size="34">Moon. Around <tspan font-weight="700">650 million</tspan> people watched on television as a risky</text>
     <text x="155" y="1352" font-size="34">space trip turned into one of history&apos;s biggest exploration</text>
-    <text x="155" y="1394" font-size="34">moments.</text><text x="155" y="1474" font-size="29" font-weight="400">Trivia: Apollo 11 carried three astronauts, but only Armstrong and</text>
-    <text x="155" y="1516" font-size="29" font-weight="400">Aldrin walked on the Moon.</text>
-    <text x="155" y="1558" font-size="29" font-weight="400">Trivia: The lunar module&apos;s name was Eagle, and the command</text>
-    <text x="155" y="1600" font-size="29" font-weight="400">module&apos;s name was Columbia.</text>
+    <text x="155" y="1394" font-size="34">moments.</text>
   </g>
-  <g transform="translate(1390 1815)" fill="none" stroke="#f18a5b" stroke-width="8">
-    <path d="M0 50 45 20 90 50v58l-45 30-45-30Z"/>
+  <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
+    <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>
+    <path d="M45 139h110"/>
+    <circle cx="153" cy="139" r="4" fill="#f18a5b"/>
   </g>
-  <text x="1435" y="1890" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22">6pm studio</text>
+  <text x="1405" y="1825" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">6</text>
+  <text x="1458" y="1827" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28">pm</text>
+  <text x="1405" y="1870" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25">studio</text>
 </svg>

@@ -164,3 +164,8 @@ is rendered. The output is one self-contained printable SVG page.
 For review, this branch includes a generated example at
 `docs/mockups/reading-passage-1969-07-20.svg`, produced from the same CLI and
 the July 20 example record.
+
+The renderer validates the daily `emoji` and `trivia` fields for schema
+completeness, but does not print either field on the Reading Passage page;
+the supplied design reserves the centered calendar for the date and leaves
+the bottom area for the supplied 6pm logo.

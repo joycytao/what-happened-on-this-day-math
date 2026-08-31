@@ -30,8 +30,7 @@ export function renderReadingPassage(day, options = {}) {
   const titleLines = wrapText(day.title, 39);
   const hookLines = wrapText(day.hook, 66);
   const passageLines = wrapMarkdownText(day.readingPassage, 66);
-  const triviaLines = day.trivia.flatMap((item) => wrapText(`Trivia: ${item}`, 66));
-  const totalLines = titleLines.length + hookLines.length + passageLines.length + triviaLines.length;
+  const totalLines = titleLines.length + hookLines.length + passageLines.length;
   if (totalLines > CONTENT.maxLines) {
     throw new Error(`readingPassage content exceeds the template text area; ${totalLines} lines would be required (maximum ${CONTENT.maxLines})`);
   }
@@ -42,8 +41,6 @@ export function renderReadingPassage(day, options = {}) {
   body += textBlock(hookLines, hookY, CONTENT.lineHeight, { weight: 600 });
   const passageY = hookY + hookLines.length * CONTENT.lineHeight + 38;
   body += markdownTextBlock(passageLines, passageY, CONTENT.lineHeight);
-  const triviaY = passageY + passageLines.length * CONTENT.lineHeight + 38;
-  body += textBlock(triviaLines, triviaY, CONTENT.lineHeight, { size: 29 });
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="reading-passage" data-template-version="1.0.0">
   <rect width="1545" height="2000" fill="#faf8f8"/>
@@ -60,15 +57,18 @@ export function renderReadingPassage(day, options = {}) {
   <g fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
     <text x="772" y="365" font-size="47" font-weight="700">${escapeXml(month)}</text>
     <text x="772" y="482" font-size="66" font-weight="700">${dayNumber}</text>
-    <text x="772" y="575" font-size="42">${escapeXml(day.emoji)}</text>
   </g>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
     ${body}
   </g>
-  <g transform="translate(1390 1815)" fill="none" stroke="#f18a5b" stroke-width="8">
-    <path d="M0 50 45 20 90 50v58l-45 30-45-30Z"/>
+  <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
+    <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>
+    <path d="M45 139h110"/>
+    <circle cx="153" cy="139" r="4" fill="#f18a5b"/>
   </g>
-  <text x="1435" y="1890" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22">6pm studio</text>
+  <text x="1405" y="1825" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">6</text>
+  <text x="1458" y="1827" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28">pm</text>
+  <text x="1405" y="1870" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25">studio</text>
 </svg>`;
 }
 
