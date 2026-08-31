@@ -147,3 +147,16 @@ Validate that the retained files remain unchanged with:
 ```bash
 npm run templates:validate
 ```
+
+The Reading Passage renderer reconstructs the supplied visual composition as
+an SVG page, preserving the `1545 × 2000` portrait dimensions and the
+`reading-passage.png` v1 field mapping. It validates required fields, the
+150–250 word passage limit, question hook, and text-area capacity before
+writing output:
+
+```bash
+npm run reading:render -- examples/monthly-content.example.json /tmp/reading-passage.svg 1969-07-20
+```
+
+The optional date selects a record from `days`; without it, the first record
+is rendered. The output is one self-contained printable SVG page.
