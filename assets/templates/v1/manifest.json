@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "source": "GitHub Issue #5 attachments",
+  "canonicalVariants": [
+    {
+      "id": "reading-passage",
+      "filename": "reading-passage.png",
+      "pageType": "reading-passage",
+      "dimensions": { "width": 1545, "height": 2000 },
+      "fields": ["Date", "readingPassage", "title", "hook", "trivia", "Emoji"]
+    },
+    {
+      "id": "level-1",
+      "filename": "level-1.png",
+      "pageType": "level1",
+      "dimensions": { "width": 1545, "height": 2000 },
+      "fields": ["Date", "Math_Level_1"]
+    },
+    {
+      "id": "level-2",
+      "filename": "level-2.png",
+      "pageType": "level2",
+      "dimensions": { "width": 1545, "height": 2000 },
+      "fields": ["Date", "Math_Level_2"]
+    },
+    {
+      "id": "level-3",
+      "filename": "level-3.png",
+      "pageType": "level3",
+      "dimensions": { "width": 1545, "height": 2000 },
+      "fields": ["Date", "Math_Level_3"]
+    },
+    {
+      "id": "answer-key",
+      "filename": "template-05.png",
+      "pageType": "answer-key",
+      "dimensions": { "width": 1545, "height": 1999 },
+      "fields": ["Math_Answer_1", "Math_Answer_2", "Math_Answer_3"]
+    }
+  ],
+  "layout": {
+    "orientation": "portrait",
+    "background": "off-white",
+    "header": ["Name", "Date"],
+    "mathQuestion": "blue rounded rectangle with level badge and open working area",
+    "brand": "coral-orange 6pm studio logo at bottom right"
+  },
+  "provenance": [
+    { "filename": "level-1.png", "url": "https://github.com/user-attachments/assets/24ede08b-b0f6-4f70-b7d3-bba210664165", "sha256": "72be431e611f24c4c0888010dd256cfd4e51c346f5e8dd1178fee0de4413ee2c" },
+    { "filename": "level-2.png", "url": "https://github.com/user-attachments/assets/01243a10-fd8f-4c07-b76e-70c533aa2ec1", "sha256": "ffdd32c74c324187034c99ecbfb02a3f36b5815d5677811b373d0c1f839c8746" },
+    { "filename": "level-3.png", "url": "https://github.com/user-attachments/assets/c7516da2-7800-4109-bf90-d1c76bf26198", "sha256": "80c64942d3d6f0af4fca9c9cb5e464a9efcad77b98fce5232e6e29f259ac28a7" },
+    { "filename": "reading-passage.png", "url": "https://github.com/user-attachments/assets/4ec6991e-61f6-4edf-af60-7711f4cea08e", "sha256": "5f5008eb7d7e7461497f35fd01b3128400c9d37dad1e65de5ff187c5e2073d37" },
+    { "filename": "template-05.png", "url": "https://github.com/user-attachments/assets/6382caaf-f395-40f5-873a-6a0fe4330534", "sha256": "6ad7c2b0f7c8096baaa05d40a5b14be3ece0b282f58c8dd9728c20c810f33a78" },
+    { "filename": "template-01.png", "sourceOnly": true, "url": "https://github.com/user-attachments/assets/b42775b3-3aa2-4186-8a38-de414d509cac", "sha256": "72be431e611f24c4c0888010dd256cfd4e51c346f5e8dd1178fee0de4413ee2c", "duplicateOf": "level-1.png" },
+    { "filename": "template-02.png", "sourceOnly": true, "url": "https://github.com/user-attachments/assets/6a931e58-bd00-4352-bcf0-07ae349a052f", "sha256": "ffdd32c74c324187034c99ecbfb02a3f36b5815d5677811b373d0c1f839c8746", "duplicateOf": "level-2.png" },
+    { "filename": "template-03.png", "sourceOnly": true, "url": "https://github.com/user-attachments/assets/56fb6a41-f5e5-42cc-b3e7-c2e8e4aae589", "sha256": "80c64942d3d6f0af4fca9c9cb5e464a9efcad77b98fce5232e6e29f259ac28a7", "duplicateOf": "level-3.png" },
+    { "filename": "template-04.png", "sourceOnly": true, "url": "https://github.com/user-attachments/assets/325edbcb-0d7e-4e34-a78f-ede9e4372a0f", "sha256": "5f5008eb7d7e7461497f35fd01b3128400c9d37dad1e65de5ff187c5e2073d37", "duplicateOf": "reading-passage.png" }
+  ]
+}

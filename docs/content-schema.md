@@ -124,3 +124,26 @@ Run:
 ```bash
 npm test
 ```
+
+## Versioned worksheet templates
+
+Issue #5's supplied PNG designs are preserved under `assets/templates/v1/`.
+The versioned `manifest.json` identifies the five canonical variants, their
+pixel dimensions, source attachment URLs, SHA-256 hashes, layout properties,
+and content-field mapping:
+
+- `reading-passage.png`: Reading Passage, using `Date`, `readingPassage`, `title`,
+  `hook`, `trivia`, and `Emoji`.
+- `level-1.png`: Level 1, using `Date` and `Math_Level_1`.
+- `level-2.png`: Level 2, using `Date` and `Math_Level_2`.
+- `level-3.png`: Level 3, using `Date` and `Math_Level_3`.
+- `template-05.png`: Answer Key grid, using the three `Math_Answer_*` fields.
+
+The old `template-01.png` through `template-04.png` local copies were
+duplicates of the semantic files and are not stored twice. Their source URLs
+and hashes remain recorded as `sourceOnly` provenance entries in the manifest.
+Validate that the retained files remain unchanged with:
+
+```bash
+npm run templates:validate
+```
