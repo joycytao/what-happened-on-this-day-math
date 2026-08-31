@@ -160,3 +160,7 @@ npm run reading:render -- examples/monthly-content.example.json /tmp/reading-pas
 
 The optional date selects a record from `days`; without it, the first record
 is rendered. The output is one self-contained printable SVG page.
+
+For review, this branch includes a generated example at
+`docs/mockups/reading-passage-1969-07-20.svg`, produced from the same CLI and
+the July 20 example record.

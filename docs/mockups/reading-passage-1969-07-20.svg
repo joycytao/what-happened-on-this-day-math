@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="reading-passage" data-template-version="1.0.0">
+  <rect width="1545" height="2000" fill="#faf8f8"/>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <text x="155" y="205" font-size="50" font-weight="700">Name:</text>
+    <line x1="350" y1="210" x2="815" y2="210" stroke="#111" stroke-width="5"/>
+    <text x="985" y="205" font-size="50" font-weight="700">Date:</text>
+    <line x1="1155" y1="210" x2="1390" y2="210" stroke="#111" stroke-width="5"/>
+  </g>
+  <g stroke="#111" fill="none" stroke-width="4">
+    <rect x="690" y="305" width="165" height="82"/>
+    <rect x="690" y="387" width="165" height="145"/>
+  </g>
+  <g fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
+    <text x="772" y="365" font-size="47" font-weight="700">JUL</text>
+    <text x="772" y="482" font-size="66" font-weight="700">20</text>
+    <text x="772" y="575" font-size="42">🚀</text>
+  </g>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <text x="155" y="610" font-size="34" font-weight="700">The Landing With Seconds to Spare</text><text x="155" y="684" font-size="34" font-weight="600">Have you ever tried to land a toy airplane exactly on a tiny spot</text>
+    <text x="155" y="726" font-size="34" font-weight="600">without bumping anything?</text><text x="155" y="806" font-size="34">Have you ever tried to land a toy airplane exactly on a tiny spot</text>
+    <text x="155" y="848" font-size="34">without bumping anything? On <tspan font-weight="700">July 20, 1969</tspan> , <tspan font-weight="700">Neil Armstrong</tspan> had to</text>
+    <text x="155" y="890" font-size="34">do something much harder: land the Apollo 11 lunar module, called</text>
+    <text x="155" y="932" font-size="34"><tspan font-weight="700">Eagle</tspan> , on the Moon. The crew had launched on <tspan font-weight="700">July 16</tspan> with three</text>
+    <text x="155" y="974" font-size="34">astronauts: Armstrong, <tspan font-weight="700">Buzz Aldrin</tspan> , and <tspan font-weight="700">Michael Collins</tspan> . While</text>
+    <text x="155" y="1016" font-size="34">Collins stayed in orbit, Armstrong and Aldrin rode Eagle toward</text>
+    <text x="155" y="1058" font-size="34">the gray surface. Then the computer flashed alarms, and Armstrong</text>
+    <text x="155" y="1100" font-size="34">saw that the planned landing area was too rocky. He steered past</text>
+    <text x="155" y="1142" font-size="34">the boulders like a careful driver looking for the last open</text>
+    <text x="155" y="1184" font-size="34">parking space. When Eagle finally touched down, NASA says only</text>
+    <text x="155" y="1226" font-size="34">about <tspan font-weight="700">30 seconds</tspan> of fuel remained. Later that night, Armstrong</text>
+    <text x="155" y="1268" font-size="34">climbed down the ladder and became the first person to step on the</text>
+    <text x="155" y="1310" font-size="34">Moon. Around <tspan font-weight="700">650 million</tspan> people watched on television as a risky</text>
+    <text x="155" y="1352" font-size="34">space trip turned into one of history&apos;s biggest exploration</text>
+    <text x="155" y="1394" font-size="34">moments.</text><text x="155" y="1474" font-size="29" font-weight="400">Trivia: Apollo 11 carried three astronauts, but only Armstrong and</text>
+    <text x="155" y="1516" font-size="29" font-weight="400">Aldrin walked on the Moon.</text>
+    <text x="155" y="1558" font-size="29" font-weight="400">Trivia: The lunar module&apos;s name was Eagle, and the command</text>
+    <text x="155" y="1600" font-size="29" font-weight="400">module&apos;s name was Columbia.</text>
+  </g>
+  <g transform="translate(1390 1815)" fill="none" stroke="#f18a5b" stroke-width="8">
+    <path d="M0 50 45 20 90 50v58l-45 30-45-30Z"/>
+  </g>
+  <text x="1435" y="1890" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22">6pm studio</text>
+</svg>
