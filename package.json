@@ -1,7 +1,8 @@
 {
   "scripts": {
     "test": "node scripts/validate-content-example.mjs && node --test tests/*.test.mjs",
-    "csv:generate": "node scripts/generate-monthly-csv.mjs"
+    "csv:generate": "node scripts/generate-monthly-csv.mjs",
+    "csv:validate": "node scripts/validate-monthly-csv.mjs"
   },
   "devDependencies": {}
 }

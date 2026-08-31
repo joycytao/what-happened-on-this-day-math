@@ -312,7 +312,7 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function calculateEquation(equation) {
+export function calculateEquation(equation) {
   const parts = equation.split("=");
   if (parts.length !== 2) return { valid: false, error: "must contain exactly one = sign" };
   try {
@@ -365,7 +365,7 @@ function evaluateExpression(expression) {
   return values[0];
 }
 
-function containsNumber(text, value) {
+export function containsNumber(text, value) {
   return new RegExp(`(?<![\\d.])${escapeRegExp(formatNumber(value))}(?![\\d.])`).test(text);
 }
 
