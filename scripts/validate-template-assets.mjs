@@ -20,7 +20,7 @@ for (const variant of manifest.canonicalVariants) {
   if (provenance?.sha256 !== hash) errors.push(`${variant.filename} SHA-256 does not match recorded provenance`);
 }
 
-for (const provenance of manifest.provenance) {
+for (const provenance of manifest.provenance.filter((entry) => !entry.sourceOnly)) {
   const path = join(root, "assets/templates/v1", provenance.filename);
   try {
     const hash = createHash("sha256").update(await readFile(path)).digest("hex");

@@ -132,17 +132,17 @@ The versioned `manifest.json` identifies the five canonical variants, their
 pixel dimensions, source attachment URLs, SHA-256 hashes, layout properties,
 and content-field mapping:
 
-- `template-04.png`: Reading Passage, using `Date`, `readingPassage`, `title`,
+- `reading-passage.png`: Reading Passage, using `Date`, `readingPassage`, `title`,
   `hook`, `trivia`, and `Emoji`.
-- `template-01.png`: Level 1, using `Date` and `Math_Level_1`.
-- `template-02.png`: Level 2, using `Date` and `Math_Level_2`.
-- `template-03.png`: Level 3, using `Date` and `Math_Level_3`.
+- `level-1.png`: Level 1, using `Date` and `Math_Level_1`.
+- `level-2.png`: Level 2, using `Date` and `Math_Level_2`.
+- `level-3.png`: Level 3, using `Date` and `Math_Level_3`.
 - `template-05.png`: Answer Key grid, using the three `Math_Answer_*` fields.
 
-The additional attachment filenames (`reading-passage.png` and
-`level-1.png` through `level-3.png`) are retained as exact duplicate source
-copies and are recorded in the manifest provenance. Validate that the files
-remain unchanged with:
+The old `template-01.png` through `template-04.png` local copies were
+duplicates of the semantic files and are not stored twice. Their source URLs
+and hashes remain recorded as `sourceOnly` provenance entries in the manifest.
+Validate that the retained files remain unchanged with:
 
 ```bash
 npm run templates:validate
