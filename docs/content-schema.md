@@ -147,3 +147,33 @@ Validate that the retained files remain unchanged with:
 ```bash
 npm run templates:validate
 ```
+
+The Reading Passage renderer reconstructs the supplied visual composition as
+an SVG page, preserving the `1545 × 2000` portrait dimensions and the
+`reading-passage.png` v1 field mapping. It validates required fields, the
+150–250 word passage limit, question hook, and text-area capacity before
+writing output:
+
+```bash
+npm run reading:render -- examples/monthly-content.example.json /tmp/reading-passage.svg 1969-07-20
+```
+
+The optional date selects a record from `days`; without it, the first record
+is rendered. The output is one self-contained printable SVG page.
+
+For review, this branch includes a generated example at
+`docs/mockups/reading-passage-1969-07-20.svg`, produced from the same CLI and
+the July 20 example record.
+
+The renderer validates the daily `emoji` and `trivia` fields for schema
+completeness, but does not print either field on the Reading Passage page;
+the supplied design reserves the centered calendar for the date and leaves
+the bottom area for the supplied 6pm logo.
+
+The article text is grouped in a `1235`-unit-wide container from x=`155` to
+x=`1390`, matching the full span of the Name/Date header. The regenerated
+article is shifted down visibly while retaining the prior body font size.
+
+The supplied 6pm footer logo is rendered as one grouped mark and scaled to
+approximately 50% of the prior mockup size while remaining anchored in the
+same bottom-right area.
