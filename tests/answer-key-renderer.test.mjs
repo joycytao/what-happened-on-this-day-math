@@ -37,8 +37,8 @@ test("renderAnswerKeyPages emits six level-ordered template pages", () => {
   assert.match(pages[0], /Answer Keys \(Level 1\)/);
   assert.match(pages[0], /Q1: 22 seconds of fuel would be left\./);
   assert.doesNotMatch(pages[0], /Equation:|Work:|Answer:/);
-  assert.match(pages[0], /font-size="30"/);
-  assert.equal((pages[0].match(/<rect x=/g) || []).length, 16);
+  assert.match(pages[0], /font-size="20"/);
+  assert.equal((pages[0].match(/<rect x=/g) || []).length, 32);
   assert.match(pages[0], /width="1545" height="1999"/);
 });
 
