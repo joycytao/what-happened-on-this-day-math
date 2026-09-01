@@ -12,9 +12,11 @@ export const READING_PASSAGE_TEMPLATE = {
 const CONTENT = {
   left: 155,
   right: 1390,
+  articleWidth: 1235,
+  articleOffset: 60,
   lineHeight: 42,
   fontSize: 34,
-  bodyFontSize: "16pt",
+  bodyFontSize: 34,
   bodyOffset: 40,
   maxLines: 25,
 };
@@ -38,8 +40,8 @@ export function renderReadingPassage(day, options = {}) {
   }
 
   let body = "";
-  body += textBlock(titleLines, 610, 42, { fontSize: 42, weight: 700 });
-  const hookY = 610 + titleLines.length * 52 + 22;
+  body += textBlock(titleLines, 610 + CONTENT.articleOffset, 42, { fontSize: 42, weight: 700 });
+  const hookY = 610 + CONTENT.articleOffset + titleLines.length * 52 + 22;
   body += textBlock(hookLines, hookY, CONTENT.lineHeight, { weight: 600 });
   const passageY = hookY + hookLines.length * CONTENT.lineHeight + 38 + CONTENT.bodyOffset;
   body += markdownTextBlock(passageLines, passageY, CONTENT.lineHeight);
@@ -61,7 +63,9 @@ export function renderReadingPassage(day, options = {}) {
     <text x="772" y="482" font-size="66" font-weight="700">${dayNumber}</text>
   </g>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
-    ${body}
+    <g data-content="article" data-x="${CONTENT.left}" data-width="${CONTENT.articleWidth}">
+      ${body}
+    </g>
   </g>
   <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
     <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>

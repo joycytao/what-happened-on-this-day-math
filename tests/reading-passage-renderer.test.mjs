@@ -28,8 +28,9 @@ test("renderReadingPassage returns one template-sized SVG with injected fields",
   assert.match(svg, /data-template-variant="reading-passage"/);
   assert.doesNotMatch(svg, /\*\*/);
   assert.match(svg, /<tspan font-weight="700">October 16, 1923<\/tspan>/);
-  assert.match(svg, /data-content="body"[^>]*font-size="16pt"/);
-  assert.match(svg, /data-content="body"[^>]*y="846"/);
+  assert.match(svg, /data-content="article"[^>]*data-x="155"[^>]*data-width="1235"/);
+  assert.match(svg, /data-content="body"[^>]*font-size="34"/);
+  assert.match(svg, /data-content="body"[^>]*y="906"/);
   assert.equal((svg.match(/<svg\b/g) || []).length, 1);
 });
 

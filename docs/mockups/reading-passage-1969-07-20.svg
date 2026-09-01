@@ -15,22 +15,24 @@
     <text x="772" y="482" font-size="66" font-weight="700">20</text>
   </g>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
-    <text x="155" y="610" font-size="34" font-weight="700">The Landing With Seconds to Spare</text><text x="155" y="684" font-size="34" font-weight="600">Have you ever tried to land a toy airplane exactly on a tiny spot</text>
-<text x="155" y="726" font-size="34" font-weight="600">without bumping anything?</text><text data-content="body" x="155" y="846" font-size="16pt">Have you ever tried to land a toy airplane exactly on a tiny spot</text>
-<text data-content="body" x="155" y="888" font-size="16pt">without bumping anything? On <tspan font-weight="700">July 20, 1969</tspan> , <tspan font-weight="700">Neil Armstrong</tspan> had to</text>
-<text data-content="body" x="155" y="930" font-size="16pt">do something much harder: land the Apollo 11 lunar module, called</text>
-<text data-content="body" x="155" y="972" font-size="16pt"><tspan font-weight="700">Eagle</tspan> , on the Moon. The crew had launched on <tspan font-weight="700">July 16</tspan> with three</text>
-<text data-content="body" x="155" y="1014" font-size="16pt">astronauts: Armstrong, <tspan font-weight="700">Buzz Aldrin</tspan> , and <tspan font-weight="700">Michael Collins</tspan> . While</text>
-<text data-content="body" x="155" y="1056" font-size="16pt">Collins stayed in orbit, Armstrong and Aldrin rode Eagle toward</text>
-<text data-content="body" x="155" y="1098" font-size="16pt">the gray surface. Then the computer flashed alarms, and Armstrong</text>
-<text data-content="body" x="155" y="1140" font-size="16pt">saw that the planned landing area was too rocky. He steered past</text>
-<text data-content="body" x="155" y="1182" font-size="16pt">the boulders like a careful driver looking for the last open</text>
-<text data-content="body" x="155" y="1224" font-size="16pt">parking space. When Eagle finally touched down, NASA says only</text>
-<text data-content="body" x="155" y="1266" font-size="16pt">about <tspan font-weight="700">30 seconds</tspan> of fuel remained. Later that night, Armstrong</text>
-<text data-content="body" x="155" y="1308" font-size="16pt">climbed down the ladder and became the first person to step on the</text>
-<text data-content="body" x="155" y="1350" font-size="16pt">Moon. Around <tspan font-weight="700">650 million</tspan> people watched on television as a risky</text>
-<text data-content="body" x="155" y="1392" font-size="16pt">space trip turned into one of history&apos;s biggest exploration</text>
-<text data-content="body" x="155" y="1434" font-size="16pt">moments.</text>
+    <g data-content="article" data-x="155" data-width="1235">
+      <text x="155" y="670" font-size="34" font-weight="700">The Landing With Seconds to Spare</text><text x="155" y="744" font-size="34" font-weight="600">Have you ever tried to land a toy airplane exactly on a tiny spot</text>
+<text x="155" y="786" font-size="34" font-weight="600">without bumping anything?</text><text data-content="body" x="155" y="906" font-size="34">Have you ever tried to land a toy airplane exactly on a tiny spot</text>
+<text data-content="body" x="155" y="948" font-size="34">without bumping anything? On <tspan font-weight="700">July 20, 1969</tspan> , <tspan font-weight="700">Neil Armstrong</tspan> had to</text>
+<text data-content="body" x="155" y="990" font-size="34">do something much harder: land the Apollo 11 lunar module, called</text>
+<text data-content="body" x="155" y="1032" font-size="34"><tspan font-weight="700">Eagle</tspan> , on the Moon. The crew had launched on <tspan font-weight="700">July 16</tspan> with three</text>
+<text data-content="body" x="155" y="1074" font-size="34">astronauts: Armstrong, <tspan font-weight="700">Buzz Aldrin</tspan> , and <tspan font-weight="700">Michael Collins</tspan> . While</text>
+<text data-content="body" x="155" y="1116" font-size="34">Collins stayed in orbit, Armstrong and Aldrin rode Eagle toward</text>
+<text data-content="body" x="155" y="1158" font-size="34">the gray surface. Then the computer flashed alarms, and Armstrong</text>
+<text data-content="body" x="155" y="1200" font-size="34">saw that the planned landing area was too rocky. He steered past</text>
+<text data-content="body" x="155" y="1242" font-size="34">the boulders like a careful driver looking for the last open</text>
+<text data-content="body" x="155" y="1284" font-size="34">parking space. When Eagle finally touched down, NASA says only</text>
+<text data-content="body" x="155" y="1326" font-size="34">about <tspan font-weight="700">30 seconds</tspan> of fuel remained. Later that night, Armstrong</text>
+<text data-content="body" x="155" y="1368" font-size="34">climbed down the ladder and became the first person to step on the</text>
+<text data-content="body" x="155" y="1410" font-size="34">Moon. Around <tspan font-weight="700">650 million</tspan> people watched on television as a risky</text>
+<text data-content="body" x="155" y="1452" font-size="34">space trip turned into one of history&apos;s biggest exploration</text>
+<text data-content="body" x="155" y="1494" font-size="34">moments.</text>
+    </g>
   </g>
   <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
     <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>

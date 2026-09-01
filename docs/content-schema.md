@@ -169,3 +169,7 @@ The renderer validates the daily `emoji` and `trivia` fields for schema
 completeness, but does not print either field on the Reading Passage page;
 the supplied design reserves the centered calendar for the date and leaves
 the bottom area for the supplied 6pm logo.
+
+The article text is grouped in a `1235`-unit-wide container from x=`155` to
+x=`1390`, matching the full span of the Name/Date header. The regenerated
+article is shifted down visibly while retaining the prior body font size.
