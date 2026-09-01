@@ -14,6 +14,8 @@ const CONTENT = {
   right: 1390,
   lineHeight: 42,
   fontSize: 34,
+  bodyFontSize: "16pt",
+  bodyOffset: 40,
   maxLines: 25,
 };
 
@@ -39,7 +41,7 @@ export function renderReadingPassage(day, options = {}) {
   body += textBlock(titleLines, 610, 42, { fontSize: 42, weight: 700 });
   const hookY = 610 + titleLines.length * 52 + 22;
   body += textBlock(hookLines, hookY, CONTENT.lineHeight, { weight: 600 });
-  const passageY = hookY + hookLines.length * CONTENT.lineHeight + 38;
+  const passageY = hookY + hookLines.length * CONTENT.lineHeight + 38 + CONTENT.bodyOffset;
   body += markdownTextBlock(passageLines, passageY, CONTENT.lineHeight);
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="reading-passage" data-template-version="1.0.0">
@@ -141,7 +143,7 @@ function markdownTextBlock(lines, y, lineHeight) {
     const parts = line.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((part) => part.startsWith("**")
       ? `<tspan font-weight="700">${escapeXml(part.slice(2, -2))}</tspan>`
       : escapeXml(part));
-    return `<text x="${CONTENT.left}" y="${y + index * lineHeight}" font-size="${CONTENT.fontSize}">${parts.join("")}</text>`;
+    return `<text data-content="body" x="${CONTENT.left}" y="${y + index * lineHeight}" font-size="${CONTENT.bodyFontSize}">${parts.join("")}</text>`;
   }).join("\n");
 }
 
