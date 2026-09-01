@@ -14,6 +14,7 @@ const CONTENT = {
   right: 1390,
   articleWidth: 1235,
   articleOffset: 60,
+  articleMaxCharacters: 72,
   lineHeight: 42,
   fontSize: 34,
   bodyFontSize: 34,
@@ -31,9 +32,9 @@ export function renderReadingPassage(day, options = {}) {
   const date = new Date(`${day.date}T00:00:00Z`);
   const month = date.toLocaleString("en-US", { month: "short", timeZone: "UTC" }).toUpperCase();
   const dayNumber = date.getUTCDate();
-  const titleLines = wrapText(day.title, 39);
-  const hookLines = wrapText(day.hook, 66);
-  const passageLines = wrapMarkdownText(day.readingPassage, 66);
+  const titleLines = wrapText(day.title, CONTENT.articleMaxCharacters);
+  const hookLines = wrapText(day.hook, CONTENT.articleMaxCharacters);
+  const passageLines = wrapMarkdownText(day.readingPassage, CONTENT.articleMaxCharacters);
   const totalLines = titleLines.length + hookLines.length + passageLines.length;
   if (totalLines > CONTENT.maxLines) {
     throw new Error(`readingPassage content exceeds the template text area; ${totalLines} lines would be required (maximum ${CONTENT.maxLines})`);
@@ -63,7 +64,7 @@ export function renderReadingPassage(day, options = {}) {
     <text x="772" y="482" font-size="66" font-weight="700">${dayNumber}</text>
   </g>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
-    <g data-content="article" data-x="${CONTENT.left}" data-width="${CONTENT.articleWidth}">
+    <g data-content="article" data-x="${CONTENT.left}" data-width="${CONTENT.articleWidth}" data-max-characters="${CONTENT.articleMaxCharacters}">
       ${body}
     </g>
   </g>
