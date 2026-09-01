@@ -56,10 +56,10 @@ function renderAnswerKeyPage(level, entries, pageIndex) {
 }
 
 function renderEntryBox(entry, x, y, questionNumber) {
-  const answerLines = entry ? wrap(entry.finalAnswer, 52) : [];
+  const answerLines = entry ? wrap(entry.finalAnswer, 38) : [];
   const content = entry ? [`Q${questionNumber}: ${answerLines[0]}`, ...answerLines.slice(1)] : [];
   if (content.length > 7) throw new Error(`${entry.entryId} answer exceeds the template box capacity; shorten finalAnswer`);
-  const lines = content.map((line, index) => `<text x="${x + 18}" y="${y + 34 + index * 22}" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="20">${escapeXml(line)}</text>`).join("\n");
+  const lines = content.map((line, index) => `<text x="${x + 18}" y="${y + 46 + index * 30}" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="30">${escapeXml(line)}</text>`).join("\n");
   return `<rect x="${x}" y="${y}" width="${BOXES.width}" height="${BOXES.height}" fill="none" stroke="#111" stroke-width="3"/>${lines}`;
 }
 

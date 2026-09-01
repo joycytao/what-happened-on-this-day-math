@@ -109,6 +109,8 @@ level). Entries are placed left to right, then top to bottom in the
 `template-05.png` grid; each populated cell shows only a sequential `Q#:` and
 the entry's final answer, while unused slots remain blank. Question numbers
 continue across the two pages for each level. Each page is `1545 × 1999`.
+Answer text uses a larger 30-unit font and reflows within the cell; content
+that exceeds the seven-line capacity fails with an actionable error.
 For review, `docs/mockups/answer-key-1969-07-20.svg` is a generated Level 1
 page from the example content.
 

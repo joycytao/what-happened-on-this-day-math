@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1545" height="1999" viewBox="0 0 1545 1999" data-template-variant="answer-key" data-template-version="1.0.0" data-level="level1" data-page="1">
   <rect width="1545" height="1999" fill="#faf8f8"/>
   <text x="145" y="160" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">Answer Keys (Level 1)</text>
-  <rect x="155" y="245" width="605" height="180" fill="none" stroke="#111" stroke-width="3"/><text x="173" y="279" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="20">Q1: 22 seconds of fuel would be left.</text>
+  <rect x="155" y="245" width="605" height="180" fill="none" stroke="#111" stroke-width="3"/><text x="173" y="291" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="30">Q1: 22 seconds of fuel would be left.</text>
 <rect x="785" y="245" width="605" height="180" fill="none" stroke="#111" stroke-width="3"/>
 <rect x="155" y="437" width="605" height="180" fill="none" stroke="#111" stroke-width="3"/>
 <rect x="785" y="437" width="605" height="180" fill="none" stroke="#111" stroke-width="3"/>
