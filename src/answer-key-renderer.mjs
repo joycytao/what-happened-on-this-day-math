@@ -42,7 +42,7 @@ function renderAnswerKeyPage(level, entries, pageIndex) {
   const boxes = Array.from({ length: 16 }, (_, index) => {
     const x = index % 2 === 0 ? BOXES.left : BOXES.right;
     const y = BOXES.top + Math.floor(index / 2) * (BOXES.height + BOXES.rowGap);
-    return renderEntryBox(entries[index], x, y);
+    return renderEntryBox(entries[index], x, y, pageIndex * 16 + index + 1);
   }).join("\n");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="1999" viewBox="0 0 1545 1999" data-template-variant="answer-key" data-template-version="1.0.0" data-level="${level}" data-page="${pageIndex + 1}">
   <rect width="1545" height="1999" fill="#faf8f8"/>
@@ -55,9 +55,10 @@ function renderAnswerKeyPage(level, entries, pageIndex) {
 </svg>`;
 }
 
-function renderEntryBox(entry, x, y) {
-  const content = entry ? [`${entry.date} · ${entry.level}`, `Equation: ${entry.equation}`, ...wrap(entry.work, 52).map((line) => `Work: ${line}`), ...wrap(entry.finalAnswer, 52).map((line) => `Answer: ${line}`)] : [];
-  if (content.length > 7) throw new Error(`${entry.entryId} answer exceeds the template box capacity; shorten work or finalAnswer`);
+function renderEntryBox(entry, x, y, questionNumber) {
+  const answerLines = entry ? wrap(entry.finalAnswer, 52) : [];
+  const content = entry ? [`Q${questionNumber}: ${answerLines[0]}`, ...answerLines.slice(1)] : [];
+  if (content.length > 7) throw new Error(`${entry.entryId} answer exceeds the template box capacity; shorten finalAnswer`);
   const lines = content.map((line, index) => `<text x="${x + 18}" y="${y + 34 + index * 22}" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="20">${escapeXml(line)}</text>`).join("\n");
   return `<rect x="${x}" y="${y}" width="${BOXES.width}" height="${BOXES.height}" fill="none" stroke="#111" stroke-width="3"/>${lines}`;
 }

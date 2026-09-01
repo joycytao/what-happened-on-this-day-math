@@ -35,8 +35,8 @@ test("renderAnswerKeyPages emits six level-ordered template pages", () => {
   assert.match(pages[2], /data-level="level2" data-page="1"/);
   assert.match(pages[4], /data-level="level3" data-page="1"/);
   assert.match(pages[0], /Answer Keys \(Level 1\)/);
-  assert.match(pages[0], /1969-07-20 · level1/);
-  assert.match(pages[0], /30 - 8 = 22/);
+  assert.match(pages[0], /Q1: 22 seconds of fuel would be left\./);
+  assert.doesNotMatch(pages[0], /Equation:|Work:|Answer:/);
   assert.equal((pages[0].match(/<rect x=/g) || []).length, 16);
   assert.match(pages[0], /width="1545" height="1999"/);
 });
@@ -49,7 +49,7 @@ test("loadAnswerKeyTemplate returns the canonical manifest variant", async () =>
 
 test("renderAnswerKeyPages rejects answer text that cannot fit a grid cell", () => {
   const oversized = structuredClone(content);
-  oversized.days[0].answers.level1.work = "word ".repeat(80);
-  oversized.answerKey.level1[0].work = oversized.days[0].answers.level1.work;
+  oversized.days[0].answers.level1.finalAnswer = "22 seconds of fuel would be left. " + "word ".repeat(80);
+  oversized.answerKey.level1[0].finalAnswer = oversized.days[0].answers.level1.finalAnswer;
   assert.throws(() => renderAnswerKeyPages(oversized), /answer exceeds the template box capacity/);
 });
