@@ -33,12 +33,14 @@
 <text data-content="body" x="155" y="1452" font-size="34">moments.</text>
     </g>
   </g>
-  <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
-    <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>
-    <path d="M45 139h110"/>
-    <circle cx="153" cy="139" r="4" fill="#f18a5b"/>
+  <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
+    <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
+      <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>
+      <path d="M45 139h110"/>
+      <circle cx="153" cy="139" r="4" fill="#f18a5b"/>
+    </g>
+    <text x="1405" y="1825" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">6</text>
+    <text x="1458" y="1827" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28">pm</text>
+    <text x="1405" y="1870" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25">studio</text>
   </g>
-  <text x="1405" y="1825" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">6</text>
-  <text x="1458" y="1827" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28">pm</text>
-  <text x="1405" y="1870" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25">studio</text>
 </svg>

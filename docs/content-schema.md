@@ -173,3 +173,7 @@ the bottom area for the supplied 6pm logo.
 The article text is grouped in a `1235`-unit-wide container from x=`155` to
 x=`1390`, matching the full span of the Name/Date header. The regenerated
 article is shifted down visibly while retaining the prior body font size.
+
+The supplied 6pm footer logo is rendered as one grouped mark and scaled to
+approximately 50% of the prior mockup size while remaining anchored in the
+same bottom-right area.

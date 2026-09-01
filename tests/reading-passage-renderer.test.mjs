@@ -31,6 +31,7 @@ test("renderReadingPassage returns one template-sized SVG with injected fields",
   assert.match(svg, /data-content="article"[^>]*data-x="155"[^>]*data-width="1235"/);
   assert.match(svg, /data-content="body"[^>]*font-size="34"/);
   assert.match(svg, /data-content="body"[^>]*y="906"/);
+  assert.match(svg, /translate\(1495 1876\) scale\(0\.5\) translate\(-1495 -1876\)/);
   assert.equal((svg.match(/<svg\b/g) || []).length, 1);
 });
 
