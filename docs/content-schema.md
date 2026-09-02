@@ -189,3 +189,13 @@ article is shifted down visibly while retaining the prior body font size.
 The supplied 6pm footer logo is rendered as one grouped mark and scaled to
 approximately 50% of the prior mockup size while remaining anchored in the
 same bottom-right area.
+
+The Level 1 renderer reconstructs the supplied `level-1.png` composition as a
+single self-contained SVG page. It reads only `day.mathLevels.level1.prompt`,
+places it in the blue rounded question card, and preserves the Name/Date
+header, Level 1 badge, and footer logo. The renderer rejects a missing or
+wrong-level task and prompts that exceed the three-line text area:
+
+```bash
+npm run level1:render -- examples/monthly-content.example.json /tmp/level-1.svg 1969-07-20
+```
