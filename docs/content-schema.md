@@ -103,6 +103,18 @@ Date,Emoji,Title,Hook,Core_Story,Trivia,Math_Level_1,Math_Level_2,Math_Level_3,M
 
 `Math_Level_1` through `Math_Level_3` contain the three task prompts. Each `Math_Answer_*` cell contains a JSON object with `equation`, `work`, and `finalAnswer`. `Trivia` and the plural `Source_*` cells contain JSON arrays so commas, quotes, line breaks, Markdown, emoji, and multiple sources round-trip without an implicit delimiter. New files do not include the legacy `Math_Challenge` or `Math_Answer` columns. The renderer should read only these canonical columns.
 
+The Answer Key renderer reads `answerKey.level1`, `answerKey.level2`, and
+`answerKey.level3`, then emits six SVG pages in level order (two pages per
+level). Entries are placed left to right, then top to bottom in the
+`template-05.png` grid; each page has 2 columns × 16 rows (32 slots). Each
+populated cell shows only a sequential `Q#:` and the entry's final answer,
+while unused slots remain blank. Question numbers continue across the two
+pages for each level. Each page is `1545 × 1999`.
+Answer text uses a compact 20-unit font sized for the 100-unit cell and reflows within the cell; content
+that exceeds the seven-line capacity fails with an actionable error.
+For review, `docs/mockups/answer-key-1969-07-20.svg` is a generated Level 1
+page from the example content.
+
 Generate or update a file with:
 
 ```bash
