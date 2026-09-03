@@ -5,7 +5,8 @@
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "reading:render": "node scripts/render-reading-passage.mjs",
-    "answer-key:render": "node scripts/render-answer-key.mjs"
+    "answer-key:render": "node scripts/render-answer-key.mjs",
+    "level1:render": "node scripts/render-level1.mjs"
   },
   "devDependencies": {}
 }
