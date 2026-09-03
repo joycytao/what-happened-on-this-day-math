@@ -284,6 +284,11 @@ The current default dependency order is:
   → #15
   → #5
   → #6 + #11 + #12 + #13 + #8
+  → #32
+  → #33
+  → #34
+  → #35 + #36
+  → #37
   → #9
   → #10
 ```
@@ -300,7 +305,17 @@ The order means:
 - #6, #8, #11, #12, and #13 depend on the relevant schema, validation, CSV,
   and template mapping work; these page-specific tasks may run in parallel
   once their prerequisites are satisfied.
-- #9 depends on the completed daily page renderers and Answer Key renderer.
+- #32 researches one historical event for each October calendar day and is the
+  first executable subtask of the month-only production flow.
+- #33 depends on #32 and normalizes the research into October month/day source,
+  passage, question, and answer records.
+- #34 depends on #33 and independently validates the October content and math.
+- #35 and #36 depend on #34 and may run in parallel: #35 renders the 124 daily
+  pages, while #36 renders the six Answer Key pages.
+- #37 depends on #35 and #36 and assembles/QA-checks the 130-page October PDF.
+- #9 coordinates the completed subtasks and remains blocked until #37 is done;
+  its public entrypoint is the month-only CLI `node scripts/generate-monthly.mjs
+  --month 10`.
 - #10 depends on the complete monthly orchestration from #9 and is the final
   content and PDF release gate.
 
