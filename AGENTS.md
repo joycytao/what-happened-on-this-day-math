@@ -198,6 +198,24 @@ If a PDF or printable packet is requested, preserve the five-part layout model
 and page-count rules above. Do not replace the requested artifact with a plain
 text summary.
 
+## Evidence-First Workflow Changes
+
+When changing this workflow or its agent instructions, cite the concrete
+trigger in the task record: a user correction, a generated artifact, a failed
+validation, a missing GitHub label, a review comment, or a repeated issue
+pattern. State the resulting rule and one testable acceptance criterion. Do not
+add generic educational or production advice without such evidence.
+
+Keep content, mathematics, and layout checks separate. A passing content or
+answer-key check does not prove that the rendered PDF has the correct page
+count, page order, margins, or absence of overflow. A passing renderer check
+does not prove that the historical claims or answers are correct.
+
+Before modifying the issue workflow, recalculate the dependency graph from the
+current open Issues and update the documented order when a new Issue, scope
+change, closure, or prerequisite changes the graph. Preserve unrelated local
+changes and report any unresolved evidence gap instead of guessing.
+
 ## Worksheet template reuse
 
 Worksheet designs supplied later as PDF or PNG files are reusable project
@@ -266,6 +284,12 @@ The current default dependency order is:
   → #15
   → #5
   → #6 + #11 + #12 + #13 + #8
+  → #38
+  → #32
+  → #33
+  → #34
+  → #35 + #36
+  → #37
   → #9
   → #10
 ```
@@ -282,7 +306,19 @@ The order means:
 - #6, #8, #11, #12, and #13 depend on the relevant schema, validation, CSV,
   and template mapping work; these page-specific tasks may run in parallel
   once their prerequisites are satisfied.
-- #9 depends on the completed daily page renderers and Answer Key renderer.
+- #38 defines the tracked October research artifact and canonical month/day plus
+  eventYear/source schema.
+- #32 depends on #38 and researches one historical event for each October
+  calendar day.
+- #33 depends on #32 and normalizes the research into October month/day source,
+  passage, question, and answer records.
+- #34 depends on #33 and independently validates the October content and math.
+- #35 and #36 depend on #34 and may run in parallel: #35 renders the 124 daily
+  pages, while #36 renders the six Answer Key pages.
+- #37 depends on #35 and #36 and assembles/QA-checks the 130-page October PDF.
+- #9 coordinates the completed subtasks and remains blocked until #37 is done;
+  its public entrypoint is the month-only CLI `node scripts/generate-monthly.mjs
+  --month 10`.
 - #10 depends on the complete monthly orchestration from #9 and is the final
   content and PDF release gate.
 
