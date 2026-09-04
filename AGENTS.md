@@ -292,6 +292,10 @@ The current default dependency order is:
   → #37
   → #9
   → #10
+
+Issue #41 is a cross-month workflow-template task and may run in parallel with
+the October chain; it does not block the October research artifact or content
+records.
 ```
 
 The order means:
@@ -308,6 +312,9 @@ The order means:
   once their prerequisites are satisfied.
 - #38 defines the tracked October research artifact and canonical month/day plus
   eventYear/source schema.
+- #41 defines a reusable month-parameterized Issue sequence template. It is a
+  cross-cutting documentation task and is independent of the October artifact
+  chain; future monthly runs may reuse it without changing October records.
 - #32 depends on #38 and researches one historical event for each October
   calendar day.
 - #33 depends on #32 and normalizes the research into October month/day source,
