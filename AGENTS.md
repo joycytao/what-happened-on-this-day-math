@@ -284,6 +284,7 @@ The current default dependency order is:
   → #15
   → #5
   → #6 + #11 + #12 + #13 + #8
+  → #38
   → #32
   → #33
   → #34
@@ -305,8 +306,10 @@ The order means:
 - #6, #8, #11, #12, and #13 depend on the relevant schema, validation, CSV,
   and template mapping work; these page-specific tasks may run in parallel
   once their prerequisites are satisfied.
-- #32 researches one historical event for each October calendar day and is the
-  first executable subtask of the month-only production flow.
+- #38 defines the tracked October research artifact and canonical month/day plus
+  eventYear/source schema.
+- #32 depends on #38 and researches one historical event for each October
+  calendar day.
 - #33 depends on #32 and normalizes the research into October month/day source,
   passage, question, and answer records.
 - #34 depends on #33 and independently validates the October content and math.
