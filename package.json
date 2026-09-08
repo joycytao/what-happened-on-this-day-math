@@ -3,6 +3,7 @@
     "test": "node scripts/validate-content-example.mjs && node --test tests/*.test.mjs",
     "csv:generate": "node scripts/generate-monthly-csv.mjs",
     "content:generate": "node scripts/generate-october-content.mjs",
+    "content:validate:october": "node scripts/validate-october-content.mjs --check-sources reports/issue-34-october-content-validation.json",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "reading:render": "node scripts/render-reading-passage.mjs",
