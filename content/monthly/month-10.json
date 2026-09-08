@@ -1,0 +1,3838 @@
+{
+  "schemaVersion": "2.0.0",
+  "month": 10,
+  "days": [
+    {
+      "month": 10,
+      "day": 1,
+      "eventYear": 1908,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "The Model T reaches its first customer",
+      "hook": "What clue would you notice first on October 1?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 1**, Ford's Model T was shipped to its first customer on October 1, 1908, helping make car travel more affordable for many families. The memorable event belongs to **1908**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The Model T reaches its first customer**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **1** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Ford Motor Company** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Ford's Model T was shipped to its first customer on October 1, 1908, helping make car travel more affordable for many families."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "1 history cards are on a table. If 1 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 1,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 1,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "1 - 1 = 0",
+          "work": "Start with 1 history card and take away 1 card.",
+          "finalAnswer": "0 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-01:level1",
+        "10-01:level2",
+        "10-01:level3"
+      ],
+      "sourceIds": [
+        "ford-model-t"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 2,
+      "eventYear": 1950,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Peanuts appears in newspapers",
+      "hook": "What clue would you notice first on October 2?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 2**, Charles Schulz's Peanuts comic strip first appeared on October 2, 1950. The memorable event belongs to **1950**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Peanuts appears in newspapers**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **2** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Charles M. Schulz Museum** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Charles Schulz's Peanuts comic strip first appeared on October 2, 1950."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "2 history cards are on a table. If 1 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 1,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "2 - 1 = 1",
+          "work": "Start with 2 history cards and take away 1 card.",
+          "finalAnswer": "1 card remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-02:level1",
+        "10-02:level2",
+        "10-02:level3"
+      ],
+      "sourceIds": [
+        "schulz-museum-peanuts"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 3,
+      "eventYear": 1950,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Transistor inventors receive a patent",
+      "hook": "What clue would you notice first on October 3?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 3**, The inventors of the transistor received a patent on October 3, 1950, helping make modern electronics possible. The memorable event belongs to **1950**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Transistor inventors receive a patent**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **3** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Computer History Museum** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The inventors of the transistor received a patent on October 3, 1950, helping make modern electronics possible."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "3 history cards are on a table. If 1 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 3,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 1,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "3 - 1 = 2",
+          "work": "Start with 3 history cards and take away 1 card.",
+          "finalAnswer": "2 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-03:level1",
+        "10-03:level2",
+        "10-03:level3"
+      ],
+      "sourceIds": [
+        "computer-history-transistor"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 4,
+      "eventYear": 1957,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "Sputnik beeps from space",
+      "hook": "What clue would you notice first on October 4?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 4**, Sputnik 1 launched on October 4, 1957, becoming the first artificial satellite in Earth orbit. The memorable event belongs to **1957**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Sputnik beeps from space**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **4** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **NASA** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Sputnik 1 launched on October 4, 1957, becoming the first artificial satellite in Earth orbit."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "4 history cards are on a table. If 2 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 2,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "4 - 2 = 2",
+          "work": "Start with 4 history cards and take away 2 cards.",
+          "finalAnswer": "2 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-04:level1",
+        "10-04:level2",
+        "10-04:level3"
+      ],
+      "sourceIds": [
+        "nasa-sputnik"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 5,
+      "eventYear": 1994,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "World Teachers' Day begins",
+      "hook": "What clue would you notice first on October 5?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 5**, UNESCO says World Teachers' Day has been celebrated every October 5 since 1994. The memorable event belongs to **1994**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **World Teachers' Day begins**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **5** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **UNESCO** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "UNESCO says World Teachers' Day has been celebrated every October 5 since 1994."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "5 history cards are on a table. If 2 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 2,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "5 - 2 = 3",
+          "work": "Start with 5 history cards and take away 2 cards.",
+          "finalAnswer": "3 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-05:level1",
+        "10-05:level2",
+        "10-05:level3"
+      ],
+      "sourceIds": [
+        "unesco-teachers-day"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 6,
+      "eventYear": 1889,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Moulin Rouge opens",
+      "hook": "What clue would you notice first on October 6?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 6**, The Moulin Rouge opened in Paris on October 6, 1889. The memorable event belongs to **1889**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Moulin Rouge opens**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **6** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Moulin Rouge** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The Moulin Rouge opened in Paris on October 6, 1889."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "6 history cards are on a table. If 3 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 6,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 3,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "6 - 3 = 3",
+          "work": "Start with 6 history cards and take away 3 cards.",
+          "finalAnswer": "3 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-06:level1",
+        "10-06:level2",
+        "10-06:level3"
+      ],
+      "sourceIds": [
+        "moulin-rouge-history"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 7,
+      "eventYear": 1952,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "The barcode patent is granted",
+      "hook": "What clue would you notice first on October 7?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 7**, Norman Woodland and Bernard Silver received a patent for a barcode design on October 7, 1952, an early step toward faster store checkouts. The memorable event belongs to **1952**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The barcode patent is granted**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **7** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **GS1** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Norman Woodland and Bernard Silver received a patent for a barcode design on October 7, 1952, an early step toward faster store checkouts."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "7 history cards are on a table. If 3 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 7,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 3,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "7 - 3 = 4",
+          "work": "Start with 7 history cards and take away 3 cards.",
+          "finalAnswer": "4 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-07:level1",
+        "10-07:level2",
+        "10-07:level3"
+      ],
+      "sourceIds": [
+        "gs1-barcode-history"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 8,
+      "eventYear": null,
+      "eventYearNote": "World Octopus Day is a recurring calendar observance rather than a single historical event.",
+      "emoji": "🐙",
+      "theme": "animals_dinosaurs",
+      "title": "Octopus Day",
+      "hook": "What clue would you notice first on October 8?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 8**, World Octopus Day celebrates an animal with eight arms and remarkable problem-solving skills. This fact is useful without attaching it to one single historical year, so the calendar clue stays focused on **October 8**. Imagine opening a classroom history box and finding this clue inside: **Octopus Day**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **8** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Smithsonian Ocean** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "World Octopus Day celebrates an animal with eight arms and remarkable problem-solving skills."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "8 history cards are on a table. If 4 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 8,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 4,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "8 - 4 = 4",
+          "work": "Start with 8 history cards and take away 4 cards.",
+          "finalAnswer": "4 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-08:level1",
+        "10-08:level2",
+        "10-08:level3"
+      ],
+      "sourceIds": [
+        "smithsonian-octopus"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 9,
+      "eventYear": 1874,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "The Universal Postal Union is founded",
+      "hook": "What clue would you notice first on October 9?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 9**, The Universal Postal Union was founded on October 9, 1874, and that anniversary is remembered as World Post Day. The memorable event belongs to **1874**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The Universal Postal Union is founded**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **9** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Universal Postal Union** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The Universal Postal Union was founded on October 9, 1874, and that anniversary is remembered as World Post Day."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "9 history cards are on a table. If 4 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 9,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 4,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "9 - 4 = 5",
+          "work": "Start with 9 history cards and take away 4 cards.",
+          "finalAnswer": "5 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-09:level1",
+        "10-09:level2",
+        "10-09:level3"
+      ],
+      "sourceIds": [
+        "upu-world-post-day"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 10,
+      "eventYear": 1992,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "World Mental Health Day",
+      "hook": "What clue would you notice first on October 10?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 10**, World Mental Health Day has been observed on October 10 since 1992. The memorable event belongs to **1992**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **World Mental Health Day**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **10** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **World Health Organization** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "World Mental Health Day has been observed on October 10 since 1992."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "10 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 10,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "10 - 5 = 5",
+          "work": "Start with 10 history cards and take away 5 cards.",
+          "finalAnswer": "5 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-10:level1",
+        "10-10:level2",
+        "10-10:level3"
+      ],
+      "sourceIds": [
+        "who-mental-health-day"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 11,
+      "eventYear": null,
+      "eventYearNote": "International Day of the Girl is an annual observance established by the United Nations in 2011.",
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "The International Day of the Girl",
+      "hook": "What clue would you notice first on October 11?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 11**, October 11 is a day that highlights girls' rights and opportunities to learn and grow. This fact is useful without attaching it to one single historical year, so the calendar clue stays focused on **October 11**. Imagine opening a classroom history box and finding this clue inside: **The International Day of the Girl**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **11** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **United Nations** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "October 11 is a day that highlights girls' rights and opportunities to learn and grow."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "11 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 11,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "11 - 5 = 6",
+          "work": "Start with 11 history cards and take away 5 cards.",
+          "finalAnswer": "6 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-11:level1",
+        "10-11:level2",
+        "10-11:level3"
+      ],
+      "sourceIds": [
+        "un-girl-day"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 12,
+      "eventYear": 1964,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "Many astronauts share one spacecraft",
+      "hook": "What clue would you notice first on October 12?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 12**, Voskhod 1 launched on October 12, 1964, carrying the first crew of more than one person without spacesuits. The memorable event belongs to **1964**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Many astronauts share one spacecraft**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **12** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **NASA** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Voskhod 1 launched on October 12, 1964, carrying the first crew of more than one person without spacesuits."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "12 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 12,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "12 - 5 = 7",
+          "work": "Start with 12 history cards and take away 5 cards.",
+          "finalAnswer": "7 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-12:level1",
+        "10-12:level2",
+        "10-12:level3"
+      ],
+      "sourceIds": [
+        "nasa-voskhod"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 13,
+      "eventYear": 1999,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "Disaster risk gets its own day",
+      "hook": "What clue would you notice first on October 13?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 13**, The United Nations designated October 13 as the International Day for Disaster Risk Reduction in 1999. The memorable event belongs to **1999**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Disaster risk gets its own day**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **13** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **United Nations** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The United Nations designated October 13 as the International Day for Disaster Risk Reduction in 1999."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "13 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 13,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "13 - 5 = 8",
+          "work": "Start with 13 history cards and take away 5 cards.",
+          "finalAnswer": "8 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-13:level1",
+        "10-13:level2",
+        "10-13:level3"
+      ],
+      "sourceIds": [
+        "un-disaster-risk"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 14,
+      "eventYear": 1947,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "An airplane breaks the sound barrier",
+      "hook": "What clue would you notice first on October 14?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 14**, Chuck Yeager flew faster than sound on October 14, 1947, in the Bell X-1 aircraft. The memorable event belongs to **1947**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **An airplane breaks the sound barrier**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **14** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **NASA** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Chuck Yeager flew faster than sound on October 14, 1947, in the Bell X-1 aircraft."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "14 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 14,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "14 - 5 = 9",
+          "work": "Start with 14 history cards and take away 5 cards.",
+          "finalAnswer": "9 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-14:level1",
+        "10-14:level2",
+        "10-14:level3"
+      ],
+      "sourceIds": [
+        "nasa-sound-barrier"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 15,
+      "eventYear": 2008,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Clean hands get a special day",
+      "hook": "What clue would you notice first on October 15?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 15**, The first Global Handwashing Day was held on October 15, 2008, to teach how soap and water help prevent illness. The memorable event belongs to **2008**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Clean hands get a special day**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **15** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Global Handwashing Partnership** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The first Global Handwashing Day was held on October 15, 2008, to teach how soap and water help prevent illness."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "15 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 15,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "15 - 5 = 10",
+          "work": "Start with 15 history cards and take away 5 cards.",
+          "finalAnswer": "10 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-15:level1",
+        "10-15:level2",
+        "10-15:level3"
+      ],
+      "sourceIds": [
+        "global-handwashing-day"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 16,
+      "eventYear": 1923,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Disney Brothers Cartoon Studio begins",
+      "hook": "What clue would you notice first on October 16?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 16**, Walt and Roy Disney signed a contract on October 16, 1923, beginning their cartoon studio story. The memorable event belongs to **1923**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Disney Brothers Cartoon Studio begins**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **16** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **D23** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Walt and Roy Disney signed a contract on October 16, 1923, beginning their cartoon studio story."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "16 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 16,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "16 - 5 = 11",
+          "work": "Start with 16 history cards and take away 5 cards.",
+          "finalAnswer": "11 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-16:level1",
+        "10-16:level2",
+        "10-16:level3"
+      ],
+      "sourceIds": [
+        "d23-disney-start"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 17,
+      "eventYear": null,
+      "eventYearNote": "International Day for the Eradication of Poverty is an annual observance held every October 17.",
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "Small actions can help communities",
+      "hook": "What clue would you notice first on October 17?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 17**, October 17 is a day for learning how communities can work together to reduce poverty. This fact is useful without attaching it to one single historical year, so the calendar clue stays focused on **October 17**. Imagine opening a classroom history box and finding this clue inside: **Small actions can help communities**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **17** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **United Nations** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "October 17 is a day for learning how communities can work together to reduce poverty."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "17 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 17,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "17 - 5 = 12",
+          "work": "Start with 17 history cards and take away 5 cards.",
+          "finalAnswer": "12 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-17:level1",
+        "10-17:level2",
+        "10-17:level3"
+      ],
+      "sourceIds": [
+        "un-poverty-day"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 18,
+      "eventYear": 1922,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "The BBC begins broadcasting",
+      "hook": "What clue would you notice first on October 18?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 18**, The British Broadcasting Company began broadcasting on October 18, 1922. The memorable event belongs to **1922**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The BBC begins broadcasting**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **18** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **BBC** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The British Broadcasting Company began broadcasting on October 18, 1922."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "18 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 18,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "18 - 5 = 13",
+          "work": "Start with 18 history cards and take away 5 cards.",
+          "finalAnswer": "13 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-18:level1",
+        "10-18:level2",
+        "10-18:level3"
+      ],
+      "sourceIds": [
+        "bbc-history"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 19,
+      "eventYear": null,
+      "eventYearNote": "International Repair Day is a recurring observance whose date is set by its organizers.",
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Repair instead of replace",
+      "hook": "What clue would you notice first on October 19?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 19**, Repair events encourage people to fix useful objects rather than throw them away. This fact is useful without attaching it to one single historical year, so the calendar clue stays focused on **October 19**. Imagine opening a classroom history box and finding this clue inside: **Repair instead of replace**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **19** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Repair Café International** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Repair events encourage people to fix useful objects rather than throw them away."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "19 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 19,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "19 - 5 = 14",
+          "work": "Start with 19 history cards and take away 5 cards.",
+          "finalAnswer": "14 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-19:level1",
+        "10-19:level2",
+        "10-19:level3"
+      ],
+      "sourceIds": [
+        "repair-cafe"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 20,
+      "eventYear": 2010,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "The first World Statistics Day",
+      "hook": "What clue would you notice first on October 20?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 20**, The first World Statistics Day was celebrated worldwide on October 20, 2010, highlighting how reliable data help people understand progress and challenges. The memorable event belongs to **2010**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The first World Statistics Day**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **20** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **United Nations** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The first World Statistics Day was celebrated worldwide on October 20, 2010, highlighting how reliable data help people understand progress and challenges."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "20 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 20,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "20 - 5 = 15",
+          "work": "Start with 20 history cards and take away 5 cards.",
+          "finalAnswer": "15 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-20:level1",
+        "10-20:level2",
+        "10-20:level3"
+      ],
+      "sourceIds": [
+        "un-statistics"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 21,
+      "eventYear": 1879,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Edison tests a long-lasting lamp",
+      "hook": "What clue would you notice first on October 21?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 21**, Thomas Edison demonstrated a practical incandescent lamp that stayed lit for many hours in October 1879. The memorable event belongs to **1879**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Edison tests a long-lasting lamp**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **21** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **National Park Service** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Thomas Edison demonstrated a practical incandescent lamp that stayed lit for many hours in October 1879."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "21 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 21,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "21 - 5 = 16",
+          "work": "Start with 21 history cards and take away 5 cards.",
+          "finalAnswer": "16 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-21:level1",
+        "10-21:level2",
+        "10-21:level3"
+      ],
+      "sourceIds": [
+        "nps-edison-light"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 22,
+      "eventYear": 1797,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "A parachute opens over Paris",
+      "hook": "What clue would you notice first on October 22?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 22**, André-Jacques Garnerin made the first recorded parachute jump from a balloon on October 22, 1797. The memorable event belongs to **1797**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **A parachute opens over Paris**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **22** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Encyclopaedia Britannica** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "André-Jacques Garnerin made the first recorded parachute jump from a balloon on October 22, 1797."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "22 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 22,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "22 - 5 = 17",
+          "work": "Start with 22 history cards and take away 5 cards.",
+          "finalAnswer": "17 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-22:level1",
+        "10-22:level2",
+        "10-22:level3"
+      ],
+      "sourceIds": [
+        "britannica-parachute"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 23,
+      "eventYear": 1940,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "Pelé is born",
+      "hook": "What clue would you notice first on October 23?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 23**, Brazilian football player Pelé was born on October 23, 1940. The memorable event belongs to **1940**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Pelé is born**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **23** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **FIFA** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Brazilian football player Pelé was born on October 23, 1940."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "23 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 23,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "23 - 5 = 18",
+          "work": "Start with 23 history cards and take away 5 cards.",
+          "finalAnswer": "18 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-23:level1",
+        "10-23:level2",
+        "10-23:level3"
+      ],
+      "sourceIds": [
+        "fifa-pele"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 24,
+      "eventYear": 1901,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "Annie Taylor rides over Niagara Falls",
+      "hook": "What clue would you notice first on October 24?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 24**, Teacher Annie Edson Taylor survived going over Niagara Falls in a barrel on October 24, 1901, attempting a daring challenge. The memorable event belongs to **1901**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Annie Taylor rides over Niagara Falls**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **24** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Niagara Falls National Heritage Area** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Teacher Annie Edson Taylor survived going over Niagara Falls in a barrel on October 24, 1901, attempting a daring challenge."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "24 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 24,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "24 - 5 = 19",
+          "work": "Start with 24 history cards and take away 5 cards.",
+          "finalAnswer": "19 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-24:level1",
+        "10-24:level2",
+        "10-24:level3"
+      ],
+      "sourceIds": [
+        "discover-niagara-taylor"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 25,
+      "eventYear": 1881,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Picasso is born",
+      "hook": "What clue would you notice first on October 25?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 25**, Artist Pablo Picasso was born on October 25, 1881, in Málaga, Spain. The memorable event belongs to **1881**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **Picasso is born**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **25** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Musée Picasso Paris** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Artist Pablo Picasso was born on October 25, 1881, in Málaga, Spain."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "25 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 25,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "25 - 5 = 20",
+          "work": "Start with 25 history cards and take away 5 cards.",
+          "finalAnswer": "20 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-25:level1",
+        "10-25:level2",
+        "10-25:level3"
+      ],
+      "sourceIds": [
+        "musee-picasso-biography"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 26,
+      "eventYear": 1825,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "The Erie Canal opens",
+      "hook": "What clue would you notice first on October 26?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 26**, The Erie Canal opened on October 26, 1825, linking Lake Erie with the Hudson River and making a major new route for travel and trade. The memorable event belongs to **1825**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The Erie Canal opens**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **26** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Library of Congress** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The Erie Canal opened on October 26, 1825, linking Lake Erie with the Hudson River and making a major new route for travel and trade."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "26 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 26,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "26 - 5 = 21",
+          "work": "Start with 26 history cards and take away 5 cards.",
+          "finalAnswer": "21 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-26:level1",
+        "10-26:level2",
+        "10-26:level3"
+      ],
+      "sourceIds": [
+        "loc-erie-canal"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 27,
+      "eventYear": 1904,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "New York's subway opens",
+      "hook": "What clue would you notice first on October 27?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 27**, New York City's first subway line opened on October 27, 1904. The memorable event belongs to **1904**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **New York's subway opens**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **27** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Metropolitan Transportation Authority** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "New York City's first subway line opened on October 27, 1904."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "27 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 27,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "27 - 5 = 22",
+          "work": "Start with 27 history cards and take away 5 cards.",
+          "finalAnswer": "22 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-27:level1",
+        "10-27:level2",
+        "10-27:level3"
+      ],
+      "sourceIds": [
+        "mta-subway-history"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 28,
+      "eventYear": 1886,
+      "emoji": "🏆",
+      "theme": "incredible_challenges",
+      "title": "The Statue of Liberty is dedicated",
+      "hook": "What clue would you notice first on October 28?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 28**, The Statue of Liberty was dedicated in New York Harbor on October 28, 1886. The memorable event belongs to **1886**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The Statue of Liberty is dedicated**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **28** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **National Park Service** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "The Statue of Liberty was dedicated in New York Harbor on October 28, 1886."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "28 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 28,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "28 - 5 = 23",
+          "work": "Start with 28 history cards and take away 5 cards.",
+          "finalAnswer": "23 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-28:level1",
+        "10-28:level2",
+        "10-28:level3"
+      ],
+      "sourceIds": [
+        "nps-statue-liberty"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 29,
+      "eventYear": 1969,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "The first ARPANET message begins with “LO”",
+      "hook": "What clue would you notice first on October 29?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 29**, On October 29, 1969, a UCLA team sent the first ARPANET host-to-host message toward the Stanford Research Institute; the system stopped after “LO.” The memorable event belongs to **1969**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **The first ARPANET message begins with “LO”**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **29** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **UCLA** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "On October 29, 1969, a UCLA team sent the first ARPANET host-to-host message toward the Stanford Research Institute; the system stopped after “LO.”"
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "29 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 29,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "29 - 5 = 24",
+          "work": "Start with 29 history cards and take away 5 cards.",
+          "finalAnswer": "24 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-29:level1",
+        "10-29:level2",
+        "10-29:level3"
+      ],
+      "sourceIds": [
+        "ucla-arpanet"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 30,
+      "eventYear": 1938,
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "A radio drama sounds like news",
+      "hook": "What clue would you notice first on October 30?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 30**, Orson Welles's radio adaptation of The War of the Worlds aired on October 30, 1938, and some listeners mistook parts for news. The memorable event belongs to **1938**, a year that helps us place the story on a long timeline. Imagine opening a classroom history box and finding this clue inside: **A radio drama sounds like news**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **30** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Library of Congress** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Orson Welles's radio adaptation of The War of the Worlds aired on October 30, 1938, and some listeners mistook parts for news."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "30 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 30,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "30 - 5 = 25",
+          "work": "Start with 30 history cards and take away 5 cards.",
+          "finalAnswer": "25 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-30:level1",
+        "10-30:level2",
+        "10-30:level3"
+      ],
+      "sourceIds": [
+        "loc-war-worlds"
+      ]
+    },
+    {
+      "month": 10,
+      "day": 31,
+      "eventYear": null,
+      "eventYearNote": "Halloween is a recurring cultural observance with roots in older seasonal traditions, not one single dated event.",
+      "emoji": "💡",
+      "theme": "inventions_daily_life",
+      "title": "Halloween's older seasonal roots",
+      "hook": "What clue would you notice first on October 31?",
+      "readingPassage": "Have you ever found a surprising story hiding on an ordinary calendar day? On **October 31**, Halloween is connected with older autumn traditions about the changing season and remembering the dead. This fact is useful without attaching it to one single historical year, so the calendar clue stays focused on **October 31**. Imagine opening a classroom history box and finding this clue inside: **Halloween's older seasonal roots**. The interesting part is not just a name or a date. It is the human-sized problem behind the clue. People had to notice something unusual, try an idea, solve a puzzle, or face a challenge. That makes the event easier to remember than a list of facts. In our story, the number **31** marks the October day, and the number **2** gives us two pretend teammates to help investigate. We can also use cards numbered **1**, **2**, **3**, **4**, and **5**, plus **12** months in one calendar year. Those numbers turn reading into a small math adventure. A source from **Encyclopaedia Britannica** preserves the evidence, while our classroom version uses simple language and avoids scary details. After reading, ask what you would notice first, what tool you would choose, and whether your first idea would work. History often rewards curious people who keep looking when the answer is not obvious. ",
+      "trivia": [
+        "Halloween is connected with older autumn traditions about the changing season and remembering the dead."
+      ],
+      "mathLevels": {
+        "level1": {
+          "pageType": "level1",
+          "skill": "subtraction_within_50",
+          "prompt": "31 history cards are on a table. If 5 cards are put away, how many cards remain?",
+          "numbersUsed": [
+            {
+              "value": 31,
+              "unit": "cards",
+              "source": "The October calendar day."
+            },
+            {
+              "value": 5,
+              "unit": "cards",
+              "source": "Problem scenario."
+            }
+          ]
+        },
+        "level2": {
+          "pageType": "level2",
+          "skill": "multiplication",
+          "prompt": "Two student historians each study 4 observation cards about this event. How many cards do they study altogether?",
+          "numbersUsed": [
+            {
+              "value": 2,
+              "unit": "historians",
+              "source": "The passage introduces two teammates."
+            },
+            {
+              "value": 4,
+              "unit": "cards per historian",
+              "source": "The passage introduces four cards."
+            }
+          ]
+        },
+        "level3": {
+          "pageType": "level3",
+          "skill": "unit_conversion",
+          "prompt": "A class makes 4 calendar sets, and each set has 12 months. How many month cards does the class make?",
+          "numbersUsed": [
+            {
+              "value": 4,
+              "unit": "sets",
+              "source": "The passage introduces four observation sets."
+            },
+            {
+              "value": 12,
+              "unit": "months per year",
+              "source": "The passage states the calendar conversion."
+            }
+          ]
+        }
+      },
+      "answers": {
+        "level1": {
+          "equation": "31 - 5 = 26",
+          "work": "Start with 31 history cards and take away 5 cards.",
+          "finalAnswer": "26 cards remain."
+        },
+        "level2": {
+          "equation": "2 * 4 = 8",
+          "work": "Use 2 teammates with 4 observation cards each.",
+          "finalAnswer": "The team has 8 cards."
+        },
+        "level3": {
+          "equation": "4 * 12 = 48",
+          "work": "Multiply 4 observation sets by 12 months in one year.",
+          "finalAnswer": "The class makes 48 month cards."
+        }
+      },
+      "answerKeyEntries": [
+        "10-31:level1",
+        "10-31:level2",
+        "10-31:level3"
+      ],
+      "sourceIds": [
+        "britannica-halloween"
+      ]
+    }
+  ],
+  "answerKey": {
+    "level1": [
+      {
+        "entryId": "10-01:level1",
+        "date": "10-01",
+        "level": "level1",
+        "equation": "1 - 1 = 0",
+        "work": "Start with 1 history card and take away 1 card.",
+        "finalAnswer": "0 cards remain."
+      },
+      {
+        "entryId": "10-02:level1",
+        "date": "10-02",
+        "level": "level1",
+        "equation": "2 - 1 = 1",
+        "work": "Start with 2 history cards and take away 1 card.",
+        "finalAnswer": "1 card remain."
+      },
+      {
+        "entryId": "10-03:level1",
+        "date": "10-03",
+        "level": "level1",
+        "equation": "3 - 1 = 2",
+        "work": "Start with 3 history cards and take away 1 card.",
+        "finalAnswer": "2 cards remain."
+      },
+      {
+        "entryId": "10-04:level1",
+        "date": "10-04",
+        "level": "level1",
+        "equation": "4 - 2 = 2",
+        "work": "Start with 4 history cards and take away 2 cards.",
+        "finalAnswer": "2 cards remain."
+      },
+      {
+        "entryId": "10-05:level1",
+        "date": "10-05",
+        "level": "level1",
+        "equation": "5 - 2 = 3",
+        "work": "Start with 5 history cards and take away 2 cards.",
+        "finalAnswer": "3 cards remain."
+      },
+      {
+        "entryId": "10-06:level1",
+        "date": "10-06",
+        "level": "level1",
+        "equation": "6 - 3 = 3",
+        "work": "Start with 6 history cards and take away 3 cards.",
+        "finalAnswer": "3 cards remain."
+      },
+      {
+        "entryId": "10-07:level1",
+        "date": "10-07",
+        "level": "level1",
+        "equation": "7 - 3 = 4",
+        "work": "Start with 7 history cards and take away 3 cards.",
+        "finalAnswer": "4 cards remain."
+      },
+      {
+        "entryId": "10-08:level1",
+        "date": "10-08",
+        "level": "level1",
+        "equation": "8 - 4 = 4",
+        "work": "Start with 8 history cards and take away 4 cards.",
+        "finalAnswer": "4 cards remain."
+      },
+      {
+        "entryId": "10-09:level1",
+        "date": "10-09",
+        "level": "level1",
+        "equation": "9 - 4 = 5",
+        "work": "Start with 9 history cards and take away 4 cards.",
+        "finalAnswer": "5 cards remain."
+      },
+      {
+        "entryId": "10-10:level1",
+        "date": "10-10",
+        "level": "level1",
+        "equation": "10 - 5 = 5",
+        "work": "Start with 10 history cards and take away 5 cards.",
+        "finalAnswer": "5 cards remain."
+      },
+      {
+        "entryId": "10-11:level1",
+        "date": "10-11",
+        "level": "level1",
+        "equation": "11 - 5 = 6",
+        "work": "Start with 11 history cards and take away 5 cards.",
+        "finalAnswer": "6 cards remain."
+      },
+      {
+        "entryId": "10-12:level1",
+        "date": "10-12",
+        "level": "level1",
+        "equation": "12 - 5 = 7",
+        "work": "Start with 12 history cards and take away 5 cards.",
+        "finalAnswer": "7 cards remain."
+      },
+      {
+        "entryId": "10-13:level1",
+        "date": "10-13",
+        "level": "level1",
+        "equation": "13 - 5 = 8",
+        "work": "Start with 13 history cards and take away 5 cards.",
+        "finalAnswer": "8 cards remain."
+      },
+      {
+        "entryId": "10-14:level1",
+        "date": "10-14",
+        "level": "level1",
+        "equation": "14 - 5 = 9",
+        "work": "Start with 14 history cards and take away 5 cards.",
+        "finalAnswer": "9 cards remain."
+      },
+      {
+        "entryId": "10-15:level1",
+        "date": "10-15",
+        "level": "level1",
+        "equation": "15 - 5 = 10",
+        "work": "Start with 15 history cards and take away 5 cards.",
+        "finalAnswer": "10 cards remain."
+      },
+      {
+        "entryId": "10-16:level1",
+        "date": "10-16",
+        "level": "level1",
+        "equation": "16 - 5 = 11",
+        "work": "Start with 16 history cards and take away 5 cards.",
+        "finalAnswer": "11 cards remain."
+      },
+      {
+        "entryId": "10-17:level1",
+        "date": "10-17",
+        "level": "level1",
+        "equation": "17 - 5 = 12",
+        "work": "Start with 17 history cards and take away 5 cards.",
+        "finalAnswer": "12 cards remain."
+      },
+      {
+        "entryId": "10-18:level1",
+        "date": "10-18",
+        "level": "level1",
+        "equation": "18 - 5 = 13",
+        "work": "Start with 18 history cards and take away 5 cards.",
+        "finalAnswer": "13 cards remain."
+      },
+      {
+        "entryId": "10-19:level1",
+        "date": "10-19",
+        "level": "level1",
+        "equation": "19 - 5 = 14",
+        "work": "Start with 19 history cards and take away 5 cards.",
+        "finalAnswer": "14 cards remain."
+      },
+      {
+        "entryId": "10-20:level1",
+        "date": "10-20",
+        "level": "level1",
+        "equation": "20 - 5 = 15",
+        "work": "Start with 20 history cards and take away 5 cards.",
+        "finalAnswer": "15 cards remain."
+      },
+      {
+        "entryId": "10-21:level1",
+        "date": "10-21",
+        "level": "level1",
+        "equation": "21 - 5 = 16",
+        "work": "Start with 21 history cards and take away 5 cards.",
+        "finalAnswer": "16 cards remain."
+      },
+      {
+        "entryId": "10-22:level1",
+        "date": "10-22",
+        "level": "level1",
+        "equation": "22 - 5 = 17",
+        "work": "Start with 22 history cards and take away 5 cards.",
+        "finalAnswer": "17 cards remain."
+      },
+      {
+        "entryId": "10-23:level1",
+        "date": "10-23",
+        "level": "level1",
+        "equation": "23 - 5 = 18",
+        "work": "Start with 23 history cards and take away 5 cards.",
+        "finalAnswer": "18 cards remain."
+      },
+      {
+        "entryId": "10-24:level1",
+        "date": "10-24",
+        "level": "level1",
+        "equation": "24 - 5 = 19",
+        "work": "Start with 24 history cards and take away 5 cards.",
+        "finalAnswer": "19 cards remain."
+      },
+      {
+        "entryId": "10-25:level1",
+        "date": "10-25",
+        "level": "level1",
+        "equation": "25 - 5 = 20",
+        "work": "Start with 25 history cards and take away 5 cards.",
+        "finalAnswer": "20 cards remain."
+      },
+      {
+        "entryId": "10-26:level1",
+        "date": "10-26",
+        "level": "level1",
+        "equation": "26 - 5 = 21",
+        "work": "Start with 26 history cards and take away 5 cards.",
+        "finalAnswer": "21 cards remain."
+      },
+      {
+        "entryId": "10-27:level1",
+        "date": "10-27",
+        "level": "level1",
+        "equation": "27 - 5 = 22",
+        "work": "Start with 27 history cards and take away 5 cards.",
+        "finalAnswer": "22 cards remain."
+      },
+      {
+        "entryId": "10-28:level1",
+        "date": "10-28",
+        "level": "level1",
+        "equation": "28 - 5 = 23",
+        "work": "Start with 28 history cards and take away 5 cards.",
+        "finalAnswer": "23 cards remain."
+      },
+      {
+        "entryId": "10-29:level1",
+        "date": "10-29",
+        "level": "level1",
+        "equation": "29 - 5 = 24",
+        "work": "Start with 29 history cards and take away 5 cards.",
+        "finalAnswer": "24 cards remain."
+      },
+      {
+        "entryId": "10-30:level1",
+        "date": "10-30",
+        "level": "level1",
+        "equation": "30 - 5 = 25",
+        "work": "Start with 30 history cards and take away 5 cards.",
+        "finalAnswer": "25 cards remain."
+      },
+      {
+        "entryId": "10-31:level1",
+        "date": "10-31",
+        "level": "level1",
+        "equation": "31 - 5 = 26",
+        "work": "Start with 31 history cards and take away 5 cards.",
+        "finalAnswer": "26 cards remain."
+      }
+    ],
+    "level2": [
+      {
+        "entryId": "10-01:level2",
+        "date": "10-01",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-02:level2",
+        "date": "10-02",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-03:level2",
+        "date": "10-03",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-04:level2",
+        "date": "10-04",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-05:level2",
+        "date": "10-05",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-06:level2",
+        "date": "10-06",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-07:level2",
+        "date": "10-07",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-08:level2",
+        "date": "10-08",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-09:level2",
+        "date": "10-09",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-10:level2",
+        "date": "10-10",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-11:level2",
+        "date": "10-11",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-12:level2",
+        "date": "10-12",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-13:level2",
+        "date": "10-13",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-14:level2",
+        "date": "10-14",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-15:level2",
+        "date": "10-15",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-16:level2",
+        "date": "10-16",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-17:level2",
+        "date": "10-17",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-18:level2",
+        "date": "10-18",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-19:level2",
+        "date": "10-19",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-20:level2",
+        "date": "10-20",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-21:level2",
+        "date": "10-21",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-22:level2",
+        "date": "10-22",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-23:level2",
+        "date": "10-23",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-24:level2",
+        "date": "10-24",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-25:level2",
+        "date": "10-25",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-26:level2",
+        "date": "10-26",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-27:level2",
+        "date": "10-27",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-28:level2",
+        "date": "10-28",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-29:level2",
+        "date": "10-29",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-30:level2",
+        "date": "10-30",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      },
+      {
+        "entryId": "10-31:level2",
+        "date": "10-31",
+        "level": "level2",
+        "equation": "2 * 4 = 8",
+        "work": "Use 2 teammates with 4 observation cards each.",
+        "finalAnswer": "The team has 8 cards."
+      }
+    ],
+    "level3": [
+      {
+        "entryId": "10-01:level3",
+        "date": "10-01",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-02:level3",
+        "date": "10-02",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-03:level3",
+        "date": "10-03",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-04:level3",
+        "date": "10-04",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-05:level3",
+        "date": "10-05",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-06:level3",
+        "date": "10-06",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-07:level3",
+        "date": "10-07",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-08:level3",
+        "date": "10-08",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-09:level3",
+        "date": "10-09",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-10:level3",
+        "date": "10-10",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-11:level3",
+        "date": "10-11",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-12:level3",
+        "date": "10-12",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-13:level3",
+        "date": "10-13",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-14:level3",
+        "date": "10-14",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-15:level3",
+        "date": "10-15",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-16:level3",
+        "date": "10-16",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-17:level3",
+        "date": "10-17",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-18:level3",
+        "date": "10-18",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-19:level3",
+        "date": "10-19",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-20:level3",
+        "date": "10-20",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-21:level3",
+        "date": "10-21",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-22:level3",
+        "date": "10-22",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-23:level3",
+        "date": "10-23",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-24:level3",
+        "date": "10-24",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-25:level3",
+        "date": "10-25",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-26:level3",
+        "date": "10-26",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-27:level3",
+        "date": "10-27",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-28:level3",
+        "date": "10-28",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-29:level3",
+        "date": "10-29",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-30:level3",
+        "date": "10-30",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      },
+      {
+        "entryId": "10-31:level3",
+        "date": "10-31",
+        "level": "level3",
+        "equation": "4 * 12 = 48",
+        "work": "Multiply 4 observation sets by 12 months in one year.",
+        "finalAnswer": "The class makes 48 month cards."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "nasa-dawn-space-age",
+      "title": "Dawn of the Space Age",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/history/dawn-of-the-space-age/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "ford-model-t",
+      "title": "The Model T",
+      "publisher": "Ford Motor Company",
+      "url": "https://corporate.ford.com/articles/history/the-model-t.html",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "schulz-museum-peanuts",
+      "title": "Peanuts history",
+      "publisher": "Charles M. Schulz Museum",
+      "url": "https://schulzmuseum.org/learn/about-charles-m-schulz/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "nasa-sputnik",
+      "title": "Sputnik 1",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/sputnik-1/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "nasa-luna-three",
+      "title": "Luna 3 and the far side of the Moon",
+      "publisher": "NASA",
+      "url": "https://solarsystem.nasa.gov/missions/luna-3/in-depth/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "gs1-barcode-history",
+      "title": "The barcode birth",
+      "publisher": "GS1",
+      "url": "https://support.gs1.org/support/solutions/articles/43000734131-the-barcode-birth",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "nasa-voskhod",
+      "title": "Voskhod program",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/history/space-race/voskhod/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "nasa-sound-barrier",
+      "title": "The X-1 and the sound barrier",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/centers-and-facilities/armstrong/the-bell-x-1-and-the-sound-barrier/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "d23-disney-start",
+      "title": "The Walt Disney Company history",
+      "publisher": "D23",
+      "url": "https://d23.com/a-to-z/disney-brothers-studio/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "loc-war-worlds",
+      "title": "The War of the Worlds",
+      "publisher": "Library of Congress",
+      "url": "https://blogs.loc.gov/loc/2016/10/lcm-page-from-the-past-war-of-the-worlds/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "nps-edison-light",
+      "title": "Thomas Edison National Historical Park",
+      "publisher": "National Park Service",
+      "url": "https://www.nps.gov/edis/learn/historyculture/the-light-bulb.htm",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "nps-statue-liberty",
+      "title": "Statue of Liberty history",
+      "publisher": "National Park Service",
+      "url": "https://www.nps.gov/stli/learn/historyculture/statueofliberty.htm",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "ucla-arpanet",
+      "title": "The first ARPANET connection",
+      "publisher": "UCLA",
+      "url": "https://www.ucla.edu/about/notable-bruins/08-leonard-kleinrock",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "computer-history-transistor",
+      "title": "Transistor Inventors Receive Patent",
+      "publisher": "Computer History Museum",
+      "url": "https://www.computerhistory.org/tdih/october/3/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "loc-erie-canal",
+      "title": "The Erie Canal opened on October 26, 1825",
+      "publisher": "Library of Congress",
+      "url": "https://www.loc.gov/item/today-in-history/october-26/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "unesco-teachers-day",
+      "title": "World Teachers' Day",
+      "publisher": "UNESCO",
+      "url": "https://www.unesco.org/en/days/world-teachers-day",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "who-mental-health-day",
+      "title": "World Mental Health Day",
+      "publisher": "World Health Organization",
+      "url": "https://www.who.int/campaigns/world-mental-health-day",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "un-world-habitat",
+      "title": "World Habitat Day",
+      "publisher": "United Nations",
+      "url": "https://www.un.org/en/observances/world-habitat-day",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "un-girl-day",
+      "title": "International Day of the Girl Child",
+      "publisher": "United Nations",
+      "url": "https://www.un.org/en/observances/girl-child-day",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "un-disaster-risk",
+      "title": "International Day for Disaster Risk Reduction",
+      "publisher": "United Nations",
+      "url": "https://www.un.org/en/observances/day-for-disaster-reduction",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "un-poverty-day",
+      "title": "International Day for the Eradication of Poverty",
+      "publisher": "United Nations",
+      "url": "https://www.un.org/en/observances/day-for-eradicating-poverty",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "un-development-day",
+      "title": "World Development Information Day",
+      "publisher": "United Nations",
+      "url": "https://www.un.org/en/observances/development-information-day",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "discover-niagara-taylor",
+      "title": "Annie Edson Taylor",
+      "publisher": "Niagara Falls National Heritage Area",
+      "url": "https://www.discoverniagara.org/annie-edson-taylor",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "un-statistics",
+      "title": "World Statistics Day",
+      "publisher": "United Nations",
+      "url": "https://unstats.un.org/unsd/wsd/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "upu-world-post-day",
+      "title": "World Post Day",
+      "publisher": "Universal Postal Union",
+      "url": "https://www.upu.int/en/Universal-Postal-Union/Outreach-and-Campaigns/World-Post-Day",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "global-handwashing-day",
+      "title": "Global Handwashing Day",
+      "publisher": "Global Handwashing Partnership",
+      "url": "https://globalhandwashing.org/global-handwashing-day/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "bbc-history",
+      "title": "BBC history",
+      "publisher": "BBC",
+      "url": "https://www.bbc.com/historyofthebbc/anniversaries/october/first-broadcast/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "mta-subway-history",
+      "title": "New York City subway history",
+      "publisher": "Metropolitan Transportation Authority",
+      "url": "https://www.mta.info/agency/new-york-city-transit/subway-bus-history",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "smithsonian-octopus",
+      "title": "Octopus facts",
+      "publisher": "Smithsonian Ocean",
+      "url": "https://ocean.si.edu/ocean-life/invertebrates/octopuses",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "fifa-pele",
+      "title": "Pelé",
+      "publisher": "FIFA",
+      "url": "https://www.fifa.com/fifaplus/en/players/player/63869",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "musee-picasso-biography",
+      "title": "Pablo Picasso biography",
+      "publisher": "Musée Picasso Paris",
+      "url": "https://www.museepicassoparis.fr/en/pablo-picasso",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "moulin-rouge-history",
+      "title": "Moulin Rouge history",
+      "publisher": "Moulin Rouge",
+      "url": "https://www.moulinrouge.fr/en/history/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "britannica-parachute",
+      "title": "Parachute history",
+      "publisher": "Encyclopaedia Britannica",
+      "url": "https://www.britannica.com/technology/parachute",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "britannica-halloween",
+      "title": "Halloween",
+      "publisher": "Encyclopaedia Britannica",
+      "url": "https://www.britannica.com/topic/Halloween",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "repair-cafe",
+      "title": "Repair Café",
+      "publisher": "Repair Café International",
+      "url": "https://www.repaircafe.org/en/about/",
+      "accessedDate": "2026-09-04"
+    },
+    {
+      "id": "unesco-audiovisual",
+      "title": "World Day for Audiovisual Heritage",
+      "publisher": "UNESCO",
+      "url": "https://www.unesco.org/en/days/world-audiovisual-heritage",
+      "accessedDate": "2026-09-04"
+    }
+  ]
+}
