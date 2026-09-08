@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { loadAnswerKeyTemplate, renderAnswerKeyPages } from "../src/answer-key-renderer.mjs";
+import { loadAnswerKeyTemplate, renderAnswerKeyPages, renderOctoberAnswerKeyPages } from "../src/answer-key-renderer.mjs";
 
 const day = {
   date: "1969-07-20", emoji: "🚀", theme: "incredible_challenges", title: "The Landing With Seconds to Spare",
@@ -53,4 +54,31 @@ test("renderAnswerKeyPages rejects answer text that cannot fit a grid cell", () 
   oversized.days[0].answers.level1.finalAnswer = "22 seconds of fuel would be left. " + "word ".repeat(80);
   oversized.answerKey.level1[0].finalAnswer = oversized.days[0].answers.level1.finalAnswer;
   assert.throws(() => renderAnswerKeyPages(oversized), /answer exceeds the template box capacity/);
+});
+
+test("renderOctoberAnswerKeyPages emits six month/day pages in level order", async () => {
+  const october = JSON.parse(await readFile(new URL("../content/monthly/month-10.json", import.meta.url), "utf8"));
+  const pages = renderOctoberAnswerKeyPages(october);
+
+  assert.equal(pages.length, 6);
+  assert.deepEqual(pages.map((page) => [page.level, page.page]), [
+    ["level1", 1], ["level1", 2], ["level2", 1], ["level2", 2], ["level3", 1], ["level3", 2],
+  ]);
+  assert.ok(pages.every((page) => page.width === 1545 && page.height === 1999));
+  assert.equal(pages.flatMap((page) => page.entryIds).length, 93);
+  assert.equal(new Set(pages.flatMap((page) => page.entryIds)).size, 93);
+  assert.ok(pages.every((page) => page.svg.includes('data-template-variant="answer-key"')));
+});
+
+test("October Answer Key failures identify the level, date, and reason", async () => {
+  const october = JSON.parse(await readFile(new URL("../content/monthly/month-10.json", import.meta.url), "utf8"));
+  const broken = structuredClone(october);
+  const oversized = "0 cards remain. An answer that cannot fit in the answer-key cell. ".repeat(20);
+  broken.days[0].answers.level1.finalAnswer = oversized;
+  broken.answerKey.level1[0].finalAnswer = oversized;
+
+  assert.throws(
+    () => renderOctoberAnswerKeyPages(broken),
+    /failed to render 10-01 level1: answer exceeds the template box capacity/,
+  );
 });

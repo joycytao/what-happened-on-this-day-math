@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { validateContent } from "./content-validation.mjs";
+import { validateMonthlyContentV2 } from "./monthly-content-v2-validation.mjs";
 
 export const ANSWER_KEY_TEMPLATE = {
   version: "1.0.0",
@@ -28,6 +29,35 @@ export function renderAnswerKeyPages(content, options = {}) {
     const entries = content.answerKey[level];
     if (entries.length > 64) throw new Error(`${level} has too many entries for the Answer Key layout`);
     return [0, 1].map((pageIndex) => renderAnswerKeyPage(level, entries.slice(pageIndex * 32, (pageIndex + 1) * 32), pageIndex));
+  });
+}
+
+export function renderOctoberAnswerKeyPages(content, options = {}) {
+  const validation = validateMonthlyContentV2(content);
+  if (!validation.valid) throw new Error(`cannot render invalid October content: ${validation.errors.join("; ")}`);
+
+  const normalized = normalizeMonthlyContentV2(content);
+  let rendered;
+  try {
+    rendered = renderAnswerKeyPages(normalized, options);
+  } catch (error) {
+    throw new Error(formatOctoberRenderError(error), { cause: error });
+  }
+
+  return rendered.map((svg, index) => {
+    const level = LEVELS[Math.floor(index / 2)];
+    const page = (index % 2) + 1;
+    const entries = content.answerKey[level].slice((page - 1) * ANSWER_KEY_TEMPLATE.slotsPerPage, page * ANSWER_KEY_TEMPLATE.slotsPerPage);
+    return {
+      pageNumber: index + 1,
+      month: content.month,
+      level,
+      page,
+      width: ANSWER_KEY_TEMPLATE.width,
+      height: ANSWER_KEY_TEMPLATE.height,
+      entryIds: entries.map((entry) => entry.entryId),
+      svg,
+    };
   });
 }
 
@@ -63,6 +93,28 @@ function renderEntryBox(entry, x, y, questionNumber) {
   const lines = content.map((line, index) => `<text x="${x + 18}" y="${y + 35 + index * 20}" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="20">${escapeXml(line)}</text>`).join("\n");
   const width = x === BOXES.left ? BOXES.leftWidth : BOXES.rightWidth;
   return `<rect x="${x}" y="${y}" width="${width}" height="${BOXES.height}" fill="none" stroke="#111" stroke-width="3"/>${lines}`;
+}
+
+function normalizeMonthlyContentV2(content) {
+  const dateFor = (monthDay) => `2000-${monthDay}`;
+  const days = content.days.map((day) => ({
+    ...day,
+    date: dateFor(`${String(day.month).padStart(2, "0")}-${String(day.day).padStart(2, "0")}`),
+    answerKeyEntries: day.answerKeyEntries.map((entryId) => `${dateFor(entryId.slice(0, 5))}${entryId.slice(5)}`),
+  }));
+  const answerKey = Object.fromEntries(LEVELS.map((level) => [level, content.answerKey[level].map((entry) => ({
+    ...entry,
+    date: dateFor(entry.date),
+    entryId: `${dateFor(entry.date)}:${level}`,
+  }))]));
+  return { schemaVersion: "1.0.0", month: "2000-10", days, answerKey, sources: content.sources };
+}
+
+function formatOctoberRenderError(error) {
+  const message = error instanceof Error ? error.message : String(error);
+  const match = message.match(/(2000-\d{2}-\d{2}):(level[123])/);
+  if (!match) return message;
+  return `failed to render ${match[1].slice(5)} ${match[2]}: ${message.replace(`${match[0]} `, "")}`;
 }
 
 function wrap(value, maxCharacters) {
