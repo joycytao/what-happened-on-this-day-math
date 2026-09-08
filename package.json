@@ -4,6 +4,8 @@
     "csv:generate": "node scripts/generate-monthly-csv.mjs",
     "content:generate": "node scripts/generate-october-content.mjs",
     "content:validate:october": "node scripts/validate-october-content.mjs --check-sources reports/issue-34-october-content-validation.json",
+    "answer-key:render:october": "node scripts/render-october-answer-key.mjs content/monthly/month-10.json reports/october-answer-key-pages",
+    "answer-key:validate:october": "node scripts/validate-october-answer-key.mjs reports/october-answer-key-pages",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "reading:render": "node scripts/render-reading-passage.mjs",
