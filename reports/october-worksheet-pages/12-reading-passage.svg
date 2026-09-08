@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="reading-passage" data-template-version="1.0.0">
+  <rect width="1545" height="2000" fill="#faf8f8"/>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <text x="155" y="205" font-size="50" font-weight="700">Name:</text>
+    <line x1="350" y1="210" x2="815" y2="210" stroke="#111" stroke-width="5"/>
+    <text x="985" y="205" font-size="50" font-weight="700">Date:</text>
+    <line x1="1155" y1="210" x2="1390" y2="210" stroke="#111" stroke-width="5"/>
+  </g>
+  <g stroke="#111" fill="none" stroke-width="4">
+    <rect x="690" y="305" width="165" height="82"/>
+    <rect x="690" y="387" width="165" height="145"/>
+  </g>
+  <g fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
+    <text x="772" y="365" font-size="47" font-weight="700">OCT</text>
+    <text x="772" y="482" font-size="66" font-weight="700">12</text>
+  </g>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <g data-content="article" data-x="155" data-width="1235" data-max-characters="72">
+      <text x="155" y="670" font-size="34" font-weight="700">Many astronauts share one spacecraft</text><text x="155" y="744" font-size="34" font-weight="600">What clue would you notice first on October 12?</text><text data-content="body" x="155" y="864" font-size="34">Have you ever found a surprising story hiding on an ordinary calendar</text>
+<text data-content="body" x="155" y="906" font-size="34">day? On <tspan font-weight="700">October 12</tspan> , Voskhod 1 launched on October 12, 1964, carrying</text>
+<text data-content="body" x="155" y="948" font-size="34">the first crew of more than one person without spacesuits. The memorable</text>
+<text data-content="body" x="155" y="990" font-size="34">event belongs to <tspan font-weight="700">1964</tspan> , a year that helps us place the story on a long</text>
+<text data-content="body" x="155" y="1032" font-size="34">timeline. Imagine opening a classroom history box and finding this clue</text>
+<text data-content="body" x="155" y="1074" font-size="34">inside: <tspan font-weight="700">Many astronauts share one spacecraft</tspan> . The interesting part is</text>
+<text data-content="body" x="155" y="1116" font-size="34">not just a name or a date. It is the human-sized problem behind the</text>
+<text data-content="body" x="155" y="1158" font-size="34">clue. People had to notice something unusual, try an idea, solve a</text>
+<text data-content="body" x="155" y="1200" font-size="34">puzzle, or face a challenge. That makes the event easier to remember</text>
+<text data-content="body" x="155" y="1242" font-size="34">than a list of facts. In our story, the number <tspan font-weight="700">12</tspan> marks the October day,</text>
+<text data-content="body" x="155" y="1284" font-size="34">and the number <tspan font-weight="700">2</tspan> gives us two pretend teammates to help investigate. We</text>
+<text data-content="body" x="155" y="1326" font-size="34">can also use cards numbered <tspan font-weight="700">1</tspan> , <tspan font-weight="700">2</tspan> , <tspan font-weight="700">3</tspan> , <tspan font-weight="700">4</tspan> , and <tspan font-weight="700">5</tspan> , plus <tspan font-weight="700">12</tspan> months in</text>
+<text data-content="body" x="155" y="1368" font-size="34">one calendar year. Those numbers turn reading into a small math</text>
+<text data-content="body" x="155" y="1410" font-size="34">adventure. A source from <tspan font-weight="700">NASA</tspan> preserves the evidence, while our</text>
+<text data-content="body" x="155" y="1452" font-size="34">classroom version uses simple language and avoids scary details. After</text>
+<text data-content="body" x="155" y="1494" font-size="34">reading, ask what you would notice first, what tool you would choose,</text>
+<text data-content="body" x="155" y="1536" font-size="34">and whether your first idea would work. History often rewards curious</text>
+<text data-content="body" x="155" y="1578" font-size="34">people who keep looking when the answer is not obvious.</text>
+    </g>
+  </g>
+  <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
+    <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
+      <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>
+      <path d="M45 139h110"/>
+      <circle cx="153" cy="139" r="4" fill="#f18a5b"/>
+    </g>
+    <text x="1405" y="1825" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">6</text>
+    <text x="1458" y="1827" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28">pm</text>
+    <text x="1405" y="1870" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25">studio</text>
+  </g>
+</svg>
