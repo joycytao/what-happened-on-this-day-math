@@ -86,8 +86,8 @@ function validateDailyContent(days, sources, errors) {
       const task = day?.mathLevels?.[level];
       if (!task?.prompt) errors.push(`${key} ${level} prompt is empty`);
       for (const number of task?.numbersUsed ?? []) {
-        if (!numberAppearsInText(number?.value, `${passage} ${task.prompt}`)) {
-          errors.push(`${key} ${level} number ${number?.value} is not present in the passage or prompt`);
+        if (!numberAppearsInText(number?.value, passage)) {
+          errors.push(`${key} ${level} number ${number?.value} is not present in the reading passage`);
         }
       }
     }
@@ -154,13 +154,13 @@ function dateKey(day) {
 
 function numberAppearsInText(value, text) {
   if (!Number.isFinite(value)) return false;
-  const numeric = new RegExp(`(?<![\\d.])${escapeRegExp(String(value))}(?![\\d.])`).test(text);
+  const numeric = new RegExp(`(?<![0-9])${escapeRegExp(String(value))}(?![0-9])`).test(text);
   const word = Number.isInteger(value) && value >= 0 && value < NUMBER_WORDS.length ? new RegExp(`\\b${NUMBER_WORDS[value]}\\b`, "i").test(text) : false;
   return numeric || word;
 }
 
 function containsNumber(text, value) {
-  return typeof text === "string" && (new RegExp(`(?<![\\d.])${escapeRegExp(String(value))}(?![\\d.])`).test(text) || (Number.isInteger(value) && value >= 0 && value < NUMBER_WORDS.length && new RegExp(`\\b${NUMBER_WORDS[value]}\\b`, "i").test(text)));
+  return typeof text === "string" && (new RegExp(`(?<![0-9])${escapeRegExp(String(value))}(?![0-9])`).test(text) || (Number.isInteger(value) && value >= 0 && value < NUMBER_WORDS.length && new RegExp(`\\b${NUMBER_WORDS[value]}\\b`, "i").test(text)));
 }
 
 function escapeRegExp(value) {
