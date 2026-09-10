@@ -1,0 +1,235 @@
+{
+  "valid": true,
+  "content": {
+    "valid": true,
+    "errors": []
+  },
+  "mathematics": {
+    "valid": true,
+    "errors": []
+  },
+  "sources": {
+    "valid": true,
+    "checked": true,
+    "errors": [],
+    "results": [
+      {
+        "id": "ford-model-t",
+        "url": "https://corporate.ford.com/articles/history/the-model-t.html",
+        "status": 200,
+        "finalUrl": "https://corporate.ford.com/articles/history/the-model-t/",
+        "ok": true
+      },
+      {
+        "id": "schulz-museum-peanuts",
+        "url": "https://schulzmuseum.org/timeline/",
+        "status": 200,
+        "finalUrl": "https://schulzmuseum.org/timeline/",
+        "ok": true
+      },
+      {
+        "id": "nasa-sputnik",
+        "url": "https://www.nasa.gov/image-article/sputnik-1/",
+        "status": 200,
+        "finalUrl": "https://www.nasa.gov/image-article/sputnik-1/",
+        "ok": true
+      },
+      {
+        "id": "gs1-barcode-history",
+        "url": "https://support.gs1.org/support/solutions/articles/43000734131-the-barcode-birth",
+        "status": 200,
+        "finalUrl": "https://support.gs1.org/support/solutions/articles/43000734131-the-barcode-birth",
+        "ok": true
+      },
+      {
+        "id": "nasa-voskhod",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/04/1964.pdf",
+        "status": 200,
+        "finalUrl": "https://www.nasa.gov/wp-content/uploads/2023/04/1964.pdf",
+        "ok": true
+      },
+      {
+        "id": "nasa-sound-barrier",
+        "url": "https://www.nasa.gov/history/x1/chuck.html",
+        "status": 200,
+        "finalUrl": "https://www.nasa.gov/history/x1/chuck.html",
+        "ok": true
+      },
+      {
+        "id": "d23-disney-start",
+        "url": "https://d23.com/disney-history/",
+        "status": 200,
+        "finalUrl": "https://d23.com/disney-history/",
+        "ok": true
+      },
+      {
+        "id": "loc-war-worlds",
+        "url": "https://www.archives.gov/publications/prologue/2003/fall/war-of-worlds.html",
+        "status": 200,
+        "finalUrl": "https://www.archives.gov/publications/prologue/2003/fall/war-of-worlds.html",
+        "ok": true
+      },
+      {
+        "id": "nps-edison-light",
+        "url": "https://www.npshistory.com/publications/edis/brochures/2008.pdf",
+        "status": 200,
+        "finalUrl": "https://www.npshistory.com/publications/edis/brochures/2008.pdf",
+        "ok": true
+      },
+      {
+        "id": "nps-statue-liberty",
+        "url": "https://www.nps.gov/stli/learn/statue-of-liberty-facts.htm",
+        "status": 200,
+        "finalUrl": "https://www.nps.gov/stli/learn/statue-of-liberty-facts.htm",
+        "ok": true
+      },
+      {
+        "id": "ucla-arpanet",
+        "url": "https://www.ucla.edu/about/notable-bruins/08-leonard-kleinrock",
+        "status": 200,
+        "finalUrl": "https://www.ucla.edu/about/notable-bruins/08-leonard-kleinrock",
+        "ok": true
+      },
+      {
+        "id": "computer-history-transistor",
+        "url": "https://www.computerhistory.org/tdih/october/3/",
+        "status": 200,
+        "finalUrl": "https://www.computerhistory.org/tdih/october/3/",
+        "ok": true
+      },
+      {
+        "id": "loc-erie-canal",
+        "url": "https://www.govinfo.gov/features/erie-canal",
+        "status": 200,
+        "finalUrl": "https://www.govinfo.gov/features/erie-canal",
+        "ok": true
+      },
+      {
+        "id": "unesco-teachers-day",
+        "url": "https://www.unesco.org/en/days/teachers?hub=66743",
+        "status": 200,
+        "finalUrl": "https://www.unesco.org/en/days/teachers?hub=66743",
+        "ok": true
+      },
+      {
+        "id": "who-mental-health-day",
+        "url": "https://www.who.int/campaigns/world-mental-health-day",
+        "status": 200,
+        "finalUrl": "https://www.who.int/campaigns/world-mental-health-day",
+        "ok": true
+      },
+      {
+        "id": "un-girl-day",
+        "url": "https://www.un.org/en/observances/girl-child-day",
+        "status": 200,
+        "finalUrl": "https://www.un.org/en/observances/girl-child-day",
+        "ok": true
+      },
+      {
+        "id": "un-disaster-risk",
+        "url": "https://www.un.org/en/climatechange/international-day-for-disaster-risk-reduction",
+        "status": 200,
+        "finalUrl": "https://www.un.org/en/climatechange/international-day-for-disaster-risk-reduction",
+        "ok": true
+      },
+      {
+        "id": "un-poverty-day",
+        "url": "https://www.un.org/en/observances/day-for-eradicating-poverty",
+        "status": 200,
+        "finalUrl": "https://www.un.org/en/observances/day-for-eradicating-poverty",
+        "ok": true
+      },
+      {
+        "id": "discover-niagara-taylor",
+        "url": "https://www.discoverniagara.org/annie-edson-taylor",
+        "status": 200,
+        "finalUrl": "https://www.discoverniagara.org/annie-edson-taylor",
+        "ok": true
+      },
+      {
+        "id": "un-statistics",
+        "url": "https://unstats.un.org/unsd/wsd/",
+        "status": 200,
+        "finalUrl": "https://unstats.un.org/unsd/wsd/",
+        "ok": true
+      },
+      {
+        "id": "upu-world-post-day",
+        "url": "https://www.upu.int/UPU/media/upu/publications/Union%20Postale/2010/union_postale_2010-4_en.pdf",
+        "status": 200,
+        "finalUrl": "https://www.upu.int/UPU/media/upu/publications/Union%20Postale/2010/union_postale_2010-4_en.pdf",
+        "ok": true
+      },
+      {
+        "id": "global-handwashing-day",
+        "url": "https://globalhandwashing.org/global-handwashing-day/",
+        "status": 200,
+        "finalUrl": "https://globalhandwashing.org/global-handwashing-day/",
+        "ok": true
+      },
+      {
+        "id": "bbc-history",
+        "url": "https://downloads.bbc.co.uk/historyofthebbc/1920s.pdf",
+        "status": 200,
+        "finalUrl": "https://downloads.bbc.co.uk/historyofthebbc/1920s.pdf",
+        "ok": true
+      },
+      {
+        "id": "mta-subway-history",
+        "url": "https://www.nytransitmuseum.org/subway-day/",
+        "status": 200,
+        "finalUrl": "https://www.nytransitmuseum.org/subway-day/",
+        "ok": true
+      },
+      {
+        "id": "smithsonian-octopus",
+        "url": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
+        "status": 200,
+        "finalUrl": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
+        "ok": true
+      },
+      {
+        "id": "fifa-pele",
+        "url": "https://www.fifa.com/fifaplus/en/players/player/63869",
+        "status": 200,
+        "finalUrl": "https://www.fifa.com/en/players/player/63869",
+        "ok": true
+      },
+      {
+        "id": "musee-picasso-biography",
+        "url": "https://www.museepicassoparis.fr/sites/default/files/2021-10/Picassosculptures_DP-UK_02_web_2.pdf",
+        "status": 200,
+        "finalUrl": "https://www.museepicassoparis.fr/sites/default/files/2021-10/Picassosculptures_DP-UK_02_web_2.pdf",
+        "ok": true
+      },
+      {
+        "id": "moulin-rouge-history",
+        "url": "https://www.moulinrouge.fr/en/history/",
+        "status": 200,
+        "finalUrl": "https://www.moulinrouge.fr/en/history/",
+        "ok": true
+      },
+      {
+        "id": "britannica-parachute",
+        "url": "https://www.fai.org/sites/default/files/documents/rpt_02_1786-1800.pdf",
+        "status": 200,
+        "finalUrl": "https://www.fai.org/sites/default/files/documents/rpt_02_1786-1800.pdf",
+        "ok": true
+      },
+      {
+        "id": "britannica-halloween",
+        "url": "https://www.history.com/articles/history-of-halloween",
+        "status": 200,
+        "finalUrl": "https://www.history.com/articles/history-of-halloween",
+        "ok": true
+      },
+      {
+        "id": "repair-cafe",
+        "url": "https://www.repaircafe.org/en/about/",
+        "status": 200,
+        "finalUrl": "https://www.repaircafe.org/en/about/",
+        "ok": true
+      }
+    ]
+  }
+}

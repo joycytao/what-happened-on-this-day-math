@@ -16,6 +16,7 @@ export function validateOctoberContent(content, research = null) {
   validateCalendarCoverage(content, days, contentErrors);
   validateDailyContent(days, sources, contentErrors);
   validateResearchAlignment(days, research, contentErrors);
+  validateLevelContract(days, contentErrors);
   validatePromptDiversity(days, contentErrors);
   validateMathematics(days, mathematicsErrors);
 
@@ -86,8 +87,8 @@ function validateDailyContent(days, sources, errors) {
       const task = day?.mathLevels?.[level];
       if (!task?.prompt) errors.push(`${key} ${level} prompt is empty`);
       for (const number of task?.numbersUsed ?? []) {
-        if (!numberAppearsInText(number?.value, `${passage} ${task.prompt}`)) {
-          errors.push(`${key} ${level} number ${number?.value} is not present in the passage or prompt`);
+        if (!numberAppearsInText(number?.value, passage)) {
+          errors.push(`${key} ${level} number ${number?.value} is not present in the reading passage`);
         }
       }
     }
@@ -110,6 +111,37 @@ function validatePromptDiversity(days, errors) {
       }
     }
   }
+}
+
+function validateLevelContract(days, errors) {
+  for (const day of days) {
+    const key = dateKey(day);
+    const title = typeof day?.title === "string" ? day.title : "";
+    const levels = day?.mathLevels ?? {};
+    const level1 = levels.level1;
+    const level2 = levels.level2;
+    const level3 = levels.level3;
+    if (!/addition|subtraction/i.test(level1?.skill ?? "")) errors.push(`${key} level1 must use direct addition or subtraction`);
+    if (!/multiplication|division|sharing|scale/i.test(level2?.skill ?? "")) errors.push(`${key} level2 must use multiplication, division, sharing, or scale`);
+    if (!/multi_step|conversion|time|money|proportion/i.test(level3?.skill ?? "")) errors.push(`${key} level3 must use a clearly higher-level concept`);
+    for (const [level, task] of Object.entries({ level1, level2, level3 })) {
+      if (!task?.prompt?.includes(title)) errors.push(`${key} ${level} prompt must name the same historical event title`);
+    }
+    const level1Numbers = (level1?.numbersUsed ?? []).map((number) => number?.value).filter(Number.isFinite);
+    if (level1Numbers.some((number) => number < 0 || number > 50)) errors.push(`${key} level1 numbers must stay within 50`);
+    const level1Operators = operatorTokens(day?.answers?.level1?.equation ?? "");
+    if (level1Operators.length !== 1 || !/[+-]/.test(level1Operators[0] ?? "")) errors.push(`${key} level1 must contain exactly one addition or subtraction operation`);
+    const level2Operators = operatorTokens(day?.answers?.level2?.equation ?? "");
+    if (level2Operators.length !== 1 || !/[*/]/.test(level2Operators[0] ?? "")) errors.push(`${key} level2 must contain exactly one multiplication or division operation`);
+    const level3Operators = operatorTokens(day?.answers?.level3?.equation ?? "");
+    if (level3Operators.length < 2) errors.push(`${key} level3 must contain at least two operations`);
+    if (day?.eventYear && !level2?.prompt?.includes(String(day.eventYear))) errors.push(`${key} level2 must include the historical event year when available`);
+    if (day?.eventYear && !level3?.prompt?.includes(String(day.eventYear))) errors.push(`${key} level3 must include the historical event year when available`);
+  }
+}
+
+function operatorTokens(equation) {
+  return String(equation).match(/[+*/-]/g) ?? [];
 }
 
 function validateResearchAlignment(days, research, errors) {
@@ -154,13 +186,13 @@ function dateKey(day) {
 
 function numberAppearsInText(value, text) {
   if (!Number.isFinite(value)) return false;
-  const numeric = new RegExp(`(?<![\\d.])${escapeRegExp(String(value))}(?![\\d.])`).test(text);
+  const numeric = new RegExp(`(?<![0-9])${escapeRegExp(String(value))}(?![0-9])`).test(text);
   const word = Number.isInteger(value) && value >= 0 && value < NUMBER_WORDS.length ? new RegExp(`\\b${NUMBER_WORDS[value]}\\b`, "i").test(text) : false;
   return numeric || word;
 }
 
 function containsNumber(text, value) {
-  return typeof text === "string" && (new RegExp(`(?<![\\d.])${escapeRegExp(String(value))}(?![\\d.])`).test(text) || (Number.isInteger(value) && value >= 0 && value < NUMBER_WORDS.length && new RegExp(`\\b${NUMBER_WORDS[value]}\\b`, "i").test(text)));
+  return typeof text === "string" && (new RegExp(`(?<![0-9])${escapeRegExp(String(value))}(?![0-9])`).test(text) || (Number.isInteger(value) && value >= 0 && value < NUMBER_WORDS.length && new RegExp(`\\b${NUMBER_WORDS[value]}\\b`, "i").test(text)));
 }
 
 function escapeRegExp(value) {
