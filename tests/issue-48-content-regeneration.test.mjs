@@ -20,4 +20,27 @@ describe("Issue #48 regenerated October content", () => {
     assert.deepEqual(tracked, cited);
     assert.equal(content.sources.length, 31);
   });
+
+  it("enforces the original differentiated level contract for every event", () => {
+    for (const day of content.days) {
+      const { level1, level2, level3 } = day.mathLevels;
+      assert.match(level1.skill, /addition|subtraction/);
+      assert.match(level1.prompt, new RegExp(day.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+      assert.match(level2.skill, /multiplication|division|sharing|scale/);
+      assert.match(level2.prompt, new RegExp(day.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+      assert.match(level3.skill, /multi_step|conversion|time|money|proportion/);
+      assert.match(level3.prompt, new RegExp(day.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+      assert.ok((day.answers.level3.equation.match(/[+*\/\-]/g) ?? []).length >= 2, `${day.day}: Level 3 must use at least two operations`);
+    }
+  });
+
+  it("rejects mathematically correct prompts that violate the level contract", () => {
+    const malformed = structuredClone(content);
+    malformed.days[0].mathLevels.level1.skill = "generic_arithmetic";
+    malformed.days[0].answers.level3.equation = "1 + 1 = 2";
+    const report = validateOctoberContent(malformed, research);
+    assert.equal(report.content.valid, false);
+    assert.match(report.content.errors.join("\n"), /level1 must use direct addition or subtraction/);
+    assert.match(report.content.errors.join("\n"), /level3 must contain at least two operations/);
+  });
 });

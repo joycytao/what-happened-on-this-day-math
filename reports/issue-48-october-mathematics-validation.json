@@ -3,5 +3,5 @@
   "checkedRecords": 31,
   "checkedLevelsPerRecord": 3,
   "errors": [],
-  "method": "Re-evaluate every answer.equation and compare its left/right values and finalAnswer result."
-}\n
+  "method": "Re-evaluate every answer.equation and compare its left/right values and finalAnswer result; also enforce one direct Level 1 operation, one Level 2 multiplication/division operation, and at least two Level 3 operations."
+}
