@@ -11,9 +11,10 @@
   <text x="220" y="416" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">Level</text>
   <circle cx="444" cy="402" r="42" fill="#5754f4" stroke="#111" stroke-width="3"/>
   <text x="444" y="420" fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="italic">Q2</text>
-  <text x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">Two student historians each study 4 observation cards</text>
-<text x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">about this event. How many cards do they study</text>
-<text x="220" y="661" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">altogether?</text>
+  <text x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">In the “The Statue of Liberty is dedicated” story, the</text>
+<text x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">1886 event-year clue ends in 6; each museum panel gets</text>
+<text x="220" y="661" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">8 labels across 3 panels. How many event-linked labels</text>
+<text x="220" y="721" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">are shown?</text>
   <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
     <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
       <path d="M100 8 190 62v112l-90 54-90-54V62Z"/><path d="M45 139h110"/><circle cx="153" cy="139" r="4" fill="#f18a5b"/>

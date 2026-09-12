@@ -15,8 +15,9 @@
   <text x="220" y="416" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">Level</text>
   <circle cx="444" cy="402" r="42" fill="#c7f38b" stroke="#111" stroke-width="3"/>
   <text x="444" y="420" fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="italic">1</text>
-  <text x="220" y="515" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">1 history cards are on a table. If 1 cards are put</text>
-<text x="220" y="575" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">away, how many cards remain?</text>
+  <text x="220" y="515" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">In the “The Model T reaches its first customer” story,</text>
+<text x="220" y="575" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">the October 1 clue has 1 clue marks. If 1 clue marks</text>
+<text x="220" y="635" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">are set aside, how many remain?</text>
   <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
     <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
       <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>

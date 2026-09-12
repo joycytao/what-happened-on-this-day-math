@@ -11,8 +11,9 @@
   <text x="220" y="416" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">Level</text>
   <circle cx="444" cy="402" r="42" fill="#ffd05c" stroke="#111" stroke-width="3"/>
   <text x="444" y="420" fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="italic">3</text>
-  <text x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">A class makes 4 calendar sets, and each set has 12</text>
-<text x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">months. How many month cards does the class make?</text>
+  <text x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">For “Small actions can help communities” (October 17</text>
+<text x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">observance), double 4 years, then add October 17. What</text>
+<text x="220" y="661" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">is the total?</text>
   <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
     <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
       <path d="M100 8 190 62v112l-90 54-90-54V62Z"/><path d="M45 139h110"/><circle cx="153" cy="139" r="4" fill="#f18a5b"/>
