@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="reading-passage" data-template-version="1.0.0">
+  <rect width="1545" height="2000" fill="#faf8f8"/>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <text x="155" y="205" font-size="50" font-weight="700">Name:</text>
+    <line x1="350" y1="210" x2="815" y2="210" stroke="#111" stroke-width="5"/>
+    <text x="985" y="205" font-size="50" font-weight="700">Date:</text>
+    <line x1="1155" y1="210" x2="1390" y2="210" stroke="#111" stroke-width="5"/>
+  </g>
+  <g stroke="#111" fill="none" stroke-width="4">
+    <rect x="690" y="305" width="165" height="82"/>
+    <rect x="690" y="387" width="165" height="145"/>
+  </g>
+  <g fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
+    <text x="772" y="365" font-size="47" font-weight="700">OCT</text>
+    <text x="772" y="482" font-size="66" font-weight="700">15</text>
+  </g>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <g data-content="article" data-x="155" data-width="1235" data-max-characters="72">
+      <text x="155" y="670" font-size="34" font-weight="700">Clean hands get a special day</text><text x="155" y="744" font-size="34" font-weight="600">What clue would you check first on October 15?</text><text data-content="body" x="155" y="864" font-size="34">Have you ever wondered why a small calendar box can open a much bigger</text>
+<text data-content="body" x="155" y="906" font-size="34">story? On October 15, The first Global Handwashing Day was held on</text>
+<text data-content="body" x="155" y="948" font-size="34">October 15, 2008, to teach how soap and water help prevent illness. The</text>
+<text data-content="body" x="155" y="990" font-size="34">research record places this event in 2008, so the class can compare that</text>
+<text data-content="body" x="155" y="1032" font-size="34">year with a nearby starting year of 1999. The title card says “Clean</text>
+<text data-content="body" x="155" y="1074" font-size="34">hands get a special day,” and it invites readers to look for the</text>
+<text data-content="body" x="155" y="1116" font-size="34">problem, invention, creature, or challenge behind the headline. A</text>
+<text data-content="body" x="155" y="1158" font-size="34">history detective does not need to memorize every detail; the detective</text>
+<text data-content="body" x="155" y="1200" font-size="34">notices which clues can be checked and which numbers can be used</text>
+<text data-content="body" x="155" y="1242" font-size="34">carefully. In this classroom version, the event-year clue ends in 8; for</text>
+<text data-content="body" x="155" y="1284" font-size="34">the worksheet, each museum panel gets 10 labels, and the display repeats</text>
+<text data-content="body" x="155" y="1326" font-size="34">that set across 2 panels. The passage also names 4 clues that can be set</text>
+<text data-content="body" x="155" y="1368" font-size="34">aside after the first round. The timeline comparison uses 1999 and a gap</text>
+<text data-content="body" x="155" y="1410" font-size="34">of 9 years, while the October label 15 helps us connect the math back to</text>
+<text data-content="body" x="155" y="1452" font-size="34">the story. The source is Global Handwashing Partnership, so the event</text>
+<text data-content="body" x="155" y="1494" font-size="34">claim is not invented for the worksheet. After reading, ask what you</text>
+<text data-content="body" x="155" y="1536" font-size="34">would check first, whether the display tells the same story, and how a</text>
+<text data-content="body" x="155" y="1578" font-size="34">number can describe a real event without becoming the whole event.</text>
+<text data-content="body" x="155" y="1620" font-size="34">History becomes easier to remember when a reader asks a question, checks</text>
+<text data-content="body" x="155" y="1662" font-size="34">a source, and then explains the clue in their own words.</text>
+    </g>
+  </g>
+  <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
+    <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
+      <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>
+      <path d="M45 139h110"/>
+      <circle cx="153" cy="139" r="4" fill="#f18a5b"/>
+    </g>
+    <text x="1405" y="1825" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">6</text>
+    <text x="1458" y="1827" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28">pm</text>
+    <text x="1405" y="1870" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25">studio</text>
+  </g>
+</svg>
