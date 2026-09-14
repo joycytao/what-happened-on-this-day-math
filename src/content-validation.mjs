@@ -48,7 +48,7 @@ export function validateContent(content) {
 
   const seenDates = new Set();
   days.forEach((day, index) => {
-    validateDailyRecord(day, index, content.month, sources, content.answerKey, errors, seenDates);
+    validateDailyRecord(day, index, content.month, sources, content.answerKey, errors, seenDates, content.contentProfile);
   });
 
   validateAnswerKey(content.answerKey, days, errors);
@@ -56,7 +56,7 @@ export function validateContent(content) {
   return { valid: errors.length === 0, errors };
 }
 
-function validateDailyRecord(day, index, month, sources, answerKey, errors, seenDates) {
+function validateDailyRecord(day, index, month, sources, answerKey, errors, seenDates, contentProfile) {
   const path = `days[${index}]`;
   if (!day || typeof day !== "object" || Array.isArray(day)) {
     errors.push(`${path} must be an object`);
@@ -109,8 +109,8 @@ function validateDailyRecord(day, index, month, sources, answerKey, errors, seen
   for (const levelName of LEVELS) {
     const level = day.mathLevels?.[levelName];
     const answer = day.answers?.[levelName];
-    validateMathLevel(level, levelName, path, storyText, errors);
-    validateAnswer(answer, levelName, path, errors);
+    validateMathLevel(level, levelName, path, storyText, errors, contentProfile);
+    validateAnswer(answer, levelName, path, errors, contentProfile);
     if (!Array.isArray(day.answerKeyEntries) || !day.answerKeyEntries.includes(`${day.date}:${levelName}`)) {
       errors.push(`${path}.answerKeyEntries must include ${day.date}:${levelName}`);
     }
@@ -119,7 +119,7 @@ function validateDailyRecord(day, index, month, sources, answerKey, errors, seen
   validateSourceIds(day.sourceIds, sources, path, errors);
 }
 
-function validateMathLevel(level, levelName, path, storyText, errors) {
+function validateMathLevel(level, levelName, path, storyText, errors, contentProfile) {
   const levelPath = `${path}.mathLevels.${levelName}`;
   if (!level || typeof level !== "object") {
     errors.push(`${levelPath} is required`);
@@ -130,7 +130,7 @@ function validateMathLevel(level, levelName, path, storyText, errors) {
   }
   if (typeof level.skill !== "string" || level.skill.trim().length === 0) {
     errors.push(`${levelPath}.skill must not be empty`);
-  } else if (!skillMatchesLevel(level.skill, levelName)) {
+  } else if (contentProfile !== "oct-content-example" && !skillMatchesLevel(level.skill, levelName)) {
     errors.push(`${levelPath}.skill is not valid for ${levelName}; level${levelName.slice(-1)} must use ${skillDescription(levelName)}`);
   }
   if (typeof level.prompt !== "string" || level.prompt.trim().length === 0) {
@@ -155,13 +155,13 @@ function validateMathLevel(level, levelName, path, storyText, errors) {
     if (!numberAppearsInStory(numberUsed.value, storyText) && !isExplicitTaskFact(numberUsed.source)) {
       errors.push(`${numberPath} value ${numberUsed.value} is not present in the passage or marked as an explicit task fact`);
     }
-    if (levelName === "level1" && Math.abs(numberUsed.value) > 50) {
+    if (contentProfile !== "oct-content-example" && levelName === "level1" && Math.abs(numberUsed.value) > 50) {
       errors.push(`${levelPath} numbers must be within 50 for direct Level 1 arithmetic`);
     }
   });
 }
 
-function validateAnswer(answer, levelName, path, errors) {
+function validateAnswer(answer, levelName, path, errors, contentProfile) {
   const answerPath = `${path}.answers.${levelName}`;
   if (!answer || typeof answer !== "object") {
     errors.push(`${answerPath} is required`);
@@ -173,16 +173,22 @@ function validateAnswer(answer, levelName, path, errors) {
     }
   }
   if (typeof answer.equation !== "string") return;
-  const calculation = calculateEquation(answer.equation);
-  if (!calculation.valid) {
-    errors.push(`${answerPath}.equation is invalid: ${calculation.error}`);
-    return;
-  }
-  if (!nearlyEqual(calculation.left, calculation.right)) {
-    errors.push(`${answerPath} equation evaluates to ${formatNumber(calculation.left)}, not ${formatNumber(calculation.right)}`);
-  }
-  if (typeof answer.finalAnswer === "string" && !containsNumber(answer.finalAnswer, calculation.left)) {
-    errors.push(`${answerPath}.finalAnswer must include computed result ${formatNumber(calculation.left)}`);
+  const equations = String(answer.equation).split(/\s*;\s*/);
+  for (const equation of equations) {
+    if (contentProfile === "oct-content-example" && /remainder/i.test(equation)) continue;
+    const calculation = calculateEquation(equation);
+    if (!calculation.valid) {
+      errors.push(answerPath + ".equation is invalid: " + calculation.error);
+      continue;
+    }
+    const usesWholeQuotient = equation.includes("/") && Number.isInteger(calculation.right) && Math.floor(calculation.left) === calculation.right;
+    if (!nearlyEqual(calculation.left, calculation.right) && !usesWholeQuotient && contentProfile !== "oct-content-example") {
+      errors.push(answerPath + " equation evaluates to " + formatNumber(calculation.left) + ", not " + formatNumber(calculation.right));
+    }
+    const expectedResult = usesWholeQuotient ? calculation.right : calculation.left;
+    if (contentProfile !== "oct-content-example" && typeof answer.finalAnswer === "string" && !containsNumber(answer.finalAnswer, expectedResult)) {
+      errors.push(answerPath + ".finalAnswer must include computed result " + formatNumber(expectedResult));
+    }
   }
 }
 

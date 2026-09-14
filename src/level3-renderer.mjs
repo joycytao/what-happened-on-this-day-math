@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url";
 export const LEVEL3_TEMPLATE = { version: "1.0.0", filename: "level-3.png", width: 1545, height: 2000 };
 
 const CONTENT = {
-  card: { x: 145, y: 402, width: 1265, height: 340, radius: 16 },
-  prompt: { x: 220, y: 541, maxCharacters: 55, lineHeight: 60, maxLines: 3 },
+  card: { x: 145, y: 402, width: 1265, height: 460, radius: 16 },
+  prompt: { x: 220, y: 541, maxCharacters: 55, lineHeight: 60, maxLines: 5 },
 };
 
 export function renderLevel3(day, options = {}) {

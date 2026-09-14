@@ -15,8 +15,8 @@
   <text x="220" y="416" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">Level</text>
   <circle cx="444" cy="402" r="42" fill="#c7f38b" stroke="#111" stroke-width="3"/>
   <text x="444" y="420" fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="italic">1</text>
-  <text x="220" y="515" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">The BBC begins broadcasting (1922) — A radio plays 3</text>
-<text x="220" y="575" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">hours of music and 2 hours of news.</text>
+  <text x="220" y="515" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">A radio plays 3 hours of music and 2 hours of news. How</text>
+<text x="220" y="575" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">many hours does it play altogether?</text>
   <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
     <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
       <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>

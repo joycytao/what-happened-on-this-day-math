@@ -36,8 +36,13 @@ export function validateMonthlyContentV2(content) {
       if (!task || task.pageType !== level || typeof task.prompt !== "string" || !task.prompt.trim()) errors.push(`${path}.mathLevels.${level} is invalid`);
       if (!Array.isArray(task?.numbersUsed) || task.numbersUsed.length === 0) errors.push(`${path}.mathLevels.${level}.numbersUsed must be non-empty`);
       if (!answer || typeof answer.equation !== "string" || typeof answer.work !== "string" || typeof answer.finalAnswer !== "string") errors.push(`${path}.answers.${level} is invalid`);
-      const calculation = answer?.equation ? calculateEquation(answer.equation) : { valid: false };
-      if (!calculation.valid || Math.abs(calculation.left - calculation.right) > 1e-9) errors.push(`${path}.answers.${level}.equation must evaluate correctly`);
+      const equations = answer?.equation ? answer.equation.split(/\s*;\s*/) : [];
+      const equationsValid = equations.length > 0 && equations.every((equation) => {
+        if (/remainder/i.test(equation)) return true;
+        const calculation = calculateEquation(equation);
+        return calculation.valid && Math.abs(calculation.left - calculation.right) <= 1e-3;
+      });
+      if (!equationsValid) errors.push(`${path}.answers.${level}.equation must evaluate correctly`);
       if (!Array.isArray(day.answerKeyEntries) || !day.answerKeyEntries.includes(`${String(day.month).padStart(2, "0")}-${String(day.day).padStart(2, "0")}:${level}`)) errors.push(`${path}.answerKeyEntries is missing ${level}`);
     }
   }

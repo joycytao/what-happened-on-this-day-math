@@ -6,13 +6,15 @@
     <text x="985" y="205" font-size="50" font-weight="700">Date:</text>
     <line x1="1155" y1="210" x2="1390" y2="210" stroke="#111" stroke-width="5"/>
   </g>
-  <rect x="145" y="402" width="1265" height="340" rx="16" fill="#faf8f8" stroke="#477db7" stroke-width="6"/>
+  <rect x="145" y="402" width="1265" height="460" rx="16" fill="#faf8f8" stroke="#477db7" stroke-width="6"/>
   <rect x="212" y="348" width="315" height="106" fill="#dbe4f4"/>
   <text x="220" y="416" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">Level</text>
   <circle cx="444" cy="402" r="42" fill="#ffd05c" stroke="#111" stroke-width="3"/>
   <text x="444" y="420" fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="italic">3</text>
-  <text x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">Peanuts appears in newspapers (1950) — Peanuts ran from</text>
-<text x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">1950 to 2000.</text>
+  <text x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">The Peanuts comic strip ran from 1950 to 2000. How many</text>
+<text x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">years did it run? If it published an average of 365</text>
+<text x="220" y="661" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">strips each year, about how many strips were published</text>
+<text x="220" y="721" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">in 50 years?</text>
   <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
     <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
       <path d="M100 8 190 62v112l-90 54-90-54V62Z"/><path d="M45 139h110"/><circle cx="153" cy="139" r="4" fill="#f18a5b"/>
