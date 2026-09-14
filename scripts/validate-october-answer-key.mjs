@@ -10,18 +10,18 @@ if (!outputDirectory) {
 }
 
 const manifest = JSON.parse(await readFile(join(outputDirectory, "manifest.json"), "utf8"));
-const expectedLevels = ["level1", "level1", "level2", "level2", "level3", "level3"];
+const expectedLevels = ["level1", "level2", "level3"];
 const errors = [];
 const entryIds = [];
 
 if (manifest.month !== 10) errors.push(`manifest month must be 10; found ${manifest.month}`);
-if (manifest.pageCount !== 6 || manifest.expectedPageCount !== 6) errors.push("manifest must declare six pages");
-if (manifest.pages.length !== 6) errors.push(`manifest page list must contain six pages; found ${manifest.pages.length}`);
+if (manifest.pageCount !== 3 || manifest.expectedPageCount !== 3) errors.push("manifest must declare three pages");
+if (manifest.pages.length !== 3) errors.push(`manifest page list must contain three pages; found ${manifest.pages.length}`);
 if (manifest.pageDimensions?.width !== 1545 || manifest.pageDimensions?.height !== 1999) errors.push("manifest page dimensions must be 1545x1999");
 
 for (let index = 0; index < manifest.pages.length; index += 1) {
   const page = manifest.pages[index];
-  const expectedPage = (index % 2) + 1;
+  const expectedPage = 1;
   const filename = `answer-key-${String(index + 1).padStart(2, "0")}.svg`;
   if (page.pageNumber !== index + 1 || page.level !== expectedLevels[index] || page.page !== expectedPage) {
     errors.push(`page ${index + 1} has unexpected identity: ${page.level} page ${page.page}`);
@@ -55,4 +55,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(JSON.stringify({ valid: true, month: 10, pageCount: 6, pageDimensions: { width: 1545, height: 1999 }, order: "level1 pages, level2 pages, level3 pages" }, null, 2));
+console.log(JSON.stringify({ valid: true, month: 10, pageCount: 3, pageDimensions: { width: 1545, height: 1999 }, order: "level1 page, level2 page, level3 page" }, null, 2));

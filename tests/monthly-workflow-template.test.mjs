@@ -19,7 +19,7 @@ test('monthly workflow template keeps the reusable sequence and required gates',
   ]) {
     assert.match(template, new RegExp(heading));
   }
-  for (const required of ['month/day', 'eventYear', 'Source_IDs', 'Independently recompute', '130 pages']) {
+  for (const required of ['month/day', 'eventYear', 'Source_IDs', 'Independently recompute', '127 pages']) {
     assert.match(template, new RegExp(required));
   }
   assert.match(template, /Fixes #\{\{PARENT_ISSUE\}\}/);

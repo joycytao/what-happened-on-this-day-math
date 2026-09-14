@@ -28,13 +28,12 @@ const content = {
   sources: [{ id: "nasa", title: "NASA", publisher: "NASA", url: "https://www.nasa.gov/", accessedDate: "2026-08-28" }],
 };
 
-test("renderAnswerKeyPages emits six level-ordered template pages", () => {
+test("renderAnswerKeyPages emits three level-ordered template pages", () => {
   const pages = renderAnswerKeyPages(content);
-  assert.equal(pages.length, 6);
+  assert.equal(pages.length, 3);
   assert.match(pages[0], /data-level="level1" data-page="1"/);
-  assert.match(pages[1], /data-level="level1" data-page="2"/);
-  assert.match(pages[2], /data-level="level2" data-page="1"/);
-  assert.match(pages[4], /data-level="level3" data-page="1"/);
+  assert.match(pages[1], /data-level="level2" data-page="1"/);
+  assert.match(pages[2], /data-level="level3" data-page="1"/);
   assert.match(pages[0], /Answer Keys \(Level 1\)/);
   assert.match(pages[0], /Q1: 22 seconds of fuel would be left\./);
   assert.doesNotMatch(pages[0], /Equation:|Work:|Answer:/);
@@ -56,13 +55,13 @@ test("renderAnswerKeyPages rejects answer text that cannot fit a grid cell", () 
   assert.throws(() => renderAnswerKeyPages(oversized), /answer exceeds the template box capacity/);
 });
 
-test("renderOctoberAnswerKeyPages emits six month/day pages in level order", async () => {
+test("renderOctoberAnswerKeyPages emits three month/day pages in level order", async () => {
   const october = JSON.parse(await readFile(new URL("../content/monthly/month-10.json", import.meta.url), "utf8"));
   const pages = renderOctoberAnswerKeyPages(october);
 
-  assert.equal(pages.length, 6);
+  assert.equal(pages.length, 3);
   assert.deepEqual(pages.map((page) => [page.level, page.page]), [
-    ["level1", 1], ["level1", 2], ["level2", 1], ["level2", 2], ["level3", 1], ["level3", 2],
+    ["level1", 1], ["level2", 1], ["level3", 1],
   ]);
   assert.ok(pages.every((page) => page.width === 1545 && page.height === 1999));
   assert.equal(pages.flatMap((page) => page.entryIds).length, 93);

@@ -14,7 +14,7 @@ labels: "type: feature, status: pending review"
 - Parent Issue: `#{{PARENT_ISSUE}}`
 - Research artifact: `research/{{MONTH_NAME_LOWER}}-events.json`
 - Expected calendar days: `{{DAY_COUNT}}`
-- Expected packet pages: `{{EXPECTED_PAGE_COUNT}}` (`31`-day example: `130 pages`)
+- Expected packet pages: `{{EXPECTED_PAGE_COUNT}}` (`31`-day example: `127 pages`)
 - Public command: `node scripts/generate-monthly.mjs --month {{MONTH_NUMBER}}`
 
 ## Child Issue sequence
@@ -48,12 +48,12 @@ status, branch, PR, verification command, and blocker (or `none`).
 
 ### 5. Render Answer Key pages
 
-- [ ] Render Level 1, Level 2, and Level 3 answer keys, two pages per level.
+- [ ] Render one Answer Key page for each of Level 1, Level 2, and Level 3.
 - [ ] Check answer-key order, dimensions, margins, clipping, overflow, and legibility.
 
 ### 6. Assemble and QA the monthly PDF
 
-- [ ] Assemble all daily pages followed by the six Answer Key pages.
+- [ ] Assemble all daily pages followed by the three Answer Key pages.
 - [ ] Independently derive the calendar day count and verify the expected page count.
 - [ ] Verify page order and that the packet has `{{EXPECTED_PAGE_COUNT}}` pages.
 - [ ] Keep content, mathematics, and layout validation results separate.

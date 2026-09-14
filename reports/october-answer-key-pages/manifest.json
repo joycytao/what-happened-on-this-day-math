@@ -1,7 +1,7 @@
 {
   "month": 10,
-  "pageCount": 6,
-  "expectedPageCount": 6,
+  "pageCount": 3,
+  "expectedPageCount": 3,
   "pageDimensions": {
     "width": 1545,
     "height": 1999
@@ -55,15 +55,6 @@
     {
       "pageNumber": 2,
       "month": 10,
-      "level": "level1",
-      "page": 2,
-      "width": 1545,
-      "height": 1999,
-      "entryIds": []
-    },
-    {
-      "pageNumber": 3,
-      "month": 10,
       "level": "level2",
       "page": 1,
       "width": 1545,
@@ -103,16 +94,7 @@
       ]
     },
     {
-      "pageNumber": 4,
-      "month": 10,
-      "level": "level2",
-      "page": 2,
-      "width": 1545,
-      "height": 1999,
-      "entryIds": []
-    },
-    {
-      "pageNumber": 5,
+      "pageNumber": 3,
       "month": 10,
       "level": "level3",
       "page": 1,
@@ -151,15 +133,6 @@
         "10-30:level3",
         "10-31:level3"
       ]
-    },
-    {
-      "pageNumber": 6,
-      "month": 10,
-      "level": "level3",
-      "page": 2,
-      "width": 1545,
-      "height": 1999,
-      "entryIds": []
     }
   ]
 }

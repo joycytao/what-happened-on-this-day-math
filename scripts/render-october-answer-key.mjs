@@ -23,10 +23,10 @@ for (const page of pages) {
 const manifest = {
   month: content.month,
   pageCount: pages.length,
-  expectedPageCount: 6,
+  expectedPageCount: 3,
   pageDimensions: dimensions,
   template: { filename: template.filename, version: template.version },
   pages: pages.map(({ svg, ...page }) => page),
 };
 await writeFile(join(outputDirectory, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
-console.log(JSON.stringify({ outputDirectory, pageCount: pages.length, expectedPageCount: 6 }, null, 2));
+console.log(JSON.stringify({ outputDirectory, pageCount: pages.length, expectedPageCount: 3 }, null, 2));

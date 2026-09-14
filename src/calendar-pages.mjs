@@ -1,5 +1,5 @@
 const DAILY_PAGES_PER_DAY = 4;
-const ANSWER_KEY_PAGES = 6;
+const ANSWER_KEY_PAGES = 3;
 
 export function generateMonthDates(year, month) {
   validateYear(year);

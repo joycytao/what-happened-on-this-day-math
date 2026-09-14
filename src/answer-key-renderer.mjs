@@ -10,7 +10,7 @@ export const ANSWER_KEY_TEMPLATE = {
   filename: "template-05.png",
   width: 1545,
   height: 1999,
-  pages: 6,
+  pages: 3,
   slotsPerPage: 32,
 };
 
@@ -27,8 +27,8 @@ export function renderAnswerKeyPages(content, options = {}) {
 
   return LEVELS.flatMap((level) => {
     const entries = content.answerKey[level];
-    if (entries.length > 64) throw new Error(`${level} has too many entries for the Answer Key layout`);
-    return [0, 1].map((pageIndex) => renderAnswerKeyPage(level, entries.slice(pageIndex * 32, (pageIndex + 1) * 32), pageIndex));
+    if (entries.length > 32) throw new Error(`${level} has too many entries for the Answer Key layout`);
+    return [0].map((pageIndex) => renderAnswerKeyPage(level, entries.slice(0, 32), pageIndex));
   });
 }
 
@@ -45,8 +45,8 @@ export function renderOctoberAnswerKeyPages(content, options = {}) {
   }
 
   return rendered.map((svg, index) => {
-    const level = LEVELS[Math.floor(index / 2)];
-    const page = (index % 2) + 1;
+    const level = LEVELS[index];
+    const page = 1;
     const entries = content.answerKey[level].slice((page - 1) * ANSWER_KEY_TEMPLATE.slotsPerPage, page * ANSWER_KEY_TEMPLATE.slotsPerPage);
     return {
       pageNumber: index + 1,

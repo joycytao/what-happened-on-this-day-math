@@ -29,7 +29,7 @@ report the problem before generating final content.
 ## Monthly production model
 
 The packet has one four-page module for every calendar day in the requested
-month, followed by a six-page answer key.
+month, followed by a three-page answer key.
 
 Each daily module is always ordered as follows:
 
@@ -38,16 +38,16 @@ Each daily module is always ordered as follows:
 3. Level 2 Math Task
 4. Level 3 Math Task
 
-The answer key is always the final six pages:
+The answer key is always the final three pages:
 
-- Level 1 Answer Key: 2 pages
-- Level 2 Answer Key: 2 pages
-- Level 3 Answer Key: 2 pages
+- Level 1 Answer Key: 1 page
+- Level 2 Answer Key: 1 page
+- Level 3 Answer Key: 1 page
 
 The expected total page count is:
 
-- 30-day month: `30 × 4 + 6 = 126 pages`
-- 31-day month: `31 × 4 + 6 = 130 pages`
+- 30-day month: `30 × 4 + 3 = 123 pages`
+- 31-day month: `31 × 4 + 3 = 127 pages`
 
 Always determine the actual number of days from the requested month. Do not
 use 30 or 31 by assumption, and do not count February incorrectly.
@@ -168,8 +168,8 @@ Before delivering a monthly packet, verify all of the following:
 
 - The requested month has the correct number of calendar days.
 - There are exactly four pages/modules per day in the required order.
-- There are exactly six answer-key pages at the end.
-- The computed total is 126 pages for a 30-day month or 130 pages for a
+- There are exactly three answer-key pages at the end.
+- The computed total is 123 pages for a 30-day month or 127 pages for a
   31-day month.
 - Every date appears exactly once and is in calendar order.
 - Every entry uses one preferred theme and avoids unsuitable subject matter.
@@ -259,8 +259,8 @@ report the ambiguity before producing a large monthly packet.
 
 Template-based output must be visually checked after rendering. Verify page
 dimensions, orientation, margins, resolution, text overflow, clipping,
-overlaps, legibility, image quality, page order, and the required 126-page or
-130-page total. A content validation pass alone is not sufficient for claiming
+overlaps, legibility, image quality, page order, and the required 123-page or
+127-page total. A content validation pass alone is not sufficient for claiming
 that a worksheet template was reused successfully.
 
 When generating a monthly packet, begin by stating the target month, number of
@@ -321,8 +321,8 @@ The order means:
   passage, question, and answer records.
 - #34 depends on #33 and independently validates the October content and math.
 - #35 and #36 depend on #34 and may run in parallel: #35 renders the 124 daily
-  pages, while #36 renders the six Answer Key pages.
-- #37 depends on #35 and #36 and assembles/QA-checks the 130-page October PDF.
+  pages, while #36 renders the three Answer Key pages.
+- #37 depends on #35 and #36 and assembles/QA-checks the 127-page October PDF.
 - #9 coordinates the completed subtasks and remains blocked until #37 is done;
   its public entrypoint is the month-only CLI `node scripts/generate-monthly.mjs
   --month 10`.
