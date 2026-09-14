@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { estimateMarkupWidth, wrapTextToWidth } from "./text-layout.mjs";
 
 export const READING_PASSAGE_TEMPLATE = {
   version: "1.0.0",
@@ -15,6 +16,7 @@ const CONTENT = {
   articleWidth: 1235,
   articleOffset: 60,
   articleMaxCharacters: 72,
+  articleMaxWidth: 1200,
   lineHeight: 42,
   fontSize: 34,
   bodyFontSize: 34,
@@ -32,9 +34,10 @@ export function renderReadingPassage(day, options = {}) {
   const date = new Date(`${day.date}T00:00:00Z`);
   const month = date.toLocaleString("en-US", { month: "short", timeZone: "UTC" }).toUpperCase();
   const dayNumber = date.getUTCDate();
-  const titleLines = wrapText(day.title, CONTENT.articleMaxCharacters);
-  const hookLines = wrapText(day.hook, CONTENT.articleMaxCharacters);
-  const passageLines = wrapMarkdownText(day.readingPassage, CONTENT.articleMaxCharacters);
+  const wrapOptions = { maxWidth: CONTENT.articleMaxWidth, fontSize: CONTENT.bodyFontSize, maxLines: Number.MAX_SAFE_INTEGER };
+  const titleLines = wrapTextToWidth(day.title, { ...wrapOptions, fontSize: 42 });
+  const hookLines = wrapTextToWidth(day.hook, { ...wrapOptions, fontSize: CONTENT.fontSize });
+  const passageLines = wrapMarkdownTextToWidth(day.readingPassage, wrapOptions);
   const totalLines = titleLines.length + hookLines.length + passageLines.length;
   if (totalLines > CONTENT.maxLines) {
     throw new Error(`readingPassage content exceeds the template text area; ${totalLines} lines would be required (maximum ${CONTENT.maxLines})`);
@@ -107,42 +110,8 @@ function validateReadingPassage(day) {
   if (!day.readingPassage.trim().split(/\n\s*\n/)[0].includes("?")) throw new Error("readingPassage first paragraph must contain a child-friendly question");
 }
 
-function wrapText(text, maxCharacters) {
-  const words = text.replace(/\s+/g, " ").trim().split(" ");
-  const lines = [];
-  let line = "";
-  for (const word of words) {
-    if (line && line.length + word.length + 1 > maxCharacters) {
-      lines.push(line);
-      line = word;
-    } else {
-      line = line ? `${line} ${word}` : word;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
-
-function wrapMarkdownText(text, maxCharacters) {
-  const tokens = text.replace(/\s+/g, " ").trim().match(/\*\*[^*]+\*\*|\S+/g) || [];
-  const lines = [];
-  let line = "";
-  for (const token of tokens) {
-    const visibleToken = token.replace(/\*\*/g, "");
-    const visibleLine = line.replace(/\*\*/g, "");
-    if (line && visibleLine.length + visibleToken.length + 1 > maxCharacters) {
-      lines.push(line);
-      line = token;
-    } else {
-      line = line ? `${line} ${token}` : token;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
-
 function textBlock(lines, y, lineHeight, { size = CONTENT.fontSize, weight = 400 } = {}) {
-  return lines.map((line, index) => `<text x="${CONTENT.left}" y="${y + index * lineHeight}" font-size="${size}" font-weight="${weight}">${escapeXml(line)}</text>`).join("\n");
+  return lines.map((line, index) => `<text data-content="article" x="${CONTENT.left}" y="${y + index * lineHeight}" font-size="${size}" font-weight="${weight}">${escapeXml(line)}</text>`).join("\n");
 }
 
 function markdownTextBlock(lines, y, lineHeight) {
@@ -152,6 +121,23 @@ function markdownTextBlock(lines, y, lineHeight) {
       : escapeXml(part));
     return `<text data-content="body" x="${CONTENT.left}" y="${y + index * lineHeight}" font-size="${CONTENT.bodyFontSize}">${parts.join("")}</text>`;
   }).join("\n");
+}
+
+function wrapMarkdownTextToWidth(text, { maxWidth }) {
+  const tokens = text.replace(/\s+/g, " ").trim().match(/\*\*[^*]+\*\*|\S+/g) || [];
+  const lines = [];
+  let line = "";
+  for (const token of tokens) {
+    const candidate = line ? line + " " + token : token;
+    if (line && estimateMarkupWidth(candidate, CONTENT.bodyFontSize) > maxWidth) {
+      lines.push(line);
+      line = token;
+    } else {
+      line = candidate;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
 }
 
 function escapeXml(value) {

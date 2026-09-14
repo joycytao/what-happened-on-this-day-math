@@ -2,6 +2,7 @@
 
 import { access, readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { validateSvgTextGeometry } from "../src/svg-layout-validation.mjs";
 
 const [outputDirectory] = process.argv.slice(2);
 if (!outputDirectory) {
@@ -37,10 +38,7 @@ for (let index = 0; index < manifest.pages.length; index += 1) {
   if (!svg.includes('width="1545"') || !svg.includes('height="2000"')) errors.push(`${page.date} ${page.pageType} SVG dimensions are wrong`);
   if (!svg.includes(`data-template-variant="${page.pageType}"`)) errors.push(`${page.date} ${page.pageType} template variant is wrong`);
   if (svg.includes("2000-10-")) errors.push(`${page.date} ${page.pageType} exposes the synthetic renderer year`);
-  for (const match of svg.matchAll(/<text\b[^>]*\by="([0-9.]+)"/g)) {
-    const baseline = Number(match[1]);
-    if (baseline < 0 || baseline > 2000) errors.push(`${page.date} ${page.pageType} has text baseline outside the page: ${baseline}`);
-  }
+  errors.push(...validateSvgTextGeometry(svg, page));
 }
 
 if (errors.length > 0) {

@@ -11,10 +11,10 @@
   <text x="220" y="416" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">Level</text>
   <circle cx="444" cy="402" r="42" fill="#ffd05c" stroke="#111" stroke-width="3"/>
   <text x="444" y="420" fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="52" font-style="italic">3</text>
-  <text x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">A modern energy-saving bulb lasts 15,000 hours. If it</text>
-<text x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">is lit for 10 hours each day, about how many days does</text>
-<text x="220" y="661" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">it last? About how many years is that, using 365 days</text>
-<text x="220" y="721" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">per year?</text>
+  <text data-content="prompt" x="220" y="541" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">A modern energy-saving bulb lasts 15,000 hours. If</text>
+<text data-content="prompt" x="220" y="601" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">it is lit for 10 hours each day, about how many days</text>
+<text data-content="prompt" x="220" y="661" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">does it last? About how many years is that, using</text>
+<text data-content="prompt" x="220" y="721" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">365 days per year?</text>
   <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
     <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
       <path d="M100 8 190 62v112l-90 54-90-54V62Z"/><path d="M45 139h110"/><circle cx="153" cy="139" r="4" fill="#f18a5b"/>
