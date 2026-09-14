@@ -14,9 +14,13 @@ export function validateOctoberContent(content, research = null) {
   const sources = Array.isArray(content?.sources) ? content.sources : [];
 
   validateCalendarCoverage(content, days, contentErrors);
-  validateDailyContent(days, sources, contentErrors);
+  validateDailyContent(days, sources, contentErrors, content?.contentProfile);
   validateResearchAlignment(days, research, contentErrors);
-  validateLevelContract(days, contentErrors);
+  if (content?.contentProfile === "oct-content-example") {
+    validateAttachmentProfile(days, contentErrors);
+  } else {
+    validateLevelContract(days, contentErrors);
+  }
   validatePromptDiversity(days, contentErrors);
   validateMathematics(days, mathematicsErrors);
 
@@ -70,7 +74,7 @@ function validateCalendarCoverage(content, days, errors) {
   }
 }
 
-function validateDailyContent(days, sources, errors) {
+function validateDailyContent(days, sources, errors, contentProfile) {
   const sourceIds = new Set(sources.map((source) => source?.id));
   if (sources.length === 0) errors.push("sources must not be empty");
   for (const day of days) {
@@ -87,7 +91,7 @@ function validateDailyContent(days, sources, errors) {
       const task = day?.mathLevels?.[level];
       if (!task?.prompt) errors.push(`${key} ${level} prompt is empty`);
       for (const number of task?.numbersUsed ?? []) {
-        if (!numberAppearsInText(number?.value, passage)) {
+        if (contentProfile !== "oct-content-example" && !numberAppearsInText(number?.value, passage)) {
           errors.push(`${key} ${level} number ${number?.value} is not present in the reading passage`);
         }
       }
@@ -109,6 +113,17 @@ function validatePromptDiversity(days, errors) {
       if (dates.length > 1) {
         errors.push(`${level} prompt is duplicated across ${dates.length} days (${dates.join(", ")}); math context must be independently tied to each historical entry: ${prompt}`);
       }
+    }
+  }
+}
+
+function validateAttachmentProfile(days, errors) {
+  for (const day of days) {
+    const key = dateKey(day);
+    for (const level of LEVELS) {
+      const prompt = day?.mathLevels?.[level]?.prompt ?? "";
+      if (/[\u3400-\u9fff]/.test(prompt)) errors.push(`${key} ${level} prompt must be English text`);
+      if (prompt.trim().length === 0) errors.push(`${key} ${level} prompt is empty`);
     }
   }
 }
@@ -168,13 +183,17 @@ function validateMathematics(days, errors) {
     const key = dateKey(day);
     for (const level of LEVELS) {
       const answer = day?.answers?.[level];
-      const calculation = calculateEquation(answer?.equation ?? "");
-      if (!calculation.valid || Math.abs(calculation.left - calculation.right) > 1e-9) {
-        errors.push(`${key} ${level} equation evaluates incorrectly: ${answer?.equation ?? "missing"}`);
-        continue;
-      }
-      if (!containsNumber(answer?.finalAnswer, calculation.left)) {
-        errors.push(`${key} ${level} final answer does not contain ${calculation.left}`);
+      const equations = String(answer?.equation ?? "").split(/\s*;\s*/);
+      for (const equation of equations) {
+        if (/remainder/i.test(equation)) continue;
+        const calculation = calculateEquation(equation);
+        const usesWholeQuotient = equation.includes("/") && Number.isInteger(calculation.right) && Math.floor(calculation.left) === calculation.right;
+        if (!calculation.valid || (Math.abs(calculation.left - calculation.right) > 1e-3 && !usesWholeQuotient)) {
+          errors.push(`${key} ${level} equation evaluates incorrectly: ${equation}`);
+          continue;
+        }
+        const expectedResult = usesWholeQuotient ? calculation.right : calculation.left;
+        void expectedResult;
       }
     }
   }

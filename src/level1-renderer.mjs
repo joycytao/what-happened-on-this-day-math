@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { wrapTextToWidth } from "./text-layout.mjs";
 
 export const LEVEL1_TEMPLATE = {
   version: "1.0.0",
@@ -11,7 +12,7 @@ export const LEVEL1_TEMPLATE = {
 
 const CONTENT = {
   card: { x: 145, y: 402, width: 1265, height: 280, radius: 16 },
-  prompt: { x: 220, y: 515, maxCharacters: 55, lineHeight: 60, maxLines: 3 },
+  prompt: { x: 220, y: 515, maxWidth: 1140, lineHeight: 60, maxLines: 3 },
 };
 
 export function renderLevel1(day, options = {}) {
@@ -24,12 +25,26 @@ export function renderLevel1(day, options = {}) {
   const date = new Date(`${day.date}T00:00:00Z`);
   const month = date.toLocaleString("en-US", { month: "short", timeZone: "UTC" }).toUpperCase();
   const dayNumber = date.getUTCDate();
-  const promptLines = wrapText(day.mathLevels.level1.prompt, CONTENT.prompt.maxCharacters);
-  if (promptLines.length > CONTENT.prompt.maxLines) {
-    throw new Error(`level1 prompt exceeds the template text area; ${promptLines.length} lines would be required (maximum ${CONTENT.prompt.maxLines})`);
+  let promptLines;
+  let promptFontSize;
+  let lastLayoutError;
+  for (const fontSize of [46, 44, 42]) {
+    try {
+      promptLines = wrapTextToWidth(day.mathLevels.level1.prompt, {
+        maxWidth: CONTENT.prompt.maxWidth,
+        fontSize,
+        maxLines: CONTENT.prompt.maxLines,
+        label: "level1 prompt",
+      });
+      promptFontSize = fontSize;
+      break;
+    } catch (error) {
+      lastLayoutError = error;
+    }
   }
+  if (!promptLines) throw lastLayoutError;
 
-  const prompt = promptLines.map((line, index) => `<text x="${CONTENT.prompt.x}" y="${CONTENT.prompt.y + index * CONTENT.prompt.lineHeight}" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="46">${escapeXml(line)}</text>`).join("\n");
+  const prompt = promptLines.map((line, index) => `<text data-content="prompt" x="${CONTENT.prompt.x}" y="${CONTENT.prompt.y + index * CONTENT.prompt.lineHeight}" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="${promptFontSize}">${escapeXml(line)}</text>`).join("\n");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="level1" data-template-version="1.0.0" data-date="${day.date}">
   <rect width="1545" height="2000" fill="#faf8f8"/>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
@@ -77,22 +92,6 @@ function validateLevel1Day(day) {
   if (!level || typeof level !== "object") throw new Error("mathLevels.level1 is required");
   if (level.pageType !== "level1") throw new Error("mathLevels.level1.pageType must be level1");
   if (typeof level.prompt !== "string" || level.prompt.trim() === "") throw new Error("mathLevels.level1.prompt is required");
-}
-
-function wrapText(text, maxCharacters) {
-  const words = text.replace(/\s+/g, " ").trim().split(" ");
-  const lines = [];
-  let line = "";
-  for (const word of words) {
-    if (line && line.length + word.length + 1 > maxCharacters) {
-      lines.push(line);
-      line = word;
-    } else {
-      line = line ? `${line} ${word}` : word;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
 }
 
 function escapeXml(value) {
