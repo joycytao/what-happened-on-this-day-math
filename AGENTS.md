@@ -288,6 +288,7 @@ The current default dependency order is:
   → #32
   → #33
   → #34
+  → #50 (parallel reusable prompt work; does not block October rendering)
   → #35 + #36
   → #37
   → #9
@@ -320,6 +321,7 @@ The order means:
 - #33 depends on #32 and normalizes the research into October month/day source,
   passage, question, and answer records.
 - #34 depends on #33 and independently validates the October content and math.
+- #50 is independent of the October rendering chain once the content examples and schema are available; it defines the reusable prompt and validator contract for future months and does not block #35 or #36.
 - #35 and #36 depend on #34 and may run in parallel: #35 renders the 124 daily
   pages, while #36 renders the six Answer Key pages.
 - #37 depends on #35 and #36 and assembles/QA-checks the 130-page October PDF.
