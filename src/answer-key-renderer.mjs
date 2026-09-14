@@ -107,7 +107,14 @@ function normalizeMonthlyContentV2(content) {
     date: dateFor(entry.date),
     entryId: `${dateFor(entry.date)}:${level}`,
   }))]));
-  return { schemaVersion: "1.0.0", month: "2000-10", days, answerKey, sources: content.sources };
+  return {
+    schemaVersion: "1.0.0",
+    contentProfile: content.contentProfile,
+    month: "2000-10",
+    days,
+    answerKey,
+    sources: content.sources,
+  };
 }
 
 function formatOctoberRenderError(error) {
