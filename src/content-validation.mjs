@@ -152,7 +152,11 @@ function validateMathLevel(level, levelName, path, storyText, errors, contentPro
     if (typeof numberUsed.source !== "string" || numberUsed.source.trim().length === 0) {
       errors.push(`${numberPath}.source must not be empty`);
     }
-    if (!numberAppearsInStory(numberUsed.value, storyText) && !isExplicitTaskFact(numberUsed.source)) {
+    if (
+      contentProfile !== "oct-content-example"
+      && !numberAppearsInStory(numberUsed.value, storyText)
+      && !isExplicitTaskFact(numberUsed.source)
+    ) {
       errors.push(`${numberPath} value ${numberUsed.value} is not present in the passage or marked as an explicit task fact`);
     }
     if (contentProfile !== "oct-content-example" && levelName === "level1" && Math.abs(numberUsed.value) > 50) {

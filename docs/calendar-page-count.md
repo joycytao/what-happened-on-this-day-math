@@ -25,15 +25,15 @@ January is `1` and December is `12`.
   "month": 8,
   "dayCount": 31,
   "dailyPagesPerDay": 4,
-  "answerKeyPages": 6,
-  "totalPages": 130
+  "answerKeyPages": 3,
+  "totalPages": 127
 }
 ```
 
 The formula follows `AGENTS.md`: four worksheet pages per calendar day plus
-six answer-key pages. A 30-day month has `126` pages, a 31-day month has
-`130` pages, leap-year February has `122` pages, and non-leap February has
-`118` pages.
+three answer-key pages. A 30-day month has `123` pages, a 31-day month has
+`127` pages, leap-year February has `119` pages, and non-leap February has
+`115` pages.
 
 Invalid inputs fail before calculation:
 

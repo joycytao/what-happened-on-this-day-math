@@ -28,14 +28,14 @@ describe("generateMonthDates", () => {
 });
 
 describe("calculateMonthlyPageCount", () => {
-  it("uses four daily pages plus six answer-key pages", () => {
+  it("uses four daily pages plus three answer-key pages", () => {
     assert.deepEqual(calculateMonthlyPageCount(2026, 4), {
       year: 2026,
       month: 4,
       dayCount: 30,
       dailyPagesPerDay: 4,
-      answerKeyPages: 6,
-      totalPages: 126,
+      answerKeyPages: 3,
+      totalPages: 123,
     });
 
     assert.deepEqual(calculateMonthlyPageCount(2026, 8), {
@@ -43,8 +43,8 @@ describe("calculateMonthlyPageCount", () => {
       month: 8,
       dayCount: 31,
       dailyPagesPerDay: 4,
-      answerKeyPages: 6,
-      totalPages: 130,
+      answerKeyPages: 3,
+      totalPages: 127,
     });
   });
 });
