@@ -168,6 +168,40 @@ const HISTORY_CONTEXTS = [
   "Autumn traditions developed in different communities, where families adapted older customs into the foods, stories, and activities they know today.",
 ];
 
+const HISTORY_HOOKS = [
+  "A first customer helped move the Model T from a factory idea into family life.",
+  "A few newspaper panels gave Peanuts room to make ordinary school days funny.",
+  "A tiny transistor helped engineers imagine smaller electronic devices.",
+  "A few beeps from Sputnik showed that a human-made object was circling Earth.",
+  "Teachers help turn difficult ideas into skills children can use.",
+  "A bright windmill helped visitors find a famous Paris theater.",
+  "A striped pattern gave checkout machines information to read.",
+  "An octopus solves problems with a body very different from ours.",
+  "Shared postal rules helped messages cross borders.",
+  "A short conversation can be an important first step toward mental-health support.",
+  "Fair opportunities can help more girls learn, choose, and create.",
+  "A crowded spacecraft made teamwork part of the mission.",
+  "A plan made before danger can help a community respond.",
+  "One difficult flight gave engineers new information about speed.",
+  "Soap, water, and a small routine can protect a classroom.",
+  "A written agreement helped two brothers begin an animation studio.",
+  "Communities can make help easier to reach when they listen and organize.",
+  "Radio brought the same voices and music into separate homes.",
+  "Repairing an object can save materials and teach a useful skill.",
+  "Careful counting helps people understand what numbers really show.",
+  "A lamp became useful when its light could last.",
+  "A parachute turned a dangerous fall into a slower descent.",
+  "A football career grows from skill, practice, teamwork, and choices.",
+  "A dangerous Niagara attempt became a story about testing a protective design.",
+  "Changing shapes and viewpoints helped Picasso explore new kinds of art.",
+  "A canal gave boats a new route through a difficult landscape.",
+  "A subway moved many passengers below a crowded city.",
+  "A torch above the harbor became a welcome for arriving travelers.",
+  "A tiny network message marked the beginning of a much larger system.",
+  "A fictional radio emergency showed why listeners should check the facts.",
+  "Autumn traditions carry different meanings in different families.",
+];
+
 export const READING_PASSAGE_REQUIREMENTS = Object.freeze({ minWords: 150, maxWords: 250, maxSentenceWords: 35 });
 
 const words = (value) => value.trim().split(/\s+/).filter(Boolean);
@@ -176,6 +210,7 @@ const sentences = (value) => value.match(/[^.!?]+[.!?]+/g) ?? [];
 export function buildOctoberReadingPassages(days = 31) {
   return PLAN.slice(0, days).map(([opening, detail, fact, bridge], index) => ({
     day: index + 1,
+    hook: HISTORY_HOOKS[index],
     readingPassage: `${opening} ${detail} ${HISTORY_CONTEXTS[index]} ${fact} ${HISTORY_ENDINGS[index]} ${HISTORY_CLOSINGS[index]} ${HISTORY_EXTENSIONS[index]}`,
   }));
 }

@@ -6,6 +6,8 @@ import { buildOctoberReadingPassages, validateReadingPassage } from "../src/read
 test("October passage generator returns 31 readable, event-grounded passages", () => {
   const days = buildOctoberReadingPassages();
   assert.equal(days.length, 31);
+  assert.equal(new Set(days.map(({ hook }) => hook)).size, 31);
+  assert.ok(days.every(({ hook }) => !hook.includes("What clue would you check first")));
   for (const passage of days) {
     const report = validateReadingPassage(passage);
     assert.equal(report.valid, true, `${passage.day}: ${report.errors.join("; ")}`);

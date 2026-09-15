@@ -9,6 +9,7 @@ const reports = [];
 
 for (const generated of passages) {
   const day = content.days.find((entry) => entry.day === generated.day);
+  day.hook = generated.hook;
   day.readingPassage = generated.readingPassage;
   reports.push(validateReadingPassage({ ...day, readingPassage: generated.readingPassage }));
 }

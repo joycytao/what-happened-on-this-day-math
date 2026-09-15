@@ -16,7 +16,7 @@
   </g>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
     <g data-content="article" data-x="155" data-width="1235" data-max-characters="72">
-      <text data-content="article" x="155" y="670" font-size="34" font-weight="700">The first ARPANET message begins with “LO”</text><text data-content="article" x="155" y="744" font-size="34" font-weight="600">What clue would you check first on October 29?</text><text data-content="body" x="155" y="864" font-size="34">What is the shortest message you could send to show that a connection</text>
+      <text data-content="article" x="155" y="670" font-size="34" font-weight="700">The first ARPANET message begins with “LO”</text><text data-content="article" x="155" y="744" font-size="34" font-weight="600">A tiny network message marked the beginning of a much larger system.</text><text data-content="body" x="155" y="864" font-size="34">What is the shortest message you could send to show that a connection</text>
 <text data-content="body" x="155" y="906" font-size="34">works? On October 29, 1969, a UCLA team began sending a message</text>
 <text data-content="body" x="155" y="948" font-size="34">toward the Stanford Research Institute through ARPANET. The system</text>
 <text data-content="body" x="155" y="990" font-size="34">stopped after the letters LO. Engineers connected two computers in</text>
