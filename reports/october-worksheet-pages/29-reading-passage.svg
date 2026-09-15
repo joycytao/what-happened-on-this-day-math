@@ -19,17 +19,18 @@
       <text data-content="article" x="155" y="670" font-size="34" font-weight="700">The first ARPANET message begins with “LO”</text><text data-content="article" x="155" y="744" font-size="34" font-weight="600">What clue would you check first on October 29?</text><text data-content="body" x="155" y="864" font-size="34">What is the shortest message you could send to show that a connection</text>
 <text data-content="body" x="155" y="906" font-size="34">works? On October 29, 1969, a UCLA team began sending a message</text>
 <text data-content="body" x="155" y="948" font-size="34">toward the Stanford Research Institute through ARPANET. The system</text>
-<text data-content="body" x="155" y="990" font-size="34">stopped after the letters LO. The unfinished message was still useful</text>
-<text data-content="body" x="155" y="1032" font-size="34">because it showed that the connection had started. Later networks grew</text>
-<text data-content="body" x="155" y="1074" font-size="34">from many tests, repairs, and careful improvements. The system stopping</text>
-<text data-content="body" x="155" y="1116" font-size="34">after LO was not the end of the project. It showed that the first connection</text>
-<text data-content="body" x="155" y="1158" font-size="34">had begun, and engineers could study what went wrong before trying</text>
-<text data-content="body" x="155" y="1200" font-size="34">again. Early networks grew through tests, mistakes, and careful repairs.</text>
-<text data-content="body" x="155" y="1242" font-size="34">The letters LO marked a beginning even though the message stopped</text>
-<text data-content="body" x="155" y="1284" font-size="34">early. Engineers could use the failed attempt to repair the system and try</text>
-<text data-content="body" x="155" y="1326" font-size="34">again. The first network message was tiny, but later connections</text>
-<text data-content="body" x="155" y="1368" font-size="34">depended on beginnings like this one. A short test can lead to a much</text>
-<text data-content="body" x="155" y="1410" font-size="34">larger system.</text>
+<text data-content="body" x="155" y="990" font-size="34">stopped after the letters LO. Engineers connected two computers in</text>
+<text data-content="body" x="155" y="1032" font-size="34">California and sent the first letters across the new network before the</text>
+<text data-content="body" x="155" y="1074" font-size="34">system stopped. The unfinished message was still useful because it</text>
+<text data-content="body" x="155" y="1116" font-size="34">showed that the connection had started. Later networks grew from many</text>
+<text data-content="body" x="155" y="1158" font-size="34">tests, repairs, and careful improvements. The system stopping after LO</text>
+<text data-content="body" x="155" y="1200" font-size="34">was not the end of the project. It showed that the first connection had</text>
+<text data-content="body" x="155" y="1242" font-size="34">begun, and engineers could study what went wrong before trying again.</text>
+<text data-content="body" x="155" y="1284" font-size="34">Early networks grew through tests, mistakes, and careful repairs. The</text>
+<text data-content="body" x="155" y="1326" font-size="34">letters LO marked a beginning even though the message stopped early.</text>
+<text data-content="body" x="155" y="1368" font-size="34">Engineers could use the failed attempt to repair the system and try again.</text>
+<text data-content="body" x="155" y="1410" font-size="34">The first network message was tiny, but later connections depended on</text>
+<text data-content="body" x="155" y="1452" font-size="34">beginnings like this one. A short test can lead to a much larger system.</text>
     </g>
   </g>
   <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">

@@ -134,6 +134,40 @@ const HISTORY_EXTENSIONS = [
   "A tradition can preserve memories while still changing shape. Its history belongs to the people who explain, celebrate, and question it over time.",
 ];
 
+const HISTORY_CONTEXTS = [
+  "The delivery connected Ford's Highland Park work with a real family waiting to use the car on public roads.",
+  "Schulz drew the first strip for a newspaper page, where a few panels had to carry the action and the joke.",
+  "The inventors developed the transistor at Bell Telephone Laboratories, where engineers needed a smaller way to control signals.",
+  "Sputnik traveled around Earth after Soviet engineers launched it into orbit, while radio stations on the ground listened for its signal.",
+  "The observance connects schools and communities around the world, where students and teachers share the work of learning.",
+  "The theater opened in Paris with its windmill placed high above the building, making the entrance easy for visitors to spot.",
+  "Woodland and Silver designed a pattern that a machine could read, turning printed lines into information for a store system.",
+  "The celebration focuses on an animal that lives in the ocean and uses its arms and suckers to explore its surroundings.",
+  "The agreement was made by countries working through an international postal organization so mail could cross national borders.",
+  "The observance brings attention to care in homes, schools, and health services, where people can notice feelings and seek support.",
+  "The day is observed in communities that are working to make schools, safety, and opportunities fairer for girls.",
+  "The spacecraft carried its crew in orbit, where the astronauts had to complete work inside a cabin with very little room.",
+  "The international observance helps families, schools, and local officials compare risks and practice a response before a disaster.",
+  "The Bell X-1 was released from a larger aircraft and used its engine to test what happened as it moved faster through the air.",
+  "The public-health event takes place in schools and communities, where people practice cleaning their hands with soap and water.",
+  "The brothers worked in a small early studio and used a written agreement to begin building a business around animated drawings.",
+  "The observance takes place in communities where people and organizations discuss practical ways to remove barriers and share resources.",
+  "The company began in Britain, sending scheduled programs from a station to listeners who owned radio receivers at home.",
+  "Repairers work in homes, shops, and community spaces, where they inspect an object, find the broken part, and make it useful again.",
+  "The international day uses careful counting and shared definitions so people in different places can compare information fairly.",
+  "Edison tested lamps in his New Jersey laboratory, changing materials and designs until the light could last long enough to be useful.",
+  "Garnerin rose above a crowd in Paris and opened a fabric canopy, which slowed his fall as he descended toward the ground.",
+  "Pelé played on football fields in Brazil and around the world, using practice and quick decisions to help his team attack.",
+  "Taylor entered the Niagara River in a barrel and went over the waterfall, making the event a dangerous test of a protective design.",
+  "Picasso worked in studios in Spain and France, changing his lines, shapes, and viewpoints as he explored new kinds of art.",
+  "The canal joined waterways in the United States, letting boats move between the Great Lakes and the Hudson River more directly.",
+  "The first subway trains ran beneath New York City streets, using tracks and stations to move passengers through a busy city.",
+  "The statue stands on an island in New York Harbor, where ships and visitors can see its torch above the water.",
+  "Engineers connected two computers in California and sent the first letters across the new network before the system stopped.",
+  "The radio drama was broadcast from a studio in New York, where actors performed a fictional emergency for listeners at home.",
+  "Autumn traditions developed in different communities, where families adapted older customs into the foods, stories, and activities they know today.",
+];
+
 export const READING_PASSAGE_REQUIREMENTS = Object.freeze({ minWords: 150, maxWords: 250, maxSentenceWords: 35 });
 
 const words = (value) => value.trim().split(/\s+/).filter(Boolean);
@@ -142,7 +176,7 @@ const sentences = (value) => value.match(/[^.!?]+[.!?]+/g) ?? [];
 export function buildOctoberReadingPassages(days = 31) {
   return PLAN.slice(0, days).map(([opening, detail, fact, bridge], index) => ({
     day: index + 1,
-    readingPassage: `${opening} ${detail} ${fact} ${HISTORY_ENDINGS[index]} ${HISTORY_CLOSINGS[index]} ${HISTORY_EXTENSIONS[index]}`,
+    readingPassage: `${opening} ${detail} ${HISTORY_CONTEXTS[index]} ${fact} ${HISTORY_ENDINGS[index]} ${HISTORY_CLOSINGS[index]} ${HISTORY_EXTENSIONS[index]}`,
   }));
 }
 
