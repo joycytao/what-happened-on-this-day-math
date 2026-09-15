@@ -293,6 +293,14 @@ The current default dependency order is:
   → #37
   → #9
   → #10
+  → #53
+  → #54
+  → #55
+  → #56
+  → #57 + #58
+  → #59
+  → #60
+  → #61
 
 Issue #41 is a cross-month workflow-template task and may run in parallel with
 the October chain; it does not block the October research artifact or content
@@ -329,7 +337,22 @@ The order means:
   its public entrypoint is the month-only CLI `node scripts/generate-monthly.mjs
   --month 10`.
 - #10 depends on the complete monthly orchestration from #9 and is the final
-  content and PDF release gate.
+  October content and PDF release gate. Its acceptance criteria must use the
+  completed October contract: 127 pages with three Answer Key pages.
+- #53 reuses the completed month-only research and monthly-content v2 contracts
+  for November and must follow the October release gate.
+- #54 depends on #53 and researches one historical event for each November
+  calendar day, preserving eventYear and source metadata separately.
+- #55 depends on #54 and normalizes November month/day content at
+  `content/monthly/month-11.json`.
+- #56 depends on #55 and independently validates November content, sources, and
+  mathematics before rendering.
+- #57 and #58 depend on #56 and may run in parallel: #57 renders 120 November
+  daily pages, while #58 renders three November Answer Key pages.
+- #59 depends on #57 and #58 and assembles/QA-checks the 123-page November PDF.
+- #60 depends on #59 and is the November content/PDF release report gate.
+- #61 depends on #60 and integrates the month-only orchestration for
+  `node scripts/generate-monthly.mjs --month 11`.
 
 When a new issue is created, an existing issue changes scope or status, or a
 new dependency is discovered, recalculate the execution order before starting
