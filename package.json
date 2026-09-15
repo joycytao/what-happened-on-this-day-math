@@ -4,6 +4,7 @@
     "csv:generate": "node scripts/generate-monthly-csv.mjs",
     "content:generate": "node scripts/generate-october-content.mjs",
     "monthly:generate": "node scripts/generate-monthly.mjs",
+    "release:validate:october": "node scripts/validate-october-release.mjs",
     "content:validate:october": "node scripts/validate-october-content.mjs --check-sources reports/issue-48-october-content-validation.json",
     "worksheets:render:october": "node scripts/render-october-worksheets.mjs content/monthly/month-10.json reports/october-worksheet-pages",
     "worksheets:validate:october": "node scripts/validate-october-worksheet-pages.mjs reports/october-worksheet-pages",
