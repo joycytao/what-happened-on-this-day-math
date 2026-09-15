@@ -3,6 +3,7 @@
     "test": "node scripts/validate-content-example.mjs && node --test tests/*.test.mjs",
     "csv:generate": "node scripts/generate-monthly-csv.mjs",
     "content:generate": "node scripts/generate-october-content.mjs",
+    "reading:regenerate:october": "node scripts/regenerate-october-reading-passages.mjs",
     "monthly:generate": "node scripts/generate-monthly.mjs",
     "content:validate:october": "node scripts/validate-october-content.mjs --check-sources reports/issue-48-october-content-validation.json",
     "worksheets:render:october": "node scripts/render-october-worksheets.mjs content/monthly/month-10.json reports/october-worksheet-pages",

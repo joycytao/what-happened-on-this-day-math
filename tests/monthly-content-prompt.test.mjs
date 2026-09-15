@@ -17,6 +17,17 @@ test("reusable monthly prompt defines the example-driven question contract", asy
     "hypothetical",
     "multiple subquestions",
     "duplicate prompts",
+    "history-first story",
+    "six internal questions",
+    "Who",
+    "What",
+    "When",
+    "Where",
+    "Why",
+    "How",
+    "起承轉合",
+    "worksheet instructions",
+    "single historical fact",
   ]) assert.match(prompt, new RegExp(phrase.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&"), "i"), `missing prompt requirement: ${phrase}`);
 });
 
