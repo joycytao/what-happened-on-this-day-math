@@ -1,0 +1,37 @@
+{
+  "valid": true,
+  "month": 10,
+  "expectedPageCount": 127,
+  "actualPageCount": 127,
+  "sourceCoverage": {
+    "dailyWorksheetPages": 124,
+    "answerKeyPages": 3,
+    "dailyOrder": "day then reading-passage, level1, level2, level3",
+    "answerKeyOrder": "level1, level2, level3"
+  },
+  "templateVersions": {
+    "daily": "1.0.0",
+    "answerKey": "1.0.0"
+  },
+  "pageDimensions": {
+    "daily": {
+      "width": 1545,
+      "height": 2000
+    },
+    "answerKey": {
+      "width": 1545,
+      "height": 1999
+    },
+    "histogram": {
+      "1545x2000": 124,
+      "1545x1999": 3
+    }
+  },
+  "validation": {
+    "content": true,
+    "mathematics": true,
+    "source": true,
+    "layout": "all SVGs parsed and rendered in deterministic order"
+  },
+  "output": "output/pdf/october-worksheet-packet.pdf"
+}
