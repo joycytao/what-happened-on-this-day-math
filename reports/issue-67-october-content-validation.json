@@ -1,0 +1,17 @@
+{
+  "valid": true,
+  "content": {
+    "valid": true,
+    "errors": []
+  },
+  "mathematics": {
+    "valid": true,
+    "errors": []
+  },
+  "sources": {
+    "valid": true,
+    "checked": false,
+    "errors": [],
+    "results": []
+  }
+}
