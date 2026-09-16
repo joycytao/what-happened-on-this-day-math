@@ -1,0 +1,45 @@
+{
+  "valid": false,
+  "artifactValid": true,
+  "releaseReady": false,
+  "month": 10,
+  "expectedPageCount": 127,
+  "actualPageCount": 127,
+  "sourceCoverage": {
+    "dailyWorksheetPages": 124,
+    "answerKeyPages": 3,
+    "dailyOrder": "day then reading-passage, level1, level2, level3",
+    "answerKeyOrder": "level1, level2, level3"
+  },
+  "templateVersions": {
+    "daily": "1.0.0",
+    "answerKey": "1.0.0"
+  },
+  "pageDimensions": {
+    "daily": {
+      "width": 1545,
+      "height": 2000
+    },
+    "answerKey": {
+      "width": 1545,
+      "height": 1999
+    },
+    "histogram": {
+      "1545x2000": 124,
+      "1545x1999": 3
+    }
+  },
+  "validation": {
+    "content": true,
+    "mathematics": true,
+    "source": false,
+    "layout": "all SVGs parsed and rendered in deterministic order",
+    "pdf": true
+  },
+  "sourceCheck": {
+    "checked": true,
+    "valid": false,
+    "failure": "All 31 source requests returned TypeError: fetch failed in the current Node runtime; the pre-existing source report identifies nps-edison-light as the known HTTP 599 source failure."
+  },
+  "output": "output/pdf/october-worksheet-packet.pdf"
+}
