@@ -374,7 +374,7 @@
           ],
           "equation": "2570 / 162 = 15.864",
           "work": "2570 / 162 = 15.864",
-          "finalAnswer": "About 16 orbits per day"
+          "finalAnswer": "About 16 orbits per day (15.864 before rounding)"
         }
       },
       "answers": {
@@ -446,7 +446,7 @@
           ],
           "equation": "2570 / 162 = 15.864",
           "work": "2570 / 162 = 15.864",
-          "finalAnswer": "About 16 orbits per day"
+          "finalAnswer": "About 16 orbits per day (15.864 before rounding)"
         }
       },
       "answerKeyEntries": [
@@ -1431,7 +1431,7 @@
           ],
           "equation": "4500 / 57 = 78.947",
           "work": "4500 / 57 = 78.947",
-          "finalAnswer": "About 79 episodes per year"
+          "finalAnswer": "About 79 episodes per year (78.947 before rounding)"
         }
       },
       "answers": {
@@ -1493,7 +1493,7 @@
           ],
           "equation": "4500 / 57 = 78.947",
           "work": "4500 / 57 = 78.947",
-          "finalAnswer": "About 79 episodes per year"
+          "finalAnswer": "About 79 episodes per year (78.947 before rounding)"
         }
       },
       "answerKeyEntries": [
@@ -1994,7 +1994,7 @@
           ],
           "equation": "1000 / 30 = 33.333",
           "work": "1000 / 30 = 33.333",
-          "finalAnswer": "About 33 days"
+          "finalAnswer": "About 33 days (33.333 before rounding)"
         }
       },
       "answers": {
@@ -2056,7 +2056,7 @@
           ],
           "equation": "1000 / 30 = 33.333",
           "work": "1000 / 30 = 33.333",
-          "finalAnswer": "About 33 days"
+          "finalAnswer": "About 33 days (33.333 before rounding)"
         }
       },
       "answerKeyEntries": [
@@ -2145,7 +2145,7 @@
           ],
           "equation": "15000000000 / 2300 = 6521739.13",
           "work": "15000000000 / 2300 = 6521739.13",
-          "finalAnswer": "About 6521739 times as many"
+          "finalAnswer": "About 6521739 times as many (6521739.13 before rounding)"
         }
       },
       "answers": {
@@ -2212,7 +2212,7 @@
           ],
           "equation": "15000000000 / 2300 = 6521739.13",
           "work": "15000000000 / 2300 = 6521739.13",
-          "finalAnswer": "About 6521739 times as many"
+          "finalAnswer": "About 6521739 times as many (6521739.13 before rounding)"
         }
       },
       "answerKeyEntries": [
@@ -2430,7 +2430,7 @@
           ],
           "equation": "193 / 15 = 12.867",
           "work": "193 / 15 = 12.867",
-          "finalAnswer": "About 13 hours"
+          "finalAnswer": "About 13 hours (12.867 before rounding)"
         },
         "level3": {
           "pageType": "level3",
@@ -2492,7 +2492,7 @@
           ],
           "equation": "193 / 15 = 12.867",
           "work": "193 / 15 = 12.867",
-          "finalAnswer": "About 13 hours"
+          "finalAnswer": "About 13 hours (12.867 before rounding)"
         },
         "level3": {
           "pageType": "level3",
@@ -2695,7 +2695,7 @@
           ],
           "equation": "80 + 7 = 87",
           "work": "80 + 7 = 87",
-          "finalAnswer": "8 tens and 7 ones"
+          "finalAnswer": "8 tens and 7 ones (87)"
         },
         "level2": {
           "pageType": "level2",
@@ -2715,7 +2715,7 @@
           ],
           "equation": "272 / 120 = 2.267",
           "work": "272 / 120 = 2.267",
-          "finalAnswer": "About 2.3 words per second"
+          "finalAnswer": "About 2.3 words per second (2.267 before rounding)"
         },
         "level3": {
           "pageType": "level3",
@@ -2752,7 +2752,7 @@
           ],
           "equation": "80 + 7 = 87",
           "work": "80 + 7 = 87",
-          "finalAnswer": "8 tens and 7 ones"
+          "finalAnswer": "8 tens and 7 ones (87)"
         },
         "level2": {
           "pageType": "level2",
@@ -2772,7 +2772,7 @@
           ],
           "equation": "272 / 120 = 2.267",
           "work": "272 / 120 = 2.267",
-          "finalAnswer": "About 2.3 words per second"
+          "finalAnswer": "About 2.3 words per second (2.267 before rounding)"
         },
         "level3": {
           "pageType": "level3",
@@ -3171,7 +3171,7 @@
           ],
           "equation": "15 + 81 = 96",
           "work": "15 + 81 = 96",
-          "finalAnswer": "3:36"
+          "finalAnswer": "3:36 (96 minutes after 2:00)"
         },
         "level3": {
           "pageType": "level3",
@@ -3238,7 +3238,7 @@
           ],
           "equation": "15 + 81 = 96",
           "work": "15 + 81 = 96",
-          "finalAnswer": "3:36"
+          "finalAnswer": "3:36 (96 minutes after 2:00)"
         },
         "level3": {
           "pageType": "level3",
@@ -3537,7 +3537,7 @@
           ],
           "equation": "64000 / 58 = 1103.448",
           "work": "64000 / 58 = 1103.448",
-          "finalAnswer": "About 1103 kilometers"
+          "finalAnswer": "About 1103 kilometers (1103.448 before rounding)"
         }
       },
       "answers": {
@@ -3599,7 +3599,7 @@
           ],
           "equation": "64000 / 58 = 1103.448",
           "work": "64000 / 58 = 1103.448",
-          "finalAnswer": "About 1103 kilometers"
+          "finalAnswer": "About 1103 kilometers (1103.448 before rounding)"
         }
       },
       "answerKeyEntries": [
@@ -4114,7 +4114,7 @@
           ],
           "equation": "165000000 / 510000000 * 100 = 32.353",
           "work": "165000000 / 510000000 * 100 = 32.353",
-          "finalAnswer": "About 32 percent"
+          "finalAnswer": "About 32 percent (32.353 before rounding)"
         }
       },
       "answers": {
@@ -4171,7 +4171,7 @@
           ],
           "equation": "165000000 / 510000000 * 100 = 32.353",
           "work": "165000000 / 510000000 * 100 = 32.353",
-          "finalAnswer": "About 32 percent"
+          "finalAnswer": "About 32 percent (32.353 before rounding)"
         }
       },
       "answerKeyEntries": [
@@ -4626,7 +4626,7 @@
         "level": "level1",
         "equation": "80 + 7 = 87",
         "work": "80 + 7 = 87",
-        "finalAnswer": "8 tens and 7 ones"
+        "finalAnswer": "8 tens and 7 ones (87)"
       },
       {
         "entryId": "11-20:level1",
@@ -4852,7 +4852,7 @@
         "level": "level2",
         "equation": "193 / 15 = 12.867",
         "work": "193 / 15 = 12.867",
-        "finalAnswer": "About 13 hours"
+        "finalAnswer": "About 13 hours (12.867 before rounding)"
       },
       {
         "entryId": "11-18:level2",
@@ -4868,7 +4868,7 @@
         "level": "level2",
         "equation": "272 / 120 = 2.267",
         "work": "272 / 120 = 2.267",
-        "finalAnswer": "About 2.3 words per second"
+        "finalAnswer": "About 2.3 words per second (2.267 before rounding)"
       },
       {
         "entryId": "11-20:level2",
@@ -4892,7 +4892,7 @@
         "level": "level2",
         "equation": "15 + 81 = 96",
         "work": "15 + 81 = 96",
-        "finalAnswer": "3:36"
+        "finalAnswer": "3:36 (96 minutes after 2:00)"
       },
       {
         "entryId": "11-23:level2",
@@ -4982,7 +4982,7 @@
         "level": "level3",
         "equation": "2570 / 162 = 15.864",
         "work": "2570 / 162 = 15.864",
-        "finalAnswer": "About 16 orbits per day"
+        "finalAnswer": "About 16 orbits per day (15.864 before rounding)"
       },
       {
         "entryId": "11-04:level3",
@@ -5038,7 +5038,7 @@
         "level": "level3",
         "equation": "4500 / 57 = 78.947",
         "work": "4500 / 57 = 78.947",
-        "finalAnswer": "About 79 episodes per year"
+        "finalAnswer": "About 79 episodes per year (78.947 before rounding)"
       },
       {
         "entryId": "11-11:level3",
@@ -5070,7 +5070,7 @@
         "level": "level3",
         "equation": "1000 / 30 = 33.333",
         "work": "1000 / 30 = 33.333",
-        "finalAnswer": "About 33 days"
+        "finalAnswer": "About 33 days (33.333 before rounding)"
       },
       {
         "entryId": "11-15:level3",
@@ -5078,7 +5078,7 @@
         "level": "level3",
         "equation": "15000000000 / 2300 = 6521739.13",
         "work": "15000000000 / 2300 = 6521739.13",
-        "finalAnswer": "About 6521739 times as many"
+        "finalAnswer": "About 6521739 times as many (6521739.13 before rounding)"
       },
       {
         "entryId": "11-16:level3",
@@ -5150,7 +5150,7 @@
         "level": "level3",
         "equation": "64000 / 58 = 1103.448",
         "work": "64000 / 58 = 1103.448",
-        "finalAnswer": "About 1103 kilometers"
+        "finalAnswer": "About 1103 kilometers (1103.448 before rounding)"
       },
       {
         "entryId": "11-25:level3",
@@ -5182,7 +5182,7 @@
         "level": "level3",
         "equation": "165000000 / 510000000 * 100 = 32.353",
         "work": "165000000 / 510000000 * 100 = 32.353",
-        "finalAnswer": "About 32 percent"
+        "finalAnswer": "About 32 percent (32.353 before rounding)"
       },
       {
         "entryId": "11-29:level3",
