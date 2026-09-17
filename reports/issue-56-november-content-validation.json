@@ -1,0 +1,17 @@
+{
+  "gate": "content",
+  "valid": true,
+  "generatedAt": "2026-09-17",
+  "checks": {
+    "records": 30,
+    "expectedRecords": 30,
+    "uniqueDays": 30,
+    "structuralErrors": [],
+    "passageWordRange": [
+      156,
+      192
+    ],
+    "readingErrors": []
+  },
+  "errors": []
+}

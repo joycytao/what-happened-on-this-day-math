@@ -5,6 +5,7 @@
     "content:generate": "node scripts/generate-october-content.mjs",
     "content:generate:november": "node scripts/generate-november-content.mjs",
     "content:validate:november": "node --input-type=module -e \"import fs from 'node:fs'; import { validateMonthlyContentV2 } from './src/monthly-content-v2-validation.mjs'; const result=validateMonthlyContentV2(JSON.parse(fs.readFileSync('content/monthly/month-11.json')), {month:11, dayCount:30}); if (!result.valid) { console.error(result.errors.join('\\n')); process.exit(1); } console.log('November content v2 is valid');\"",
+    "content:validate:november:issue56": "node scripts/validate-november-content.mjs",
     "reading:regenerate:october": "node scripts/regenerate-october-reading-passages.mjs",
     "monthly:generate": "node scripts/generate-monthly.mjs",
     "release:validate:october": "node scripts/validate-october-release.mjs",
