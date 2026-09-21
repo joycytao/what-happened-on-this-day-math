@@ -12,6 +12,8 @@
     "content:validate:october": "node scripts/validate-october-content.mjs --check-sources reports/issue-48-october-content-validation.json",
     "worksheets:render:october": "node scripts/render-october-worksheets.mjs content/monthly/month-10.json reports/october-worksheet-pages",
     "worksheets:validate:october": "node scripts/validate-october-worksheet-pages.mjs reports/october-worksheet-pages",
+    "worksheets:render:november": "node scripts/render-november-worksheets.mjs content/monthly/month-11.json reports/november-worksheet-pages",
+    "worksheets:validate:november": "node scripts/validate-november-worksheet-pages.mjs reports/november-worksheet-pages",
     "content:validate:october:issue48": "node scripts/validate-october-content.mjs reports/issue-48-october-content-validation.json --check-sources",
     "answer-key:render:october": "node scripts/render-october-answer-key.mjs content/monthly/month-10.json reports/october-answer-key-pages",
     "answer-key:validate:october": "node scripts/validate-october-answer-key.mjs reports/october-answer-key-pages",
