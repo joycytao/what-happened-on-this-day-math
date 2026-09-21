@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
@@ -64,4 +65,24 @@ test("loads a JSON manifest from disk", async () => {
 
   assert.equal(loaded.product.month, "october");
   assert.equal(loaded.pdf.page_count, 127);
+});
+
+test("rejects a manifest with no doodle path", () => {
+  const broken = structuredClone(validManifest);
+  delete broken.doodle.path;
+
+  const result = validateMonthlyThumbnailManifest(broken);
+
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some((error) => /doodle\.path is required/i.test(error)));
+});
+
+test("accepts the October SVG doodle as a bounded transparent line asset", async () => {
+  const path = new URL("../assets/doodles/months/october.svg", import.meta.url);
+  await access(path);
+  const svg = await readFile(path, "utf8");
+
+  assert.match(svg, /<svg[^>]+viewBox="0 0 240 180"/);
+  assert.match(svg, /fill="none"/);
+  assert.match(svg, /stroke="#FF8A00"/);
 });
