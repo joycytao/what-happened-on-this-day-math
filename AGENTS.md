@@ -38,16 +38,17 @@ Each daily module is always ordered as follows:
 3. Level 2 Math Task
 4. Level 3 Math Task
 
-The answer key is always the final three pages:
+The answer key is placed after the daily modules. Its rendered page count is
+part of the approved packet layout and must be measured from the final PDF;
+do not infer it from a fixed formula.
 
-- Level 1 Answer Key: 1 page
-- Level 2 Answer Key: 1 page
-- Level 3 Answer Key: 1 page
+The approved total page counts are:
 
-The expected total page count is:
+- 30-day month: `124 pages`
+- 31-day month: `127 pages`
 
-- 30-day month: `30 × 4 + 3 = 123 pages`
-- 31-day month: `31 × 4 + 3 = 127 pages`
+The page-count rules for February have not been specified and must not be
+invented until the project owner confirms them.
 
 Always determine the actual number of days from the requested month. Do not
 use 30 or 31 by assumption, and do not count February incorrectly.
@@ -168,8 +169,9 @@ Before delivering a monthly packet, verify all of the following:
 
 - The requested month has the correct number of calendar days.
 - There are exactly four pages/modules per day in the required order.
-- There are exactly three answer-key pages at the end.
-- The computed total is 123 pages for a 30-day month or 127 pages for a
+- The answer-key section appears at the end, with the final rendered page
+  count determined by the approved month-specific packet layout.
+- The computed total is 124 pages for a 30-day month or 127 pages for a
   31-day month.
 - Every date appears exactly once and is in calendar order.
 - Every entry uses one preferred theme and avoids unsuitable subject matter.
@@ -259,8 +261,9 @@ report the ambiguity before producing a large monthly packet.
 
 Template-based output must be visually checked after rendering. Verify page
 dimensions, orientation, margins, resolution, text overflow, clipping,
-overlaps, legibility, image quality, page order, and the required 123-page or
-127-page total. A content validation pass alone is not sufficient for claiming
+overlaps, legibility, image quality, page order, and the approved month-specific
+total of 124 pages for a 30-day month or 127 pages for a 31-day month. A
+content validation pass alone is not sufficient for claiming
 that a worksheet template was reused successfully.
 
 When generating a monthly packet, begin by stating the target month, number of
@@ -330,8 +333,8 @@ The order means:
   passage, question, and answer records.
 - #34 depends on #33 and independently validates the October content and math.
 - #50 is independent of the October rendering chain once the content examples and schema are available; it defines the reusable prompt and validator contract for future months and does not block #35 or #36.
-- #35 and #36 depend on #34 and may run in parallel: #35 renders the 124 daily
-  pages, while #36 renders the three Answer Key pages.
+- #35 and #36 depend on #34 and may run in parallel: #35 renders the daily
+  pages, while #36 renders the Answer Key section.
 - #37 depends on #35 and #36 and assembles/QA-checks the 127-page October PDF.
 - #9 coordinates the completed subtasks and remains blocked until #37 is done;
   its public entrypoint is the month-only CLI `node scripts/generate-monthly.mjs
