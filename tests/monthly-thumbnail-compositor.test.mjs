@@ -1,13 +1,20 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { mkdtemp, readFile, readdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 
+const PYTHON = process.env.PYTHON_BIN || (
+  existsSync("/Users/jtao/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3")
+    ? "/Users/jtao/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+    : "python3"
+);
+
 test("renders only the unique source pages declared by the October manifest", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-pages-"));
-  const result = spawnSync(process.env.PYTHON_BIN || "python3", [
+  const result = spawnSync(PYTHON, [
     "scripts/render_monthly_thumbnail_pages.py",
     "--manifest", "examples/monthly-thumbnail.example.json",
     "--output-dir", outputDir,
@@ -31,4 +38,29 @@ test("renders only the unique source pages declared by the October manifest", as
     [4, ["different_math.level3", "whats_included.level3"]],
     [125, ["whats_included.answer_key"]],
   ]);
+});
+
+function pngDimensions(buffer) {
+  return [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
+}
+
+test("generates five branded 1260px monthly thumbnail compositions", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-"));
+  const result = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/monthly-thumbnail.example.json",
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const names = ["cover", "overview", "whats-included", "different-math", "daily-practice"];
+  for (const name of names) {
+    const image = await readFile(join(outputDir, `october-v1.0-${name}.png`));
+    assert.deepEqual(pngDimensions(image), [1260, 1260], name);
+  }
+  const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
+  assert.deepEqual(report.templates, names);
+  assert.deepEqual(report.labels.whats_included, ["WHAT'S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"]);
+  assert.deepEqual(report.labels.different_math, ["ONE STORY", "DIFFERENT MATH", "LEVEL 1", "LEVEL 2", "LEVEL 3"]);
+  assert.deepEqual(report.labels.daily_practice, ["READY FOR DAILY PRACTICE", "ONE PROBLEM A DAY"]);
 });
