@@ -1,7 +1,7 @@
 # Monthly Thumbnail System Design
 
-**Status:** Draft for review  
-**Project:** `what-happened-on-this-day-math`  
+**Status:** Draft for review
+**Project:** `what-happened-on-this-day-math`
 **Scope:** Reusable cover and thumbnail production for monthly worksheet products
 
 ## Goal
