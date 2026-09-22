@@ -1,4 +1,5 @@
 {
+  "design": "october-production-v1",
   "templates": [
     "cover",
     "overview",
@@ -28,11 +29,11 @@
     ]
   },
   "checksums": {
-    "cover": "330c3370ac6f1caf414f8911686aeadbf7d04d338a01b6729b3db581067e04fd",
-    "overview": "6ab67b8678003d83a68b35e369c71ad47b259b9a15c1ab8458ac95432bcd857c",
-    "whats-included": "959aa00e95b564b01db3f9138209151247fde8c2db14177984d057408337c0d6",
+    "cover": "beb0d8b6ee5548f5de81382e2249b854a880c3148ef81fc4743a6bafce718960",
+    "overview": "51f6c142605c62912eaeec36d3d69b241a7778dda1d8498c7d8b98316f5d4689",
+    "whats-included": "0148cd236c7529b86e989564bced45e03aa2eded8f4058c766aad1a37ec10dea",
     "different-math": "0e10fef6dd9e2488cfccee361ee15a17f99dd20566e7388407a6c22b3c6839ea",
-    "daily-practice": "77382166a84078cf66798631b9d142ad941c2e21c36243c041867d19cd1c9a43"
+    "daily-practice": "687cce6269f90e2190b85adba5ada1f6bdb00bd6047a000fc3b15578fec7514a"
   },
   "doodle": "assets/doodles/months/october.svg",
   "pdf": "output/pdf/october-worksheet-packet.pdf",

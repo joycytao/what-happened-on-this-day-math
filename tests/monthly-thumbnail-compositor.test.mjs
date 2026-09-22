@@ -65,6 +65,19 @@ test("generates five branded 1260px monthly thumbnail compositions", async () =>
   assert.deepEqual(report.labels.daily_practice, ["READY FOR DAILY PRACTICE", "ONE PROBLEM A DAY"]);
 });
 
+test("October compositions use the production visual language", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-production-"));
+  const result = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/monthly-thumbnail.example.json",
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
+  assert.equal(report.design, "october-production-v1");
+});
+
 test("stops before writing thumbnails when the PDF checksum is stale", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-stale-"));
   const manifest = JSON.parse(await readFile("examples/monthly-thumbnail.example.json", "utf8"));

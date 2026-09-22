@@ -43,14 +43,31 @@ def base_canvas():
 
 
 def doodle(draw, center=(630, 560), scale=1.0):
+    """Draw the three-lobed pumpkin used by the October production assets."""
     cx, cy = center
     w = int(7 * scale)
-    draw.ellipse((cx - 104 * scale, cy - 60 * scale, cx + 80 * scale, cy + 88 * scale), outline=ORANGE, width=w)
-    draw.arc((cx - 130 * scale, cy - 100 * scale, cx + 100 * scale, cy + 92 * scale), 220, 345, fill=ORANGE, width=w)
-    draw.line((cx, cy + 82 * scale, cx - 8 * scale, cy + 150 * scale), fill=ORANGE, width=w)
-    draw.line((cx - 8 * scale, cy + 150 * scale, cx - 66 * scale, cy + 150 * scale), fill=ORANGE, width=w)
-    draw.line((cx + 10 * scale, cy - 58 * scale, cx + 52 * scale, cy - 100 * scale), fill=ORANGE, width=w)
-    draw.line((cx + 58 * scale, cy - 106 * scale, cx + 93 * scale, cy - 87 * scale), fill=ORANGE, width=w)
+    lobes = [(-68, -2, 72, 128), (-27, -38, 74, 136), (18, -2, 72, 128)]
+    for left, top, right, bottom in lobes:
+        draw.ellipse((cx + left * scale, cy + top * scale, cx + right * scale, cy + bottom * scale), outline=ORANGE, width=w)
+    draw.line((cx, cy + 110 * scale, cx - 4 * scale, cy + 166 * scale), fill=ORANGE, width=w)
+    draw.line((cx - 4 * scale, cy + 166 * scale, cx - 66 * scale, cy + 166 * scale), fill=ORANGE, width=w)
+    draw.line((cx + 2 * scale, cy - 38 * scale, cx + 20 * scale, cy - 93 * scale), fill=ORANGE, width=w)
+    draw.line((cx + 20 * scale, cy - 93 * scale, cx + 68 * scale, cy - 69 * scale), fill=ORANGE, width=w)
+
+
+def accented_title(draw, text, y, size, max_width=1080):
+    """Production-style title with short orange rays on both sides."""
+    centered(draw, text, y, size, max_width)
+    f = fitted(text, max_width, size)
+    text_width = draw.textbbox((0, 0), text, font=f)[2]
+    gap = 28
+    ray = 48
+    left = (SIZE - text_width) // 2 - gap
+    right = (SIZE + text_width) // 2 + gap
+    draw.line((left - ray, y + size // 2, left, y + size // 2), fill=ORANGE, width=7)
+    draw.line((left - ray + 8, y + size // 2 - 24, left - 10, y + size // 2 - 8), fill=ORANGE, width=7)
+    draw.line((right, y + size // 2, right + ray, y + size // 2), fill=ORANGE, width=7)
+    draw.line((right + 10, y + size // 2 - 8, right + ray - 8, y + size // 2 - 24), fill=ORANGE, width=7)
 
 
 def footer(canvas):
@@ -104,11 +121,11 @@ def logo(canvas, page):
 def compose_cover(month, out, source_page):
     canvas, draw = base_canvas(), ImageDraw.Draw(base_canvas())
     draw = ImageDraw.Draw(canvas)
-    centered(draw, month.upper(), 102, 104)
-    centered(draw, "MORNING WORK MATH", 248, 73)
-    centered(draw, "31 DAILY WORD PROBLEMS · 3 LEVELS", 380, 39)
-    doodle(draw, (630, 650), 1.15)
-    centered(draw, "HISTORICAL MINI-STORIES", 900, 38)
+    centered(draw, month.upper(), 96, 86)
+    centered(draw, "MORNING WORK MATH", 218, 55)
+    centered(draw, "31 DAILY WORD PROBLEMS", 330, 35)
+    doodle(draw, (630, 565), 1.10)
+    centered(draw, "3 LEVELS", 905, 42)
     footer(canvas)
     if source_page:
         logo(canvas, source_page)
@@ -118,11 +135,12 @@ def compose_cover(month, out, source_page):
 def compose_overview(month, out, source_page):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, month.upper(), 92, 92)
-    centered(draw, "ONE STORY · THREE MATH LEVELS", 230, 51)
-    doodle(draw, (630, 580), 1.1)
-    centered(draw, "A DAILY ROUTINE WITH REAL HISTORY", 870, 37)
-    centered(draw, "MATH-FIRST · ROUTINE-FIRST · HISTORY DIFFERENTIATION", 940, 27)
+    centered(draw, month.upper(), 92, 86)
+    centered(draw, "MORNING WORK MATH", 218, 55)
+    centered(draw, "DAILY WORD PROBLEMS", 330, 35)
+    centered(draw, "HISTORICAL MINI-STORIES", 384, 35)
+    doodle(draw, (630, 600), 1.10)
+    centered(draw, "3 LEVELS", 920, 42)
     footer(canvas)
     if source_page:
         logo(canvas, source_page)
@@ -132,7 +150,7 @@ def compose_overview(month, out, source_page):
 def compose_whats_included(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "WHAT'S INCLUDED", 28, 91, 920)
+    accented_title(draw, "WHAT'S INCLUDED", 40, 82, 920)
     for points in [((184, 42), (210, 62)), ((176, 78), (208, 78)), ((184, 114), (210, 94)), ((1076, 42), (1050, 62)), ((1084, 78), (1052, 78)), ((1076, 114), (1050, 94))]:
         draw.line(points, fill=ORANGE, width=10)
     for x, key, label in [(31, "story", "STORY"), (437, "level1", "LEVEL 1"), (843, "level2", "LEVEL 2")]:
@@ -160,10 +178,11 @@ def compose_different_math(pages, out):
 def compose_daily_practice(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "READY FOR DAILY PRACTICE", 75, 69, 1080)
-    centered(draw, "ONE PROBLEM A DAY", 190, 48)
+    accented_title(draw, "READY FOR DAILY PRACTICE", 55, 64, 1080)
+    centered(draw, "ONE PROBLEM A DAY", 190, 44)
     card(canvas, pages["worksheet"], (280, 320, 700, 650), "DAILY WORD PROBLEM")
     footer(canvas)
+    centered(draw, "MORNING WORK  |  BELL RINGERS  |  HOMESCHOOL", 1048, 24, 1110)
     logo(canvas, pages["worksheet"])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
@@ -216,6 +235,7 @@ def main():
     }
     checksums = {name: hashlib.sha256((args.output_dir / f"{prefix}-{name}.png").read_bytes()).hexdigest() for name in names}
     report = {
+        "design": "october-production-v1",
         "templates": names,
         "labels": labels,
         "checksums": checksums,
