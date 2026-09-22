@@ -1,0 +1,74 @@
+{
+  "valid": true,
+  "issue": 60,
+  "month": 11,
+  "expectedPageCount": 123,
+  "actualPageCount": 123,
+  "sourceCoverage": {
+    "dailyDays": 30,
+    "dailyPages": 120,
+    "answerKeyPages": 3
+  },
+  "templateVersions": {
+    "daily": "unknown",
+    "answerKey": "1.0.0"
+  },
+  "validation": {
+    "content": true,
+    "mathematics": true,
+    "source": true,
+    "layout": true,
+    "pdf": true
+  },
+  "pageDimensions": {
+    "daily": {
+      "width": 1545,
+      "height": 2000
+    },
+    "answerKey": {
+      "width": 1545,
+      "height": 1999
+    },
+    "pdf": [
+      {
+        "page": 1,
+        "size": "1158.75 x 1500 pts"
+      },
+      {
+        "page": 120,
+        "size": "1158.75 x 1500 pts"
+      },
+      {
+        "page": 121,
+        "size": "1158.75 x 1499.25 pts"
+      },
+      {
+        "page": 122,
+        "size": "1158.75 x 1499.25 pts"
+      },
+      {
+        "page": 123,
+        "size": "1158.75 x 1499.25 pts"
+      }
+    ]
+  },
+  "visualInspection": {
+    "pages": [
+      1,
+      5,
+      60,
+      120,
+      121,
+      122,
+      123
+    ],
+    "directory": "/var/folders/cd/mxdnrktd5rs268sx4xyp7bkm0000gn/T/november-release-qa-final",
+    "note": "Rasterized representative first, middle, last daily pages and all three Answer Key pages; visual review must confirm order, margins, clipping, overflow, and legibility."
+  },
+  "errors": [],
+  "artifacts": {
+    "pdf": "output/pdf/november-worksheet-packet.pdf",
+    "humanReport": "reports/issue-60-november-pdf-qa.md",
+    "machineReport": "reports/issue-60-november-pdf-qa.json"
+  }
+}

@@ -21,6 +21,7 @@
     "answer-key:validate:november": "node scripts/validate-november-answer-key.mjs reports/november-answer-key-pages",
     "pdf:assemble:november": "python3 scripts/assemble-november-pdf.py",
     "release:validate:november": "node scripts/validate-november-release.mjs",
+    "release:qa:november": "node scripts/generate-november-release-qa.mjs",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "reading:render": "node scripts/render-reading-passage.mjs",
