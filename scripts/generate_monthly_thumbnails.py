@@ -185,6 +185,13 @@ def main():
         doodle_path = (Path.cwd() / doodle_path).resolve()
     if not doodle_path.exists():
         raise FileNotFoundError(f"doodle asset does not exist: {doodle_path}")
+    actual_pdf_sha256 = hashlib.sha256(pdf.read_bytes()).hexdigest()
+    expected_pdf_sha256 = manifest["pdf"]["sha256"]
+    if actual_pdf_sha256 != expected_pdf_sha256:
+        raise RuntimeError(
+            f"stale thumbnail inputs: PDF checksum is {actual_pdf_sha256}, "
+            f"manifest expects {expected_pdf_sha256}"
+        )
     args.output_dir.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="monthly-thumbnail-pages-") as temp:
         subprocess.run(["python3", "scripts/render_monthly_thumbnail_pages.py", "--manifest", str(manifest_path), "--output-dir", temp], check=True)
@@ -208,7 +215,14 @@ def main():
         "daily_practice": ["READY FOR DAILY PRACTICE", "ONE PROBLEM A DAY"],
     }
     checksums = {name: hashlib.sha256((args.output_dir / f"{prefix}-{name}.png").read_bytes()).hexdigest() for name in names}
-    report = {"templates": names, "labels": labels, "checksums": checksums, "doodle": str(doodle_path), "pdf": str(pdf)}
+    report = {
+        "templates": names,
+        "labels": labels,
+        "checksums": checksums,
+        "doodle": manifest["doodle"]["path"],
+        "pdf": manifest["pdf"]["path"],
+        "pdf_sha256": actual_pdf_sha256,
+    }
     (args.output_dir / "monthly-thumbnail-report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
 

@@ -1,0 +1,40 @@
+{
+  "templates": [
+    "cover",
+    "overview",
+    "whats-included",
+    "different-math",
+    "daily-practice"
+  ],
+  "labels": {
+    "whats_included": [
+      "WHAT'S INCLUDED",
+      "STORY",
+      "LEVEL 1",
+      "LEVEL 2",
+      "LEVEL 3",
+      "ANSWER KEY"
+    ],
+    "different_math": [
+      "ONE STORY",
+      "DIFFERENT MATH",
+      "LEVEL 1",
+      "LEVEL 2",
+      "LEVEL 3"
+    ],
+    "daily_practice": [
+      "READY FOR DAILY PRACTICE",
+      "ONE PROBLEM A DAY"
+    ]
+  },
+  "checksums": {
+    "cover": "330c3370ac6f1caf414f8911686aeadbf7d04d338a01b6729b3db581067e04fd",
+    "overview": "6ab67b8678003d83a68b35e369c71ad47b259b9a15c1ab8458ac95432bcd857c",
+    "whats-included": "959aa00e95b564b01db3f9138209151247fde8c2db14177984d057408337c0d6",
+    "different-math": "0e10fef6dd9e2488cfccee361ee15a17f99dd20566e7388407a6c22b3c6839ea",
+    "daily-practice": "77382166a84078cf66798631b9d142ad941c2e21c36243c041867d19cd1c9a43"
+  },
+  "doodle": "assets/doodles/months/october.svg",
+  "pdf": "output/pdf/october-worksheet-packet.pdf",
+  "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20"
+}

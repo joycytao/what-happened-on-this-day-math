@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { mkdtemp, readFile, readdir } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -63,4 +63,22 @@ test("generates five branded 1260px monthly thumbnail compositions", async () =>
   assert.deepEqual(report.labels.whats_included, ["WHAT'S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"]);
   assert.deepEqual(report.labels.different_math, ["ONE STORY", "DIFFERENT MATH", "LEVEL 1", "LEVEL 2", "LEVEL 3"]);
   assert.deepEqual(report.labels.daily_practice, ["READY FOR DAILY PRACTICE", "ONE PROBLEM A DAY"]);
+});
+
+test("stops before writing thumbnails when the PDF checksum is stale", async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-stale-"));
+  const manifest = JSON.parse(await readFile("examples/monthly-thumbnail.example.json", "utf8"));
+  manifest.pdf.sha256 = "0000000000000000000000000000000000000000000000000000000000000000";
+  const manifestPath = join(tempDir, "stale.json");
+  const outputDir = join(tempDir, "outputs");
+  await writeFile(manifestPath, JSON.stringify(manifest));
+
+  const result = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", manifestPath,
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+
+  assert.notEqual(result.status, 0);
+  await assert.rejects(() => readdir(outputDir));
 });

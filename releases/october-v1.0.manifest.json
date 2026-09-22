@@ -1,0 +1,106 @@
+{
+  "product": "october-morning-work-math",
+  "month": "October",
+  "month_number": 10,
+  "release_version": "v1.0",
+  "repository_revision": "6adca38",
+  "pdf_source_revision": "852630a912c8b89f0ebf18f6ab299f7f99c4397a",
+  "pdf": {
+    "path": "output/pdf/october-worksheet-packet.pdf",
+    "sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
+    "page_count": 127,
+    "daily_worksheet_pages": 124,
+    "answer_key_pages": 3,
+    "page_size_points": {
+      "daily": [1158.75, 1500],
+      "answer_key": [1158.75, 1499.25]
+    }
+  },
+  "source_artifacts": {
+    "content": "content/monthly/month-10.json",
+    "daily_page_manifest": "reports/october-worksheet-pages/manifest.json",
+    "answer_key_manifest": "reports/october-answer-key-pages/manifest.json",
+    "qa_report": "reports/issue-67-october-pdf-qa.json",
+    "qa_report_markdown": "reports/issue-67-october-pdf-qa.md"
+  },
+  "templates": {
+    "daily": "1.0.0",
+    "answer_key": "1.0.0"
+  },
+  "derived_assets": [
+    {
+      "asset_type": "landing-page-thumbnail",
+      "template": "cover",
+      "status": "ready",
+      "source_pdf": "v1.0",
+      "source_pages": {},
+      "output_path": "output/thumbnails/october-v1.0-cover.png",
+      "sha256": "330c3370ac6f1caf414f8911686aeadbf7d04d338a01b6729b3db581067e04fd",
+      "dimensions": [1260, 1260],
+      "format": "monthly-cover"
+    },
+    {
+      "asset_type": "landing-page-thumbnail",
+      "template": "overview",
+      "status": "ready",
+      "source_pdf": "v1.0",
+      "source_pages": {},
+      "output_path": "output/thumbnails/october-v1.0-overview.png",
+      "sha256": "6ab67b8678003d83a68b35e369c71ad47b259b9a15c1ab8458ac95432bcd857c",
+      "dimensions": [1260, 1260],
+      "format": "monthly-overview"
+    },
+    {
+      "asset_type": "landing-page-thumbnail",
+      "template": "whats_included",
+      "status": "ready",
+      "source_pdf": "v1.0",
+      "source_pages": {"story": 1, "level1": 2, "level2": 3, "level3": 4, "answer_key": 125},
+      "output_path": "output/thumbnails/october-v1.0-whats-included.png",
+      "sha256": "959aa00e95b564b01db3f9138209151247fde8c2db14177984d057408337c0d6",
+      "dimensions": [1260, 1260],
+      "format": "whats-included-reference-layout"
+    },
+    {
+      "asset_type": "landing-page-thumbnail",
+      "template": "different_math",
+      "status": "ready",
+      "source_pdf": "v1.0",
+      "source_pages": {"level1": 2, "level2": 3, "level3": 4},
+      "output_path": "output/thumbnails/october-v1.0-different-math.png",
+      "sha256": "0e10fef6dd9e2488cfccee361ee15a17f99dd20566e7388407a6c22b3c6839ea",
+      "dimensions": [1260, 1260],
+      "format": "one-story-different-math"
+    },
+    {
+      "asset_type": "landing-page-thumbnail",
+      "template": "daily_practice",
+      "status": "ready",
+      "source_pdf": "v1.0",
+      "source_pages": {"worksheet": 2},
+      "output_path": "output/thumbnails/october-v1.0-daily-practice.png",
+      "sha256": "77382166a84078cf66798631b9d142ad941c2e21c36243c041867d19cd1c9a43",
+      "dimensions": [1260, 1260],
+      "format": "ready-for-daily-practice"
+    }
+  ],
+  "tpt": {
+    "status": "draft",
+    "product_id": null,
+    "url": null
+  },
+  "landing_page": {
+    "status": "coming-soon",
+    "url": null
+  },
+  "validation": {
+    "content": true,
+    "mathematics": true,
+    "layout": true,
+    "pdf": true,
+    "source": false,
+    "thumbnail_visual_qa": true,
+    "release_ready": false,
+    "blocking_reason": "Source validation could not complete because all 31 source requests returned TypeError: fetch failed in the current Node runtime."
+  }
+}
