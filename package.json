@@ -19,6 +19,8 @@
     "answer-key:validate:october": "node scripts/validate-october-answer-key.mjs reports/october-answer-key-pages",
     "answer-key:render:november": "node scripts/render-november-answer-key.mjs content/monthly/month-11.json reports/november-answer-key-pages",
     "answer-key:validate:november": "node scripts/validate-november-answer-key.mjs reports/november-answer-key-pages",
+    "pdf:assemble:november": "python3 scripts/assemble-november-pdf.py",
+    "release:validate:november": "node scripts/validate-november-release.mjs",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "reading:render": "node scripts/render-reading-passage.mjs",
