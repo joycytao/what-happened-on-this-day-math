@@ -236,6 +236,14 @@ def main():
     checksums = {name: hashlib.sha256((args.output_dir / f"{prefix}-{name}.png").read_bytes()).hexdigest() for name in names}
     report = {
         "design": "october-production-v1",
+        "style": {
+            "canvas": [SIZE, SIZE],
+            "background": BG,
+            "ink": NAVY,
+            "accent": ORANGE,
+            "border": {"margin": 30, "radius": 26, "width": 8},
+            "deterministic": True,
+        },
         "templates": names,
         "labels": labels,
         "checksums": checksums,

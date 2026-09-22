@@ -76,6 +76,31 @@ test("October compositions use the production visual language", async () => {
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.equal(report.design, "october-production-v1");
+  assert.deepEqual(report.style, {
+    canvas: [1260, 1260],
+    background: "#FEFFEF",
+    ink: "#2B313F",
+    accent: "#FF8A00",
+    border: { margin: 30, radius: 26, width: 8 },
+    deterministic: true,
+  });
+});
+
+test("repeated generation preserves identical layout and style checksums", async () => {
+  const firstDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-repeat-a-"));
+  const secondDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-repeat-b-"));
+  for (const outputDir of [firstDir, secondDir]) {
+    const result = spawnSync(PYTHON, [
+      "scripts/generate_monthly_thumbnails.py",
+      "--manifest", "examples/monthly-thumbnail.example.json",
+      "--output-dir", outputDir,
+    ], { encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+  }
+  const first = JSON.parse(await readFile(join(firstDir, "monthly-thumbnail-report.json"), "utf8"));
+  const second = JSON.parse(await readFile(join(secondDir, "monthly-thumbnail-report.json"), "utf8"));
+  assert.deepEqual(second.style, first.style);
+  assert.deepEqual(second.checksums, first.checksums);
 });
 
 test("stops before writing thumbnails when the PDF checksum is stale", async () => {
