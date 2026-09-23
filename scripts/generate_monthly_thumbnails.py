@@ -75,14 +75,27 @@ def footer(canvas):
 
 
 def pumpkin_doodle(canvas):
-    """Draw the compact three-lobed pumpkin used by the reference cover."""
+    """Draw a recognisable, outline-only pumpkin for the monthly cover.
+
+    The reference uses a simple classroom doodle, but the previous three
+    overlapping ellipses read as a generic flower.  This version makes the
+    pumpkin silhouette explicit: a broad flattened body, four visible ribs,
+    a curved stem, and a small leaf.  All marks stay in the reference orange
+    stroke and the interior remains unfilled.
+    """
     draw = ImageDraw.Draw(canvas)
     stroke = 8
-    draw.ellipse((410, 690, 615, 935), outline=ORANGE, width=stroke)
-    draw.ellipse((520, 665, 740, 950), outline=ORANGE, width=stroke)
-    draw.ellipse((645, 690, 850, 935), outline=ORANGE, width=stroke)
-    draw.line((630, 690, 642, 635), fill=ORANGE, width=stroke)
-    draw.arc((633, 600, 735, 660), 190, 350, fill=ORANGE, width=stroke)
+    body = [(430, 790), (455, 735), (515, 700), (585, 705),
+            (630, 735), (675, 705), (745, 700), (805, 735),
+            (830, 790), (820, 875), (775, 930), (700, 955),
+            (630, 960), (560, 955), (485, 930), (440, 875)]
+    draw.line(body + [body[0]], fill=ORANGE, width=stroke, joint="curve")
+    draw.arc((480, 700, 630, 960), 82, 278, fill=ORANGE, width=stroke)
+    draw.arc((560, 700, 700, 960), 82, 278, fill=ORANGE, width=stroke)
+    draw.arc((640, 700, 800, 960), 82, 278, fill=ORANGE, width=stroke)
+    draw.line((630, 720, 630, 655), fill=ORANGE, width=stroke)
+    draw.arc((625, 610, 725, 690), 180, 330, fill=ORANGE, width=stroke)
+    draw.arc((680, 625, 775, 700), 195, 300, fill=ORANGE, width=stroke)
 
 
 def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
