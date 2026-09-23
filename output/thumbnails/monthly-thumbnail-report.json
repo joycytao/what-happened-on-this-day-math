@@ -23,56 +23,73 @@
   ],
   "labels": {
     "cover": [
-      "October Morning Work Math",
+      "October",
+      "Morning Work Math",
       "31 Daily Word Problems \u00b7 3 Levels",
-      "REAL WORKSHEET PREVIEW"
+      "Historical Mini-Stories"
     ],
     "whats_included": [
-      "One Packet. Three Levels.",
-      "Level 1 \u00b7 Level 2 \u00b7 Level 3",
-      "Separate Answer Keys"
+      "What's Included",
+      "Story",
+      "Level 1",
+      "Level 2",
+      "Level 3",
+      "Answer Key"
     ],
     "different_math": [
-      "One Story. Different Math.",
-      "Shared historical context with leveled word problems.",
-      "SHARED STORY",
-      "LEVEL 1",
-      "LEVEL 2",
-      "LEVEL 3"
+      "One Story",
+      "Different Math",
+      "Level 1",
+      "Level 2",
+      "Level 3"
     ],
     "daily_practice": [
-      "Ready for Daily Practice",
-      "Morning Work \u00b7 Bell Ringers \u00b7 Homework \u00b7 Homeschool",
-      "DAILY WORD PROBLEM"
+      "Ready for",
+      "Daily Practice",
+      "Morning Work",
+      "Bell Ringers",
+      "Homeschool"
     ]
   },
   "checksums": {
-    "cover": "cd0a651d754e464450716c9e3a395e311d713478beab45288f44ec11e7ad7fdc",
-    "whats-included": "63fc007539dd64c3d1174cad02b031ebe3bc0574f3cbabe7540551803e4b8bad",
-    "different-math": "aa5e70be8ead986b9a839509f8c40a17b97e401a466ccac7041f1244126a8cbc",
-    "daily-practice": "770fc70298997389aa8533ec56b4b2cf19ced8fff1235dac8593846aad72826c"
+    "cover": "9e32efc76a849a7207532270ae1447e8c7c8df3cc9d85fdad1c1d50b4293f38a",
+    "whats-included": "02fe40604f15c7e82ca1289cb2689b8703f3cf477a7c6d9c18188e80357acd1c",
+    "different-math": "41924e5f2b8f3029d5df3068c5d848ffe391d51d1d036a2b83512942de2e49cc",
+    "daily-practice": "96366ea8f97e0564c8626e7261030580f3dde1d5c4124f1f958244801817eb16"
   },
   "pdf": "output/pdf/october-worksheet-packet.pdf",
   "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
   "copyConcepts": {
     "cover": {
-      "headline": "October Morning Work Math",
-      "supportingText": "31 Daily Word Problems \u00b7 3 Levels"
+      "headline": "October",
+      "productTitle": "MORNING WORK MATH",
+      "supportingText": [
+        "31 DAILY WORD PROBLEMS \u00b7 3 LEVELS",
+        "HISTORICAL MINI-STORIES"
+      ],
+      "doodle": "orange line-art pumpkin"
     },
     "whats_included": {
-      "headline": "One Packet. Three Levels.",
-      "supportingText": [
-        "Level 1 \u00b7 Level 2 \u00b7 Level 3",
-        "Separate Answer Keys"
-      ]
+      "headline": "WHAT'S INCLUDED",
+      "sourceLayout": "story, level 1, level 2 / level 3, answer key"
     },
     "different_math": {
-      "headline": "One Story. Different Math.",
-      "supportingText": "Shared historical context with leveled word problems."
+      "headline": [
+        "ONE STORY",
+        "DIFFERENT MATH"
+      ],
+      "sourceLayout": "level 1, level 2, level 3 in one row"
     },
     "daily_practice": {
-      "headline": "Ready for Daily Practice",
-      "supportingText": "Morning Work \u00b7 Bell Ringers \u00b7 Homework \u00b7 Homeschool"
+      "headline": [
+        "READY FOR",
+        "DAILY PRACTICE"
+      ],
+      "useCases": [
+        "MORNING WORK",
+        "BELL RINGERS",
+        "HOMESCHOOL"
+      ]
     }
   }
 }

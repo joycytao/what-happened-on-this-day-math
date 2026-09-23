@@ -61,10 +61,10 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.deepEqual(report.templates, names);
   assert.deepEqual(report.copyConcepts, {
-    cover: { headline: "October Morning Work Math", supportingText: "31 Daily Word Problems · 3 Levels" },
-    whats_included: { headline: "One Packet. Three Levels.", supportingText: ["Level 1 · Level 2 · Level 3", "Separate Answer Keys"] },
-    different_math: { headline: "One Story. Different Math.", supportingText: "Shared historical context with leveled word problems." },
-    daily_practice: { headline: "Ready for Daily Practice", supportingText: "Morning Work · Bell Ringers · Homework · Homeschool" },
+    cover: { headline: "October", productTitle: "MORNING WORK MATH", supportingText: ["31 DAILY WORD PROBLEMS · 3 LEVELS", "HISTORICAL MINI-STORIES"], doodle: "orange line-art pumpkin" },
+    whats_included: { headline: "WHAT'S INCLUDED", sourceLayout: "story, level 1, level 2 / level 3, answer key" },
+    different_math: { headline: ["ONE STORY", "DIFFERENT MATH"], sourceLayout: "level 1, level 2, level 3 in one row" },
+    daily_practice: { headline: ["READY FOR", "DAILY PRACTICE"], useCases: ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"] },
   });
 });
 
