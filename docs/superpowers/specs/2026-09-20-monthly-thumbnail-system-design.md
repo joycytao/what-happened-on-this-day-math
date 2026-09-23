@@ -12,8 +12,9 @@ month-specific content and real PDF source pages.
 
 ## Evidence and design constraints
 
-This design is based on the approved reference outputs and corrections in the
-task history:
+This design is based on the exact production prompts recorded in
+[`docs/monthly-thumbnail-prompts.md`](../../monthly-thumbnail-prompts.md) and
+the corrections in PR #77:
 
 - The four approved creative roles are Cover, What's Included, One Story
   Different Math, and Ready for Daily Practice.
@@ -22,8 +23,8 @@ task history:
 - The user approved a consistent visual system across months, with real PDF
   page previews providing product proof instead of synthetic worksheet art.
 - The approved visual language uses a warm cream background, deep navy type,
-  orange framing and labels, simple title rays, generous whitespace, and the
-  6pm Studio logo.
+  orange framing and labels, prompt-specific title rays or side lines,
+  generous whitespace, and the 6pm Studio logo.
 - October's verified packet has 127 pages: 124 daily worksheet pages followed
   by 3 answer-key pages.
 
@@ -48,31 +49,33 @@ The following properties are shared by all four thumbnail types:
 
 ### 1. Cover
 
-Communicates the month and product identity. It uses the exact headline
-`October Morning Work Math`, the supporting copy `31 Daily Word Problems · 3
-Levels`, and a clean worksheet-page preview rendered from the final PDF.
+Communicates the month and product identity. The month is the largest headline,
+followed by `MORNING WORK MATH`, `31 DAILY WORD PROBLEMS · 3 LEVELS`, and
+`HISTORICAL MINI-STORIES`, with one recognizable month-specific orange
+single-line doodle in the center. The layout changes only the month and doodle.
 
 ### 2. What's Included
 
-Uses the approved copy and real-page composition:
-
-- headline: `One Packet. Three Levels.`;
-- supporting text: `Level 1 · Level 2 · Level 3` and `Separate Answer Keys`;
-- real Level 1, Level 2, Level 3, and Answer Key previews.
+Uses the exact headline `WHAT'S INCLUDED`, three orange emphasis lines on both
+sides of the headline, and five real-page previews in a 3-over-2 grid:
+STORY, LEVEL 1, LEVEL 2, LEVEL 3, and ANSWER KEY. Each preview has an orange
+border, orange label pill, and soft shadow.
 
 The five cards are sourced from explicit PDF page numbers in the monthly
 manifest.
 
 ### 3. One Story, Different Math
 
-Uses the exact headline `One Story. Different Math.` and supporting text
-`Shared historical context with leveled word problems.` It shows the shared
-story page alongside Level 1, Level 2, and Level 3 pages from the same PDF.
+Uses the exact two-line headline `ONE STORY` / `DIFFERENT MATH`, one orange
+horizontal line on each side of the headline, and real Level 1, Level 2, and
+Level 3 pages in one row with large navy labels beneath them.
 
 ### 4. Ready for Daily Practice
 
-Features one real worksheet page at a readable scale and the exact supporting
-text `Morning Work · Bell Ringers · Homework · Homeschool`.
+Uses the exact two-line headline `READY FOR` / `DAILY PRACTICE`, three orange
+emphasis lines on both sides, one real worksheet page, and navy use-case labels
+`MORNING WORK | BELL RINGERS | HOMESCHOOL` separated by thin vertical orange
+lines.
 
 ## Monthly manifest interface
 
