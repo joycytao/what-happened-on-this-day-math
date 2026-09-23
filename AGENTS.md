@@ -305,6 +305,16 @@ The current default dependency order is:
 Issue #41 is a cross-month workflow-template task and may run in parallel with
 the October chain; it does not block the October research artifact or content
 records.
+
+The current independent follow-up set is #79 + #80 + #81 + #82. Their current
+Issue bodies and comments define complete acceptance criteria but do not state
+prerequisites among these four issues or a dependency on #77. They may run in
+parallel with one another and with unrelated open PRs; do not infer an order
+from issue number or display order. Issue #61 still depends on #60 as stated
+above. This rule was added after the user explicitly corrected the workflow so
+that Issue #77 must not block other tasks; its acceptance criterion is that the
+dependency report identifies each of #79–#82 as independently eligible when
+open and otherwise unblocked.
 ```
 
 The order means:
