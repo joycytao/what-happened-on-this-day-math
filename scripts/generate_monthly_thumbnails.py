@@ -18,7 +18,7 @@ SIZE = 1260
 
 def font(size: int, bold: bool = True):
     candidates = [
-        "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/System/Library/Fonts/Supplemental/Arial Black.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
         "/System/Library/Fonts/Arial.ttf",
     ]
     for candidate in candidates:
@@ -27,13 +27,13 @@ def font(size: int, bold: bool = True):
     return ImageFont.load_default()
 
 
-def fitted(text: str, width: int, size: int):
+def fitted(text: str, width: int, size: int, bold: bool = True):
     while size > 12:
-        f = font(size)
+        f = font(size, bold)
         if ImageDraw.Draw(Image.new("RGB", (1, 1))).textbbox((0, 0), text, font=f)[2] <= width:
             return f
         size -= 1
-    return font(12)
+    return font(12, bold)
 
 
 def base_canvas():
@@ -43,49 +43,63 @@ def base_canvas():
 
 
 def accented_title(draw, text, y, size, max_width=1080):
-    """Production-style title with three short orange rays on each side."""
+    """Production-style title with three hand-drawn rays on each side."""
     centered(draw, text, y, size, max_width)
     f = fitted(text, max_width, size)
     text_width = draw.textbbox((0, 0), text, font=f)[2]
-    gap = 28
-    ray = 42
+    gap = 34
+    ray = 50
     left = (SIZE - text_width) // 2 - gap
     right = (SIZE + text_width) // 2 + gap
     mid = y + size // 2
-    for offset, rise in ((0, 0), (14, -16), (14, 16)):
-        draw.line((left - ray - offset, mid + rise, left - offset, mid + rise), fill=ORANGE, width=7)
-        draw.line((right + offset, mid + rise, right + ray + offset, mid + rise), fill=ORANGE, width=7)
+    draw.line((left - ray, mid - 26, left - 10, mid - 4), fill=ORANGE, width=8)
+    draw.line((left - ray - 8, mid + 2, left - 10, mid + 2), fill=ORANGE, width=8)
+    draw.line((left - ray, mid + 30, left - 10, mid + 8), fill=ORANGE, width=8)
+    draw.line((right + 10, mid - 4, right + ray, mid - 26), fill=ORANGE, width=8)
+    draw.line((right + 10, mid + 2, right + ray + 8, mid + 2), fill=ORANGE, width=8)
+    draw.line((right + 10, mid + 8, right + ray, mid + 30), fill=ORANGE, width=8)
 
 
 def side_lines(draw, y, size, gap=44, ray=58):
     """One short orange horizontal line on either side of a two-line title."""
     mid = y + size // 2
-    draw.line((190, mid, 190 + ray, mid), fill=ORANGE, width=7)
-    draw.line((SIZE - 190 - ray, mid, SIZE - 190, mid), fill=ORANGE, width=7)
+    draw.line((50, mid, 165, mid), fill=ORANGE, width=7)
+    draw.line((SIZE - 165, mid, SIZE - 50, mid), fill=ORANGE, width=7)
 
 
 def footer(canvas):
     draw = ImageDraw.Draw(canvas)
-    draw.line((50, 1140, 560, 1140), fill=ORANGE, width=5)
-    draw.line((700, 1140, 1210, 1140), fill=ORANGE, width=5)
+    draw.line((45, 1160, 500, 1160), fill=ORANGE, width=6)
+    draw.line((760, 1160, 1215, 1160), fill=ORANGE, width=6)
+    studio_logo(draw, 630, 1160, 116)
 
 
 def pumpkin_doodle(canvas):
-    """Draw a stable, recognizable single-line pumpkin accent."""
+    """Draw the compact three-lobed pumpkin used by the reference cover."""
     draw = ImageDraw.Draw(canvas)
     stroke = 8
-    cx = 630
-    draw.ellipse((415, 555, 845, 850), outline=ORANGE, width=stroke)
-    for box in [(430, 540, 595, 865), (515, 525, 680, 875), (600, 525, 765, 875), (685, 540, 830, 865)]:
-        draw.arc(box, 78, 282, fill=ORANGE, width=stroke)
-    draw.line((cx, 555, cx + 5, 490), fill=ORANGE, width=stroke)
-    draw.arc((628, 442, 745, 510), 190, 345, fill=ORANGE, width=stroke)
-    draw.arc((690, 458, 790, 525), 205, 335, fill=ORANGE, width=stroke)
-    draw.arc((480, 480, 595, 560), 205, 350, fill=ORANGE, width=stroke)
+    draw.ellipse((445, 625, 620, 895), outline=ORANGE, width=stroke)
+    draw.ellipse((540, 600, 720, 910), outline=ORANGE, width=stroke)
+    draw.ellipse((650, 625, 825, 895), outline=ORANGE, width=stroke)
+    draw.line((630, 625, 642, 545), fill=ORANGE, width=stroke)
+    draw.arc((633, 512, 720, 575), 190, 350, fill=ORANGE, width=stroke)
 
 
-def centered(draw, text, y, size, max_width=1120, fill=NAVY):
-    draw.text((630, y), text, anchor="ma", fill=fill, font=fitted(text, max_width, size))
+def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
+    draw.text((630, y), text, anchor="ma", fill=fill, font=fitted(text, max_width, size, bold))
+
+
+def studio_logo(draw, center_x, center_y, size):
+    half = size // 2
+    points = [(center_x, center_y - half), (center_x + half, center_y - half // 2),
+              (center_x + half, center_y + half // 2), (center_x, center_y + half),
+              (center_x - half, center_y + half // 2), (center_x - half, center_y - half // 2)]
+    draw.polygon(points, fill=ORANGE)
+    inner = max(2, size // 25)
+    draw.line(points + [points[0]], fill="white", width=inner)
+    draw.text((center_x - 4, center_y - size // 8), "6", anchor="mm", fill="white", font=font(size // 2, True))
+    draw.text((center_x + size // 5, center_y - size // 5), "pm", anchor="mm", fill="white", font=font(size // 8, False))
+    draw.text((center_x, center_y + size // 4), "Studio", anchor="mm", fill="white", font=font(size // 8, False))
 
 
 def pill(draw, box, text, size=34):
@@ -105,7 +119,7 @@ def card(canvas, page, box, label, label_style="pill"):
     sheet.paste(fitted_image, ((w - fitted_image.width) // 2, (h - fitted_image.height) // 2))
     canvas.paste(sheet, (x, y))
     draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=3)
+    draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=5)
     if label_style == "pill":
         pill(draw, (x, y + h + 10, w, 54), label, 34)
     elif label_style == "navy":
@@ -119,29 +133,17 @@ def card(canvas, page, box, label, label_style="pill"):
 
 
 def logo(canvas, page):
-    source = Image.open(page).convert("RGBA")
-    crop = source.crop((source.width - 260, source.height - 260, source.width, source.height))
-    diff = ImageChops.difference(crop.convert("RGB"), Image.new("RGB", crop.size, "white"))
-    bbox = diff.getbbox()
-    if bbox:
-        crop = crop.crop(bbox)
-    pixels = crop.load()
-    for y in range(crop.height):
-        for x in range(crop.width):
-            r, g, b, a = pixels[x, y]
-            if r > 245 and g > 245 and b > 245:
-                pixels[x, y] = (r, g, b, 0)
-    crop.thumbnail((115, 115), Image.Resampling.LANCZOS)
-    canvas.alpha_composite(crop, ((SIZE - crop.width) // 2, 1095))
+    """Compatibility hook; the shared vector logo is drawn by footer()."""
+    return None
 
 
 def compose_cover(month, out, source_page):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, month.upper(), 94, 106, 1050)
-    centered(draw, "MORNING WORK MATH", 232, 66, 1080)
-    centered(draw, "31 DAILY WORD PROBLEMS · 3 LEVELS", 326, 31, 1080)
-    centered(draw, "HISTORICAL MINI-STORIES", 374, 31, 1080)
+    centered(draw, month.upper(), 104, 120, 1080)
+    centered(draw, "MORNING WORK MATH", 282, 68, 1120)
+    centered(draw, "31 DAILY WORD PROBLEMS · 3 LEVELS", 390, 32, 1120, bold=False)
+    centered(draw, "HISTORICAL MINI-STORIES", 444, 32, 1120, bold=False)
     pumpkin_doodle(canvas)
     footer(canvas)
     if source_page:
@@ -152,11 +154,11 @@ def compose_cover(month, out, source_page):
 def compose_whats_included(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    accented_title(draw, "WHAT'S INCLUDED", 54, 72, 1000)
-    for x, key, label in [(45, "story", "STORY"), (435, "level1", "LEVEL 1"), (825, "level2", "LEVEL 2")]:
-        card(canvas, pages[key], (x, 210, 340, 430), label)
-    for x, key, label in [(240, "level3", "LEVEL 3"), (680, "answer_key", "ANSWER KEY")]:
-        card(canvas, pages[key], (x, 730, 340, 330), label)
+    accented_title(draw, "WHAT'S INCLUDED", 34, 70, 1120)
+    for x, key, label in [(30, "story", "STORY"), (440, "level1", "LEVEL 1"), (850, "level2", "LEVEL 2")]:
+        card(canvas, pages[key], (x, 140, 380, 440), label)
+    for x, key, label in [(195, "level3", "LEVEL 3"), (645, "answer_key", "ANSWER KEY")]:
+        card(canvas, pages[key], (x, 650, 420, 360), label)
     footer(canvas)
     logo(canvas, pages["story"])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
@@ -165,13 +167,13 @@ def compose_whats_included(pages, out):
 def compose_different_math(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "ONE STORY", 52, 88, 1080)
-    centered(draw, "DIFFERENT MATH", 148, 70, 1080)
-    side_lines(draw, 148, 70)
+    centered(draw, "ONE STORY", 60, 102, 1120)
+    centered(draw, "DIFFERENT MATH", 188, 82, 1120)
+    side_lines(draw, 220, 82)
     for box, key, label in [
-        ((55, 290, 350, 590), "level1", "LEVEL 1"),
-        ((455, 290, 350, 590), "level2", "LEVEL 2"),
-        ((855, 290, 350, 590), "level3", "LEVEL 3"),
+        ((48, 430, 374, 500), "level1", "LEVEL 1"),
+        ((443, 430, 374, 500), "level2", "LEVEL 2"),
+        ((838, 430, 374, 500), "level3", "LEVEL 3"),
     ]:
         card(canvas, pages[key], box, label, label_style="navy")
     footer(canvas)
@@ -182,18 +184,18 @@ def compose_different_math(pages, out):
 def compose_daily_practice(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "READY FOR", 52, 88, 1080)
-    accented_title(draw, "DAILY PRACTICE", 148, 70, 1080)
-    card(canvas, pages["worksheet"], (320, 300, 620, 610), "", label_style="none")
+    centered(draw, "READY FOR", 46, 102, 1120)
+    accented_title(draw, "DAILY PRACTICE", 178, 88, 1120)
+    card(canvas, pages["worksheet"], (325, 320, 610, 700), "", label_style="none")
     items = ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"]
-    widths = [draw.textbbox((0, 0), item, font=font(24))[2] for item in items]
+    widths = [draw.textbbox((0, 0), item, font=font(30))[2] for item in items]
     total = sum(widths) + 2 * 62
     x = (SIZE - total) // 2
     for index, item in enumerate(items):
-        draw.text((x, 990), item, anchor="la", fill=NAVY, font=font(24))
+        draw.text((x, 1050), item, anchor="la", fill=NAVY, font=font(30))
         x += widths[index]
         if index < len(items) - 1:
-            draw.line((x + 31, 978, x + 31, 1010), fill=ORANGE, width=5)
+            draw.line((x + 31, 1040, x + 31, 1080), fill=ORANGE, width=6)
             x += 62
     footer(canvas)
     logo(canvas, pages["worksheet"])

@@ -52,10 +52,10 @@
     ]
   },
   "checksums": {
-    "cover": "524d97c363852c1de12b36a328fc6303f26e41bc42fc8258f493764c00c54d7a",
-    "whats-included": "2ceebe781b25ace9137162bab8095459789b5040c85cd80429b469bb353a48a8",
-    "different-math": "bb5c9c5528d2a07a76f0b3c99ef34aa7d12835339adc59f1a31fdea8cb46ce60",
-    "daily-practice": "a68104deee7db5473bf5d61545f56dba61b6586bd52188988834b41ec9d77b47"
+    "cover": "96380443146f29bd1d402afd8d44c5ed4c8676d5caae5531f34582b37cc9c795",
+    "whats-included": "c41db47ab740038a16a7ce9e0d6b55573b1c10ab850039ec37381d92e12d56f2",
+    "different-math": "ee06bb22f1da9f20f22ce8b20166fb21ca94e85788c32216d45e91c8c559ab6c",
+    "daily-practice": "1e79a017d4aede2d59cfe2f84ac6dfdcaa70f602b642b1b488f277b11174b8f0"
   },
   "pdf": "output/pdf/october-worksheet-packet.pdf",
   "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
