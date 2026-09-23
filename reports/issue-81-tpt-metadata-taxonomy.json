@@ -1,0 +1,12 @@
+{
+  "issue": 81,
+  "input": "examples/tpt-metadata-taxonomy.example.json",
+  "checkedAt": "2026-09-23T02:46:09.187Z",
+  "valid": true,
+  "errors": [],
+  "gates": {
+    "content": true,
+    "mathematics": "not_applicable_metadata_taxonomy",
+    "layout": "not_applicable_documentation_only"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxonomyId": "morning-work-math-tpt-v1",
+  "fields": {
+    "required": ["title", "subjectArea", "resourceType", "gradeBand", "format", "description", "keywords", "productRelationship"],
+    "allowedValues": {
+      "subjectArea": ["Math", "Reading", "History"],
+      "resourceType": ["Worksheets", "Printables", "Task Cards"],
+      "gradeBand": ["Grades 1-3", "Grades 3-5", "Grades 1-5"],
+      "format": ["PDF", "Printable PDF"],
+      "productRelationship": ["monthly standalone", "annual bundle"]
+    }
+  },
+  "titleRules": {
+    "monthly": "{Month} Morning Work Math",
+    "bundle": "Morning Work Math: Full-Year Bundle",
+    "monthMustAppearInMonthlyTitle": true
+  },
+  "keywordGroups": {
+    "math": ["math word problems", "morning work", "daily math practice"],
+    "routine": ["bell ringers", "homework", "homeschool"],
+    "history": ["historical mini-stories", "history integration", "real-world math"],
+    "differentiation": ["three levels", "leveled math", "mixed-level learners"]
+  },
+  "relationshipRules": {
+    "monthlyStandalone": "One month, one stable product identifier, with its own PDF, answer keys, thumbnails, listing copy, and release record.",
+    "annualBundle": "References released monthly products and adds no renamed duplicate products.",
+    "optionalSeasonalGroup": "May group monthly identifiers without changing their standalone metadata."
+  },
+  "referenceRecord": {
+    "title": "October Morning Work Math",
+    "subjectArea": "Math",
+    "resourceType": "Worksheets",
+    "gradeBand": "Grades 1-5",
+    "format": "Printable PDF",
+    "productType": "monthly standalone",
+    "keywords": ["math word problems", "morning work", "historical mini-stories", "three levels"],
+    "description": "A month of daily historical mini-stories with three leveled math word problems and separate answer keys."
+  }
+}
