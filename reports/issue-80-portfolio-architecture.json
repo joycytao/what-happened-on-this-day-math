@@ -1,0 +1,12 @@
+{
+  "issue": 80,
+  "input": "examples/portfolio-architecture.example.json",
+  "checkedAt": "2026-09-23T01:40:49.748Z",
+  "valid": true,
+  "errors": [],
+  "gates": {
+    "content": true,
+    "mathematics": "not_applicable_portfolio_contract",
+    "layout": "not_applicable_documentation_only"
+  }
+}
