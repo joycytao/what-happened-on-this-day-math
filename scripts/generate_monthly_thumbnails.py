@@ -71,18 +71,18 @@ def footer(canvas):
     draw = ImageDraw.Draw(canvas)
     draw.line((45, 1160, 500, 1160), fill=ORANGE, width=6)
     draw.line((760, 1160, 1215, 1160), fill=ORANGE, width=6)
-    studio_logo(draw, 630, 1160, 116)
+    studio_logo(draw, 630, 1160, 100)
 
 
 def pumpkin_doodle(canvas):
     """Draw the compact three-lobed pumpkin used by the reference cover."""
     draw = ImageDraw.Draw(canvas)
     stroke = 8
-    draw.ellipse((445, 625, 620, 895), outline=ORANGE, width=stroke)
-    draw.ellipse((540, 600, 720, 910), outline=ORANGE, width=stroke)
-    draw.ellipse((650, 625, 825, 895), outline=ORANGE, width=stroke)
-    draw.line((630, 625, 642, 545), fill=ORANGE, width=stroke)
-    draw.arc((633, 512, 720, 575), 190, 350, fill=ORANGE, width=stroke)
+    draw.ellipse((410, 690, 615, 935), outline=ORANGE, width=stroke)
+    draw.ellipse((520, 665, 740, 950), outline=ORANGE, width=stroke)
+    draw.ellipse((645, 690, 850, 935), outline=ORANGE, width=stroke)
+    draw.line((630, 690, 642, 635), fill=ORANGE, width=stroke)
+    draw.arc((633, 600, 735, 660), 190, 350, fill=ORANGE, width=stroke)
 
 
 def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
@@ -140,11 +140,14 @@ def logo(canvas, page):
 def compose_cover(month, out, source_page):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, month.upper(), 104, 120, 1080)
-    centered(draw, "MORNING WORK MATH", 282, 68, 1120)
-    centered(draw, "31 DAILY WORD PROBLEMS · 3 LEVELS", 390, 32, 1120, bold=False)
-    centered(draw, "HISTORICAL MINI-STORIES", 444, 32, 1120, bold=False)
+    centered(draw, month.upper(), 96, 190, 1120)
+    centered(draw, "MORNING WORK MATH", 326, 110, 1120)
+    centered(draw, "31 DAILY WORD PROBLEMS", 500, 58, 1120, bold=False)
+    centered(draw, "HISTORICAL MINI-STORIES", 576, 52, 1120, bold=False)
     pumpkin_doodle(canvas)
+    centered(draw, "3 LEVELS", 1000, 82, 440)
+    draw.line((200, 1030, 400, 1030), fill=ORANGE, width=8)
+    draw.line((860, 1030, 1060, 1030), fill=ORANGE, width=8)
     footer(canvas)
     if source_page:
         logo(canvas, source_page)
@@ -260,7 +263,7 @@ def main():
         "pdf": manifest["pdf"]["path"],
         "pdf_sha256": actual_pdf_sha256,
         "copyConcepts": {
-            "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS · 3 LEVELS", "HISTORICAL MINI-STORIES"], "doodle": "orange line-art pumpkin"},
+            "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS", "HISTORICAL MINI-STORIES"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin"},
             "whats_included": {"headline": "WHAT'S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side"},
             "different_math": {"headline": ["ONE STORY", "DIFFERENT MATH"], "sourceLayout": "level 1, level 2, level 3 in one row", "headlineSideLines": "one orange horizontal line on each side", "labelStyle": "large navy labels"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines"},

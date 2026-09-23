@@ -58,7 +58,7 @@ Product title:
 MORNING WORK MATH
 
 Supporting text:
-31 DAILY WORD PROBLEMS · 3 LEVELS
+31 DAILY WORD PROBLEMS
 HISTORICAL MINI-STORIES
 
 Place the month name as the largest text near the top.
@@ -66,13 +66,21 @@ Place “MORNING WORK MATH” directly below it.
 Place the two supporting lines beneath the title.
 Place one large, simple, hand-drawn orange line-art doodle in the center.
 
+Below the pumpkin, place a centered `3 LEVELS` block with one orange horizontal
+line on each side. Keep this block closer to the pumpkin than to the bottom
+logo. Extend the bottom orange lines toward the centered logo and keep the logo
+small and clear inside the footer.
+
 The center doodle must represent:
 [MONTH DOODLE]
 
 The doodle must be simple, recognizable, orange single-line artwork,
 elementary-education appropriate, visually balanced, and consistent in scale
-and position across all months. Change only the month name and central doodle;
-do not redesign the layout.
+and position across all months. Use a large bold geometric sans-serif month
+headline, a smaller single-line product title, regular-weight supporting text,
+and the vertical hierarchy `MONTH → PRODUCT TITLE → SUPPORTING TEXT → DOODLE →
+3 LEVELS → FOOTER`. Change only the month name and central doodle; do not
+redesign the layout.
 ```
 
 ## Thumbnail 2 — What's Included

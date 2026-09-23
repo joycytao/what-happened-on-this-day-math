@@ -35,7 +35,7 @@
       "source_pdf": "v1.0",
       "source_pages": {},
       "output_path": "output/thumbnails/october-v1.0-cover.png",
-      "sha256": "cd0a651d754e464450716c9e3a395e311d713478beab45288f44ec11e7ad7fdc",
+      "sha256": "63400e4020a39211c2d3a7f53a55a74d09aa6d77432f15d693a2912be9fac900",
       "dimensions": [1260, 1260],
       "format": "monthly-cover"
     },
@@ -46,7 +46,7 @@
       "source_pdf": "v1.0",
       "source_pages": {"story": 1, "level1": 2, "level2": 3, "level3": 4, "answer_key": 125},
       "output_path": "output/thumbnails/october-v1.0-whats-included.png",
-      "sha256": "63fc007539dd64c3d1174cad02b031ebe3bc0574f3cbabe7540551803e4b8bad",
+      "sha256": "47bf78895e21c118c5ddb0134480b2995c983c2095e2ccd280825cfd133da829",
       "dimensions": [1260, 1260],
       "format": "one-packet-three-levels"
     },
@@ -57,7 +57,7 @@
       "source_pdf": "v1.0",
       "source_pages": {"story": 1, "level1": 2, "level2": 3, "level3": 4},
       "output_path": "output/thumbnails/october-v1.0-different-math.png",
-      "sha256": "aa5e70be8ead986b9a839509f8c40a17b97e401a466ccac7041f1244126a8cbc",
+      "sha256": "ed57122438edacec74424a66f4981f1c51b147ebf35e01b1efd882733441019e",
       "dimensions": [1260, 1260],
       "format": "one-story-different-math"
     },
@@ -68,7 +68,7 @@
       "source_pdf": "v1.0",
       "source_pages": {"worksheet": 2},
       "output_path": "output/thumbnails/october-v1.0-daily-practice.png",
-      "sha256": "770fc70298997389aa8533ec56b4b2cf19ced8fff1235dac8593846aad72826c",
+      "sha256": "ff3b9aa67d1b51a123a04dc3adbdb74b9bbe0d629de567d2ba325e169ab2cce2",
       "dimensions": [1260, 1260],
       "format": "ready-for-daily-practice"
     }
