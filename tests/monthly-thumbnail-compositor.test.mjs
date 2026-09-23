@@ -32,7 +32,7 @@ test("renders only the unique source pages declared by the October manifest", as
 
   const report = JSON.parse(await readFile(join(outputDir, "source-pages.json"), "utf8"));
   assert.deepEqual(report.pages.map(({ page, types }) => [page, types]), [
-    [1, ["whats_included.story"]],
+    [1, ["different_math.story", "whats_included.story"]],
     [2, ["daily_practice.worksheet", "different_math.level1", "whats_included.level1"]],
     [3, ["different_math.level2", "whats_included.level2"]],
     [4, ["different_math.level3", "whats_included.level3"]],
@@ -44,7 +44,7 @@ function pngDimensions(buffer) {
   return [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
 }
 
-test("generates five branded 1260px monthly thumbnail compositions", async () => {
+test("generates the four requested 1260px monthly thumbnail concepts", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-"));
   const result = spawnSync(PYTHON, [
     "scripts/generate_monthly_thumbnails.py",
@@ -53,16 +53,19 @@ test("generates five branded 1260px monthly thumbnail compositions", async () =>
   ], { encoding: "utf8" });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  const names = ["cover", "overview", "whats-included", "different-math", "daily-practice"];
+  const names = ["cover", "whats-included", "different-math", "daily-practice"];
   for (const name of names) {
     const image = await readFile(join(outputDir, `october-v1.0-${name}.png`));
     assert.deepEqual(pngDimensions(image), [1260, 1260], name);
   }
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.deepEqual(report.templates, names);
-  assert.deepEqual(report.labels.whats_included, ["WHAT'S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"]);
-  assert.deepEqual(report.labels.different_math, ["ONE STORY", "DIFFERENT MATH", "LEVEL 1", "LEVEL 2", "LEVEL 3"]);
-  assert.deepEqual(report.labels.daily_practice, ["READY FOR DAILY PRACTICE", "ONE PROBLEM A DAY"]);
+  assert.deepEqual(report.copyConcepts, {
+    cover: { headline: "October Morning Work Math", supportingText: "31 Daily Word Problems · 3 Levels" },
+    whats_included: { headline: "One Packet. Three Levels.", supportingText: ["Level 1 · Level 2 · Level 3", "Separate Answer Keys"] },
+    different_math: { headline: "One Story. Different Math.", supportingText: "Shared historical context with leveled word problems." },
+    daily_practice: { headline: "Ready for Daily Practice", supportingText: "Morning Work · Bell Ringers · Homework · Homeschool" },
+  });
 });
 
 test("October compositions use the production visual language", async () => {
@@ -75,7 +78,7 @@ test("October compositions use the production visual language", async () => {
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
-  assert.equal(report.design, "october-production-v1");
+  assert.equal(report.design, "october-production-v2");
   assert.deepEqual(report.style, {
     canvas: [1260, 1260],
     background: "#FEFFEF",

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the five reusable, real-page monthly thumbnail compositions."""
+"""Generate the four requested, real-page monthly thumbnail compositions."""
 
 import argparse
 import hashlib
@@ -40,19 +40,6 @@ def base_canvas():
     canvas = Image.new("RGBA", (SIZE, SIZE), BG)
     ImageDraw.Draw(canvas).rounded_rectangle((30, 30, 1230, 1230), 26, outline=ORANGE, width=8)
     return canvas
-
-
-def doodle(draw, center=(630, 560), scale=1.0):
-    """Draw the three-lobed pumpkin used by the October production assets."""
-    cx, cy = center
-    w = int(7 * scale)
-    lobes = [(-68, -2, 72, 128), (-27, -38, 74, 136), (18, -2, 72, 128)]
-    for left, top, right, bottom in lobes:
-        draw.ellipse((cx + left * scale, cy + top * scale, cx + right * scale, cy + bottom * scale), outline=ORANGE, width=w)
-    draw.line((cx, cy + 110 * scale, cx - 4 * scale, cy + 166 * scale), fill=ORANGE, width=w)
-    draw.line((cx - 4 * scale, cy + 166 * scale, cx - 66 * scale, cy + 166 * scale), fill=ORANGE, width=w)
-    draw.line((cx + 2 * scale, cy - 38 * scale, cx + 20 * scale, cy - 93 * scale), fill=ORANGE, width=w)
-    draw.line((cx + 20 * scale, cy - 93 * scale, cx + 68 * scale, cy - 69 * scale), fill=ORANGE, width=w)
 
 
 def accented_title(draw, text, y, size, max_width=1080):
@@ -119,28 +106,12 @@ def logo(canvas, page):
 
 
 def compose_cover(month, out, source_page):
-    canvas, draw = base_canvas(), ImageDraw.Draw(base_canvas())
-    draw = ImageDraw.Draw(canvas)
-    centered(draw, month.upper(), 96, 86)
-    centered(draw, "MORNING WORK MATH", 218, 55)
-    centered(draw, "31 DAILY WORD PROBLEMS", 330, 35)
-    doodle(draw, (630, 565), 1.10)
-    centered(draw, "3 LEVELS", 905, 42)
-    footer(canvas)
-    if source_page:
-        logo(canvas, source_page)
-    canvas.convert("RGB").save(out, "PNG", optimize=True)
-
-
-def compose_overview(month, out, source_page):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, month.upper(), 92, 86)
-    centered(draw, "MORNING WORK MATH", 218, 55)
-    centered(draw, "DAILY WORD PROBLEMS", 330, 35)
-    centered(draw, "HISTORICAL MINI-STORIES", 384, 35)
-    doodle(draw, (630, 600), 1.10)
-    centered(draw, "3 LEVELS", 920, 42)
+    draw.text((92, 126), month.upper(), fill=NAVY, font=font(92))
+    draw.text((92, 252), "MORNING\nWORK MATH", fill=NAVY, font=font(64), spacing=4)
+    draw.text((92, 470), "31 DAILY WORD\nPROBLEMS · 3 LEVELS", fill=NAVY, font=font(36), spacing=8)
+    card(canvas, source_page, (690, 142, 430, 690), "REAL WORKSHEET PREVIEW")
     footer(canvas)
     if source_page:
         logo(canvas, source_page)
@@ -150,39 +121,41 @@ def compose_overview(month, out, source_page):
 def compose_whats_included(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    accented_title(draw, "WHAT'S INCLUDED", 40, 82, 920)
-    for points in [((184, 42), (210, 62)), ((176, 78), (208, 78)), ((184, 114), (210, 94)), ((1076, 42), (1050, 62)), ((1084, 78), (1052, 78)), ((1076, 114), (1050, 94))]:
-        draw.line(points, fill=ORANGE, width=10)
-    for x, key, label in [(31, "story", "STORY"), (437, "level1", "LEVEL 1"), (843, "level2", "LEVEL 2")]:
-        card(canvas, pages[key], (x, 134, 380, 440), label)
-    for x, key, label in [(196, "level3", "LEVEL 3"), (646, "answer_key", "ANSWER KEY")]:
-        card(canvas, pages[key], (x, 632, 380, 380), label)
+    accented_title(draw, "ONE PACKET. THREE LEVELS.", 40, 62, 1120)
+    centered(draw, "LEVEL 1 · LEVEL 2 · LEVEL 3", 132, 28)
+    centered(draw, "SEPARATE ANSWER KEYS", 170, 28)
+    for x, key, label in [(31, "level1", "LEVEL 1"), (437, "level2", "LEVEL 2"), (843, "level3", "LEVEL 3")]:
+        card(canvas, pages[key], (x, 230, 380, 470), label)
+    card(canvas, pages["answer_key"], (440, 830, 380, 170), "SEPARATE ANSWER KEYS")
     footer(canvas)
-    logo(canvas, pages["story"])
+    logo(canvas, pages["level1"])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
 def compose_different_math(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "ONE STORY", 72, 88)
-    centered(draw, "DIFFERENT MATH", 190, 77)
-    card(canvas, pages["level1"], (55, 420, 370, 470), "LEVEL 1")
-    card(canvas, pages["level2"], (445, 420, 370, 470), "LEVEL 2")
-    card(canvas, pages["level3"], (835, 420, 370, 470), "LEVEL 3")
+    accented_title(draw, "ONE STORY. DIFFERENT MATH.", 48, 60, 1120)
+    centered(draw, "SHARED HISTORICAL CONTEXT WITH LEVELED WORD PROBLEMS.", 142, 22, 1100)
+    for box, key, label in [
+        ((80, 230, 520, 330), "story", "SHARED STORY"),
+        ((660, 230, 520, 330), "level1", "LEVEL 1"),
+        ((80, 690, 520, 330), "level2", "LEVEL 2"),
+        ((660, 690, 520, 330), "level3", "LEVEL 3"),
+    ]:
+        card(canvas, pages[key], box, label)
     footer(canvas)
-    logo(canvas, pages["level1"])
+    logo(canvas, pages["story"])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
 def compose_daily_practice(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    accented_title(draw, "READY FOR DAILY PRACTICE", 55, 64, 1080)
-    centered(draw, "ONE PROBLEM A DAY", 190, 44)
+    accented_title(draw, "READY FOR DAILY PRACTICE", 55, 62, 1080)
+    centered(draw, "MORNING WORK · BELL RINGERS · HOMEWORK · HOMESCHOOL", 190, 24, 1130)
     card(canvas, pages["worksheet"], (280, 320, 700, 650), "DAILY WORD PROBLEM")
     footer(canvas)
-    centered(draw, "MORNING WORK  |  BELL RINGERS  |  HOMESCHOOL", 1048, 24, 1110)
     logo(canvas, pages["worksheet"])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
@@ -199,11 +172,6 @@ def main():
         pdf = (Path.cwd() / pdf).resolve()
         if not pdf.exists():
             pdf = (manifest_path.parent / manifest["pdf"]["path"]).resolve()
-    doodle_path = Path(manifest["doodle"]["path"])
-    if not doodle_path.is_absolute():
-        doodle_path = (Path.cwd() / doodle_path).resolve()
-    if not doodle_path.exists():
-        raise FileNotFoundError(f"doodle asset does not exist: {doodle_path}")
     actual_pdf_sha256 = hashlib.sha256(pdf.read_bytes()).hexdigest()
     expected_pdf_sha256 = manifest["pdf"]["sha256"]
     if actual_pdf_sha256 != expected_pdf_sha256:
@@ -223,19 +191,19 @@ def main():
         daily = {key: render_page(page) for key, page in pages["daily_practice"]["source_pages"].items()}
         first = whats["story"]
         compose_cover(manifest["product"]["month"], args.output_dir / f"{prefix}-cover.png", first)
-        compose_overview(manifest["product"]["month"], args.output_dir / f"{prefix}-overview.png", first)
         compose_whats_included(whats, args.output_dir / f"{prefix}-whats-included.png")
         compose_different_math(different, args.output_dir / f"{prefix}-different-math.png")
         compose_daily_practice(daily, args.output_dir / f"{prefix}-daily-practice.png")
-    names = ["cover", "overview", "whats-included", "different-math", "daily-practice"]
+    names = ["cover", "whats-included", "different-math", "daily-practice"]
     labels = {
-        "whats_included": ["WHAT'S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"],
-        "different_math": ["ONE STORY", "DIFFERENT MATH", "LEVEL 1", "LEVEL 2", "LEVEL 3"],
-        "daily_practice": ["READY FOR DAILY PRACTICE", "ONE PROBLEM A DAY"],
+        "cover": ["October Morning Work Math", "31 Daily Word Problems · 3 Levels", "REAL WORKSHEET PREVIEW"],
+        "whats_included": ["One Packet. Three Levels.", "Level 1 · Level 2 · Level 3", "Separate Answer Keys"],
+        "different_math": ["One Story. Different Math.", "Shared historical context with leveled word problems.", "SHARED STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3"],
+        "daily_practice": ["Ready for Daily Practice", "Morning Work · Bell Ringers · Homework · Homeschool", "DAILY WORD PROBLEM"],
     }
     checksums = {name: hashlib.sha256((args.output_dir / f"{prefix}-{name}.png").read_bytes()).hexdigest() for name in names}
     report = {
-        "design": "october-production-v1",
+        "design": "october-production-v2",
         "style": {
             "canvas": [SIZE, SIZE],
             "background": BG,
@@ -247,9 +215,14 @@ def main():
         "templates": names,
         "labels": labels,
         "checksums": checksums,
-        "doodle": manifest["doodle"]["path"],
         "pdf": manifest["pdf"]["path"],
         "pdf_sha256": actual_pdf_sha256,
+        "copyConcepts": {
+            "cover": {"headline": "October Morning Work Math", "supportingText": "31 Daily Word Problems · 3 Levels"},
+            "whats_included": {"headline": "One Packet. Three Levels.", "supportingText": ["Level 1 · Level 2 · Level 3", "Separate Answer Keys"]},
+            "different_math": {"headline": "One Story. Different Math.", "supportingText": "Shared historical context with leveled word problems."},
+            "daily_practice": {"headline": "Ready for Daily Practice", "supportingText": "Morning Work · Bell Ringers · Homework · Homeschool"},
+        },
     }
     (args.output_dir / "monthly-thumbnail-report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 

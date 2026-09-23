@@ -35,20 +35,9 @@
       "source_pdf": "v1.0",
       "source_pages": {},
       "output_path": "output/thumbnails/october-v1.0-cover.png",
-      "sha256": "330c3370ac6f1caf414f8911686aeadbf7d04d338a01b6729b3db581067e04fd",
+      "sha256": "cd0a651d754e464450716c9e3a395e311d713478beab45288f44ec11e7ad7fdc",
       "dimensions": [1260, 1260],
       "format": "monthly-cover"
-    },
-    {
-      "asset_type": "landing-page-thumbnail",
-      "template": "overview",
-      "status": "ready",
-      "source_pdf": "v1.0",
-      "source_pages": {},
-      "output_path": "output/thumbnails/october-v1.0-overview.png",
-      "sha256": "6ab67b8678003d83a68b35e369c71ad47b259b9a15c1ab8458ac95432bcd857c",
-      "dimensions": [1260, 1260],
-      "format": "monthly-overview"
     },
     {
       "asset_type": "landing-page-thumbnail",
@@ -57,18 +46,18 @@
       "source_pdf": "v1.0",
       "source_pages": {"story": 1, "level1": 2, "level2": 3, "level3": 4, "answer_key": 125},
       "output_path": "output/thumbnails/october-v1.0-whats-included.png",
-      "sha256": "959aa00e95b564b01db3f9138209151247fde8c2db14177984d057408337c0d6",
+      "sha256": "63fc007539dd64c3d1174cad02b031ebe3bc0574f3cbabe7540551803e4b8bad",
       "dimensions": [1260, 1260],
-      "format": "whats-included-reference-layout"
+      "format": "one-packet-three-levels"
     },
     {
       "asset_type": "landing-page-thumbnail",
       "template": "different_math",
       "status": "ready",
       "source_pdf": "v1.0",
-      "source_pages": {"level1": 2, "level2": 3, "level3": 4},
+      "source_pages": {"story": 1, "level1": 2, "level2": 3, "level3": 4},
       "output_path": "output/thumbnails/october-v1.0-different-math.png",
-      "sha256": "0e10fef6dd9e2488cfccee361ee15a17f99dd20566e7388407a6c22b3c6839ea",
+      "sha256": "aa5e70be8ead986b9a839509f8c40a17b97e401a466ccac7041f1244126a8cbc",
       "dimensions": [1260, 1260],
       "format": "one-story-different-math"
     },
@@ -79,7 +68,7 @@
       "source_pdf": "v1.0",
       "source_pages": {"worksheet": 2},
       "output_path": "output/thumbnails/october-v1.0-daily-practice.png",
-      "sha256": "77382166a84078cf66798631b9d142ad941c2e21c36243c041867d19cd1c9a43",
+      "sha256": "770fc70298997389aa8533ec56b4b2cf19ced8fff1235dac8593846aad72826c",
       "dimensions": [1260, 1260],
       "format": "ready-for-daily-practice"
     }

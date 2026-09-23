@@ -1,10 +1,10 @@
 import { readFile } from "node:fs/promises";
 
-const TEMPLATE_NAMES = ["cover", "overview", "whats_included", "different_math", "daily_practice"];
+const TEMPLATE_NAMES = ["cover", "whats_included", "different_math", "daily_practice"];
 const PAGE_TEMPLATES = new Set(["whats_included", "different_math", "daily_practice"]);
 const REQUIRED_SOURCE_LABELS = {
   whats_included: ["story", "level1", "level2", "level3", "answer_key"],
-  different_math: ["level1", "level2", "level3"],
+  different_math: ["story", "level1", "level2", "level3"],
   daily_practice: ["worksheet"],
 };
 
@@ -22,7 +22,6 @@ export function validateMonthlyThumbnailManifest(manifest) {
     if (value === undefined || value === null || value === "") errors.push(`${path} is required`);
   };
   required(manifest.pdf, "pdf");
-  required(manifest.doodle, "doodle");
   required(manifest.templates, "templates");
 
   if (manifest.pdf) {
@@ -36,8 +35,6 @@ export function validateMonthlyThumbnailManifest(manifest) {
       errors.push("pdf.sha256 must be a 64-character lowercase hexadecimal checksum");
     }
   }
-  if (manifest.doodle) required(manifest.doodle.path, "doodle.path");
-
   const templates = manifest.templates ?? {};
   for (const name of TEMPLATE_NAMES) {
     const template = templates[name];
