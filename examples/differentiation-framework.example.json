@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "frameworkId": "one-story-three-levels",
+  "sharedStoryRequirements": [
+    "Use the same calendar date and historical event for all three levels.",
+    "Use numbers stated in the reading passage or explicitly stated conversion facts.",
+    "Keep the final answer unambiguous and name its unit or meaning."
+  ],
+  "levels": {
+    "level1": {
+      "learnerProfile": "Lower elementary",
+      "numberRange": { "max": 50 },
+      "allowedSkills": ["addition", "subtraction"],
+      "maxReasoningSteps": 1,
+      "reasoningExpectation": "One short, literal operation with a low reading load."
+    },
+    "level2": {
+      "learnerProfile": "Middle elementary",
+      "numberRange": { "max": 1000 },
+      "allowedSkills": ["multiplication", "division", "equal-sharing", "simple-scale", "basic-measurement"],
+      "maxReasoningSteps": 2,
+      "reasoningExpectation": "A distinct multiplication, division, sharing, scale, or basic measurement idea."
+    },
+    "level3": {
+      "learnerProfile": "Upper elementary",
+      "numberRange": { "max": 1000000 },
+      "allowedSkills": ["multi-step", "unit-conversion", "time", "money", "proportional-reasoning", "logical-measurement"],
+      "minReasoningSteps": 2,
+      "reasoningExpectation": "At least two operations, a conversion, a comparison, or a logical measurement challenge."
+    }
+  },
+  "alignmentFields": ["storyNumberRefs", "skillFamily", "prompt", "equations", "finalAnswer"],
+  "duplicationRules": [
+    "Do not copy the Level 1 operation and only change its numbers.",
+    "Do not increase reading length as a substitute for mathematical complexity.",
+    "Do not introduce an unrelated story, number, or unit without explaining it."
+  ],
+  "examples": [
+    {
+      "date": "October 1",
+      "storyTitle": "The Model T reaches its first customer",
+      "sharedStory": true,
+      "progressionNote": "The same car-factory story moves from addition to a rate-based multiplication task and then a historical-year plus savings calculation.",
+      "levels": {
+        "level1": { "skillFamily": "addition", "storyNumberRefs": [4, 3] },
+        "level2": { "skillFamily": "simple-scale", "storyNumberRefs": [12, 8] },
+        "level3": { "skillFamily": "time", "storyNumberRefs": [1908, 2026, 850, 50] }
+      }
+    },
+    {
+      "date": "October 8",
+      "storyTitle": "Octopus Day",
+      "sharedStory": true,
+      "progressionNote": "The same octopus facts move from repeated groups to combined attributes and then a kilogram-to-gram conversion with a scale comparison.",
+      "levels": {
+        "level1": { "skillFamily": "multiplication", "storyNumberRefs": [8, 2] },
+        "level2": { "skillFamily": "equal-sharing", "storyNumberRefs": [3, 9, 5] },
+        "level3": { "skillFamily": "unit-conversion", "storyNumberRefs": [50, 200, 1000] }
+      }
+    },
+    {
+      "date": "October 24",
+      "storyTitle": "The Erie Canal opens",
+      "sharedStory": true,
+      "progressionNote": "The same canal story moves from addition to a comparison of travel time and then a distance-rate-time conversion.",
+      "levels": {
+        "level1": { "skillFamily": "addition", "storyNumberRefs": [8, 5] },
+        "level2": { "skillFamily": "subtraction", "storyNumberRefs": [20, 8] },
+        "level3": { "skillFamily": "time", "storyNumberRefs": [584, 8, 24] }
+      }
+    }
+  ]
+}
