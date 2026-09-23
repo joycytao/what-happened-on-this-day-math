@@ -43,18 +43,25 @@ def base_canvas():
 
 
 def accented_title(draw, text, y, size, max_width=1080):
-    """Production-style title with short orange rays on both sides."""
+    """Production-style title with three short orange rays on each side."""
     centered(draw, text, y, size, max_width)
     f = fitted(text, max_width, size)
     text_width = draw.textbbox((0, 0), text, font=f)[2]
     gap = 28
-    ray = 48
+    ray = 42
     left = (SIZE - text_width) // 2 - gap
     right = (SIZE + text_width) // 2 + gap
-    draw.line((left - ray, y + size // 2, left, y + size // 2), fill=ORANGE, width=7)
-    draw.line((left - ray + 8, y + size // 2 - 24, left - 10, y + size // 2 - 8), fill=ORANGE, width=7)
-    draw.line((right, y + size // 2, right + ray, y + size // 2), fill=ORANGE, width=7)
-    draw.line((right + 10, y + size // 2 - 8, right + ray - 8, y + size // 2 - 24), fill=ORANGE, width=7)
+    mid = y + size // 2
+    for offset, rise in ((0, 0), (14, -16), (14, 16)):
+        draw.line((left - ray - offset, mid + rise, left - offset, mid + rise), fill=ORANGE, width=7)
+        draw.line((right + offset, mid + rise, right + ray + offset, mid + rise), fill=ORANGE, width=7)
+
+
+def side_lines(draw, y, size, gap=44, ray=58):
+    """One short orange horizontal line on either side of a two-line title."""
+    mid = y + size // 2
+    draw.line((190, mid, 190 + ray, mid), fill=ORANGE, width=7)
+    draw.line((SIZE - 190 - ray, mid, SIZE - 190, mid), fill=ORANGE, width=7)
 
 
 def footer(canvas):
@@ -64,19 +71,17 @@ def footer(canvas):
 
 
 def pumpkin_doodle(canvas):
-    """Draw a stable, recognizable single-line October accent."""
+    """Draw a stable, recognizable single-line pumpkin accent."""
     draw = ImageDraw.Draw(canvas)
     stroke = 8
-    cx, cy = 630, 650
-    for box in [(430, 500, 625, 820), (520, 470, 740, 830), (635, 500, 830, 820)]:
-        draw.arc(box, 70, 290, fill=ORANGE, width=stroke)
-    draw.arc((400, 520, 860, 820), 180, 360, fill=ORANGE, width=stroke)
-    draw.arc((400, 470, 860, 790), 0, 180, fill=ORANGE, width=stroke)
-    draw.line((cx, 500, cx + 10, 430), fill=ORANGE, width=stroke)
-    draw.arc((635, 405, 770, 500), 190, 345, fill=ORANGE, width=stroke)
-    draw.arc((680, 425, 790, 510), 205, 335, fill=ORANGE, width=stroke)
-    draw.arc((475, 435, 590, 535), 205, 350, fill=ORANGE, width=stroke)
-    draw.line((cx - 14, 430, cx - 5, 385), fill=ORANGE, width=stroke)
+    cx = 630
+    draw.ellipse((415, 555, 845, 850), outline=ORANGE, width=stroke)
+    for box in [(430, 540, 595, 865), (515, 525, 680, 875), (600, 525, 765, 875), (685, 540, 830, 865)]:
+        draw.arc(box, 78, 282, fill=ORANGE, width=stroke)
+    draw.line((cx, 555, cx + 5, 490), fill=ORANGE, width=stroke)
+    draw.arc((628, 442, 745, 510), 190, 345, fill=ORANGE, width=stroke)
+    draw.arc((690, 458, 790, 525), 205, 335, fill=ORANGE, width=stroke)
+    draw.arc((480, 480, 595, 560), 205, 350, fill=ORANGE, width=stroke)
 
 
 def centered(draw, text, y, size, max_width=1120, fill=NAVY):
@@ -89,7 +94,7 @@ def pill(draw, box, text, size=34):
     draw.text((x + w // 2, y + 9), text, anchor="ma", fill="white", font=fitted(text, w - 24, size))
 
 
-def card(canvas, page, box, label):
+def card(canvas, page, box, label, label_style="pill"):
     x, y, w, h = box
     shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     ImageDraw.Draw(shadow).rounded_rectangle((x + 8, y + 10, x + w + 8, y + h + 10), 12, fill=(43, 49, 63, 45))
@@ -101,7 +106,16 @@ def card(canvas, page, box, label):
     canvas.paste(sheet, (x, y))
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=3)
-    pill(draw, (x, y + h + 10, w, 54), label, 34)
+    if label_style == "pill":
+        pill(draw, (x, y + h + 10, w, 54), label, 34)
+    elif label_style == "navy":
+        draw.text(
+            (x + w // 2, y + h + 20),
+            label,
+            anchor="ma",
+            fill=NAVY,
+            font=fitted(label, w - 10, 32),
+        )
 
 
 def logo(canvas, page):
@@ -153,12 +167,13 @@ def compose_different_math(pages, out):
     draw = ImageDraw.Draw(canvas)
     centered(draw, "ONE STORY", 52, 88, 1080)
     centered(draw, "DIFFERENT MATH", 148, 70, 1080)
+    side_lines(draw, 148, 70)
     for box, key, label in [
         ((55, 290, 350, 590), "level1", "LEVEL 1"),
         ((455, 290, 350, 590), "level2", "LEVEL 2"),
         ((855, 290, 350, 590), "level3", "LEVEL 3"),
     ]:
-        card(canvas, pages[key], box, label)
+        card(canvas, pages[key], box, label, label_style="navy")
     footer(canvas)
     logo(canvas, pages["level1"])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
@@ -168,9 +183,18 @@ def compose_daily_practice(pages, out):
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
     centered(draw, "READY FOR", 52, 88, 1080)
-    centered(draw, "DAILY PRACTICE", 148, 70, 1080)
-    card(canvas, pages["worksheet"], (320, 300, 620, 610), "DAILY WORD PROBLEM")
-    centered(draw, "MORNING WORK   |   BELL RINGERS   |   HOMESCHOOL", 990, 24, 1130)
+    accented_title(draw, "DAILY PRACTICE", 148, 70, 1080)
+    card(canvas, pages["worksheet"], (320, 300, 620, 610), "", label_style="none")
+    items = ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"]
+    widths = [draw.textbbox((0, 0), item, font=font(24))[2] for item in items]
+    total = sum(widths) + 2 * 62
+    x = (SIZE - total) // 2
+    for index, item in enumerate(items):
+        draw.text((x, 990), item, anchor="la", fill=NAVY, font=font(24))
+        x += widths[index]
+        if index < len(items) - 1:
+            draw.line((x + 31, 978, x + 31, 1010), fill=ORANGE, width=5)
+            x += 62
     footer(canvas)
     logo(canvas, pages["worksheet"])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
@@ -235,9 +259,9 @@ def main():
         "pdf_sha256": actual_pdf_sha256,
         "copyConcepts": {
             "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS · 3 LEVELS", "HISTORICAL MINI-STORIES"], "doodle": "orange line-art pumpkin"},
-            "whats_included": {"headline": "WHAT'S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key"},
-            "different_math": {"headline": ["ONE STORY", "DIFFERENT MATH"], "sourceLayout": "level 1, level 2, level 3 in one row"},
-            "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"]},
+            "whats_included": {"headline": "WHAT'S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side"},
+            "different_math": {"headline": ["ONE STORY", "DIFFERENT MATH"], "sourceLayout": "level 1, level 2, level 3 in one row", "headlineSideLines": "one orange horizontal line on each side", "labelStyle": "large navy labels"},
+            "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines"},
         },
     }
     (args.output_dir / "monthly-thumbnail-report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

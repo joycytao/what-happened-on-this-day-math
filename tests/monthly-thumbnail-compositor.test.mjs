@@ -62,10 +62,25 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
   assert.deepEqual(report.templates, names);
   assert.deepEqual(report.copyConcepts, {
     cover: { headline: "October", productTitle: "MORNING WORK MATH", supportingText: ["31 DAILY WORD PROBLEMS · 3 LEVELS", "HISTORICAL MINI-STORIES"], doodle: "orange line-art pumpkin" },
-    whats_included: { headline: "WHAT'S INCLUDED", sourceLayout: "story, level 1, level 2 / level 3, answer key" },
-    different_math: { headline: ["ONE STORY", "DIFFERENT MATH"], sourceLayout: "level 1, level 2, level 3 in one row" },
-    daily_practice: { headline: ["READY FOR", "DAILY PRACTICE"], useCases: ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"] },
+    whats_included: { headline: "WHAT'S INCLUDED", sourceLayout: "story, level 1, level 2 / level 3, answer key", headlineEmphasis: "three orange rays on each side" },
+    different_math: { headline: ["ONE STORY", "DIFFERENT MATH"], sourceLayout: "level 1, level 2, level 3 in one row", headlineSideLines: "one orange horizontal line on each side", labelStyle: "large navy labels" },
+    daily_practice: { headline: ["READY FOR", "DAILY PRACTICE"], useCases: ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], headlineEmphasis: "three orange rays on each side", useCaseSeparators: "vertical orange lines" },
   });
+});
+
+test("report records the prompt-specific treatments instead of only generic copy", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-contract-"));
+  const result = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/monthly-thumbnail.example.json",
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
+  assert.equal(report.copyConcepts.different_math.labelStyle, "large navy labels");
+  assert.equal(report.copyConcepts.daily_practice.useCaseSeparators, "vertical orange lines");
+  assert.equal(report.copyConcepts.whats_included.headlineEmphasis, "three orange rays on each side");
 });
 
 test("October compositions use the production visual language", async () => {

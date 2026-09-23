@@ -52,10 +52,10 @@
     ]
   },
   "checksums": {
-    "cover": "9e32efc76a849a7207532270ae1447e8c7c8df3cc9d85fdad1c1d50b4293f38a",
-    "whats-included": "02fe40604f15c7e82ca1289cb2689b8703f3cf477a7c6d9c18188e80357acd1c",
-    "different-math": "41924e5f2b8f3029d5df3068c5d848ffe391d51d1d036a2b83512942de2e49cc",
-    "daily-practice": "96366ea8f97e0564c8626e7261030580f3dde1d5c4124f1f958244801817eb16"
+    "cover": "524d97c363852c1de12b36a328fc6303f26e41bc42fc8258f493764c00c54d7a",
+    "whats-included": "2ceebe781b25ace9137162bab8095459789b5040c85cd80429b469bb353a48a8",
+    "different-math": "bb5c9c5528d2a07a76f0b3c99ef34aa7d12835339adc59f1a31fdea8cb46ce60",
+    "daily-practice": "a68104deee7db5473bf5d61545f56dba61b6586bd52188988834b41ec9d77b47"
   },
   "pdf": "output/pdf/october-worksheet-packet.pdf",
   "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
@@ -71,14 +71,17 @@
     },
     "whats_included": {
       "headline": "WHAT'S INCLUDED",
-      "sourceLayout": "story, level 1, level 2 / level 3, answer key"
+      "sourceLayout": "story, level 1, level 2 / level 3, answer key",
+      "headlineEmphasis": "three orange rays on each side"
     },
     "different_math": {
       "headline": [
         "ONE STORY",
         "DIFFERENT MATH"
       ],
-      "sourceLayout": "level 1, level 2, level 3 in one row"
+      "sourceLayout": "level 1, level 2, level 3 in one row",
+      "headlineSideLines": "one orange horizontal line on each side",
+      "labelStyle": "large navy labels"
     },
     "daily_practice": {
       "headline": [
@@ -89,7 +92,9 @@
         "MORNING WORK",
         "BELL RINGERS",
         "HOMESCHOOL"
-      ]
+      ],
+      "headlineEmphasis": "three orange rays on each side",
+      "useCaseSeparators": "vertical orange lines"
     }
   }
 }
