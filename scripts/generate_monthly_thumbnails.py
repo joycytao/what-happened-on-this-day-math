@@ -196,11 +196,7 @@ def compose_cover(month, out, source_page):
     cover_text_box(canvas, "MORNING WORK MATH", (100, 350, 1152, 429))
     cover_text_box(canvas, "31 DAILY WORD PROBLEMS", (169, 485, 1085, 540), bold=False)
     stroke = 8
-    draw.ellipse((472, 660, 620, 895), outline=ORANGE, width=stroke)
-    draw.ellipse((548, 665, 704, 905), outline=ORANGE, width=stroke)
-    draw.ellipse((640, 660, 788, 895), outline=ORANGE, width=stroke)
-    draw.line((628, 680, 635, 660), fill=ORANGE, width=stroke)
-    draw.arc((625, 600, 700, 660), 190, 350, fill=ORANGE, width=stroke)
+    pumpkin_doodle(canvas)
     cover_text_box(canvas, "3 LEVELS", (445, 967, 815, 1021))
     draw.line((206, 995, 410, 995), fill=ORANGE, width=8)
     draw.line((850, 995, 1054, 995), fill=ORANGE, width=8)
