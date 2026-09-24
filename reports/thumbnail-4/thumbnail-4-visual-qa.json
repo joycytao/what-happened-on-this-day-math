@@ -1,6 +1,6 @@
 {
   "reference": "references /thumbnail-assets/thumbnail-4-reference.png",
-  "generated": "/private/tmp/issue-91-final/october-v1.0-daily-practice.png",
+  "generated": "output/thumbnails/october-v1.0-daily-practice.png",
   "normalized": {
     "size": [
       1260,
