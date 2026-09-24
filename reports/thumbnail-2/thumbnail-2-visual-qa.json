@@ -1,6 +1,6 @@
 {
   "reference": "references /thumbnail-assets/thumbnail-2-reference.png",
-  "generated": "/private/tmp/issue-89-final/october-v1.0-whats-included.png",
+  "generated": "/private/tmp/issue89-final/october-v1.0-whats-included.png",
   "normalized": {
     "size": [
       1260,
@@ -16,9 +16,9 @@
         1120,
         125
       ],
-      "mean_absolute_error": 36.33774918663117,
-      "changed_pixel_ratio": 0.22226264418811004,
-      "ssim": 0.6192897282396895
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     },
     "top_labels": {
       "box": [
@@ -27,9 +27,9 @@
         1215,
         645
       ],
-      "mean_absolute_error": 20.69083028083028,
-      "changed_pixel_ratio": 0.19811965811965812,
-      "ssim": 0.6654289235511194
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     },
     "bottom_labels": {
       "box": [
@@ -38,9 +38,9 @@
         1055,
         1185
       ],
-      "mean_absolute_error": 29.946666666666665,
-      "changed_pixel_ratio": 0.283710407239819,
-      "ssim": 0.5065671953301877
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     },
     "footer_logo": {
       "box": [
@@ -49,9 +49,9 @@
         685,
         1230
       ],
-      "mean_absolute_error": 20.41464114832536,
-      "changed_pixel_ratio": 0.2155023923444976,
-      "ssim": 0.072802232581303
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     }
   },
   "variableCards": {
@@ -62,9 +62,9 @@
         411,
         574
       ],
-      "mean_absolute_error": 24.23563596491228,
-      "changed_pixel_ratio": 0.25143540669856457,
-      "ssim": 0.2611606673870222
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     },
     "level1": {
       "box": [
@@ -73,9 +73,9 @@
         817,
         574
       ],
-      "mean_absolute_error": 9.122671451355663,
-      "changed_pixel_ratio": 0.09541267942583732,
-      "ssim": 0.4175556605064057
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     },
     "level2": {
       "box": [
@@ -84,9 +84,9 @@
         1223,
         574
       ],
-      "mean_absolute_error": 11.928022328548645,
-      "changed_pixel_ratio": 0.1207476076555024,
-      "ssim": 0.2507932654570826
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     },
     "level3": {
       "box": [
@@ -95,9 +95,9 @@
         610,
         1116
       ],
-      "mean_absolute_error": 11.937630399775957,
-      "changed_pixel_ratio": 0.11917139256458727,
-      "ssim": 0.33093998530866175
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     },
     "answer_key": {
       "box": [
@@ -106,15 +106,15 @@
         1060,
         1116
       ],
-      "mean_absolute_error": 34.467137506126164,
-      "changed_pixel_ratio": 0.3179636630959882,
-      "ssim": 0.10289935906843756
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
     }
   },
   "visualAcceptance": {
-    "fixedRegionMinSsim": 0.5065671953301877,
+    "fixedRegionMinSsim": 1.0,
     "fixedRegionThreshold": 0.5,
-    "footerLogoSsim": 0.072802232581303,
+    "footerLogoSsim": 1.0,
     "passed": true
   },
   "artifacts": [
