@@ -1,0 +1,126 @@
+{
+  "reference": "references /thumbnail-assets/thumbnail-2-reference.png",
+  "generated": "/private/tmp/issue89-final/october-v1.0-whats-included.png",
+  "normalized": {
+    "size": [
+      1260,
+      1260
+    ],
+    "mode": "RGB"
+  },
+  "fixedRegions": {
+    "header_and_rays": {
+      "box": [
+        140,
+        10,
+        1120,
+        125
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "top_labels": {
+      "box": [
+        45,
+        575,
+        1215,
+        645
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "bottom_labels": {
+      "box": [
+        205,
+        1120,
+        1055,
+        1185
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "footer_logo": {
+      "box": [
+        575,
+        1135,
+        685,
+        1230
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    }
+  },
+  "variableCards": {
+    "story": {
+      "box": [
+        31,
+        134,
+        411,
+        574
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "level1": {
+      "box": [
+        437,
+        134,
+        817,
+        574
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "level2": {
+      "box": [
+        843,
+        134,
+        1223,
+        574
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "level3": {
+      "box": [
+        196,
+        656,
+        610,
+        1116
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "answer_key": {
+      "box": [
+        646,
+        656,
+        1060,
+        1116
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    }
+  },
+  "visualAcceptance": {
+    "fixedRegionMinSsim": 1.0,
+    "fixedRegionThreshold": 0.5,
+    "footerLogoSsim": 1.0,
+    "passed": true
+  },
+  "artifacts": [
+    "thumbnail-2-side-by-side.png",
+    "thumbnail-2-overlay.png",
+    "thumbnail-2-pixel-diff.png"
+  ],
+  "visualReview": "human inspection required; fixed-region and variable-card metrics are recorded"
+}

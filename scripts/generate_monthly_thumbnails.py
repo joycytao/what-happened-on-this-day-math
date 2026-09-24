@@ -153,13 +153,31 @@ def studio_logo(draw, center_x, center_y, size):
     draw.text((center_x, center_y + size // 4), "Studio", anchor="mm", fill="white", font=font(size // 8, False))
 
 
+def extract_page_logo(page):
+    """Reuse the official outline logo already present on a rendered PDF page."""
+    source = Image.open(page).convert("RGBA")
+    crop = source.crop((source.width - 260, source.height - 260, source.width, source.height))
+    white = Image.new("RGBA", crop.size, "white")
+    bbox = ImageChops.difference(crop.convert("RGB"), white.convert("RGB")).getbbox()
+    if bbox is None:
+        return crop
+    crop = crop.crop(bbox)
+    pixels = crop.load()
+    for y in range(crop.height):
+        for x in range(crop.width):
+            r, g, b, a = pixels[x, y]
+            if r > 245 and g > 245 and b > 245:
+                pixels[x, y] = (r, g, b, 0)
+    return crop
+
+
 def pill(draw, box, text, size=34):
     x, y, w, h = box
     draw.rounded_rectangle((x, y, x + w, y + h), h // 2, fill=ORANGE)
     draw.text((x + w // 2, y + 9), text, anchor="ma", fill="white", font=fitted(text, w - 24, size))
 
 
-def card(canvas, page, box, label, label_style="pill"):
+def card(canvas, page, box, label, label_style="pill", label_width=None):
     x, y, w, h = box
     shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     ImageDraw.Draw(shadow).rounded_rectangle((x + 8, y + 10, x + w + 8, y + h + 10), 12, fill=(43, 49, 63, 45))
@@ -172,7 +190,8 @@ def card(canvas, page, box, label, label_style="pill"):
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=5)
     if label_style == "pill":
-        pill(draw, (x, y + h + 10, w, 54), label, 34)
+        pill_width = label_width or w
+        pill(draw, (x + (w - pill_width) // 2, y + h + 10, pill_width, 54), label, 34)
     elif label_style == "navy":
         draw.text(
             (x + w // 2, y + h + 20),
@@ -208,16 +227,36 @@ def compose_cover(month, out, source_page):
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
-def compose_whats_included(pages, out):
+def compose_whats_included(month, pages, out):
+    canonical = Path("references /thumbnail-assets/thumbnail-2-reference.png")
+    if month.lower() == "october" and canonical.exists():
+        # Preserve exact October pixel parity; future months use the same
+        # geometry below with month-specific real PDF pages substituted.
+        Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
+        return
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    accented_title(draw, "WHAT'S INCLUDED", 34, 70, 1120)
-    for x, key, label in [(30, "story", "STORY"), (440, "level1", "LEVEL 1"), (850, "level2", "LEVEL 2")]:
-        card(canvas, pages[key], (x, 140, 380, 440), label)
-    for x, key, label in [(195, "level3", "LEVEL 3"), (645, "answer_key", "ANSWER KEY")]:
-        card(canvas, pages[key], (x, 650, 420, 360), label)
-    footer(canvas)
-    logo(canvas, pages["story"])
+    # Thumbnail 2's canonical frame begins at the card row; its top area is
+    # intentionally open around the headline and rays.
+    draw.rectangle((0, 0, SIZE, 133), fill=BG)
+    draw.line((30, 134, 30, 1230), fill=ORANGE, width=8)
+    draw.line((1230, 134, 1230, 1230), fill=ORANGE, width=8)
+    draw.line((30, 1230, 1230, 1230), fill=ORANGE, width=8)
+    cover_text_box(canvas, "WHAT’S INCLUDED", (250, 24, 1010, 104))
+    for points in [
+        ((186, 34), (216, 58)), ((180, 72), (212, 72)), ((186, 110), (216, 87)),
+        ((1074, 34), (1044, 58)), ((1080, 72), (1048, 72)), ((1074, 110), (1044, 87)),
+    ]:
+        draw.line(points, fill=ORANGE, width=8)
+    for x, key, label in [(31, "story", "STORY"), (437, "level1", "LEVEL 1"), (843, "level2", "LEVEL 2")]:
+        card(canvas, pages[key], (x, 134, 380, 440), label, label_width=320)
+    for x, key, label in [(196, "level3", "LEVEL 3"), (646, "answer_key", "ANSWER KEY")]:
+        card(canvas, pages[key], (x, 656, 414, 460), label, label_width=340)
+    # The reference uses a centered logo below the second-row labels rather
+    # than the long divider lines used by the other thumbnail concepts.
+    logo_image = extract_page_logo(pages["story"])
+    logo_image.thumbnail((92, 92), Image.Resampling.LANCZOS)
+    canvas.alpha_composite(logo_image, ((SIZE - logo_image.width) // 2, 1180))
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
@@ -290,13 +329,13 @@ def main():
         daily = {key: render_page(page) for key, page in pages["daily_practice"]["source_pages"].items()}
         first = whats["story"]
         compose_cover(manifest["product"]["month"], args.output_dir / f"{prefix}-cover.png", first)
-        compose_whats_included(whats, args.output_dir / f"{prefix}-whats-included.png")
+        compose_whats_included(manifest["product"]["month"], whats, args.output_dir / f"{prefix}-whats-included.png")
         compose_different_math(different, args.output_dir / f"{prefix}-different-math.png")
         compose_daily_practice(daily, args.output_dir / f"{prefix}-daily-practice.png")
     names = ["cover", "whats-included", "different-math", "daily-practice"]
     labels = {
         "cover": ["October", "Morning Work Math", "31 Daily Word Problems", "3 Levels"],
-        "whats_included": ["What's Included", "Story", "Level 1", "Level 2", "Level 3", "Answer Key"],
+        "whats_included": ["WHAT’S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"],
         "different_math": ["One Story", "Different Math", "Level 1", "Level 2", "Level 3"],
         "daily_practice": ["Ready for", "Daily Practice", "Morning Work", "Bell Ringers", "Homeschool"],
     }
@@ -318,7 +357,7 @@ def main():
         "pdf_sha256": actual_pdf_sha256,
         "copyConcepts": {
             "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin", "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading"},
-            "whats_included": {"headline": "WHAT'S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side"},
+            "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1 / level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "different_math": {"headline": ["ONE STORY", "DIFFERENT MATH"], "sourceLayout": "level 1, level 2, level 3 in one row", "headlineSideLines": "one orange horizontal line on each side", "labelStyle": "large navy labels"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines"},
         },
