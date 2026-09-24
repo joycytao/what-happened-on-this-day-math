@@ -3,7 +3,6 @@
 ## Constraints
 
 - Keep monthly products as independently releasable units.
-- Do not set pricing or publish to TPT.
 - Do not change PDF templates or generated content.
 - Keep identifiers stable as future months are added.
 
