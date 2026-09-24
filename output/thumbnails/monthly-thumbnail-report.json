@@ -53,7 +53,7 @@
   },
   "checksums": {
     "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
-    "whats-included": "3a334fa45725ef19ed0832382f3f04c525dda385416c55dd36001f86841d7999",
+    "whats-included": "40058f59f69f9715f84612e19179c29f257d4543884ae10e4da06b3dc42d86ff",
     "different-math": "158116e7956dd79683f6a64a83de2eaa89a926b00946921ca6bf8f8816ea9a08",
     "daily-practice": "ff3b9aa67d1b51a123a04dc3adbdb74b9bbe0d629de567d2ba325e169ab2cce2"
   },
@@ -67,14 +67,17 @@
         "31 DAILY WORD PROBLEMS"
       ],
       "levelsBlock": "3 LEVELS with orange side lines",
-      "doodle": "orange line-art pumpkin"
+      "doodle": "orange line-art pumpkin",
+      "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading"
     },
     "whats_included": {
       "headline": "WHAT\u2019S INCLUDED",
       "sourceLayout": "story, level 1, level 2 / level 3, answer key",
       "headlineEmphasis": "three orange rays on each side",
       "labelStyle": "orange pills narrower than cards",
-      "footer": "centered logo without divider lines"
+      "footer": "centered logo without divider lines",
+      "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
     },
     "different_math": {
       "headline": [

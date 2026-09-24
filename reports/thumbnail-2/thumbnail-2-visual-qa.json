@@ -1,6 +1,6 @@
 {
   "reference": "references /thumbnail-assets/thumbnail-2-reference.png",
-  "generated": "/private/tmp/issue89-final/october-v1.0-whats-included.png",
+  "generated": "output/thumbnails/october-v1.0-whats-included.png",
   "normalized": {
     "size": [
       1260,
