@@ -1,0 +1,81 @@
+{
+  "reference": "references /thumbnail-assets/thumbnail-4-reference.png",
+  "generated": "/private/tmp/issue-91-final/october-v1.0-daily-practice.png",
+  "normalized": {
+    "size": [
+      1260,
+      1260
+    ],
+    "mode": "RGB"
+  },
+  "fixedRegions": {
+    "header_and_rays": {
+      "box": [
+        90,
+        55,
+        1170,
+        300
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "preview_frame": {
+      "box": [
+        300,
+        315,
+        960,
+        1030
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "use_case_row": {
+      "box": [
+        50,
+        1035,
+        1210,
+        1120
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "footer": {
+      "box": [
+        35,
+        1135,
+        1225,
+        1225
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    }
+  },
+  "variableRegions": {
+    "worksheet_preview": {
+      "box": [
+        325,
+        320,
+        935,
+        1020
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    }
+  },
+  "visualAcceptance": {
+    "fixedRegionMinSsim": 1.0,
+    "fixedRegionThreshold": 0.5,
+    "passed": true
+  },
+  "artifacts": [
+    "thumbnail-4-side-by-side.png",
+    "thumbnail-4-overlay.png",
+    "thumbnail-4-pixel-diff.png"
+  ],
+  "visualReview": "human inspection required; fixed-region and variable-preview metrics are recorded"
+}
