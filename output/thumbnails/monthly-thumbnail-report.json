@@ -1,40 +1,100 @@
 {
+  "design": "october-production-v2",
+  "style": {
+    "canvas": [
+      1260,
+      1260
+    ],
+    "background": "#FEFFEF",
+    "ink": "#2B313F",
+    "accent": "#FF8A00",
+    "border": {
+      "margin": 30,
+      "radius": 26,
+      "width": 8
+    },
+    "deterministic": true
+  },
   "templates": [
     "cover",
-    "overview",
     "whats-included",
     "different-math",
     "daily-practice"
   ],
   "labels": {
+    "cover": [
+      "October",
+      "Morning Work Math",
+      "31 Daily Word Problems",
+      "3 Levels"
+    ],
     "whats_included": [
-      "WHAT'S INCLUDED",
-      "STORY",
-      "LEVEL 1",
-      "LEVEL 2",
-      "LEVEL 3",
-      "ANSWER KEY"
+      "What's Included",
+      "Story",
+      "Level 1",
+      "Level 2",
+      "Level 3",
+      "Answer Key"
     ],
     "different_math": [
-      "ONE STORY",
-      "DIFFERENT MATH",
-      "LEVEL 1",
-      "LEVEL 2",
-      "LEVEL 3"
+      "One Story",
+      "Different Math",
+      "Level 1",
+      "Level 2",
+      "Level 3"
     ],
     "daily_practice": [
-      "READY FOR DAILY PRACTICE",
-      "ONE PROBLEM A DAY"
+      "Ready for",
+      "Daily Practice",
+      "Morning Work",
+      "Bell Ringers",
+      "Homeschool"
     ]
   },
   "checksums": {
-    "cover": "330c3370ac6f1caf414f8911686aeadbf7d04d338a01b6729b3db581067e04fd",
-    "overview": "6ab67b8678003d83a68b35e369c71ad47b259b9a15c1ab8458ac95432bcd857c",
-    "whats-included": "959aa00e95b564b01db3f9138209151247fde8c2db14177984d057408337c0d6",
-    "different-math": "0e10fef6dd9e2488cfccee361ee15a17f99dd20566e7388407a6c22b3c6839ea",
-    "daily-practice": "77382166a84078cf66798631b9d142ad941c2e21c36243c041867d19cd1c9a43"
+    "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
+    "whats-included": "47bf78895e21c118c5ddb0134480b2995c983c2095e2ccd280825cfd133da829",
+    "different-math": "ed57122438edacec74424a66f4981f1c51b147ebf35e01b1efd882733441019e",
+    "daily-practice": "ff3b9aa67d1b51a123a04dc3adbdb74b9bbe0d629de567d2ba325e169ab2cce2"
   },
-  "doodle": "assets/doodles/months/october.svg",
   "pdf": "output/pdf/october-worksheet-packet.pdf",
-  "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20"
+  "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
+  "copyConcepts": {
+    "cover": {
+      "headline": "October",
+      "productTitle": "MORNING WORK MATH",
+      "supportingText": [
+        "31 DAILY WORD PROBLEMS"
+      ],
+      "levelsBlock": "3 LEVELS with orange side lines",
+      "doodle": "orange line-art pumpkin"
+    },
+    "whats_included": {
+      "headline": "WHAT'S INCLUDED",
+      "sourceLayout": "story, level 1, level 2 / level 3, answer key",
+      "headlineEmphasis": "three orange rays on each side"
+    },
+    "different_math": {
+      "headline": [
+        "ONE STORY",
+        "DIFFERENT MATH"
+      ],
+      "sourceLayout": "level 1, level 2, level 3 in one row",
+      "headlineSideLines": "one orange horizontal line on each side",
+      "labelStyle": "large navy labels"
+    },
+    "daily_practice": {
+      "headline": [
+        "READY FOR",
+        "DAILY PRACTICE"
+      ],
+      "useCases": [
+        "MORNING WORK",
+        "BELL RINGERS",
+        "HOMESCHOOL"
+      ],
+      "headlineEmphasis": "three orange rays on each side",
+      "useCaseSeparators": "vertical orange lines"
+    }
+  }
 }
