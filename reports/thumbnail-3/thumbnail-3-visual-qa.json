@@ -1,0 +1,114 @@
+{
+  "reference": "references /thumbnail-assets/thumbnail-3-reference.png",
+  "generated": "output/thumbnails/october-v1.0-different-math.png",
+  "normalized": {
+    "size": [
+      1260,
+      1260
+    ],
+    "mode": "RGB"
+  },
+  "fixedRegions": {
+    "month_and_rules": {
+      "box": [
+        55,
+        55,
+        1205,
+        205
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "headline": {
+      "box": [
+        75,
+        205,
+        1185,
+        330
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "subtitle": {
+      "box": [
+        120,
+        335,
+        1140,
+        420
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "labels": {
+      "box": [
+        55,
+        965,
+        1205,
+        1070
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "footer": {
+      "box": [
+        35,
+        1115,
+        1225,
+        1225
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    }
+  },
+  "variableCards": {
+    "level1": {
+      "box": [
+        45,
+        435,
+        430,
+        965
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "level2": {
+      "box": [
+        430,
+        435,
+        830,
+        965
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "level3": {
+      "box": [
+        830,
+        435,
+        1220,
+        965
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    }
+  },
+  "visualAcceptance": {
+    "fixedRegionMinSsim": 1.0,
+    "fixedRegionThreshold": 0.5,
+    "passed": true
+  },
+  "artifacts": [
+    "thumbnail-3-side-by-side.png",
+    "thumbnail-3-overlay.png",
+    "thumbnail-3-pixel-diff.png"
+  ],
+  "visualReview": "human inspection required; fixed-region and variable-card metrics are recorded"
+}

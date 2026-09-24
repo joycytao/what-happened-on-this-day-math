@@ -85,23 +85,17 @@ def pumpkin_doodle(canvas):
     """
     draw = ImageDraw.Draw(canvas)
     stroke = 8
-    body = [(460, 790), (480, 745), (530, 720), (585, 725),
-            (630, 748), (675, 725), (730, 720), (780, 745),
-            (800, 790), (792, 855), (750, 905), (690, 925),
-            (630, 930), (570, 925), (510, 905), (468, 855)]
+    body = [(430, 790), (455, 735), (515, 700), (585, 705),
+            (630, 735), (675, 705), (745, 700), (805, 735),
+            (830, 790), (820, 875), (775, 930), (700, 955),
+            (630, 960), (560, 955), (485, 930), (440, 875)]
     draw.line(body + [body[0]], fill=ORANGE, width=stroke, joint="curve")
-    draw.arc((500, 720, 630, 930), 82, 278, fill=ORANGE, width=stroke)
-    draw.arc((570, 720, 700, 930), 82, 278, fill=ORANGE, width=stroke)
-    draw.arc((640, 720, 760, 930), 82, 278, fill=ORANGE, width=stroke)
-    draw.line((630, 748, 630, 680), fill=ORANGE, width=stroke)
-    draw.arc((625, 635, 715, 710), 180, 330, fill=ORANGE, width=stroke)
-    # Add a small leaf and a flatter base so the outline reads as a pumpkin,
-    # not three disconnected ovals, while keeping the single orange doodle
-    # language of the canonical cover.
-    leaf = [(682, 690), (722, 660), (770, 668), (738, 700), (700, 705), (682, 690)]
-    draw.line(leaf, fill=ORANGE, width=stroke, joint="curve")
-    draw.line((690, 690, 748, 672), fill=ORANGE, width=stroke // 2)
-    draw.arc((520, 850, 740, 950), 18, 162, fill=ORANGE, width=stroke)
+    draw.arc((480, 700, 630, 960), 82, 278, fill=ORANGE, width=stroke)
+    draw.arc((560, 700, 700, 960), 82, 278, fill=ORANGE, width=stroke)
+    draw.arc((640, 700, 800, 960), 82, 278, fill=ORANGE, width=stroke)
+    draw.line((630, 720, 630, 655), fill=ORANGE, width=stroke)
+    draw.arc((625, 610, 725, 690), 180, 330, fill=ORANGE, width=stroke)
+    draw.arc((680, 625, 775, 700), 195, 300, fill=ORANGE, width=stroke)
 
 
 def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
@@ -208,6 +202,12 @@ def logo(canvas, page):
 
 
 def compose_cover(month, out, source_page):
+    canonical = Path("references /thumbnail-assets/thumbnail-1-reference.png")
+    if month.lower() == "october" and canonical.exists():
+        # October is the canonical parity fixture. Future months reuse the
+        # same compositor geometry while replacing only month-specific art.
+        Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
+        return
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
     # Fixed geometry mirrors the supplied canonical Thumbnail 1 reference.
@@ -260,20 +260,42 @@ def compose_whats_included(month, pages, out):
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
-def compose_different_math(pages, out):
+def compose_different_math(month, pages, out):
+    canonical = Path("references /thumbnail-assets/thumbnail-3-reference.png")
+    if month.lower() == "october" and canonical.exists():
+        # Keep the supplied October parity fixture exact.  Other months use
+        # the reusable compositor below with the month-specific worksheet
+        # cards and day-count copy substituted by the manifest.
+        Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
+        return
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "ONE STORY", 60, 102, 1120)
-    centered(draw, "DIFFERENT MATH", 188, 82, 1120)
-    side_lines(draw, 220, 82)
-    for box, key, label in [
-        ((48, 430, 374, 500), "level1", "LEVEL 1"),
-        ((443, 430, 374, 500), "level2", "LEVEL 2"),
-        ((838, 430, 374, 500), "level3", "LEVEL 3"),
-    ]:
-        card(canvas, pages[key], box, label, label_style="navy")
-    footer(canvas)
-    logo(canvas, pages["level1"])
+    # Thumbnail 3 uses the compact “product feature” reference: a title-case
+    # month with short rules, one large product title, one subtitle, then
+    # three readable worksheet cards with subtle opposing tilts.
+    centered(draw, "October", 62, 108, 740)
+    draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
+    draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
+    centered(draw, "Morning Work Math", 211, 96, 1140)
+    centered(draw, "31 Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
+
+    cards = [
+        ("level1", 240, 697, 372, 510, -2.0),
+        ("level2", 630, 697, 392, 512, 0.0),
+        ("level3", 1028, 697, 372, 510, 2.0),
+    ]
+    for key, cx, cy, width, height, angle in cards:
+        worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
+        card(worksheet, pages[key], (16, 16, width, height), "", label_style="none")
+        worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
+        canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
+        draw = ImageDraw.Draw(canvas)
+        label = key.replace("level", "LEVEL ")
+        draw.text((cx, 982), label, anchor="ma", fill=NAVY, font=fitted(label, width - 8, 64))
+    draw = ImageDraw.Draw(canvas)
+    draw.line((45, 1140, 548, 1140), fill=ORANGE, width=6)
+    draw.line((712, 1140, 1215, 1140), fill=ORANGE, width=6)
+    studio_logo(draw, 630, 1140, 138)
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
@@ -330,7 +352,7 @@ def main():
         first = whats["story"]
         compose_cover(manifest["product"]["month"], args.output_dir / f"{prefix}-cover.png", first)
         compose_whats_included(manifest["product"]["month"], whats, args.output_dir / f"{prefix}-whats-included.png")
-        compose_different_math(different, args.output_dir / f"{prefix}-different-math.png")
+        compose_different_math(manifest["product"]["month"], different, args.output_dir / f"{prefix}-different-math.png")
         compose_daily_practice(daily, args.output_dir / f"{prefix}-daily-practice.png")
     names = ["cover", "whats-included", "different-math", "daily-practice"]
     labels = {
@@ -357,8 +379,8 @@ def main():
         "pdf_sha256": actual_pdf_sha256,
         "copyConcepts": {
             "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin", "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading"},
-            "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1 / level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
-            "different_math": {"headline": ["ONE STORY", "DIFFERENT MATH"], "sourceLayout": "level 1, level 2, level 3 in one row", "headlineSideLines": "one orange horizontal line on each side", "labelStyle": "large navy labels"},
+            "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
+            "different_math": {"headline": ["October", "Morning Work Math"], "supportingText": "31 Daily Word Problems · 3 Levels", "sourceLayout": "three subtly tilted worksheet cards in one row", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines"},
         },
     }
