@@ -59,11 +59,10 @@ MORNING WORK MATH
 
 Supporting text:
 31 DAILY WORD PROBLEMS
-HISTORICAL MINI-STORIES
 
 Place the month name as the largest text near the top.
 Place “MORNING WORK MATH” directly below it.
-Place the two supporting lines beneath the title.
+Place the supporting line beneath the title.
 Place one large, simple, hand-drawn orange line-art doodle in the center.
 
 Below the pumpkin, place a centered `3 LEVELS` block with one orange horizontal

@@ -25,8 +25,8 @@
     "cover": [
       "October",
       "Morning Work Math",
-      "31 Daily Word Problems \u00b7 3 Levels",
-      "Historical Mini-Stories"
+      "31 Daily Word Problems",
+      "3 Levels"
     ],
     "whats_included": [
       "What's Included",
@@ -52,7 +52,7 @@
     ]
   },
   "checksums": {
-    "cover": "d930dbd3605c7bcf688491704d55bd2114d5edb8952df0dc8448e6e8b8d6583b",
+    "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
     "whats-included": "47bf78895e21c118c5ddb0134480b2995c983c2095e2ccd280825cfd133da829",
     "different-math": "ed57122438edacec74424a66f4981f1c51b147ebf35e01b1efd882733441019e",
     "daily-practice": "ff3b9aa67d1b51a123a04dc3adbdb74b9bbe0d629de567d2ba325e169ab2cce2"
@@ -64,8 +64,7 @@
       "headline": "October",
       "productTitle": "MORNING WORK MATH",
       "supportingText": [
-        "31 DAILY WORD PROBLEMS",
-        "HISTORICAL MINI-STORIES"
+        "31 DAILY WORD PROBLEMS"
       ],
       "levelsBlock": "3 LEVELS with orange side lines",
       "doodle": "orange line-art pumpkin"

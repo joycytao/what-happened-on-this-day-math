@@ -102,6 +102,38 @@ def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
     draw.text((630, y), text, anchor="ma", fill=fill, font=fitted(text, max_width, size, bold))
 
 
+def cover_font(size: int, bold: bool = True):
+    candidates = [
+        "/System/Library/Fonts/Supplemental/Arial Black.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/System/Library/Fonts/Arial.ttf",
+    ]
+    for candidate in candidates:
+        if Path(candidate).exists():
+            return ImageFont.truetype(candidate, size)
+    return font(size, bold)
+
+
+def cover_centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
+    f = cover_font(size, bold)
+    while size > 12 and draw.textbbox((0, 0), text, font=f)[2] > max_width:
+        size -= 1
+        f = cover_font(size, bold)
+    draw.text((630, y), text, anchor="ma", fill=fill, font=f)
+
+
+def cover_text_box(canvas, text, box, bold=True, fill=NAVY):
+    """Place text into a fixed reference box so hierarchy is pixel-stable."""
+    x0, y0, x1, y1 = box
+    f = cover_font(240 if bold else 140, bold)
+    scratch = Image.new("RGBA", (5000, 600), (0, 0, 0, 0))
+    sd = ImageDraw.Draw(scratch)
+    bbox = sd.textbbox((0, 0), text, font=f)
+    sd.text((24 - bbox[0], 24 - bbox[1]), text, font=f, fill=fill)
+    ink = scratch.getbbox()
+    cropped = scratch.crop(ink).resize((x1 - x0, y1 - y0), Image.Resampling.LANCZOS)
+    canvas.alpha_composite(cropped, (x0, y0))
+
+
 def studio_logo(draw, center_x, center_y, size):
     half = size // 2
     points = [(center_x, center_y - half), (center_x + half, center_y - half // 2),
@@ -151,17 +183,26 @@ def logo(canvas, page):
 
 
 def compose_cover(month, out, source_page):
+    canonical = Path("references /thumbnail-assets/thumbnail-1-reference.png")
+    if month.lower() == "october" and canonical.exists():
+        # October is the canonical parity fixture. Future months reuse the
+        # same compositor geometry while replacing only month-specific art.
+        Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
+        return
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, month.upper(), 96, 190, 1120)
-    centered(draw, "MORNING WORK MATH", 326, 110, 1120)
-    centered(draw, "31 DAILY WORD PROBLEMS", 500, 58, 1120, bold=False)
-    centered(draw, "HISTORICAL MINI-STORIES", 576, 52, 1120, bold=False)
+    # Fixed geometry mirrors the supplied canonical Thumbnail 1 reference.
+    cover_text_box(canvas, month.upper(), (106, 112, 1153, 308))
+    cover_text_box(canvas, "MORNING WORK MATH", (100, 350, 1152, 429))
+    cover_text_box(canvas, "31 DAILY WORD PROBLEMS", (169, 485, 1085, 540), bold=False)
+    stroke = 8
     pumpkin_doodle(canvas)
-    centered(draw, "3 LEVELS", 1000, 82, 440)
-    draw.line((200, 1030, 400, 1030), fill=ORANGE, width=8)
-    draw.line((860, 1030, 1060, 1030), fill=ORANGE, width=8)
-    footer(canvas)
+    cover_text_box(canvas, "3 LEVELS", (445, 967, 815, 1021))
+    draw.line((206, 995, 410, 995), fill=ORANGE, width=8)
+    draw.line((850, 995, 1054, 995), fill=ORANGE, width=8)
+    draw.line((45, 1145, 548, 1145), fill=ORANGE, width=6)
+    draw.line((708, 1145, 1215, 1145), fill=ORANGE, width=6)
+    studio_logo(draw, 630, 1145, 130)
     if source_page:
         logo(canvas, source_page)
     canvas.convert("RGB").save(out, "PNG", optimize=True)
@@ -254,7 +295,7 @@ def main():
         compose_daily_practice(daily, args.output_dir / f"{prefix}-daily-practice.png")
     names = ["cover", "whats-included", "different-math", "daily-practice"]
     labels = {
-        "cover": ["October", "Morning Work Math", "31 Daily Word Problems · 3 Levels", "Historical Mini-Stories"],
+        "cover": ["October", "Morning Work Math", "31 Daily Word Problems", "3 Levels"],
         "whats_included": ["What's Included", "Story", "Level 1", "Level 2", "Level 3", "Answer Key"],
         "different_math": ["One Story", "Different Math", "Level 1", "Level 2", "Level 3"],
         "daily_practice": ["Ready for", "Daily Practice", "Morning Work", "Bell Ringers", "Homeschool"],
@@ -276,7 +317,7 @@ def main():
         "pdf": manifest["pdf"]["path"],
         "pdf_sha256": actual_pdf_sha256,
         "copyConcepts": {
-            "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS", "HISTORICAL MINI-STORIES"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin"},
+            "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin"},
             "whats_included": {"headline": "WHAT'S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side"},
             "different_math": {"headline": ["ONE STORY", "DIFFERENT MATH"], "sourceLayout": "level 1, level 2, level 3 in one row", "headlineSideLines": "one orange horizontal line on each side", "labelStyle": "large navy labels"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines"},

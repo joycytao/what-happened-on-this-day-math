@@ -50,8 +50,8 @@ The following properties are shared by all four thumbnail types:
 ### 1. Cover
 
 Communicates the month and product identity. The month is the largest headline,
-followed by `MORNING WORK MATH`, `31 DAILY WORD PROBLEMS · 3 LEVELS`, and
-`HISTORICAL MINI-STORIES`, with one recognizable month-specific orange
+followed by `MORNING WORK MATH` and `31 DAILY WORD PROBLEMS`, with one
+recognizable month-specific orange
 single-line doodle in the center. The layout changes only the month and doodle.
 
 ### 2. What's Included
