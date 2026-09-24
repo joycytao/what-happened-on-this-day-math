@@ -85,17 +85,23 @@ def pumpkin_doodle(canvas):
     """
     draw = ImageDraw.Draw(canvas)
     stroke = 8
-    body = [(430, 790), (455, 735), (515, 700), (585, 705),
-            (630, 735), (675, 705), (745, 700), (805, 735),
-            (830, 790), (820, 875), (775, 930), (700, 955),
-            (630, 960), (560, 955), (485, 930), (440, 875)]
+    body = [(460, 790), (480, 745), (530, 720), (585, 725),
+            (630, 748), (675, 725), (730, 720), (780, 745),
+            (800, 790), (792, 855), (750, 905), (690, 925),
+            (630, 930), (570, 925), (510, 905), (468, 855)]
     draw.line(body + [body[0]], fill=ORANGE, width=stroke, joint="curve")
-    draw.arc((480, 700, 630, 960), 82, 278, fill=ORANGE, width=stroke)
-    draw.arc((560, 700, 700, 960), 82, 278, fill=ORANGE, width=stroke)
-    draw.arc((640, 700, 800, 960), 82, 278, fill=ORANGE, width=stroke)
-    draw.line((630, 720, 630, 655), fill=ORANGE, width=stroke)
-    draw.arc((625, 610, 725, 690), 180, 330, fill=ORANGE, width=stroke)
-    draw.arc((680, 625, 775, 700), 195, 300, fill=ORANGE, width=stroke)
+    draw.arc((500, 720, 630, 930), 82, 278, fill=ORANGE, width=stroke)
+    draw.arc((570, 720, 700, 930), 82, 278, fill=ORANGE, width=stroke)
+    draw.arc((640, 720, 760, 930), 82, 278, fill=ORANGE, width=stroke)
+    draw.line((630, 748, 630, 680), fill=ORANGE, width=stroke)
+    draw.arc((625, 635, 715, 710), 180, 330, fill=ORANGE, width=stroke)
+    # Add a small leaf and a flatter base so the outline reads as a pumpkin,
+    # not three disconnected ovals, while keeping the single orange doodle
+    # language of the canonical cover.
+    leaf = [(682, 690), (722, 660), (770, 668), (738, 700), (700, 705), (682, 690)]
+    draw.line(leaf, fill=ORANGE, width=stroke, joint="curve")
+    draw.line((690, 690, 748, 672), fill=ORANGE, width=stroke // 2)
+    draw.arc((520, 850, 740, 950), 18, 162, fill=ORANGE, width=stroke)
 
 
 def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
@@ -183,12 +189,6 @@ def logo(canvas, page):
 
 
 def compose_cover(month, out, source_page):
-    canonical = Path("references /thumbnail-assets/thumbnail-1-reference.png")
-    if month.lower() == "october" and canonical.exists():
-        # October is the canonical parity fixture. Future months reuse the
-        # same compositor geometry while replacing only month-specific art.
-        Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
-        return
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
     # Fixed geometry mirrors the supplied canonical Thumbnail 1 reference.
@@ -317,7 +317,7 @@ def main():
         "pdf": manifest["pdf"]["path"],
         "pdf_sha256": actual_pdf_sha256,
         "copyConcepts": {
-            "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin"},
+            "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin", "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading"},
             "whats_included": {"headline": "WHAT'S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side"},
             "different_math": {"headline": ["ONE STORY", "DIFFERENT MATH"], "sourceLayout": "level 1, level 2, level 3 in one row", "headlineSideLines": "one orange horizontal line on each side", "labelStyle": "large navy labels"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines"},

@@ -52,7 +52,7 @@
     ]
   },
   "checksums": {
-    "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
+    "cover": "8a20201e7365c484cda780fc6b90a6968a278c414bf718a6f3d2b84cf9ebb368",
     "whats-included": "47bf78895e21c118c5ddb0134480b2995c983c2095e2ccd280825cfd133da829",
     "different-math": "ed57122438edacec74424a66f4981f1c51b147ebf35e01b1efd882733441019e",
     "daily-practice": "ff3b9aa67d1b51a123a04dc3adbdb74b9bbe0d629de567d2ba325e169ab2cce2"
@@ -67,7 +67,8 @@
         "31 DAILY WORD PROBLEMS"
       ],
       "levelsBlock": "3 LEVELS with orange side lines",
-      "doodle": "orange line-art pumpkin"
+      "doodle": "orange line-art pumpkin",
+      "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading"
     },
     "whats_included": {
       "headline": "WHAT'S INCLUDED",

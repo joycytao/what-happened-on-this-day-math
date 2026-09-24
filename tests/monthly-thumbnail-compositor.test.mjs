@@ -61,7 +61,7 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.deepEqual(report.templates, names);
   assert.deepEqual(report.copyConcepts, {
-    cover: { headline: "October", productTitle: "MORNING WORK MATH", supportingText: ["31 DAILY WORD PROBLEMS"], levelsBlock: "3 LEVELS with orange side lines", doodle: "orange line-art pumpkin" },
+    cover: { headline: "October", productTitle: "MORNING WORK MATH", supportingText: ["31 DAILY WORD PROBLEMS"], levelsBlock: "3 LEVELS with orange side lines", doodle: "orange line-art pumpkin", doodlePrompt: "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" },
     whats_included: { headline: "WHAT'S INCLUDED", sourceLayout: "story, level 1, level 2 / level 3, answer key", headlineEmphasis: "three orange rays on each side" },
     different_math: { headline: ["ONE STORY", "DIFFERENT MATH"], sourceLayout: "level 1, level 2, level 3 in one row", headlineSideLines: "one orange horizontal line on each side", labelStyle: "large navy labels" },
     daily_practice: { headline: ["READY FOR", "DAILY PRACTICE"], useCases: ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], headlineEmphasis: "three orange rays on each side", useCaseSeparators: "vertical orange lines" },
