@@ -52,9 +52,9 @@
     ]
   },
   "checksums": {
-    "cover": "8a20201e7365c484cda780fc6b90a6968a278c414bf718a6f3d2b84cf9ebb368",
+    "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
     "whats-included": "40058f59f69f9715f84612e19179c29f257d4543884ae10e4da06b3dc42d86ff",
-    "different-math": "ed57122438edacec74424a66f4981f1c51b147ebf35e01b1efd882733441019e",
+    "different-math": "158116e7956dd79683f6a64a83de2eaa89a926b00946921ca6bf8f8816ea9a08",
     "daily-practice": "ff3b9aa67d1b51a123a04dc3adbdb74b9bbe0d629de567d2ba325e169ab2cce2"
   },
   "pdf": "output/pdf/october-worksheet-packet.pdf",
@@ -72,7 +72,7 @@
     },
     "whats_included": {
       "headline": "WHAT\u2019S INCLUDED",
-      "sourceLayout": "story, level 1 / level 2 / level 3, answer key",
+      "sourceLayout": "story, level 1, level 2 / level 3, answer key",
       "headlineEmphasis": "three orange rays on each side",
       "labelStyle": "orange pills narrower than cards",
       "footer": "centered logo without divider lines",
@@ -81,12 +81,15 @@
     },
     "different_math": {
       "headline": [
-        "ONE STORY",
-        "DIFFERENT MATH"
+        "October",
+        "Morning Work Math"
       ],
-      "sourceLayout": "level 1, level 2, level 3 in one row",
-      "headlineSideLines": "one orange horizontal line on each side",
-      "labelStyle": "large navy labels"
+      "supportingText": "31 Daily Word Problems \u00b7 3 Levels",
+      "sourceLayout": "three subtly tilted worksheet cards in one row",
+      "headlineSideLines": "short orange horizontal rules around the month",
+      "labelStyle": "large uppercase navy labels",
+      "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
     },
     "daily_practice": {
       "headline": [

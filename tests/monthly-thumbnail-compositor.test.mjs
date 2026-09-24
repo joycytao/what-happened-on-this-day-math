@@ -62,8 +62,8 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
   assert.deepEqual(report.templates, names);
   assert.deepEqual(report.copyConcepts, {
     cover: { headline: "October", productTitle: "MORNING WORK MATH", supportingText: ["31 DAILY WORD PROBLEMS"], levelsBlock: "3 LEVELS with orange side lines", doodle: "orange line-art pumpkin", doodlePrompt: "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" },
-    whats_included: { headline: "WHAT’S INCLUDED", sourceLayout: "story, level 1 / level 2 / level 3, answer key", headlineEmphasis: "three orange rays on each side", labelStyle: "orange pills narrower than cards", footer: "centered logo without divider lines", parityFixture: "references /thumbnail-assets/thumbnail-2-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
-    different_math: { headline: ["ONE STORY", "DIFFERENT MATH"], sourceLayout: "level 1, level 2, level 3 in one row", headlineSideLines: "one orange horizontal line on each side", labelStyle: "large navy labels" },
+    whats_included: { headline: "WHAT’S INCLUDED", sourceLayout: "story, level 1, level 2 / level 3, answer key", headlineEmphasis: "three orange rays on each side", labelStyle: "orange pills narrower than cards", footer: "centered logo without divider lines", parityFixture: "references /thumbnail-assets/thumbnail-2-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
+    different_math: { headline: ["October", "Morning Work Math"], supportingText: "31 Daily Word Problems · 3 Levels", sourceLayout: "three subtly tilted worksheet cards in one row", headlineSideLines: "short orange horizontal rules around the month", labelStyle: "large uppercase navy labels", parityFixture: "references /thumbnail-assets/thumbnail-3-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
     daily_practice: { headline: ["READY FOR", "DAILY PRACTICE"], useCases: ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], headlineEmphasis: "three orange rays on each side", useCaseSeparators: "vertical orange lines" },
   });
 });
@@ -92,6 +92,30 @@ test("Thumbnail 2 visual QA records fixed-region and variable-card parity artifa
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
+test("Thumbnail 3 visual QA records fixed-region and variable-card parity artifacts", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "thumbnail-3-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "thumbnail-3-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/monthly-thumbnail.example.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail3_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-3-reference.png",
+    "--generated", join(generatedDir, "october-v1.0-different-math.png"),
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-3-visual-qa.json"), "utf8"));
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.deepEqual(Object.keys(report.fixedRegions), ["month_and_rules", "headline", "subtitle", "labels", "footer"]);
+  assert.deepEqual(Object.keys(report.variableCards), ["level1", "level2", "level3"]);
+  for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
+});
+
 test("report records the prompt-specific treatments instead of only generic copy", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-contract-"));
   const result = spawnSync(PYTHON, [
@@ -102,7 +126,7 @@ test("report records the prompt-specific treatments instead of only generic copy
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
-  assert.equal(report.copyConcepts.different_math.labelStyle, "large navy labels");
+  assert.equal(report.copyConcepts.different_math.labelStyle, "large uppercase navy labels");
   assert.equal(report.copyConcepts.daily_practice.useCaseSeparators, "vertical orange lines");
   assert.equal(report.copyConcepts.whats_included.headlineEmphasis, "three orange rays on each side");
 });
