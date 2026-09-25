@@ -1,0 +1,50 @@
+{
+  "valid": true,
+  "month": 11,
+  "approval": "draft",
+  "sourcePdf": "output/pdf/november-worksheet-packet-source.pdf",
+  "finalPdf": "output/pdf/november-worksheet-packet.pdf",
+  "cover": {
+    "valid": true,
+    "month": "November",
+    "version": "1.0.0",
+    "cover_pages": 1,
+    "daily_worksheet_pages": null,
+    "answer_key_pages": null,
+    "page_count": null,
+    "page": {
+      "width": 1158.75,
+      "height": 1500
+    },
+    "raster": {
+      "width": 1545,
+      "height": 2000
+    },
+    "artifacts": {
+      "svg": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.svg",
+      "png": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.png",
+      "pdf": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.pdf",
+      "logo": "/private/tmp/math-issue-86/references /worksheet-assets/6pm-studio-logo.svg"
+    },
+    "checks": {
+      "logoIsVersionedAsset": true,
+      "reviewGate": "draft"
+    },
+    "checksums": {
+      "png": "12e974e4bbeb8ab8e57b0a22a377d9f5d6cf1eb5c6cce1711496ce882e598bdb",
+      "pdf": "545b718ab936bfe387d17d8941fa27dd8087871ada38c4243a53d322220221ca"
+    }
+  },
+  "sourcePageCount": 123,
+  "finalPageCountAfterApproval": 124,
+  "mapping": {
+    "cover": 1,
+    "dailyWorksheetSourcePages": "2-121",
+    "answerKeySourcePages": "122-124"
+  },
+  "merge": {
+    "blockedUntil": "explicit cover approval",
+    "sourcePreserved": true,
+    "duplicateInsertionPrevented": true
+  }
+}
