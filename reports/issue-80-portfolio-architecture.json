@@ -1,7 +1,7 @@
 {
   "issue": 80,
   "input": "examples/portfolio-architecture.example.json",
-  "checkedAt": "2026-09-24T21:09:41.875Z",
+  "checkedAt": "2026-09-25T03:12:29.712Z",
   "valid": true,
   "errors": [],
   "gates": {

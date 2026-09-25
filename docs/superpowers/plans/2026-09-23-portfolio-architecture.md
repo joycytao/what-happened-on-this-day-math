@@ -5,6 +5,7 @@
 - Keep monthly products as independently releasable units.
 - Do not change PDF templates or generated content.
 - Keep identifiers stable as future months are added.
+- Treat the worksheet coversheet PNG and worksheet-sized PDF/page-1 artifact as first-class monthly and bundle artifacts.
 
 ## Tasks
 

@@ -15,10 +15,11 @@ morning-work-math-year-bundle
 └── morning-work-math-{year}-12
 ```
 
-Each monthly product includes the final PDF, answer keys, thumbnails, listing
-copy, and release record. A month is bundle-complete only when its release
-status is `released` and all of those artifacts have passed the applicable QA
-gates.
+Each monthly product includes the final PDF, worksheet coversheet PNG,
+worksheet-sized PDF cover/page 1, answer keys, thumbnails, listing copy, and
+release record. A month is bundle-complete only when its release status is
+`released` and all of those artifacts have passed the applicable QA gates,
+including cover approval/QA.
 
 ## Naming and identifiers
 
@@ -37,10 +38,11 @@ gates.
 The monthly unit groups these artifacts under one identifier:
 
 1. the final monthly PDF;
-2. the separate Answer Key pages or source artifact;
-3. derived thumbnails tied to the final PDF checksum;
-4. TPT listing copy and metadata handoff;
-5. the release record containing QA status and source references.
+2. the worksheet coversheet PNG and worksheet-sized PDF cover/page 1;
+3. the separate Answer Key pages or source artifact;
+4. derived thumbnails tied to the final PDF checksum;
+5. TPT listing copy and metadata handoff;
+6. the release record containing QA status, cover approval/QA status, and source references.
 
 The bundle includes only monthly identifiers whose release record says
 `released`. A failed or incomplete month remains outside the bundle until its

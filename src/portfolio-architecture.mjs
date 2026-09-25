@@ -1,4 +1,4 @@
-const REQUIRED_MONTHLY_ARTIFACTS = new Set(['pdf', 'answerKeys', 'thumbnails', 'listingCopy', 'releaseRecord']);
+const REQUIRED_MONTHLY_ARTIFACTS = new Set(['pdf', 'worksheetCoversheetPng', 'worksheetCoversheetPdf', 'answerKeys', 'thumbnails', 'listingCopy', 'releaseRecord']);
 
 export function validatePortfolioArchitecture(architecture) {
   const errors = [];

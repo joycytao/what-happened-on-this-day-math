@@ -7,13 +7,13 @@
       "identifierPattern": "morning-work-math-{year}-{month}",
       "titlePattern": "{Month} Morning Work Math",
       "statusValues": ["planned", "in-progress", "qa", "released", "retired"],
-      "inclusionRules": ["pdf", "answerKeys", "thumbnails", "listingCopy", "releaseRecord"]
+      "inclusionRules": ["pdf", "worksheetCoversheetPng", "worksheetCoversheetPdf", "answerKeys", "thumbnails", "listingCopy", "releaseRecord"]
     },
     "bundle": {
       "identifier": "morning-work-math-year-bundle",
       "title": "Morning Work Math: Full-Year Bundle",
-      "includes": "Twelve released monthly products, each with its PDF, answer keys, thumbnails, listing copy, and release record.",
-      "completenessRule": "A month is included only when its release status is released and every required artifact passes QA."
+      "includes": "Twelve released monthly products, each with its PDF, worksheet coversheet PNG, worksheet-sized PDF cover/page 1, answer keys, thumbnails, listing copy, and release record.",
+      "completenessRule": "A month is included only when its release status is released and every required artifact, including the worksheet coversheet, passes QA and cover approval."
     }
   },
   "referenceProduct": {

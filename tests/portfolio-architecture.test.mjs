@@ -17,6 +17,8 @@ test('the portfolio architecture defines standalone monthly products and a futur
   assert.equal(architecture.products.bundle.identifier, 'morning-work-math-year-bundle');
   assert.equal(architecture.referenceProduct.month, 10);
   assert.ok(architecture.products.monthly.inclusionRules.includes('answerKeys'));
+  assert.ok(architecture.products.monthly.inclusionRules.includes('worksheetCoversheetPng'));
+  assert.ok(architecture.products.monthly.inclusionRules.includes('worksheetCoversheetPdf'));
 });
 
 test('portfolio validation rejects an October record with the wrong identifier', () => {
