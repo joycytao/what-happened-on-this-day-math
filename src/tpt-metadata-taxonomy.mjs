@@ -22,6 +22,9 @@ export function validateTptMetadataTaxonomy(taxonomy) {
     const values = field === 'productType' ? ['monthly standalone', 'annual bundle'] : allowed[field];
     if (values && taxonomy.referenceRecord?.[field] && !values.includes(taxonomy.referenceRecord[field])) errors.push(`referenceRecord.${field} is not an allowed value`);
   }
+  if (!taxonomy.relationshipRules?.monthlyStandalone?.includes('worksheet coversheet')) {
+    errors.push('relationshipRules.monthlyStandalone must include the worksheet coversheet artifact contract');
+  }
   if (!Array.isArray(taxonomy.referenceRecord?.keywords) || taxonomy.referenceRecord.keywords.length < 3) errors.push('referenceRecord.keywords must contain at least three terms');
   return { valid: errors.length === 0, errors };
 }

@@ -23,7 +23,7 @@
     "differentiation": ["three levels", "leveled math", "mixed-level learners"]
   },
   "relationshipRules": {
-    "monthlyStandalone": "One month, one stable product identifier, with its own PDF, answer keys, thumbnails, listing copy, and release record.",
+    "monthlyStandalone": "One month, one stable product identifier, with its own PDF, worksheet coversheet PNG, worksheet-sized PDF cover/page 1, answer keys, thumbnails, listing copy, and release record.",
     "annualBundle": "References released monthly products and adds no renamed duplicate products.",
     "optionalSeasonalGroup": "May group monthly identifiers without changing their standalone metadata."
   },
@@ -35,6 +35,6 @@
     "format": "Printable PDF",
     "productType": "monthly standalone",
     "keywords": ["math word problems", "morning work", "historical mini-stories", "three levels"],
-    "description": "A month of daily historical mini-stories with three leveled math word problems and separate answer keys."
+    "description": "A month of daily historical mini-stories with three leveled math word problems, a worksheet coversheet, and separate answer keys."
   }
 }

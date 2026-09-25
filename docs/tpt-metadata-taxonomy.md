@@ -41,9 +41,12 @@ they describe the actual month and do not replace the core terms.
 
 ## Monthly versus bundle records
 
-A monthly standalone listing owns its PDF, answer keys, thumbnails, listing
-copy, and release record. An annual bundle references only monthly products
-whose release records say `released`; it does not rename or duplicate them.
+A monthly standalone listing owns its PDF, worksheet coversheet PNG,
+worksheet-sized PDF cover/page 1, answer keys, thumbnails, listing copy, and
+release record. An annual bundle references only monthly products whose
+release records say `released`; it does not rename or duplicate them. The
+coversheet is part of the product artifact relationship, not a new TPT
+metadata field.
 An optional seasonal group can organize monthly identifiers without changing
 their standalone metadata.
 

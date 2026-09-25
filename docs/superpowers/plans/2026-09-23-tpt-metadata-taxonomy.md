@@ -5,6 +5,7 @@
 - Do not publish or edit a live TPT listing.
 - Preserve the monthly/bundle distinction.
 - Keep October as the complete reference record.
+- Include the worksheet coversheet PNG and worksheet-sized PDF/page-1 artifact in the monthly product relationship without adding a new TPT metadata field.
 
 ## Tasks
 

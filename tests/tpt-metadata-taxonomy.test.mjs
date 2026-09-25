@@ -11,6 +11,7 @@ test('taxonomy contains complete October reference metadata and monthly/bundle r
   assert.equal(taxonomy.referenceRecord.productType, 'monthly standalone');
   assert.ok(taxonomy.fields.required.includes('subjectArea'));
   assert.ok(taxonomy.keywordGroups.history.includes('historical mini-stories'));
+  assert.match(taxonomy.relationshipRules.monthlyStandalone, /worksheet coversheet/);
 });
 
 test('taxonomy rejects missing required grade-band terminology', () => {
