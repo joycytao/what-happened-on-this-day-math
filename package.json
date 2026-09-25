@@ -23,6 +23,7 @@
     "release:validate:november": "node scripts/validate-november-release.mjs",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
+    "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
     "portfolio:validate": "node scripts/validate-portfolio-architecture.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
