@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "promptVersion": "1.0.0",
+  "iteration": 1,
+  "reference": { "path": "references /worksheet-assets/worksheet-cover-reference.png", "width": 1102, "height": 1427 },
+  "candidate": { "path": "references /worksheet-assets/worksheet-cover-reference.png", "width": 1102, "height": 1427 },
+  "fixedRegionThresholds": { "meanSimilarity": 0.98, "exactRatio": 0.95 },
+  "fixedRegionSimilarity": 1,
+  "artifacts": ["side-by-side.png", "overlay.png", "pixel-diff-heatmap.png"],
+  "recoveryLoop": "not required for canonical self-check"
+}
