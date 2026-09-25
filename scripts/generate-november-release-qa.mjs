@@ -33,7 +33,16 @@ const report = {
   issue: 60,
   month: 11,
   expectedPageCount: 123,
+  expectedPageCountWithoutCover: 123,
+  expectedPageCountWithCover: 124,
   actualPageCount: pdf.actualPageCount,
+  cover: {
+    status: "pending_issue_86",
+    coverPages: 0,
+    pageOneRole: "reading-passage_baseline",
+    finalPageOneRole: "worksheet_coversheet_after_issue_86",
+    note: "The current source packet is intentionally the pre-cover baseline. Rerun this QA after Issue #86 with exactly one cover page at page 1."
+  },
   sourceCoverage: { dailyDays: 30, dailyPages: 120, answerKeyPages: 3 },
   templateVersions: { daily: daily.templateVersion, answerKey: answerKey.templateVersion },
   validation,
@@ -156,5 +165,5 @@ function rasterizeSamples(pdfPath) {
 
 function renderMarkdown(report) {
   const gates = ["content", "mathematics", "source", "layout", "pdf"].map((gate) => `${gate}: ${report.validation[gate] ? "PASS" : "FAIL"}`).join(", ");
-  return `# November PDF release QA\n\n- Release status: ${report.valid ? "PASS" : "BLOCKED"}\n- Coverage: 30 days × 4 daily pages + 3 Answer Key pages = ${report.expectedPageCount} pages; PDF contains ${report.actualPageCount}.\n- Page order: daily pages are day-major (reading passage, Level 1, Level 2, Level 3), followed by Answer Key Levels 1–3.\n- Page dimensions: daily SVG 1545×2000 px; Answer Key SVG 1545×1999 px; PDF dimensions are recorded in the machine-readable report.\n- Content, mathematics, source, layout, and PDF gates: ${gates}.\n- Visual samples: pages ${report.visualInspection.pages.join(", ")} rasterized to ${report.visualInspection.directory}; inspect these for margins, clipping, overflow, ordering, and legibility.\n- Errors: ${report.errors.length === 0 ? "none" : report.errors.length}\n\nThis report is the final November release gate. Any failure is recorded with its date, page, field, artifact, and actionable reason in the JSON report.\n`;
+  return `# November PDF release QA\n\n- Release status: ${report.valid ? "PASS" : "BLOCKED"}\n- Coverage: 30 days × 4 daily pages + 3 Answer Key pages = ${report.expectedPageCountWithoutCover} pages; the cover-bearing release contract is ${report.expectedPageCountWithCover} pages (one cover + baseline). PDF contains ${report.actualPageCount} pages in the current pre-cover baseline.\n- Cover gate: ${report.cover.status}; cover_pages: ${report.cover.coverPages}; current page 1 is the first daily Reading Passage. After Issue #86, rerun with exactly one worksheet coversheet at page 1 and shifted source mappings.\n- Page order: daily pages are day-major (reading passage, Level 1, Level 2, Level 3), followed by Answer Key Levels 1–3.\n- Page dimensions: daily SVG 1545×2000 px; Answer Key SVG 1545×1999 px; PDF dimensions are recorded in the machine-readable report.\n- Content, mathematics, source, layout, and PDF gates: ${gates}.\n- Visual samples: pages ${report.visualInspection.pages.join(", ")} rasterized to ${report.visualInspection.directory}; inspect these for margins, clipping, overflow, ordering, and legibility.\n- Errors: ${report.errors.length === 0 ? "none" : report.errors.length}\n\nThis report is the current pre-cover November QA baseline. After Issue #86 adds the approved coversheet, rerun the same gate and require page-1 cover placement, shifted source mappings, and a 124-page total. Any failure is recorded with its date, page, field, artifact, cover status, and actionable reason in the JSON report.\n`;
 }

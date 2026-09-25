@@ -3,7 +3,16 @@
   "issue": 60,
   "month": 11,
   "expectedPageCount": 123,
+  "expectedPageCountWithoutCover": 123,
+  "expectedPageCountWithCover": 124,
   "actualPageCount": 123,
+  "cover": {
+    "status": "pending_issue_86",
+    "coverPages": 0,
+    "pageOneRole": "reading-passage_baseline",
+    "finalPageOneRole": "worksheet_coversheet_after_issue_86",
+    "note": "The current source packet is intentionally the pre-cover baseline. Rerun this QA after Issue #86 with exactly one cover page at page 1."
+  },
   "sourceCoverage": {
     "dailyDays": 30,
     "dailyPages": 120,
