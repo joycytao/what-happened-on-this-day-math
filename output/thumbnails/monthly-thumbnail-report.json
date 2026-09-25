@@ -55,7 +55,7 @@
     "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
     "whats-included": "40058f59f69f9715f84612e19179c29f257d4543884ae10e4da06b3dc42d86ff",
     "different-math": "158116e7956dd79683f6a64a83de2eaa89a926b00946921ca6bf8f8816ea9a08",
-    "daily-practice": "ff3b9aa67d1b51a123a04dc3adbdb74b9bbe0d629de567d2ba325e169ab2cce2"
+    "daily-practice": "8fd13399e5c4f612e3d97476087ece962477a3463daa72b97b43615e9e17769d"
   },
   "pdf": "output/pdf/october-worksheet-packet.pdf",
   "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
@@ -102,7 +102,10 @@
         "HOMESCHOOL"
       ],
       "headlineEmphasis": "three orange rays on each side",
-      "useCaseSeparators": "vertical orange lines"
+      "useCaseSeparators": "vertical orange lines",
+      "sourceLayout": "one centered upright real worksheet preview",
+      "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
     }
   }
 }
