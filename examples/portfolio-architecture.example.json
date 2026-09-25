@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "portfolioId": "morning-work-math",
+  "purpose": "A stable identifier hierarchy for monthly products and a future full-year bundle.",
+  "products": {
+    "monthly": {
+      "identifierPattern": "morning-work-math-{year}-{month}",
+      "titlePattern": "{Month} Morning Work Math",
+      "statusValues": ["planned", "in-progress", "qa", "released", "retired"],
+      "inclusionRules": ["pdf", "worksheetCoversheetPng", "worksheetCoversheetPdf", "answerKeys", "thumbnails", "listingCopy", "releaseRecord"]
+    },
+    "bundle": {
+      "identifier": "morning-work-math-year-bundle",
+      "title": "Morning Work Math: Full-Year Bundle",
+      "includes": "Twelve released monthly products, each with its PDF, worksheet coversheet PNG, worksheet-sized PDF cover/page 1, answer keys, thumbnails, listing copy, and release record.",
+      "completenessRule": "A month is included only when its release status is released and every required artifact, including the worksheet coversheet, passes QA and cover approval."
+    }
+  },
+  "referenceProduct": {
+    "month": 10,
+    "year": 2026,
+    "identifier": "morning-work-math-2026-10",
+    "title": "October Morning Work Math",
+    "status": "qa",
+    "includedMonths": [10]
+  },
+  "futureMonthRules": [
+    "Use the same identifier pattern for every month.",
+    "Keep the month number in the product identifier even when the display title uses the month name.",
+    "Do not restructure existing identifiers when adding a new month.",
+    "A bundle references released product identifiers; it does not duplicate or rename them."
+  ]
+}
