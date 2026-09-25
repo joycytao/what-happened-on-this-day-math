@@ -2,6 +2,9 @@
   "valid": true,
   "month": "November",
   "version": "1.0.0",
+  "illustration": {
+    "name": "turkey"
+  },
   "cover_pages": 1,
   "daily_worksheet_pages": null,
   "answer_key_pages": null,
@@ -25,7 +28,7 @@
     "reviewGate": "draft"
   },
   "checksums": {
-    "png": "12e974e4bbeb8ab8e57b0a22a377d9f5d6cf1eb5c6cce1711496ce882e598bdb",
-    "pdf": "545b718ab936bfe387d17d8941fa27dd8087871ada38c4243a53d322220221ca"
+    "png": "59d0f1035e731510fe1540c595334b0af44df7ceae596cad77440b55739b9ece",
+    "pdf": "4d4eb291b44dae92c6da9b41d9b91eb29490f4fc77b6a98621e0e8584401afe0"
   }
 }

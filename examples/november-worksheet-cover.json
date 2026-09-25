@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "page": { "widthPoints": 1158.75, "heightPoints": 1500, "rasterWidth": 1545, "rasterHeight": 2000 },
   "copy": { "month": "NOVEMBER", "title": "MORNING WORK MATH", "subtitle": ["DAILY WORD PROBLEMS", "HISTORICAL MINI-STORIES"], "levels": "3 LEVELS" },
+  "illustration": { "name": "turkey" },
   "logoAsset": "references /worksheet-assets/6pm-studio-logo.svg",
   "approval": { "status": "draft", "approvedBy": null, "approvedAt": null }
 }
