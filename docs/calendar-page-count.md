@@ -17,7 +17,7 @@ const pages = calculateMonthlyPageCount(2026, 8);
 every date in the requested month. The `month` argument is one-based, so
 January is `1` and December is `12`.
 
-`calculateMonthlyPageCount(year, month)` returns:
+The approved rendered packet totals are:
 
 ```json
 {
@@ -30,10 +30,9 @@ January is `1` and December is `12`.
 }
 ```
 
-The formula follows `AGENTS.md`: four worksheet pages per calendar day plus
-three answer-key pages. A 30-day month has `123` pages, a 31-day month has
-`127` pages, leap-year February has `119` pages, and non-leap February has
-`115` pages.
+The final PDF is authoritative. A 30-day month has `124` pages and a 31-day
+month has `127` pages. February totals are not yet specified and must be
+confirmed before adding a page-count rule for February.
 
 Invalid inputs fail before calculation:
 

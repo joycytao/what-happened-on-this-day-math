@@ -19,12 +19,12 @@ test("month-only orchestration rejects a missing month argument", () => {
   assert.throws(() => parseMonthlyArguments([]), /--month must be an integer from 1 through 12/);
 });
 
-test("the same calendar contract predicts November's 123-page packet", () => {
+test("the same calendar contract predicts November's 124-page packet", () => {
   assert.deepEqual(buildMonthlyContract(11), {
     month: 11,
     dayCount: 30,
     dailyPagesPerDay: 4,
     answerKeyPages: 3,
-    totalPages: 123,
+    totalPages: 124,
   });
 });

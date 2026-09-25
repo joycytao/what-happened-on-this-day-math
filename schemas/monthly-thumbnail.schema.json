@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://6pm-studio.com/schemas/monthly-thumbnail.schema.json",
+  "title": "Monthly Thumbnail Manifest",
+  "type": "object",
+  "required": ["schema_version", "product", "pdf", "templates"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "product": {
+      "type": "object",
+      "required": ["id", "month", "version"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "month": { "type": "string", "pattern": "^[a-z]+$" },
+        "version": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "pdf": {
+      "type": "object",
+      "required": ["path", "sha256", "page_count"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "page_count": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "templates": {
+      "type": "object",
+      "required": ["cover", "whats_included", "different_math", "daily_practice"],
+      "properties": {
+        "cover": { "$ref": "#/$defs/template" },
+        "whats_included": { "$ref": "#/$defs/templateWithPages" },
+        "different_math": { "$ref": "#/$defs/templateWithPages" },
+        "daily_practice": { "$ref": "#/$defs/templateWithPages" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "template": {
+      "type": "object",
+      "required": ["output"],
+      "properties": { "output": { "type": "string", "minLength": 1 } },
+      "additionalProperties": false
+    },
+    "templateWithPages": {
+      "type": "object",
+      "required": ["output", "source_pages"],
+      "properties": {
+        "output": { "type": "string", "minLength": 1 },
+        "source_pages": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,33 @@
+{
+  "product": "october-morning-work-math",
+  "pdf": "output/pdf/october-worksheet-packet.pdf",
+  "pdf_sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
+  "doodle": "assets/doodles/months/october.svg",
+  "thumbnail_dimensions": [1260, 1260],
+  "source_pages": {
+    "whats_included": {"story": 1, "level1": 2, "level2": 3, "level3": 4, "answer_key": 125},
+    "different_math": {"level1": 2, "level2": 3, "level3": 4},
+    "daily_practice": {"worksheet": 2}
+  },
+  "outputs": [
+    {"template": "cover", "path": "output/thumbnails/october-v1.0-cover.png", "sha256": "330c3370ac6f1caf414f8911686aeadbf7d04d338a01b6729b3db581067e04fd"},
+    {"template": "overview", "path": "output/thumbnails/october-v1.0-overview.png", "sha256": "6ab67b8678003d83a68b35e369c71ad47b259b9a15c1ab8458ac95432bcd857c"},
+    {"template": "whats_included", "path": "output/thumbnails/october-v1.0-whats-included.png", "sha256": "959aa00e95b564b01db3f9138209151247fde8c2db14177984d057408337c0d6"},
+    {"template": "different_math", "path": "output/thumbnails/october-v1.0-different-math.png", "sha256": "0e10fef6dd9e2488cfccee361ee15a17f99dd20566e7388407a6c22b3c6839ea"},
+    {"template": "daily_practice", "path": "output/thumbnails/october-v1.0-daily-practice.png", "sha256": "77382166a84078cf66798631b9d142ad941c2e21c36243c041867d19cd1c9a43"}
+  ],
+  "checks": {
+    "pdf_checksum_matches_manifest": true,
+    "all_page_images_are_rendered_from_pdf": true,
+    "no_synthetic_worksheet_content": true,
+    "page_labels_match_source_pages": true,
+    "brand_background": "#FEFFEF",
+    "brand_text": "#2B313F",
+    "brand_accent": "#FF8A00",
+    "simple_line_system": true,
+    "logo_present": true,
+    "text_within_canvas": true,
+    "cards_do_not_overlap": true
+  },
+  "status": "pass"
+}

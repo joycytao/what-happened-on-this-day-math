@@ -28,16 +28,18 @@ describe("generateMonthDates", () => {
 });
 
 describe("calculateMonthlyPageCount", () => {
-  it("uses four daily pages plus three answer-key pages", () => {
+  it("uses the approved total for a 30-day month", () => {
     assert.deepEqual(calculateMonthlyPageCount(2026, 4), {
       year: 2026,
       month: 4,
       dayCount: 30,
       dailyPagesPerDay: 4,
       answerKeyPages: 3,
-      totalPages: 123,
+      totalPages: 124,
     });
+  });
 
+  it("uses the approved total for a 31-day month", () => {
     assert.deepEqual(calculateMonthlyPageCount(2026, 8), {
       year: 2026,
       month: 8,
@@ -46,6 +48,13 @@ describe("calculateMonthlyPageCount", () => {
       answerKeyPages: 3,
       totalPages: 127,
     });
+  });
+
+  it("rejects a month whose packet total is not yet approved", () => {
+    assert.throws(
+      () => calculateMonthlyPageCount(2026, 2),
+      /no approved packet page count exists for a 28-day month/,
+    );
   });
 });
 

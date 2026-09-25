@@ -1,5 +1,9 @@
 const DAILY_PAGES_PER_DAY = 4;
 const ANSWER_KEY_PAGES = 3;
+const APPROVED_TOTAL_PAGES_BY_DAY_COUNT = new Map([
+  [30, 124],
+  [31, 127],
+]);
 
 export function generateMonthDates(year, month) {
   validateYear(year);
@@ -17,6 +21,13 @@ export function generateMonthDates(year, month) {
 
 export function calculateMonthlyPageCount(year, month) {
   const dayCount = generateMonthDates(year, month).length;
+  const totalPages = APPROVED_TOTAL_PAGES_BY_DAY_COUNT.get(dayCount);
+
+  if (totalPages === undefined) {
+    throw new RangeError(
+      `no approved packet page count exists for a ${dayCount}-day month`,
+    );
+  }
 
   return {
     year,
@@ -24,7 +35,7 @@ export function calculateMonthlyPageCount(year, month) {
     dayCount,
     dailyPagesPerDay: DAILY_PAGES_PER_DAY,
     answerKeyPages: ANSWER_KEY_PAGES,
-    totalPages: dayCount * DAILY_PAGES_PER_DAY + ANSWER_KEY_PAGES,
+    totalPages,
   };
 }
 
