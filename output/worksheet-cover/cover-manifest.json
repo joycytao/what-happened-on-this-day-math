@@ -1,0 +1,34 @@
+{
+  "valid": true,
+  "month": "November",
+  "version": "1.0.0",
+  "illustration": {
+    "name": "turkey"
+  },
+  "cover_pages": 1,
+  "daily_worksheet_pages": null,
+  "answer_key_pages": null,
+  "page_count": null,
+  "page": {
+    "width": 1158.75,
+    "height": 1500
+  },
+  "raster": {
+    "width": 1545,
+    "height": 2000
+  },
+  "artifacts": {
+    "svg": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.svg",
+    "png": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.png",
+    "pdf": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.pdf",
+    "logo": "/private/tmp/math-issue-86/references /worksheet-assets/6pm-studio-logo.svg"
+  },
+  "checks": {
+    "logoIsVersionedAsset": true,
+    "reviewGate": "draft"
+  },
+  "checksums": {
+    "png": "709264dcf62ccd7cd28566e4b26ddfffaa5ca6abdef1a98d169079ebcef1536b",
+    "pdf": "e08292c3ab8a99d5e30a1bef8c8d93dff2a3f565d588fed89f230862583da8b2"
+  }
+}
