@@ -27,19 +27,24 @@ function validateConfig(config) {
 
 function illustration(config) {
   if (config.illustration?.name !== "turkey") return "";
-  return `<g data-illustration="turkey" data-illustration-center="772.5,1120" fill="none" stroke="#FF8A00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M650 1108 C590 1070 555 1004 574 944 C629 956 671 988 690 1032"/>
-    <path d="M684 1040 C651 970 657 896 704 854 C742 889 757 940 748 989"/>
-    <path d="M748 1000 C744 922 778 858 838 834 C855 884 842 939 815 984"/>
-    <path d="M820 1000 C845 926 899 884 963 891 C968 949 937 1001 885 1030"/>
-    <path d="M875 1044 C925 1000 991 995 1040 1029 C1023 1083 978 1116 920 1120"/>
-    <ellipse cx="772.5" cy="1145" rx="145" ry="174"/>
-    <circle cx="772.5" cy="1008" r="68"/>
-    <path d="M836 1008 L895 1028 L836 1042"/>
-    <path d="M705 1046 C674 1061 675 1091 706 1098 C686 1120 699 1142 726 1133"/>
-    <circle cx="796" cy="995" r="6" fill="#FF8A00"/>
-    <path d="M764 1314 L747 1390 L726 1440 M810 1314 L829 1390 L850 1440"/>
-    <path d="M726 1440 L698 1440 M726 1440 L739 1421 M850 1440 L878 1440 M850 1440 L837 1421"/>
+  return `<g data-illustration="turkey" data-illustration-center="772.5,1120" data-turkey-features="fan-tail,body,head,beak,wattle,feet" transform="translate(154.5 224) scale(.8)" fill="none" stroke="#FF8A00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <g data-tail-feathers="7">
+      <path d="M696 1090 C617 1049 560 965 567 858 C653 867 722 923 744 1011"/>
+      <path d="M704 1050 C650 949 647 834 704 748 C778 804 804 898 782 997"/>
+      <path d="M744 1010 C728 892 773 779 855 731 C900 822 880 930 821 1018"/>
+      <path d="M801 1010 C820 886 901 804 995 792 C1008 899 955 993 873 1050"/>
+      <path d="M844 1040 C909 943 1018 905 1100 943 C1081 1042 997 1102 899 1095"/>
+      <path d="M655 1098 C563 1082 482 1015 459 918 C552 898 645 946 702 1030"/>
+      <path d="M891 1088 C969 1050 1068 1072 1120 1140 C1043 1198 944 1195 872 1146"/>
+    </g>
+    <path data-turkey-body="pear-shaped" d="M650 1120 C642 1058 684 1018 738 1026 C748 1007 773 995 801 1004 C831 1014 846 1040 844 1068 C894 1101 916 1173 895 1248 C870 1338 812 1388 746 1380 C672 1371 628 1298 631 1218 C632 1180 638 1145 650 1120 Z"/>
+    <circle data-turkey-head="round" cx="772.5" cy="1002" r="67"/>
+    <path data-turkey-beak d="M834 1002 L903 1024 L834 1044"/>
+    <path data-turkey-wattle d="M712 1038 C674 1046 666 1080 697 1092 C675 1119 695 1146 730 1128"/>
+    <circle cx="797" cy="989" r="7" fill="#FF8A00"/>
+    <path d="M716 1215 C745 1238 798 1238 829 1212 M713 1260 C747 1283 800 1282 832 1257"/>
+    <path data-turkey-feet d="M716 1352 L698 1424 L673 1450 M822 1352 L845 1424 L870 1450"/>
+    <path d="M673 1450 L642 1450 M673 1450 L688 1428 M870 1450 L901 1450 M870 1450 L855 1428"/>
   </g>`;
 }
 
@@ -64,7 +69,9 @@ async function render(svg, pngPath, pdfPath) {
   const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage({ viewport: RASTER, deviceScaleFactor: 1 });
-    await page.setContent(`<style>html,body{margin:0;padding:0;background:#FEFFEF}</style><img style="display:block;width:1545px;height:2000px" src="${dataUrl(svg)}">`);
+    // Render the SVG as document content so nested logo data URLs and line art
+    // are parsed by Chromium before the screenshot/PDF capture begins.
+    await page.setContent(`<style>html,body{margin:0;padding:0;background:#FEFFEF}</style>${svg}`);
     await page.screenshot({ path: pngPath, type: "png" });
     // Chromium accepts the raster CSS dimensions reliably; at 96 CSS px/in this
     // produces the exact worksheet PDF points (1545 px = 1158.75 pt).
