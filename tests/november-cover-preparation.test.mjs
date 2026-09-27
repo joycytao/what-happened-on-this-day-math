@@ -34,3 +34,15 @@ test("November cover includes a centered orange outline turkey doodle", async ()
   await rm(`${root}/output/worksheet-cover`, { recursive: true, force: true });
   await rm(`${root}/reports/issue-86-november-cover.json`, { force: true });
 });
+
+test("reusable doodle prompt preserves the owner-approved monthly variable contract", async () => {
+  const prompt = await readFile(`${root}/prompts/worksheet-cover-prompt.md`, "utf8");
+  assert.match(prompt, /Create one simple hand-drawn doodle illustration of \[MONTHLY OBJECT\]/);
+  assert.match(prompt, /Replace \[MONTHLY OBJECT\] with a month-related object/);
+  assert.match(prompt, /Use one solid orange line: #FF8A00/);
+  assert.match(prompt, /Transparent background/);
+  assert.match(prompt, /November usage: turkey/);
+  assert.match(prompt, /fan tail with distinct feathers/);
+  assert.match(prompt, /Do not add the month name or any written label/);
+  assert.match(prompt, /photorealistic, realistic illustration/);
+});
