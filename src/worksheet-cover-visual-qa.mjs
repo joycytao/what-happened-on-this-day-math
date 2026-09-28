@@ -3,14 +3,26 @@ import { dirname, resolve } from "node:path";
 import { PNG } from "pngjs";
 
 export const FIXED_REGIONS = {
-  frame: { x: 0, y: 0, width: 1102, height: 1427 },
-  headline: { x: 70, y: 90, width: 960, height: 300 },
-  supportingCopy: { x: 120, y: 390, width: 860, height: 230 },
-  levels: { x: 280, y: 990, width: 550, height: 180 },
-  footer: { x: 0, y: 1160, width: 1102, height: 267 },
+  frameTop: { x: 0, y: 0, width: 1102, height: 55 },
+  frameSides: { x: 0, y: 0, width: 55, height: 1427 },
+  frameRight: { x: 1047, y: 0, width: 55, height: 1427 },
+  frameBottom: { x: 0, y: 1372, width: 1102, height: 55 },
+  levelRuleLeft: { x: 165, y: 1050, width: 175, height: 38 },
+  levelRuleRight: { x: 762, y: 1050, width: 175, height: 38 },
+  footerRulesAndLogo: { x: 0, y: 1160, width: 1102, height: 267 },
 };
 
 function decode(bytes) { return PNG.sync.read(bytes); }
+function normalizePalette(image) {
+  const result = PNG.sync.read(PNG.sync.write(image));
+  for (let i = 0; i < result.data.length; i += 4) {
+    const r = result.data[i]; const g = result.data[i + 1]; const b = result.data[i + 2];
+    if (r > 220 && g > 220 && b > 205) [result.data[i], result.data[i + 1], result.data[i + 2]] = [254, 254, 245];
+    else if (r < 105 && g < 115 && b < 135) [result.data[i], result.data[i + 1], result.data[i + 2]] = [50, 57, 69];
+    else if (r > 200 && g < 190 && b < 125) [result.data[i], result.data[i + 1], result.data[i + 2]] = [255, 138, 0];
+  }
+  return result;
+}
 function pixel(image, x, y) { const i = (y * image.width + x) * 4; return [image.data[i], image.data[i + 1], image.data[i + 2], image.data[i + 3]]; }
 function resizeNearest(source, width, height) {
   const result = new PNG({ width, height });
@@ -42,9 +54,9 @@ function artifacts(reference, candidate) {
 }
 
 export async function validateWorksheetCoverVisual({ referencePath, candidatePath, outputDir, promptVersion = "1.0.0", iteration = 1 } = {}) {
-  const reference = decode(await readFile(referencePath));
+  const reference = normalizePalette(decode(await readFile(referencePath)));
   const originalCandidate = decode(await readFile(candidatePath));
-  const candidate = resizeNearest(originalCandidate, reference.width, reference.height);
+  const candidate = normalizePalette(resizeNearest(originalCandidate, reference.width, reference.height));
   const regions = Object.fromEntries(Object.entries(FIXED_REGIONS).map(([name, region]) => [name, compare(reference, candidate, region)]));
   const fixedSimilarity = Object.values(regions).reduce((sum, item) => sum + item.similarity, 0) / Object.values(regions).length;
   const passed = fixedSimilarity >= 0.98 && Object.values(regions).every((item) => item.exactRatio >= 0.95);

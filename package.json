@@ -34,7 +34,8 @@
     "level1:render": "node scripts/render-level1.mjs",
     "level2:render": "node scripts/render-level2.mjs",
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
-    "cover:merge": "node scripts/worksheet-cover-pipeline.mjs"
+    "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
+    "cover:prepare:november": "node scripts/prepare-november-cover.mjs"
   },
   "devDependencies": { "pdf-lib": "^1.17.1", "playwright": "^1.63.0", "pngjs": "^7.0.0" }
 }

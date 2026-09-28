@@ -1,0 +1,63 @@
+{
+  "passed": false,
+  "promptVersion": "1.1.0",
+  "iteration": 3,
+  "reference": {
+    "path": "/private/tmp/math-issue-86/references /worksheet-assets/worksheet-cover-reference.png",
+    "width": 1102,
+    "height": 1427
+  },
+  "candidate": {
+    "path": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.png",
+    "width": 1545,
+    "height": 2000
+  },
+  "fixedRegionThresholds": {
+    "meanSimilarity": 0.98,
+    "exactRatio": 0.95
+  },
+  "fixedRegionSimilarity": 0.894845,
+  "regions": {
+    "frameTop": {
+      "similarity": 0.931952,
+      "exactRatio": 0.83473,
+      "pixels": 60610
+    },
+    "frameSides": {
+      "similarity": 0.881752,
+      "exactRatio": 0.732497,
+      "pixels": 78485
+    },
+    "frameRight": {
+      "similarity": 0.890181,
+      "exactRatio": 0.732242,
+      "pixels": 78485
+    },
+    "frameBottom": {
+      "similarity": 0.901638,
+      "exactRatio": 0.766771,
+      "pixels": 60610
+    },
+    "levelRuleLeft": {
+      "similarity": 0.859318,
+      "exactRatio": 0.645414,
+      "pixels": 6650
+    },
+    "levelRuleRight": {
+      "similarity": 0.859029,
+      "exactRatio": 0.644962,
+      "pixels": 6650
+    },
+    "footerRulesAndLogo": {
+      "similarity": 0.940046,
+      "exactRatio": 0.860924,
+      "pixels": 294234
+    }
+  },
+  "artifacts": [
+    "side-by-side.png",
+    "overlay.png",
+    "pixel-diff-heatmap.png"
+  ],
+  "recoveryLoop": "optimize prompt/layout -> regenerate -> rerun complete QA"
+}
