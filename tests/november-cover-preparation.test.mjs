@@ -24,7 +24,10 @@ test("November cover includes a centered orange outline turkey doodle", async ()
   const svg = await readFile(`${root}/output/worksheet-cover/november-worksheet-cover.svg`, "utf8");
 
   assert.equal(config.illustration?.name, "turkey");
+  assert.equal(config.illustration?.asset, "references /worksheet-assets/november-turkey-doodle.png");
   assert.match(svg, /data-illustration="turkey"/);
+  assert.match(svg, /data-generated-asset="references \/worksheet-assets\/november-turkey-doodle\.png"/);
+  assert.match(svg, /data:image\/png;base64,/);
   assert.match(svg, /fill="none"/);
   assert.match(svg, /stroke="#FF8A00"/);
   assert.match(svg, /data-illustration-center="772\.5,1120"/);

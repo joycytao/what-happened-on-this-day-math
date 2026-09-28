@@ -12,6 +12,7 @@ const arg = (name, fallback = null) => { const i = process.argv.indexOf(name); r
 const fail = (message) => { throw new Error(message); };
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const dataUrl = (text) => `data:image/svg+xml;base64,${Buffer.from(text).toString("base64")}`;
+const pngDataUrl = (bytes) => `data:image/png;base64,${Buffer.from(bytes).toString("base64")}`;
 const esc = (value) => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 
 function validateConfig(config) {
@@ -25,8 +26,11 @@ function validateConfig(config) {
   if (config.illustration?.name && config.illustration.name !== "turkey") fail("unsupported illustration: only turkey is implemented in this revision");
 }
 
-function illustration(config) {
+function illustration(config, illustrationAsset = null) {
   if (config.illustration?.name !== "turkey") return "";
+  if (illustrationAsset) {
+    return `<g data-illustration="turkey" data-illustration-center="772.5,1120" data-turkey-features="fan-tail,body,head,beak,wattle,feet" data-tail-feathers="7" data-generated-asset="${esc(config.illustration.asset)}" transform="translate(442.5 805)" fill="none" stroke="#FF8A00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><image href="${illustrationAsset}" x="0" y="0" width="660" height="660" preserveAspectRatio="xMidYMid meet"/></g>`;
+  }
   return `<g data-illustration="turkey" data-illustration-center="772.5,1120" data-turkey-features="fan-tail,body,head,beak,wattle,feet" transform="translate(154.5 224) scale(.8)" fill="none" stroke="#FF8A00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
     <g data-tail-feathers="7">
       <path d="M696 1090 C617 1049 560 965 567 858 C653 867 722 923 744 1011"/>
@@ -50,6 +54,9 @@ function illustration(config) {
 
 async function buildSvg(config, logoPath) {
   const logo = dataUrl(await readFile(logoPath, "utf8"));
+  const illustrationAsset = config.illustration?.asset
+    ? pngDataUrl(await readFile(resolve(ROOT, config.illustration.asset)))
+    : null;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${POINTS.width}pt" height="${POINTS.height}pt" viewBox="0 0 1545 2000">
   <rect width="1545" height="2000" fill="#FEFFEF"/><rect x="38" y="38" width="1469" height="1924" rx="24" fill="none" stroke="#FF8A00" stroke-width="9"/>
   <g fill="#2B313F" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
@@ -59,7 +66,7 @@ async function buildSvg(config, logoPath) {
     <text x="772.5" y="790" font-size="62" letter-spacing="5">${esc(config.copy.subtitle[1])}</text>
     <text x="772.5" y="1510" font-size="67" font-weight="700" letter-spacing="8">${esc(config.copy.levels)}</text>
   </g>
-  ${illustration(config)}
+  ${illustration(config, illustrationAsset)}
   <g stroke="#FF8A00" stroke-width="7" stroke-linecap="round"><line x1="260" y1="1510" x2="520" y2="1510"/><line x1="1025" y1="1510" x2="1285" y2="1510"/><line x1="80" y1="1840" x2="560" y2="1840"/><line x1="985" y1="1840" x2="1465" y2="1840"/></g>
   <image href="${logo}" x="672.5" y="1710" width="200" height="220" preserveAspectRatio="xMidYMid meet"/>
 </svg>`;
@@ -101,7 +108,7 @@ async function main() {
   const artifacts = { svg: join(outputDir, `${slug}-worksheet-cover.svg`), png: join(outputDir, `${slug}-worksheet-cover.png`), pdf: join(outputDir, `${slug}-worksheet-cover.pdf`) };
   await writeFile(artifacts.svg, `${svg}\n`, "utf8");
   await render(svg, artifacts.png, artifacts.pdf);
-  const manifest = { valid: true, month: config.month, version: config.version, illustration: config.illustration ?? null, cover_pages: 1, daily_worksheet_pages: null, answer_key_pages: null, page_count: null, page: POINTS, raster: RASTER, artifacts: { ...artifacts, logo: resolve(ROOT, config.logoAsset) }, checks: { logoIsVersionedAsset: true, reviewGate: config.approval.status }, checksums: { png: hash(await readFile(artifacts.png)), pdf: hash(await readFile(artifacts.pdf)) } };
+  const manifest = { valid: true, month: config.month, version: config.version, illustration: config.illustration ?? null, cover_pages: 1, daily_worksheet_pages: null, answer_key_pages: null, page_count: null, page: POINTS, raster: RASTER, artifacts: { ...artifacts, logo: resolve(ROOT, config.logoAsset), illustration: config.illustration?.asset ? resolve(ROOT, config.illustration.asset) : null }, checks: { logoIsVersionedAsset: true, illustrationIsVersionedAsset: Boolean(config.illustration?.asset), reviewGate: config.approval.status }, checksums: { png: hash(await readFile(artifacts.png)), pdf: hash(await readFile(artifacts.pdf)) } };
   const sourcePdf = arg("--source-pdf");
   if (sourcePdf) {
     const daily = Number(arg("--daily-worksheet-pages", 0)) || null;
