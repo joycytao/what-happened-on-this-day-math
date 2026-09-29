@@ -24,6 +24,7 @@
     "pdf:assemble:november": "python3 scripts/assemble-november-pdf.py",
     "release:validate:november": "node scripts/validate-november-release.mjs",
     "release:qa:november": "node scripts/generate-november-release-qa.mjs",
+    "release:orchestrate:november": "node scripts/generate-november-monthly-release.mjs",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
