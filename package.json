@@ -25,6 +25,7 @@
     "release:validate:november": "node scripts/validate-november-release.mjs",
     "release:qa:november": "node scripts/generate-november-release-qa.mjs",
     "release:orchestrate:november": "node scripts/generate-november-monthly-release.mjs",
+    "release:append-follow-up": "node scripts/append-follow-up-page.mjs",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
