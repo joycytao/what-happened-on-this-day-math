@@ -29,7 +29,8 @@ report the problem before generating final content.
 ## Monthly production model
 
 The packet has one four-page module for every calendar day in the requested
-month, followed by a three-page answer key.
+month, followed by a three-page answer key and, when the final follow-up
+workflow is enabled, exactly one final follow-up page after the Answer Key.
 
 Each daily module is always ordered as follows:
 
@@ -46,6 +47,12 @@ The approved total page counts are:
 
 - 30-day month: `124 pages`
 - 31-day month: `127 pages`
+
+The final follow-up validation contract adds one page to those approved
+baseline totals: `125 pages` for a 30-day month and `128 pages` for a 31-day
+month. The follow-up must be the final rendered page, and the preceding three
+pages must be Answer Key levels 1–3. See
+`docs/final-follow-up-page-validation.md` and Issue #116.
 
 The page-count rules for February have not been specified and must not be
 invented until the project owner confirms them.
@@ -171,6 +178,10 @@ Before delivering a monthly packet, verify all of the following:
 - There are exactly four pages/modules per day in the required order.
 - The answer-key section appears at the end, with the final rendered page
   count determined by the approved month-specific packet layout.
+- When enabled, exactly one approved follow-up page appears after Answer Key
+  levels 1–3 and is the final rendered page.
+- The final follow-up page is independently checked for reference identity,
+  page order, page count, margins, clipping, overflow, and visual comparison.
 - The computed total is 124 pages for a 30-day month or 127 pages for a
   31-day month.
 - Every date appears exactly once and is in calendar order.
