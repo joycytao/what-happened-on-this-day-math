@@ -6,11 +6,12 @@
 
 ## Tasks
 
-- [ ] Add a versioned follow-up reference asset and checksum metadata.
-- [ ] Add failing tests for expected totals, terminal page role, uniqueness, and Answer Key ordering.
-- [ ] Implement a reusable final-packet validation module without changing orchestration output generation.
-- [ ] Add a focused CLI/report contract and document the optimize → regenerate → revalidate loop.
-- [ ] Run focused tests, the full test suite, and repository hygiene checks.
+- [x] Add a versioned follow-up reference asset and checksum metadata.
+- [x] Add failing tests for expected totals, terminal page role, uniqueness, and Answer Key ordering.
+- [x] Implement a reusable final-packet validation module without changing orchestration output generation.
+- [x] Add a focused CLI/report contract and document the optimize → regenerate → revalidate loop.
+- [x] Run focused tests, the full test suite, and repository hygiene checks.
+- [x] Add fixed-region visual parity, copy validation, and visual artifacts.
 
 ## Verification
 

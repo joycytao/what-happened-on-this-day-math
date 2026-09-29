@@ -10,6 +10,7 @@
     "monthly:generate": "node scripts/generate-monthly.mjs",
     "release:validate:october": "node scripts/validate-october-release.mjs",
     "packet:validate:final-follow-up": "node scripts/validate-final-packet.mjs",
+    "follow-up:visual:validate": "node scripts/validate-follow-up-visual.mjs",
     "content:validate:october": "node scripts/validate-october-content.mjs --check-sources reports/issue-48-october-content-validation.json",
     "worksheets:render:october": "node scripts/render-october-worksheets.mjs content/monthly/month-10.json reports/october-worksheet-pages",
     "worksheets:validate:october": "node scripts/validate-october-worksheet-pages.mjs reports/october-worksheet-pages",
