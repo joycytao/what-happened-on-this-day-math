@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import test from "node:test";
+import { PNG } from "pngjs";
 
 import {
   buildFinalPacketContract,
@@ -7,6 +10,7 @@ import {
   validateFinalPacketManifest,
   verifyFollowUpReference,
 } from "../src/final-follow-up-validation.mjs";
+import { FOLLOW_UP_COPY_CONTRACT, validateFollowUpCopy, validateFollowUpVisual } from "../src/follow-up-visual-qa.mjs";
 
 function pagesFor(dayCount, followUp = true) {
   const pages = [];
@@ -49,4 +53,42 @@ test("rejects unapproved February totals instead of inventing a contract", () =>
 test("pins the approved follow-up visual reference by checksum", async () => {
   const result = await verifyFollowUpReference(FOLLOW_UP_REFERENCE.asset);
   assert.equal(result.valid, true, `reference checksum changed: ${result.actualSha256}`);
+});
+
+test("visual QA emits side-by-side, overlay, heatmap, and passing metrics for the canonical asset", async () => {
+  const outputDir = await mkdtemp(join("/private/tmp", "follow-up-visual-qa-"));
+  try {
+    const report = await validateFollowUpVisual({
+      referencePath: FOLLOW_UP_REFERENCE.asset,
+      candidatePath: FOLLOW_UP_REFERENCE.asset,
+      outputDir,
+      copy: FOLLOW_UP_COPY_CONTRACT,
+    });
+    assert.equal(report.passed, true, report.recoveryLoop);
+    assert.equal(report.fixedRegionSimilarity, 1);
+    assert.deepEqual(report.artifacts, ["side-by-side.png", "overlay.png", "pixel-diff-heatmap.png"]);
+    for (const artifact of report.artifacts) assert.ok((await readFile(join(outputDir, artifact))).length > 100);
+  } finally { await rm(outputDir, { recursive: true, force: true }); }
+});
+
+test("visual QA fails on a materially changed region and records the recovery loop", async () => {
+  const outputDir = await mkdtemp(join("/private/tmp", "follow-up-visual-fail-qa-"));
+  const candidatePath = join(outputDir, "candidate.png");
+  try {
+    const image = PNG.sync.read(await readFile(FOLLOW_UP_REFERENCE.asset));
+    for (let y = 430; y < 690; y += 1) for (let x = 57; x < 967; x += 1) {
+      const i = (y * image.width + x) * 4;
+      image.data[i] = 255; image.data[i + 1] = 0; image.data[i + 2] = 0;
+    }
+    await writeFile(candidatePath, PNG.sync.write(image));
+    const report = await validateFollowUpVisual({ referencePath: FOLLOW_UP_REFERENCE.asset, candidatePath, outputDir: join(outputDir, "report"), copy: FOLLOW_UP_COPY_CONTRACT });
+    assert.equal(report.passed, false);
+    assert.match(report.recoveryLoop, /optimize prompt\/layout/);
+  } finally { await rm(outputDir, { recursive: true, force: true }); }
+});
+
+test("copy validation rejects unapproved follow-up text", () => {
+  const result = validateFollowUpCopy({ ...FOLLOW_UP_COPY_CONTRACT, subtitle: "New resources" });
+  assert.equal(result.valid, false);
+  assert.match(result.errors.join("; "), /subtitle copy/);
 });
