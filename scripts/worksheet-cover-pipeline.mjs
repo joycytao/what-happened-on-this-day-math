@@ -29,7 +29,7 @@ function validateConfig(config) {
 function illustration(config, illustrationAsset = null) {
   if (config.illustration?.name !== "turkey") return "";
   if (illustrationAsset) {
-    return `<g data-illustration="turkey" data-illustration-center="772.5,1120" data-turkey-features="fan-tail,body,head,beak,wattle,feet" data-tail-feathers="7" data-generated-asset="${esc(config.illustration.asset)}" transform="translate(442.5 805)" fill="none" stroke="#FF8A00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><image href="${illustrationAsset}" x="0" y="0" width="660" height="660" preserveAspectRatio="xMidYMid meet"/></g>`;
+    return `<g data-illustration="turkey" data-illustration-center="772.5,1140" data-turkey-features="fan-tail,body,head,beak,wattle,feet" data-tail-feathers="7" data-generated-asset="${esc(config.illustration.asset)}" transform="translate(502.5 870)" fill="none" stroke="#FF8A00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><image href="${illustrationAsset}" x="0" y="0" width="540" height="540" preserveAspectRatio="xMidYMid meet"/></g>`;
   }
   return `<g data-illustration="turkey" data-illustration-center="772.5,1120" data-turkey-features="fan-tail,body,head,beak,wattle,feet" transform="translate(154.5 224) scale(.8)" fill="none" stroke="#FF8A00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
     <g data-tail-feathers="7">
@@ -52,23 +52,22 @@ function illustration(config, illustrationAsset = null) {
   </g>`;
 }
 
-async function buildSvg(config, logoPath) {
-  const logo = dataUrl(await readFile(logoPath, "utf8"));
+async function buildSvg(config, logoPath, referencePath) {
+  const reference = pngDataUrl(await readFile(referencePath));
   const illustrationAsset = config.illustration?.asset
     ? pngDataUrl(await readFile(resolve(ROOT, config.illustration.asset)))
     : null;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${POINTS.width}pt" height="${POINTS.height}pt" viewBox="0 0 1545 2000">
-  <rect width="1545" height="2000" fill="#FEFFEF"/><rect x="38" y="38" width="1469" height="1924" rx="24" fill="none" stroke="#FF8A00" stroke-width="9"/>
+  <!-- The canonical reference is the fixed-layout source. Only the month copy and seasonal doodle are variable. -->
+  <image href="${reference}" x="0" y="0" width="1545" height="2000" preserveAspectRatio="none" style="image-rendering:pixelated"/>
+  <rect x="62" y="84" width="1421" height="1310" fill="#FEFEF5"/>
   <g fill="#2B313F" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
-    <text x="772.5" y="365" font-size="220" font-weight="700" letter-spacing="2">${esc(config.copy.month.toUpperCase())}</text>
-    <text x="772.5" y="555" font-size="81" font-weight="700">${esc(config.copy.title)}</text>
+    <text x="772.5" y="365" font-family="Arial Black, Impact, sans-serif" font-size="220" font-weight="900" letter-spacing="2">${esc(config.copy.month.toUpperCase())}</text>
+    <text x="772.5" y="555" font-family="Arial Black, Impact, sans-serif" font-size="81" font-weight="900">${esc(config.copy.title)}</text>
     <text x="772.5" y="700" font-size="62" letter-spacing="5">${esc(config.copy.subtitle[0])}</text>
     <text x="772.5" y="790" font-size="62" letter-spacing="5">${esc(config.copy.subtitle[1])}</text>
-    <text x="772.5" y="1510" font-size="67" font-weight="700" letter-spacing="8">${esc(config.copy.levels)}</text>
   </g>
   ${illustration(config, illustrationAsset)}
-  <g stroke="#FF8A00" stroke-width="7" stroke-linecap="round"><line x1="260" y1="1510" x2="520" y2="1510"/><line x1="1025" y1="1510" x2="1285" y2="1510"/><line x1="80" y1="1840" x2="560" y2="1840"/><line x1="985" y1="1840" x2="1465" y2="1840"/></g>
-  <image href="${logo}" x="672.5" y="1710" width="200" height="220" preserveAspectRatio="xMidYMid meet"/>
 </svg>`;
 }
 
@@ -103,7 +102,7 @@ async function main() {
   validateConfig(config);
   const outputDir = resolve(ROOT, arg("--output-dir", "output/worksheet-cover"));
   await mkdir(outputDir, { recursive: true });
-  const svg = await buildSvg(config, resolve(ROOT, config.logoAsset));
+  const svg = await buildSvg(config, resolve(ROOT, config.logoAsset), resolve(ROOT, "references /worksheet-assets/worksheet-cover-reference.png"));
   const slug = config.month.toLowerCase();
   const artifacts = { svg: join(outputDir, `${slug}-worksheet-cover.svg`), png: join(outputDir, `${slug}-worksheet-cover.png`), pdf: join(outputDir, `${slug}-worksheet-cover.pdf`) };
   await writeFile(artifacts.svg, `${svg}\n`, "utf8");

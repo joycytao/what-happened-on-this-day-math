@@ -1,14 +1,14 @@
 {
-  "passed": false,
-  "promptVersion": "1.1.0",
-  "iteration": 3,
+  "passed": true,
+  "promptVersion": "1.0.0",
+  "iteration": 1,
   "reference": {
-    "path": "/private/tmp/math-issue-86/references /worksheet-assets/worksheet-cover-reference.png",
+    "path": "/private/tmp/math-issue-125/references /worksheet-assets/worksheet-cover-reference.png",
     "width": 1102,
     "height": 1427
   },
   "candidate": {
-    "path": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.png",
+    "path": "/private/tmp/math-issue-125/output/worksheet-cover/november-worksheet-cover.png",
     "width": 1545,
     "height": 2000
   },
@@ -16,41 +16,41 @@
     "meanSimilarity": 0.98,
     "exactRatio": 0.95
   },
-  "fixedRegionSimilarity": 0.894845,
+  "fixedRegionSimilarity": 0.993357,
   "regions": {
     "frameTop": {
-      "similarity": 0.931952,
-      "exactRatio": 0.83473,
+      "similarity": 0.997738,
+      "exactRatio": 0.981719,
       "pixels": 60610
     },
     "frameSides": {
-      "similarity": 0.881752,
-      "exactRatio": 0.732497,
+      "similarity": 0.991544,
+      "exactRatio": 0.981602,
       "pixels": 78485
     },
     "frameRight": {
-      "similarity": 0.890181,
-      "exactRatio": 0.732242,
+      "similarity": 0.991421,
+      "exactRatio": 0.963585,
       "pixels": 78485
     },
     "frameBottom": {
-      "similarity": 0.901638,
-      "exactRatio": 0.766771,
+      "similarity": 0.987955,
+      "exactRatio": 0.959033,
       "pixels": 60610
     },
     "levelRuleLeft": {
-      "similarity": 0.859318,
-      "exactRatio": 0.645414,
+      "similarity": 0.995641,
+      "exactRatio": 0.968571,
       "pixels": 6650
     },
     "levelRuleRight": {
-      "similarity": 0.859029,
-      "exactRatio": 0.644962,
+      "similarity": 0.995379,
+      "exactRatio": 0.967519,
       "pixels": 6650
     },
     "footerRulesAndLogo": {
-      "similarity": 0.940046,
-      "exactRatio": 0.860924,
+      "similarity": 0.993821,
+      "exactRatio": 0.981256,
       "pixels": 294234
     }
   },
@@ -59,5 +59,5 @@
     "overlay.png",
     "pixel-diff-heatmap.png"
   ],
-  "recoveryLoop": "optimize prompt/layout -> regenerate -> rerun complete QA"
+  "recoveryLoop": "not required"
 }

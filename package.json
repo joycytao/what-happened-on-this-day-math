@@ -43,7 +43,8 @@
     "github:app": "node scripts/github-app-command.mjs",
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
-    "cover:prepare:november": "node scripts/prepare-november-cover.mjs"
+    "cover:prepare:november": "node scripts/prepare-november-cover.mjs",
+    "packet:assemble:november:final": "node scripts/assemble-november-final-package.mjs"
   },
   "devDependencies": { "pdf-lib": "^1.17.1", "playwright": "^1.63.0", "pngjs": "^7.0.0" }
 }

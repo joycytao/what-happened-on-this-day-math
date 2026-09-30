@@ -19,19 +19,19 @@
     "height": 2000
   },
   "artifacts": {
-    "svg": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.svg",
-    "png": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.png",
-    "pdf": "/private/tmp/math-issue-86/output/worksheet-cover/november-worksheet-cover.pdf",
-    "logo": "/private/tmp/math-issue-86/references /worksheet-assets/6pm-studio-logo.svg",
-    "illustration": "/private/tmp/math-issue-86/references /worksheet-assets/november-turkey-doodle.png"
+    "svg": "/private/tmp/math-issue-125/output/worksheet-cover/november-worksheet-cover.svg",
+    "png": "/private/tmp/math-issue-125/output/worksheet-cover/november-worksheet-cover.png",
+    "pdf": "/private/tmp/math-issue-125/output/worksheet-cover/november-worksheet-cover.pdf",
+    "logo": "/private/tmp/math-issue-125/references /worksheet-assets/6pm-studio-logo.svg",
+    "illustration": "/private/tmp/math-issue-125/references /worksheet-assets/november-turkey-doodle.png"
   },
   "checks": {
     "logoIsVersionedAsset": true,
     "illustrationIsVersionedAsset": true,
-    "reviewGate": "draft"
+    "reviewGate": "approved"
   },
   "checksums": {
-    "png": "7122618eb9f16059f8dafc5c9a9472bbc3c21aba3ef1c80049e8d5683ad4cae7",
-    "pdf": "06ea5a6f5f5cf78de6bde17f7e8821458af731f414ed7eb93328dac9cf6cb9d8"
+    "png": "2bea5a50df25dd836dbd6831cb31a0751c8908c89d673b75636e1e3b8b24a5b4",
+    "pdf": "41d036275dbe37ccb451ff3019618b8c77d11e31d34667f3053d0822f347065f"
   }
 }
