@@ -33,6 +33,7 @@
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
     "portfolio:validate": "node scripts/validate-portfolio-architecture.mjs",
     "release:workflow:validate": "node scripts/validate-monthly-release-workflow.mjs",
+    "release:manifest:validate": "node scripts/validate-monthly-release-manifest.mjs",
     "cover:visual:validate": "node scripts/validate-worksheet-cover-visual.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
     "reading:render": "node scripts/render-reading-passage.mjs",
