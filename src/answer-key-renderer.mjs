@@ -18,8 +18,10 @@ const LEVELS = ["level1", "level2", "level3"];
 const BOXES = { left: 150, right: 782, leftWidth: 620, rightWidth: 612, top: 190, height: 100, rowGap: 10, rows: 16 };
 
 export function renderAnswerKeyPages(content, options = {}) {
-  const validation = validateContent(content);
-  if (!validation.valid) throw new Error(`content validation failed:\n${validation.errors.join("\n")}`);
+  if (options.validate !== false) {
+    const validation = validateContent(content);
+    if (!validation.valid) throw new Error(`content validation failed:\n${validation.errors.join("\n")}`);
+  }
   const template = options.template ?? ANSWER_KEY_TEMPLATE;
   if (template.version !== ANSWER_KEY_TEMPLATE.version || template.filename !== ANSWER_KEY_TEMPLATE.filename) {
     throw new Error(`unsupported Answer Key template; expected ${ANSWER_KEY_TEMPLATE.filename} v${ANSWER_KEY_TEMPLATE.version}`);
@@ -33,15 +35,24 @@ export function renderAnswerKeyPages(content, options = {}) {
 }
 
 export function renderOctoberAnswerKeyPages(content, options = {}) {
-  const validation = validateMonthlyContentV2(content);
-  if (!validation.valid) throw new Error(`cannot render invalid October content: ${validation.errors.join("; ")}`);
+  return renderMonthlyAnswerKeyPages(content, { ...options, month: 10 });
+}
 
-  const normalized = normalizeMonthlyContentV2(content);
+export function renderNovemberAnswerKeyPages(content, options = {}) {
+  return renderMonthlyAnswerKeyPages(content, { ...options, month: 11 });
+}
+
+export function renderMonthlyAnswerKeyPages(content, options = {}) {
+  const expectedMonth = options.month ?? content?.month;
+  const validation = validateMonthlyContentV2(content, { month: expectedMonth });
+  if (!validation.valid) throw new Error(`cannot render invalid ${monthName(expectedMonth)} content: ${validation.errors.join("; ")}`);
+
+  const normalized = normalizeMonthlyContentV2(content, expectedMonth);
   let rendered;
   try {
-    rendered = renderAnswerKeyPages(normalized, options);
+    rendered = renderAnswerKeyPages(normalized, { ...options, validate: false });
   } catch (error) {
-    throw new Error(formatOctoberRenderError(error), { cause: error });
+    throw new Error(formatMonthlyRenderError(error), { cause: error });
   }
 
   return rendered.map((svg, index) => {
@@ -95,7 +106,8 @@ function renderEntryBox(entry, x, y, questionNumber) {
   return `<rect x="${x}" y="${y}" width="${width}" height="${BOXES.height}" fill="none" stroke="#111" stroke-width="3"/>${lines}`;
 }
 
-function normalizeMonthlyContentV2(content) {
+function normalizeMonthlyContentV2(content, month) {
+  const monthPrefix = String(month).padStart(2, "0");
   const dateFor = (monthDay) => `2000-${monthDay}`;
   const days = content.days.map((day) => ({
     ...day,
@@ -110,18 +122,22 @@ function normalizeMonthlyContentV2(content) {
   return {
     schemaVersion: "1.0.0",
     contentProfile: content.contentProfile,
-    month: "2000-10",
+    month: `2000-${monthPrefix}`,
     days,
     answerKey,
     sources: content.sources,
   };
 }
 
-function formatOctoberRenderError(error) {
+function formatMonthlyRenderError(error) {
   const message = error instanceof Error ? error.message : String(error);
   const match = message.match(/(2000-\d{2}-\d{2}):(level[123])/);
   if (!match) return message;
   return `failed to render ${match[1].slice(5)} ${match[2]}: ${message.replace(`${match[0]} `, "")}`;
+}
+
+function monthName(month) {
+  return new Date(Date.UTC(2000, month - 1, 1)).toLocaleString("en-US", { month: "long", timeZone: "UTC" });
 }
 
 function wrap(value, maxCharacters) {

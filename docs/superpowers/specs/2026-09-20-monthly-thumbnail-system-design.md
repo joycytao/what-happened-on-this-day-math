@@ -7,30 +7,30 @@
 ## Goal
 
 Create one reusable visual system for monthly worksheet products so that each
-month can produce the same five cover/thumbnail types while changing only the
-month-specific content, real PDF source pages, and representative hand-drawn
-doodle.
+month can produce the same four cover/thumbnail types while changing only the
+month-specific content and real PDF source pages.
 
 ## Evidence and design constraints
 
-This design is based on the approved reference outputs and corrections in the
-task history:
+This design is based on the exact production prompts recorded in
+[`docs/monthly-thumbnail-prompts.md`](../../monthly-thumbnail-prompts.md) and
+the corrections in PR #77:
 
-- The five approved creative roles are Cover, Monthly Overview, What's
-  Included, One Story Different Math, and Ready for Daily Practice.
+- The four approved creative roles are Cover, What's Included, One Story
+  Different Math, and Ready for Daily Practice.
 - The user rejected generated or fake worksheet screenshots. Every worksheet
   visual must be rendered from the month's final PDF.
-- The user approved a consistent visual system across months, with a different
-  hand-drawn doodle representing each month.
+- The user approved a consistent visual system across months, with real PDF
+  page previews providing product proof instead of synthetic worksheet art.
 - The approved visual language uses a warm cream background, deep navy type,
-  orange framing and labels, simple line doodles, generous whitespace, and the
-  6pm Studio logo.
+  orange framing and labels, prompt-specific title rays or side lines,
+  generous whitespace, and the 6pm Studio logo.
 - October's verified packet has 127 pages: 124 daily worksheet pages followed
   by 3 answer-key pages.
 
 ## Fixed visual system
 
-The following properties are shared by all five thumbnail types:
+The following properties are shared by all four thumbnail types:
 
 - Canvas: square 1260 × 1260 PNG.
 - Background: `#FEFFEF`.
@@ -40,49 +40,42 @@ The following properties are shared by all five thumbnail types:
 - Typography: bold, condensed-looking uppercase display treatment for the
   main headline; compact uppercase labels for page types.
 - Logo: the approved 6pm Studio logo, centered in the footer treatment.
-- Decoration: simple orange line doodles only; no unrelated illustrations,
-  stock imagery, or AI-generated worksheet content.
+- Decoration: simple orange title rays only; no unrelated illustrations, stock
+  imagery, or AI-generated worksheet content.
 - Product proof: every worksheet card is a real rendered page from the
   month's final PDF.
 
-## Five fixed templates
+## Four fixed templates
 
 ### 1. Cover
 
-Communicates the month and product identity. It uses the month name, product
-title, short supporting copy, one centered month doodle, and the shared footer.
-It does not need to show worksheet screenshots.
+Communicates the month and product identity. The month is the largest headline,
+followed by `MORNING WORK MATH` and `31 DAILY WORD PROBLEMS`, with one
+recognizable month-specific orange
+single-line doodle in the center. The layout changes only the month and doodle.
 
-### 2. Monthly Overview
+### 2. What's Included
 
-Communicates the monthly structure and routine. It uses the month name,
-calendar or day-count language, the centered month doodle, and concise
-benefit copy. It may use simple symbols, but not invented worksheet pages.
-
-### 3. What's Included
-
-Uses the approved five-card composition:
-
-- top row: Reading Passage, Level 1, Level 2;
-- bottom row: Level 3, Answer Key;
-- orange capsule labels under each card;
-- `WHAT'S INCLUDED` headline and simple orange side doodles.
+Uses the exact headline `WHAT'S INCLUDED`, three orange emphasis lines on both
+sides of the headline, and five real-page previews in a 3-over-2 grid:
+STORY, LEVEL 1, LEVEL 2, LEVEL 3, and ANSWER KEY. Each preview has an orange
+border, orange label pill, and soft shadow.
 
 The five cards are sourced from explicit PDF page numbers in the monthly
 manifest.
 
-### 4. One Story, Different Math
+### 3. One Story, Different Math
 
-Shows the same story context connected to Level 1, Level 2, and Level 3. The
-three cards must be real pages from the same monthly PDF and must be labeled
-clearly. The central month doodle may connect the cards visually, but must not
-obscure worksheet text.
+Uses the exact two-line headline `ONE STORY` / `DIFFERENT MATH`, one orange
+horizontal line on each side of the headline, and real Level 1, Level 2, and
+Level 3 pages in one row with large navy labels beneath them.
 
-### 5. Ready for Daily Practice
+### 4. Ready for Daily Practice
 
-Features one real worksheet page at a readable scale, with a short routine or
-use-case headline. The page must remain recognizable as a printable worksheet,
-while the month doodle and shared frame provide product identity.
+Uses the exact two-line headline `READY FOR` / `DAILY PRACTICE`, three orange
+emphasis lines on both sides, one real worksheet page, and navy use-case labels
+`MORNING WORK | BELL RINGERS | HOMESCHOOL` separated by thin vertical orange
+lines.
 
 ## Monthly manifest interface
 
@@ -98,17 +91,12 @@ Each month has one manifest with this conceptual shape:
     "sha256": "<sha256-of-final-pdf>",
     "page_count": 124
   },
-  "doodle": {
-    "name": "autumn-leaf",
-    "path": "assets/doodles/months/november-autumn-leaf.svg"
-  },
   "templates": {
     "cover": {"output": "output/thumbnails/november-v1.0-cover.png"},
-    "overview": {"output": "output/thumbnails/november-v1.0-overview.png"},
     "whats_included": {
       "output": "output/thumbnails/november-v1.0-whats-included.png",
       "source_pages": {
-        "reading_passage": 1,
+        "story": 1,
         "level_1": 2,
         "level_2": 3,
         "level_3": 4,
@@ -117,7 +105,7 @@ Each month has one manifest with this conceptual shape:
     },
     "different_math": {
       "output": "output/thumbnails/november-v1.0-different-math.png",
-      "source_pages": {"level_1": 2, "level_2": 3, "level_3": 4}
+      "source_pages": {"story": 1, "level_1": 2, "level_2": 3, "level_3": 4}
     },
     "daily_practice": {
       "output": "output/thumbnails/november-v1.0-daily-practice.png",
@@ -140,9 +128,9 @@ PDF checksum and page-count validation
         ↓
 render selected source pages
         ↓
-load month manifest and doodle
+load month manifest and real source pages
         ↓
-compose five fixed thumbnail templates
+compose four fixed thumbnail templates
         ↓
 visual QA and manifest update
         ↓
@@ -160,10 +148,9 @@ Every generated thumbnail must verify:
 - source page numbers match the monthly manifest;
 - no worksheet content was synthetically generated or rewritten;
 - page labels match the page type shown;
-- the month doodle is the correct asset for the month;
 - the fixed palette and frame are preserved;
 - text stays inside the canvas and remains legible at marketplace size;
-- cards, labels, doodles, and logo do not overlap incorrectly;
+- cards, labels, and logo do not overlap incorrectly;
 - output dimensions are exactly 1260 × 1260;
 - the output checksum is recorded in the release manifest.
 
@@ -171,10 +158,10 @@ Every generated thumbnail must verify:
 
 The system is ready for reuse when:
 
-1. October can produce all five thumbnail types from its 127-page PDF.
+1. October can produce all four requested thumbnail types from its 127-page PDF.
 2. No template reads worksheet content from a hand-authored mockup.
-3. A new month can be generated by supplying a new PDF, manifest, and doodle
-   asset without changing the shared layout code.
+3. A new month can be generated by supplying a new PDF and manifest without
+   changing the shared layout code.
 4. A changed PDF checksum invalidates the previous derived-asset records.
 5. QA reports identify the exact source PDF, page numbers, output files, and
    pass/fail state.

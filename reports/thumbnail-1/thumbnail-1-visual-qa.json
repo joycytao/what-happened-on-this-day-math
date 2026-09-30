@@ -1,0 +1,96 @@
+{
+  "reference": "references /thumbnail-assets/thumbnail-1-reference.png",
+  "generated": "output/thumbnails/october-v1.0-cover.png",
+  "normalized": {
+    "size": [
+      1260,
+      1260
+    ],
+    "mode": "RGB"
+  },
+  "fixedRegions": {
+    "background": {
+      "box": [
+        40,
+        40,
+        1220,
+        1080
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "month_title": {
+      "box": [
+        90,
+        105,
+        1170,
+        315
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "product_title": {
+      "box": [
+        90,
+        340,
+        1170,
+        440
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "subtitle": {
+      "box": [
+        150,
+        475,
+        1100,
+        550
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "levels": {
+      "box": [
+        190,
+        950,
+        1070,
+        1040
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "footer": {
+      "box": [
+        35,
+        1125,
+        1225,
+        1220
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    }
+  },
+  "variableIllustration": {
+    "box": [
+      440,
+      570,
+      820,
+      925
+    ],
+    "mean_absolute_error": 0.0,
+    "changed_pixel_ratio": 0.0,
+    "ssim": 1.0
+  },
+  "artifacts": [
+    "thumbnail-1-side-by-side.png",
+    "thumbnail-1-overlay.png",
+    "thumbnail-1-pixel-diff.png"
+  ],
+  "visualReview": "human inspection required; fixed-region and variable-region metrics are recorded"
+}

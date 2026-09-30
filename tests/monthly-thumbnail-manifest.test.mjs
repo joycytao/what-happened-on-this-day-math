@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
@@ -15,17 +15,15 @@ const validManifest = {
     sha256: "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
     page_count: 127,
   },
-  doodle: { path: "assets/doodles/months/october.svg" },
   templates: {
     cover: { output: "output/thumbnails/october-v1.0-cover.png" },
-    overview: { output: "output/thumbnails/october-v1.0-overview.png" },
     whats_included: {
       output: "output/thumbnails/october-v1.0-whats-included.png",
       source_pages: { story: 1, level1: 2, level2: 3, level3: 4, answer_key: 125 },
     },
     different_math: {
       output: "output/thumbnails/october-v1.0-different-math.png",
-      source_pages: { level1: 2, level2: 3, level3: 4 },
+      source_pages: { story: 1, level1: 2, level2: 3, level3: 4 },
     },
     daily_practice: {
       output: "output/thumbnails/october-v1.0-daily-practice.png",
@@ -67,22 +65,6 @@ test("loads a JSON manifest from disk", async () => {
   assert.equal(loaded.pdf.page_count, 127);
 });
 
-test("rejects a manifest with no doodle path", () => {
-  const broken = structuredClone(validManifest);
-  delete broken.doodle.path;
-
-  const result = validateMonthlyThumbnailManifest(broken);
-
-  assert.equal(result.valid, false);
-  assert.ok(result.errors.some((error) => /doodle\.path is required/i.test(error)));
-});
-
-test("accepts the October SVG doodle as a bounded transparent line asset", async () => {
-  const path = new URL("../assets/doodles/months/october.svg", import.meta.url);
-  await access(path);
-  const svg = await readFile(path, "utf8");
-
-  assert.match(svg, /<svg[^>]+viewBox="0 0 240 180"/);
-  assert.match(svg, /fill="none"/);
-  assert.match(svg, /stroke="#FF8A00"/);
+test("accepts a manifest without a decorative doodle dependency", () => {
+  assert.deepEqual(validateMonthlyThumbnailManifest(validManifest), { valid: true, errors: [] });
 });

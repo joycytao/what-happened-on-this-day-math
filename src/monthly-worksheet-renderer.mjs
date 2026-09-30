@@ -8,9 +8,10 @@ const PAGE_TYPES = ["reading-passage", "level1", "level2", "level3"];
 const WIDTH = 1545;
 const HEIGHT = 2000;
 
-export async function renderOctoberWorksheetPages(content, options = {}) {
-  const validation = validateMonthlyContentV2(content);
-  if (!validation.valid) throw new Error(`cannot render invalid October content: ${validation.errors.join("; ")}`);
+export async function renderMonthlyWorksheetPages(content, options = {}) {
+  const expectedMonth = options.month ?? content?.month;
+  const validation = validateMonthlyContentV2(content, { month: expectedMonth });
+  if (!validation.valid) throw new Error(`cannot render invalid ${monthName(expectedMonth)} content: ${validation.errors.join("; ")}`);
 
   const [readingTemplate, level1Template, level2Template, level3Template] = await Promise.all([
     loadReadingPassageTemplate(options.root),
@@ -51,8 +52,20 @@ export async function renderOctoberWorksheetPages(content, options = {}) {
   return pages;
 }
 
+export async function renderOctoberWorksheetPages(content, options = {}) {
+  return renderMonthlyWorksheetPages(content, { ...options, month: 10 });
+}
+
+export async function renderNovemberWorksheetPages(content, options = {}) {
+  return renderMonthlyWorksheetPages(content, { ...options, month: 11 });
+}
+
 function stripSyntheticYear(svg, month, day) {
   return svg.replace(/ data-date="2000-(\d{2})-(\d{2})"/g, ` data-month="${String(month).padStart(2, "0")}" data-day="${String(day).padStart(2, "0")}"`);
+}
+
+function monthName(month) {
+  return new Date(Date.UTC(2000, month - 1, 1)).toLocaleString("en-US", { month: "long", timeZone: "UTC" });
 }
 
 export { PAGE_TYPES, WIDTH, HEIGHT };

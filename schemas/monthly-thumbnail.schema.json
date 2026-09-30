@@ -3,7 +3,7 @@
   "$id": "https://6pm-studio.com/schemas/monthly-thumbnail.schema.json",
   "title": "Monthly Thumbnail Manifest",
   "type": "object",
-  "required": ["schema_version", "product", "pdf", "doodle", "templates"],
+  "required": ["schema_version", "product", "pdf", "templates"],
   "properties": {
     "schema_version": { "type": "string" },
     "product": {
@@ -26,18 +26,11 @@
       },
       "additionalProperties": false
     },
-    "doodle": {
-      "type": "object",
-      "required": ["path"],
-      "properties": { "path": { "type": "string", "minLength": 1 } },
-      "additionalProperties": false
-    },
     "templates": {
       "type": "object",
-      "required": ["cover", "overview", "whats_included", "different_math", "daily_practice"],
+      "required": ["cover", "whats_included", "different_math", "daily_practice"],
       "properties": {
         "cover": { "$ref": "#/$defs/template" },
-        "overview": { "$ref": "#/$defs/template" },
         "whats_included": { "$ref": "#/$defs/templateWithPages" },
         "different_math": { "$ref": "#/$defs/templateWithPages" },
         "daily_practice": { "$ref": "#/$defs/templateWithPages" }
