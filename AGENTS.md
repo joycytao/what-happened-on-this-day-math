@@ -1,5 +1,22 @@
 # AGENTS.md
 
+## GitHub App connectivity gate
+
+Repeated automation runs showed that direct App-wrapper calls can collapse to
+the ambiguous `fetch failed` message. For every GitHub CLI read or write in
+this repository, use the repository runner rather than invoking the wrapper
+directly:
+
+```bash
+node scripts/github-app-command.mjs -- gh <args...>
+```
+
+The runner performs a read-only preflight, bounded retries for network or
+transient failures, and writes `reports/github-app-connectivity.json` without
+secrets. Authentication failures are not retried and personal-token fallback
+is forbidden. A failed GitHub read must never be interpreted as an empty PR,
+issue, comment, or dependency result.
+
 ## Project purpose
 
 This project creates one monthly elementary-school learning packet based on
