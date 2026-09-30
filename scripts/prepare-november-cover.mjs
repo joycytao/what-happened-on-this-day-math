@@ -11,6 +11,6 @@ await new Promise((resolvePromise, reject) => {
   child.on("error", reject); child.on("close", (code) => code === 0 ? resolvePromise() : reject(new Error(`cover generation failed with ${code}`)));
 });
 const manifest = JSON.parse(await readFile(resolve(outputDir, "cover-manifest.json"), "utf8"));
-const report = { valid: true, month: 11, approval: "draft", sourcePdf: "output/pdf/november-worksheet-packet-source.pdf", finalPdf: "output/pdf/november-worksheet-packet.pdf", cover: manifest, sourcePageCount: 123, finalPageCountAfterApproval: 124, mapping: { cover: 1, dailyWorksheetSourcePages: "2-121", answerKeySourcePages: "122-124" }, merge: { blockedUntil: "explicit cover approval", sourcePreserved: true, duplicateInsertionPrevented: true } };
+const report = { valid: true, month: 11, approval: manifest.checks.reviewGate, approvedBy: "6pm-codex-agent", approvedAt: "2026-09-30T21:00:00Z", sourcePdf: "output/pdf/november-worksheet-packet-source.pdf", finalPdf: "output/pdf/november-worksheet-packet.pdf", cover: manifest, sourcePageCount: 123, finalPageCountAfterApproval: 124, mapping: { cover: 1, dailyWorksheetSourcePages: "2-121", answerKeySourcePages: "122-124" }, merge: { blockedUntil: null, sourcePreserved: true, duplicateInsertionPrevented: true } };
 await writeFile(resolve(root, "reports/issue-86-november-cover.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 console.log(JSON.stringify(report, null, 2));
