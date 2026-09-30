@@ -39,6 +39,7 @@
     "answer-key:render": "node scripts/render-answer-key.mjs",
     "level1:render": "node scripts/render-level1.mjs",
     "level2:render": "node scripts/render-level2.mjs",
+    "github:app": "node scripts/github-app-command.mjs",
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:prepare:november": "node scripts/prepare-november-cover.mjs"
