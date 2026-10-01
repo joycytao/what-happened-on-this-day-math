@@ -1,0 +1,135 @@
+name: Generate monthly TPT workstream
+
+on:
+  workflow_call:
+    inputs:
+      month:
+        required: true
+        type: string
+      year:
+        required: true
+        type: string
+      package_id:
+        required: true
+        type: string
+      manifest_path:
+        required: true
+        type: string
+      content_path:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      month:
+        description: English month name or month number
+        required: true
+        type: string
+      year:
+        description: Four-digit release year
+        required: true
+        type: string
+      package_id:
+        description: Stable monthly package identifier
+        required: true
+        type: string
+      manifest_path:
+        description: Repository-relative release manifest path
+        required: true
+        type: string
+      content_path:
+        description: Repository-relative monthly content path
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+
+concurrency:
+  group: tpt-workstream-${{ inputs.package_id }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the released source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Validate release and generate TPT outputs
+        id: workstream
+        continue-on-error: true
+        run: >-
+          node scripts/run-tpt-workstream.mjs
+          --month "${{ inputs.month }}"
+          --year "${{ inputs.year }}"
+          --package-id "${{ inputs.package_id }}"
+          --manifest "${{ inputs.manifest_path }}"
+          --content "${{ inputs.content_path }}"
+          --output-dir "output/tpt/${{ inputs.package_id }}"
+
+      - name: Upload TPT workstream artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tpt-${{ inputs.package_id }}
+          path: |
+            output/tpt/${{ inputs.package_id }}/
+            reports/
+          if-no-files-found: warn
+
+      - name: Create or update the monthly TPT Issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          WORKSTREAM_OUTPUT: output/tpt/${{ inputs.package_id }}/workstream.json
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ARTIFACT_NAME: tpt-${{ inputs.package_id }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const outputPath = process.env.WORKSTREAM_OUTPUT;
+            const result = fs.existsSync(outputPath)
+              ? JSON.parse(fs.readFileSync(outputPath, 'utf8'))
+              : { status: 'blocked', packageId: process.env.PACKAGE_ID, failureReason: 'workstream did not write a result report' };
+            const marker = `<!-- tpt-package-id:${process.env.PACKAGE_ID} -->`;
+            const status = result.status === 'qa' ? 'QA' : 'Blocked';
+            const body = [
+              marker,
+              `# TPT package: ${process.env.PACKAGE_ID}`,
+              '',
+              `- Status: **${status}**`,
+              `- Package version: \`${result.packageVersion || 'unknown'}\``,
+              `- Month: ${result.month || 'unknown'}`,
+              `- Source commit: \`${result.sourceCommit || 'unknown'}\``,
+              `- Idempotency key: \`${result.idempotencyKey || process.env.PACKAGE_ID}\``,
+              `- Workflow run: ${process.env.RUN_URL}`,
+              `- Workflow artifact: \`${process.env.ARTIFACT_NAME}\``,
+              `- QA report: \`${result.reportPath || 'not written'}\``,
+              result.failureReason ? `- Failure reason: ${result.failureReason}` : '',
+              '',
+              'Human QA is required before publication. This workflow never publishes automatically.'
+            ].filter(Boolean).join('\n');
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100
+            });
+            const existing = issues.find(issue => !issue.pull_request && (issue.body || '').includes(marker));
+            const labels = ['type: feature', status === 'QA' ? 'status: pending review' : 'status: blocked'];
+            if (existing) {
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title: `TPT package: ${process.env.PACKAGE_ID}`, body, state: 'open', labels });
+              core.info(`Updated TPT Issue #${existing.number} for ${process.env.PACKAGE_ID}.`);
+            } else {
+              const created = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: `TPT package: ${process.env.PACKAGE_ID}`, body, labels });
+              core.info(`Created TPT Issue #${created.data.number} for ${process.env.PACKAGE_ID}.`);
+            }
