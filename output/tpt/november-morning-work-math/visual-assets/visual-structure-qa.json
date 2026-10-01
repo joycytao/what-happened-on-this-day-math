@@ -1,0 +1,30 @@
+{
+  "method": "fixed structural regions; variable month/content regions excluded",
+  "results": [
+    {
+      "asset": "cover",
+      "stable_region_ssim": 0.499512,
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "whats-included",
+      "stable_region_ssim": 0.658081,
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "different-math",
+      "stable_region_ssim": 0.274166,
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "daily-practice",
+      "stable_region_ssim": 0.136903,
+      "threshold": 0.1,
+      "passed": true
+    }
+  ],
+  "passed": true
+}
