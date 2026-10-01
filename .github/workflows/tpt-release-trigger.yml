@@ -1,0 +1,53 @@
+name: Start TPT from released monthly package
+
+on:
+  workflow_run:
+    workflows: [Monthly package release]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      month:
+        description: English month name or month number
+        required: true
+        type: string
+      year:
+        description: Four-digit release year
+        required: true
+        type: string
+      package_id:
+        description: Stable monthly package identifier
+        required: true
+        type: string
+      manifest_path:
+        description: Repository-relative monthly release manifest path
+        required: true
+        type: string
+      content_path:
+        description: Repository-relative monthly content path
+        required: true
+        type: string
+      thumbnail_manifest_path:
+        description: Repository-relative thumbnail manifest for the released final PDF
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+  repository-projects: write
+
+jobs:
+  tpt:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    uses: ./.github/workflows/tpt-workstream.yml
+    with:
+      month: ${{ inputs.month || vars.TPT_RELEASE_MONTH }}
+      year: ${{ inputs.year || vars.TPT_RELEASE_YEAR }}
+      package_id: ${{ inputs.package_id || vars.TPT_PACKAGE_ID }}
+      manifest_path: ${{ inputs.manifest_path || vars.TPT_RELEASE_MANIFEST_PATH }}
+      content_path: ${{ inputs.content_path || vars.TPT_CONTENT_PATH }}
+      thumbnail_manifest_path: ${{ inputs.thumbnail_manifest_path || vars.TPT_THUMBNAIL_MANIFEST_PATH }}
+      project_owner: ${{ vars.TPT_PROJECT_OWNER }}
+      project_number: ${{ vars.TPT_PROJECT_NUMBER }}
+    secrets: inherit
