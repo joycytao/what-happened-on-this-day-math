@@ -18,6 +18,14 @@ on:
       content_path:
         required: true
         type: string
+      project_owner:
+        required: false
+        default: ""
+        type: string
+      project_number:
+        required: false
+        default: ""
+        type: string
   workflow_dispatch:
     inputs:
       month:
@@ -40,11 +48,20 @@ on:
         description: Repository-relative monthly content path
         required: true
         type: string
+      project_owner:
+        description: GitHub Project owner login; falls back to repository variable TPT_PROJECT_OWNER
+        required: false
+        type: string
+      project_number:
+        description: GitHub Project number; falls back to repository variable TPT_PROJECT_NUMBER
+        required: false
+        type: string
 
 permissions:
   contents: read
   issues: write
   actions: read
+  repository-projects: write
 
 concurrency:
   group: tpt-workstream-${{ inputs.package_id }}
@@ -89,6 +106,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Create or update the monthly TPT Issue
+        id: issue
         if: always()
         uses: actions/github-script@v7
         env:
@@ -129,7 +147,110 @@ jobs:
             if (existing) {
               await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title: `TPT package: ${process.env.PACKAGE_ID}`, body, state: 'open', labels });
               core.info(`Updated TPT Issue #${existing.number} for ${process.env.PACKAGE_ID}.`);
+              core.setOutput('issue_number', String(existing.number));
+              core.setOutput('issue_node_id', existing.node_id);
             } else {
               const created = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: `TPT package: ${process.env.PACKAGE_ID}`, body, labels });
               core.info(`Created TPT Issue #${created.data.number} for ${process.env.PACKAGE_ID}.`);
+              core.setOutput('issue_number', String(created.data.number));
+              core.setOutput('issue_node_id', created.data.node_id);
             }
+
+      - name: Build deterministic Project sync plan
+        id: project-plan
+        if: always()
+        env:
+          PROJECT_OWNER: ${{ inputs.project_owner || vars.TPT_PROJECT_OWNER }}
+          PROJECT_NUMBER: ${{ inputs.project_number || vars.TPT_PROJECT_NUMBER }}
+          RESULT_PATH: output/tpt/${{ inputs.package_id }}/workstream.json
+          PLAN_PATH: output/tpt/${{ inputs.package_id }}/project-sync.json
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ARTIFACT_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts
+        run: >-
+          node scripts/write-tpt-project-plan.mjs
+          --result "$RESULT_PATH"
+          --issue-number "${{ steps.issue.outputs.issue_number }}"
+          --issue-node-id "${{ steps.issue.outputs.issue_node_id }}"
+          --project-owner "$PROJECT_OWNER"
+          --project-number "$PROJECT_NUMBER"
+          --run-url "$RUN_URL"
+          --manifest "${{ inputs.manifest_path }}"
+          --artifact-url "$ARTIFACT_URL"
+          --output "$PLAN_PATH"
+
+      - name: Sync TPT Issue to GitHub Project
+        if: steps.project-plan.outcome == 'success'
+        uses: actions/github-script@v7
+        env:
+          PROJECT_PLAN: output/tpt/${{ inputs.package_id }}/project-sync.json
+        with:
+          script: |
+            const fs = require('node:fs');
+            const plan = JSON.parse(fs.readFileSync(process.env.PROJECT_PLAN, 'utf8')).plan;
+            const query = `
+              query($login: String!, $number: Int!) {
+                user(login: $login) {
+                  projectV2(number: $number) {
+                    id
+                    title
+                    fields(first: 100) {
+                      nodes {
+                        __typename
+                        id
+                        name
+                        ... on ProjectV2SingleSelectField { options { id name } }
+                      }
+                    }
+                    items(first: 100) {
+                      nodes {
+                        id
+                        content {
+                          ... on Issue { id number repository { nameWithOwner } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }`;
+            const data = await github.graphql(query, {
+              login: plan.project.owner,
+              number: plan.project.number
+            });
+            const project = data.user?.projectV2;
+            if (!project) core.setFailed('Configured GitHub Project was not found for the requested owner and number.');
+            if (!project) return;
+            const repoName = context.repo.owner + '/' + context.repo.repo;
+            let item = project.items.nodes.find(entry =>
+              entry.content?.id === plan.issue.nodeId ||
+              (entry.content?.number === plan.issue.number && entry.content?.repository?.nameWithOwner === repoName)
+            );
+            if (!item) {
+              const added = await github.graphql(`
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(input: { projectId: $projectId, contentId: $contentId }) {
+                    item { id }
+                  }
+                }`, { projectId: project.id, contentId: plan.issue.nodeId });
+              item = added.addProjectV2ItemById.item;
+            }
+            const fields = project.fields.nodes;
+            for (const [name, value] of Object.entries(plan.fields)) {
+              if (value === '') continue;
+              const field = fields.find(candidate => candidate.name === name);
+              if (!field) core.setFailed('Missing Project field: ' + name);
+              if (!field) continue;
+              const input = { projectId: project.id, itemId: item.id, fieldId: field.id, value: {} };
+              if (Array.isArray(field.options)) {
+                const option = field.options.find(candidate => candidate.name === value);
+                if (!option) core.setFailed('Missing single-select option ' + value + ' for Project field ' + name);
+                if (!option) continue;
+                input.value.singleSelectOptionId = option.id;
+              } else {
+                input.value.text = value;
+              }
+              await github.graphql(`
+                mutation($input: UpdateProjectV2ItemFieldValueInput!) {
+                  updateProjectV2ItemFieldValue(input: $input) { projectV2Item { id } }
+                }`, { input });
+            }
+            core.info('Synchronized TPT Issue #' + plan.issue.number + ' to Project ' + project.title + '.');

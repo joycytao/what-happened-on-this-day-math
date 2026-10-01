@@ -34,6 +34,7 @@
     "tpt:metadata:generate": "node scripts/generate-tpt-metadata.mjs",
     "social:product-reels": "node scripts/generate-product-reels.mjs",
     "tpt:workstream:run": "node scripts/run-tpt-workstream.mjs",
+    "tpt:project:plan": "node scripts/write-tpt-project-plan.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
     "portfolio:validate": "node scripts/validate-portfolio-architecture.mjs",
     "release:workflow:validate": "node scripts/validate-monthly-release-workflow.mjs",
