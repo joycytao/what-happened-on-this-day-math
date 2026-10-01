@@ -31,6 +31,7 @@
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
     "tpt:assets:package": "node scripts/package-tpt-assets.mjs",
+    "tpt:metadata:generate": "node scripts/generate-tpt-metadata.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
     "portfolio:validate": "node scripts/validate-portfolio-architecture.mjs",
     "release:workflow:validate": "node scripts/validate-monthly-release-workflow.mjs",
@@ -44,7 +45,8 @@
     "github:app": "node scripts/github-app-command.mjs",
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
-    "cover:prepare:november": "node scripts/prepare-november-cover.mjs"
+    "cover:prepare:november": "node scripts/prepare-november-cover.mjs",
+    "packet:assemble:november:final": "node scripts/assemble-november-final-package.mjs"
   },
   "devDependencies": { "pdf-lib": "^1.17.1", "playwright": "^1.63.0", "pngjs": "^7.0.0" }
 }

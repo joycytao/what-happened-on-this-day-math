@@ -1,0 +1,16 @@
+{
+  "issue": 112,
+  "valid": true,
+  "packageId": "october-morning-work-math",
+  "packageVersion": "v1.0.0",
+  "output": {
+    "jsonPath": "/private/tmp/math-issue-112/output/tpt/october-morning-work-math/metadata.json",
+    "markdownPath": "/private/tmp/math-issue-112/output/tpt/october-morning-work-math/listing.md"
+  },
+  "idempotencyKey": "october-morning-work-math@v1.0.0",
+  "claims": {
+    "unsupported": [],
+    "humanQaRequired": true,
+    "publicationStatus": "review"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "valid": true,
+  "issue": 125,
+  "month": "November",
+  "dayCount": 30,
+  "expectedPageCount": 125,
+  "actualPageCount": 125,
+  "pageOneRole": "worksheet-coversheet",
+  "finalPageRole": "follow-up",
+  "pageRanges": {
+    "cover": [
+      1,
+      1
+    ],
+    "daily": [
+      2,
+      121
+    ],
+    "answerKey": [
+      122,
+      124
+    ],
+    "followUp": [
+      125,
+      125
+    ]
+  },
+  "coverVisualQa": "reports/worksheet-cover-visual-qa/visual-qa.json",
+  "sourcePdf": "output/pdf/november-worksheet-packet.pdf",
+  "finalPdf": "output/pdf/november-worksheet-packet-final.pdf",
+  "sha256": "fa566bb4e4e90594bdc2844be482ae8c4b7c8adc3cf6392fe2fd6b6684ba247c"
+}
