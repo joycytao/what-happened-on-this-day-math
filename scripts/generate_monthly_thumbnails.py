@@ -201,7 +201,17 @@ def logo(canvas, page):
     return None
 
 
-def compose_cover(month, out, source_page):
+def draw_monthly_doodle(canvas, doodle_path=None):
+    """Place the approved month-specific transparent doodle in the fixed art box."""
+    if doodle_path and Path(doodle_path).exists():
+        source = Image.open(doodle_path).convert("RGBA")
+        source.thumbnail((360, 330), Image.Resampling.LANCZOS)
+        canvas.alpha_composite(source, ((SIZE - source.width) // 2, 620))
+        return
+    pumpkin_doodle(canvas)
+
+
+def compose_cover(month, day_count, out, source_page, doodle_path=None):
     canonical = Path("references /thumbnail-assets/thumbnail-1-reference.png")
     if month.lower() == "october" and canonical.exists():
         # October is the canonical parity fixture. Future months reuse the
@@ -213,9 +223,9 @@ def compose_cover(month, out, source_page):
     # Fixed geometry mirrors the supplied canonical Thumbnail 1 reference.
     cover_text_box(canvas, month.upper(), (106, 112, 1153, 308))
     cover_text_box(canvas, "MORNING WORK MATH", (100, 350, 1152, 429))
-    cover_text_box(canvas, "31 DAILY WORD PROBLEMS", (169, 485, 1085, 540), bold=False)
+    cover_text_box(canvas, f"{day_count} DAILY WORD PROBLEMS", (169, 485, 1085, 540), bold=False)
     stroke = 8
-    pumpkin_doodle(canvas)
+    draw_monthly_doodle(canvas, doodle_path)
     cover_text_box(canvas, "3 LEVELS", (445, 967, 815, 1021))
     draw.line((206, 995, 410, 995), fill=ORANGE, width=8)
     draw.line((850, 995, 1054, 995), fill=ORANGE, width=8)
@@ -260,7 +270,7 @@ def compose_whats_included(month, pages, out):
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
-def compose_different_math(month, pages, out):
+def compose_different_math(month, day_count, pages, out):
     canonical = Path("references /thumbnail-assets/thumbnail-3-reference.png")
     if month.lower() == "october" and canonical.exists():
         # Keep the supplied October parity fixture exact.  Other months use
@@ -273,11 +283,11 @@ def compose_different_math(month, pages, out):
     # Thumbnail 3 uses the compact “product feature” reference: a title-case
     # month with short rules, one large product title, one subtitle, then
     # three readable worksheet cards with subtle opposing tilts.
-    centered(draw, "October", 62, 108, 740)
+    centered(draw, month.title(), 48, 126, 820)
     draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
     draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
-    centered(draw, "Morning Work Math", 211, 96, 1140)
-    centered(draw, "31 Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
+    centered(draw, "Morning Work Math", 202, 108, 1180)
+    centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
 
     cards = [
         ("level1", 240, 697, 372, 510, -2.0),
@@ -308,8 +318,8 @@ def compose_daily_practice(month, pages, out):
         return
     canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "READY FOR", 46, 102, 1120)
-    accented_title(draw, "DAILY PRACTICE", 178, 88, 1120)
+    centered(draw, "READY FOR", 42, 114, 1180)
+    accented_title(draw, "DAILY PRACTICE", 174, 104, 1180)
     card(canvas, pages["worksheet"], (325, 320, 610, 700), "", label_style="none")
     items = ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"]
     widths = [draw.textbbox((0, 0), item, font=font(30))[2] for item in items]
@@ -338,6 +348,15 @@ def main():
         pdf = (Path.cwd() / pdf).resolve()
         if not pdf.exists():
             pdf = (manifest_path.parent / manifest["pdf"]["path"]).resolve()
+    doodle_path = None
+    if manifest.get("doodle", {}).get("path"):
+        doodle_path = Path(manifest["doodle"]["path"])
+        if not doodle_path.is_absolute():
+            doodle_path = (Path.cwd() / doodle_path).resolve()
+            if not doodle_path.exists():
+                doodle_path = (manifest_path.parent / manifest["doodle"]["path"]).resolve()
+        if not doodle_path.exists():
+            raise FileNotFoundError(f"doodle asset does not exist: {doodle_path}")
     actual_pdf_sha256 = hashlib.sha256(pdf.read_bytes()).hexdigest()
     expected_pdf_sha256 = manifest["pdf"]["sha256"]
     if actual_pdf_sha256 != expected_pdf_sha256:
@@ -356,15 +375,16 @@ def main():
         different = {key: render_page(page) for key, page in pages["different_math"]["source_pages"].items()}
         daily = {key: render_page(page) for key, page in pages["daily_practice"]["source_pages"].items()}
         first = whats["story"]
-        compose_cover(manifest["product"]["month"], args.output_dir / f"{prefix}-cover.png", first)
+        day_count = int(manifest["product"].get("day_count", 31))
+        compose_cover(manifest["product"]["month"], day_count, args.output_dir / f"{prefix}-cover.png", first, doodle_path)
         compose_whats_included(manifest["product"]["month"], whats, args.output_dir / f"{prefix}-whats-included.png")
-        compose_different_math(manifest["product"]["month"], different, args.output_dir / f"{prefix}-different-math.png")
+        compose_different_math(manifest["product"]["month"], day_count, different, args.output_dir / f"{prefix}-different-math.png")
         compose_daily_practice(manifest["product"]["month"], daily, args.output_dir / f"{prefix}-daily-practice.png")
     names = ["cover", "whats-included", "different-math", "daily-practice"]
     labels = {
-        "cover": ["October", "Morning Work Math", "31 Daily Word Problems", "3 Levels"],
+        "cover": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems", "3 Levels"],
         "whats_included": ["WHAT’S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"],
-        "different_math": ["One Story", "Different Math", "Level 1", "Level 2", "Level 3"],
+        "different_math": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems · 3 Levels", "Level 1", "Level 2", "Level 3"],
         "daily_practice": ["Ready for", "Daily Practice", "Morning Work", "Bell Ringers", "Homeschool"],
     }
     checksums = {name: hashlib.sha256((args.output_dir / f"{prefix}-{name}.png").read_bytes()).hexdigest() for name in names}
@@ -383,10 +403,11 @@ def main():
         "checksums": checksums,
         "pdf": manifest["pdf"]["path"],
         "pdf_sha256": actual_pdf_sha256,
+        "doodle_sha256": hashlib.sha256(doodle_path.read_bytes()).hexdigest() if doodle_path else None,
         "copyConcepts": {
-            "cover": {"headline": "October", "productTitle": "MORNING WORK MATH", "supportingText": ["31 DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin", "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading"},
+            "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin" if doodle_path is None else str(doodle_path), "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading"},
             "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
-            "different_math": {"headline": ["October", "Morning Work Math"], "supportingText": "31 Daily Word Problems · 3 Levels", "sourceLayout": "three subtly tilted worksheet cards in one row", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
+            "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "three subtly tilted worksheet cards in one row", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered upright real worksheet preview", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
         },
     }

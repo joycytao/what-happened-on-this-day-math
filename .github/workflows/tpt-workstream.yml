@@ -18,6 +18,9 @@ on:
       content_path:
         required: true
         type: string
+      thumbnail_manifest_path:
+        required: true
+        type: string
       project_owner:
         required: false
         default: ""
@@ -46,6 +49,10 @@ on:
         type: string
       content_path:
         description: Repository-relative monthly content path
+        required: true
+        type: string
+      thumbnail_manifest_path:
+        description: Repository-relative thumbnail input manifest for the released final PDF
         required: true
         type: string
       project_owner:
@@ -82,6 +89,19 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Generate TPT thumbnails and landing-page handoff
+        id: visual-assets
+        continue-on-error: true
+        run: >-
+          node scripts/generate-tpt-visual-assets.mjs
+          --manifest "${{ inputs.thumbnail_manifest_path }}"
+          --package-id "${{ inputs.package_id }}"
+          --output-dir "output/tpt/${{ inputs.package_id }}/visual-assets"
+
+      - name: Block workstream when visual assets are incomplete
+        if: steps.visual-assets.outcome != 'success'
+        run: exit 1
 
       - name: Validate release and generate TPT outputs
         id: workstream

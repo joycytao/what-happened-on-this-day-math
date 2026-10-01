@@ -1,0 +1,113 @@
+{
+  "design": "october-production-v2",
+  "style": {
+    "canvas": [
+      1260,
+      1260
+    ],
+    "background": "#FEFFEF",
+    "ink": "#2B313F",
+    "accent": "#FF8A00",
+    "border": {
+      "margin": 30,
+      "radius": 26,
+      "width": 8
+    },
+    "deterministic": true
+  },
+  "templates": [
+    "cover",
+    "whats-included",
+    "different-math",
+    "daily-practice"
+  ],
+  "labels": {
+    "cover": [
+      "November",
+      "Morning Work Math",
+      "30 Daily Word Problems",
+      "3 Levels"
+    ],
+    "whats_included": [
+      "WHAT\u2019S INCLUDED",
+      "STORY",
+      "LEVEL 1",
+      "LEVEL 2",
+      "LEVEL 3",
+      "ANSWER KEY"
+    ],
+    "different_math": [
+      "November",
+      "Morning Work Math",
+      "30 Daily Word Problems \u00b7 3 Levels",
+      "Level 1",
+      "Level 2",
+      "Level 3"
+    ],
+    "daily_practice": [
+      "Ready for",
+      "Daily Practice",
+      "Morning Work",
+      "Bell Ringers",
+      "Homeschool"
+    ]
+  },
+  "checksums": {
+    "cover": "bfe0cfe9754aa5a88e73b7f69d3e1be393543cb570cbd42b89ecd67d82865f2f",
+    "whats-included": "d9fe749b4a11e814e4b72cf82a5d00f898051903859b0961a425742c848a00c1",
+    "different-math": "a15bbaa657976df4449a1729cf0bf9230dbe43896ddeee0a3687906b790b5194",
+    "daily-practice": "3a6b2dbcddcf5276f444a957dba994bfc4fc76419a84cde23c4abe77af45fb45"
+  },
+  "pdf": "output/pdf/november-worksheet-packet-final.pdf",
+  "pdf_sha256": "fa566bb4e4e90594bdc2844be482ae8c4b7c8adc3cf6392fe2fd6b6684ba247c",
+  "doodle_sha256": "497e637a7cd7256733a00fbfbb7a64ec5047abec3cc8eeee327860435a7ced2a",
+  "copyConcepts": {
+    "cover": {
+      "headline": "November",
+      "productTitle": "MORNING WORK MATH",
+      "supportingText": [
+        "30 DAILY WORD PROBLEMS"
+      ],
+      "levelsBlock": "3 LEVELS with orange side lines",
+      "doodle": "/private/tmp/math-issue-134/references /worksheet-assets/november-turkey-doodle.png",
+      "doodlePrompt": "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading"
+    },
+    "whats_included": {
+      "headline": "WHAT\u2019S INCLUDED",
+      "sourceLayout": "story, level 1, level 2 / level 3, answer key",
+      "headlineEmphasis": "three orange rays on each side",
+      "labelStyle": "orange pills narrower than cards",
+      "footer": "centered logo without divider lines",
+      "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
+    },
+    "different_math": {
+      "headline": [
+        "November",
+        "Morning Work Math"
+      ],
+      "supportingText": "30 Daily Word Problems \u00b7 3 Levels",
+      "sourceLayout": "three subtly tilted worksheet cards in one row",
+      "headlineSideLines": "short orange horizontal rules around the month",
+      "labelStyle": "large uppercase navy labels",
+      "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
+    },
+    "daily_practice": {
+      "headline": [
+        "READY FOR",
+        "DAILY PRACTICE"
+      ],
+      "useCases": [
+        "MORNING WORK",
+        "BELL RINGERS",
+        "HOMESCHOOL"
+      ],
+      "headlineEmphasis": "three orange rays on each side",
+      "useCaseSeparators": "vertical orange lines",
+      "sourceLayout": "one centered upright real worksheet preview",
+      "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
+    }
+  }
+}

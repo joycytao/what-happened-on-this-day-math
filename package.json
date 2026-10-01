@@ -31,6 +31,7 @@
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
     "tpt:assets:package": "node scripts/package-tpt-assets.mjs",
+    "tpt:visual-assets:generate": "node scripts/generate-tpt-visual-assets.mjs",
     "tpt:metadata:generate": "node scripts/generate-tpt-metadata.mjs",
     "social:product-reels": "node scripts/generate-product-reels.mjs",
     "tpt:workstream:run": "node scripts/run-tpt-workstream.mjs",
