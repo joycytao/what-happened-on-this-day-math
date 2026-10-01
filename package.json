@@ -33,6 +33,7 @@
     "tpt:assets:package": "node scripts/package-tpt-assets.mjs",
     "tpt:metadata:generate": "node scripts/generate-tpt-metadata.mjs",
     "social:product-reels": "node scripts/generate-product-reels.mjs",
+    "social:carousels": "node scripts/generate-carousels.mjs",
     "tpt:workstream:run": "node scripts/run-tpt-workstream.mjs",
     "tpt:project:plan": "node scripts/write-tpt-project-plan.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
