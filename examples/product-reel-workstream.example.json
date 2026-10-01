@@ -1,0 +1,21 @@
+{
+  "month": "October",
+  "productName": "October Morning Work",
+  "redirectUrl": "https://6pm-studio.com/go/october",
+  "productUrl": "https://www.teacherspayteachers.com/Product/October-Morning-Work",
+  "primaryAudience": "elementary teachers and homeschool families",
+  "numberOfDays": 31,
+  "packageFeatures": [
+    "daily word problems",
+    "three levels",
+    "historical mini-stories"
+  ],
+  "assets": {
+    "cover": "output/thumbnails/october-v1.0-cover.png",
+    "preview": "output/thumbnails/october-v1.0-overview.png",
+    "readingPassage": "reports/october-worksheet-pages/page-001-reading-passage.png",
+    "level1": "reports/october-worksheet-pages/page-002-level1.png",
+    "level2": "reports/october-worksheet-pages/page-003-level2.png",
+    "level3": "reports/october-worksheet-pages/page-004-level3.png"
+  }
+}
