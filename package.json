@@ -32,6 +32,7 @@
     "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
     "tpt:assets:package": "node scripts/package-tpt-assets.mjs",
     "tpt:metadata:generate": "node scripts/generate-tpt-metadata.mjs",
+    "social:utility-reels": "node scripts/generate-utility-reel-cycle.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
     "portfolio:validate": "node scripts/validate-portfolio-architecture.mjs",
     "release:workflow:validate": "node scripts/validate-monthly-release-workflow.mjs",

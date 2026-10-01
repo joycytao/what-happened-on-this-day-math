@@ -1,0 +1,11 @@
+{
+  "cycleId": "student-test-2026-10-01",
+  "sourceFile": "/absolute/path/to/user-provided/completed-test.pdf",
+  "sourceSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "permissionConfirmed": true,
+  "privacyRedactionConfirmed": true,
+  "redactionReport": "intake/redaction-report.json",
+  "sourcePageCount": 3,
+  "cleanReviewCopyPath": "output/utility/student-test-2026-10-01/clean-review-copy.pdf",
+  "highConfidenceCategories": ["computation", "word_problem"]
+}
