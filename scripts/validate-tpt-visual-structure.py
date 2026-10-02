@@ -45,6 +45,14 @@ def mask_for(name):
             for x in list(range(320, 345)) + list(range(925, 950)): mask[y][x] = True
         for y in range(1015, 1110):
             for x in range(50, 1210): mask[y][x] = True
+    elif name == "landing-page":
+        for y in list(range(25, 45)) + list(range(1140, 1235)):
+            for x in range(1260): mask[y][x] = True
+        for y in list(range(40, 420)) + list(range(950, 1110)):
+            for x in range(35, 1225): mask[y][x] = True
+        for y in range(430, 965):
+            for x in range(1260):
+                if x < 38 or x > 1222: mask[y][x] = True
     return mask
 
 
@@ -56,8 +64,9 @@ def main():
     args = parser.parse_args()
     canonical_dir, generated_dir = Path(args.canonical_dir), Path(args.generated_dir)
     results = []
-    for name in ("cover", "whats-included", "different-math", "daily-practice"):
-        ref = Image.open(canonical_dir / f"thumbnail-{ {'cover':'1','whats-included':'2','different-math':'3','daily-practice':'4'}[name] }-reference.png").convert("L").resize((1260, 1260), Image.Resampling.LANCZOS)
+    reference_numbers = {"cover": "1", "whats-included": "2", "different-math": "3", "daily-practice": "4", "landing-page": "5"}
+    for name in ("cover", "whats-included", "different-math", "daily-practice", "landing-page"):
+        ref = Image.open(canonical_dir / f"thumbnail-{reference_numbers[name]}-reference.png").convert("L").resize((1260, 1260), Image.Resampling.LANCZOS)
         actual = Image.open(next(generated_dir.glob(f"*-{name}.png"))).convert("L")
         if actual.size != (1260, 1260):
             raise SystemExit(f"{name}: generated asset must be 1260x1260")

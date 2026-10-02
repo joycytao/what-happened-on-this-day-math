@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the four requested, real-page monthly thumbnail compositions."""
+"""Generate the five requested, real-page monthly thumbnail compositions."""
 
 import argparse
 import hashlib
@@ -336,6 +336,42 @@ def compose_daily_practice(month, pages, out):
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
+def compose_landing_page(month, day_count, pages, out):
+    """Compose the canonical five-page landing-page product preview."""
+    canvas = base_canvas()
+    draw = ImageDraw.Draw(canvas)
+    centered(draw, month.title(), 48, 126, 820)
+    draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
+    draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
+    centered(draw, "Morning Work Math", 202, 108, 1180)
+    centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
+
+    # Keep the complete header unobstructed: the canonical reference reserves
+    # the upper third for the month/title/subtitle and starts the five-card
+    # strip below it.
+    cards = [
+        ("reading_passage", 176, 700, 250, 500, -2.0, "READING\nPASSAGE"),
+        ("level1", 406, 692, 250, 500, 1.0, "LEVEL 1"),
+        ("level2", 636, 696, 250, 500, -1.0, "LEVEL 2"),
+        ("level3", 866, 692, 250, 500, 2.0, "LEVEL 3"),
+        ("answer_key", 1096, 700, 250, 500, -1.0, "ANSWER KEY"),
+    ]
+    for key, cx, cy, width, height, angle, label in cards:
+        worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
+        card(worksheet, pages[key], (16, 16, width, height), "", label_style="none")
+        worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
+        canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
+        label_lines = label.split("\n")
+        label_font = fitted(label.replace("\n", " "), 220, 30)
+        for index, line in enumerate(label_lines):
+            draw.text((cx, 982 + index * 34), line, anchor="ma", fill=NAVY, font=label_font)
+    draw = ImageDraw.Draw(canvas)
+    draw.line((45, 1140, 548, 1140), fill=ORANGE, width=6)
+    draw.line((708, 1140, 1215, 1140), fill=ORANGE, width=6)
+    studio_logo(draw, 630, 1140, 138)
+    canvas.convert("RGB").save(out, "PNG", optimize=True)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
@@ -374,18 +410,21 @@ def main():
         whats = {key: render_page(page) for key, page in pages["whats_included"]["source_pages"].items()}
         different = {key: render_page(page) for key, page in pages["different_math"]["source_pages"].items()}
         daily = {key: render_page(page) for key, page in pages["daily_practice"]["source_pages"].items()}
+        landing = {key: render_page(page) for key, page in pages["landing_page"]["source_pages"].items()}
         first = whats["story"]
         day_count = int(manifest["product"].get("day_count", 31))
         compose_cover(manifest["product"]["month"], day_count, args.output_dir / f"{prefix}-cover.png", first, doodle_path)
         compose_whats_included(manifest["product"]["month"], whats, args.output_dir / f"{prefix}-whats-included.png")
         compose_different_math(manifest["product"]["month"], day_count, different, args.output_dir / f"{prefix}-different-math.png")
         compose_daily_practice(manifest["product"]["month"], daily, args.output_dir / f"{prefix}-daily-practice.png")
-    names = ["cover", "whats-included", "different-math", "daily-practice"]
+        compose_landing_page(manifest["product"]["month"], day_count, landing, args.output_dir / f"{prefix}-landing-page.png")
+    names = ["cover", "whats-included", "different-math", "daily-practice", "landing-page"]
     labels = {
         "cover": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems", "3 Levels"],
         "whats_included": ["WHAT’S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"],
         "different_math": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems · 3 Levels", "Level 1", "Level 2", "Level 3"],
         "daily_practice": ["Ready for", "Daily Practice", "Morning Work", "Bell Ringers", "Homeschool"],
+        "landing_page": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems · 3 Levels", "Reading Passage", "Level 1", "Level 2", "Level 3", "Answer Key"],
     }
     checksums = {name: hashlib.sha256((args.output_dir / f"{prefix}-{name}.png").read_bytes()).hexdigest() for name in names}
     report = {
@@ -409,6 +448,7 @@ def main():
             "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "three subtly tilted worksheet cards in one row", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered upright real worksheet preview", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
+            "landing_page": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "five subtly tilted worksheet cards in one row", "labels": ["READING PASSAGE", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"], "parityFixture": "references /thumbnail-assets/thumbnail-5-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
         },
     }
     (args.output_dir / "monthly-thumbnail-report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

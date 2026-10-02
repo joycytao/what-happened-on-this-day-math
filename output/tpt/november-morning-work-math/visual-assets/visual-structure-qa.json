@@ -24,6 +24,12 @@
       "stable_region_ssim": 0.136903,
       "threshold": 0.1,
       "passed": true
+    },
+    {
+      "asset": "landing-page",
+      "stable_region_ssim": 0.376236,
+      "threshold": 0.1,
+      "passed": true
     }
   ],
   "passed": true

@@ -44,15 +44,23 @@
       "height": 1260,
       "bytes": 67743,
       "sha256": "3a6b2dbcddcf5276f444a957dba994bfc4fc76419a84cde23c4abe77af45fb45"
+    },
+    {
+      "id": "landing-page",
+      "path": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-landing-page.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 221452,
+      "sha256": "e8fd10ab18906e6d516b4c9ea9fc1750e3b2f7d2b3a8ce966bc5dbfe9c90f50b"
     }
   ],
   "landingPageImage": {
-    "id": "different-math",
-    "path": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-different-math.png",
+    "id": "landing-page",
+    "path": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-landing-page.png",
     "width": 1260,
     "height": 1260,
-    "bytes": 159405,
-    "sha256": "a15bbaa657976df4449a1729cf0bf9230dbe43896ddeee0a3687906b790b5194"
+    "bytes": 221452,
+    "sha256": "e8fd10ab18906e6d516b4c9ea9fc1750e3b2f7d2b3a8ce966bc5dbfe9c90f50b"
   },
   "sourcePages": {
     "cover": {
@@ -81,6 +89,16 @@
       "output": "output/thumbnails/november-v1.0-daily-practice.png",
       "source_pages": {
         "worksheet": 3
+      }
+    },
+    "landing_page": {
+      "output": "output/thumbnails/november-v1.0-landing-page.png",
+      "source_pages": {
+        "reading_passage": 2,
+        "level1": 3,
+        "level2": 4,
+        "level3": 5,
+        "answer_key": 122
       }
     }
   },
