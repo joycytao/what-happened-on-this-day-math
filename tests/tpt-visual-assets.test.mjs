@@ -4,6 +4,7 @@ import test from "node:test";
 import { PNG } from "pngjs";
 
 const handoffPath = "output/tpt/november-morning-work-math/visual-assets/landing-page-handoff.json";
+const qaPath = "output/tpt/november-morning-work-math/visual-assets/visual-structure-qa.json";
 
 test("November TPT handoff contains five generated assets and a landing-page image", async () => {
   const handoff = JSON.parse(await readFile(handoffPath, "utf8"));
@@ -18,4 +19,11 @@ test("November TPT handoff contains five generated assets and a landing-page ima
     const image = PNG.sync.read(await readFile(asset.path));
     assert.deepEqual([image.width, image.height], [1260, 1260]);
   }
+  const qa = JSON.parse(await readFile(qaPath, "utf8"));
+  const landingQa = qa.results.find((result) => result.asset === "landing-page");
+  assert.equal(landingQa.passed, true);
+  assert.equal(landingQa.pixel_comparison.compared_pixels > 0, true);
+  assert.equal(landingQa.pixel_comparison.matching_pixel_ratio_at_16 >= 0.75, true);
+  assert.equal(await readFile(landingQa.pixel_comparison.diff_artifact).then(() => true), true);
+  assert.equal(await readFile(landingQa.pixel_comparison.overlay_artifact).then(() => true), true);
 });

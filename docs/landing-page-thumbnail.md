@@ -16,5 +16,8 @@ npm run thumbnails:generate -- \
 The output is named `november-v1.0-landing-page.png` and contains, left to
 right, the real Reading Passage, Level 1, Level 2, Level 3, and Answer Key
 pages. The generated report and TPT handoff include its source-page mapping,
-PDF checksum, dimensions, and output checksum. The `home` repository should
-consume `landingPageImage.path` from that handoff through its own PR.
+PDF checksum, dimensions, and output checksum. Visual QA also writes
+`landing-page-pixel-diff.png` and `landing-page-overlay.png`, plus the
+fixed-region SSIM and pixel-matching metrics used for acceptance. The `home`
+repository should consume `landingPageImage.path` from that handoff through
+its own PR.

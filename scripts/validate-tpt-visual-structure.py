@@ -73,8 +73,40 @@ def main():
         mask = mask_for(name)
         ref_pixels, actual_pixels = list(ref.getdata()), list(actual.getdata())
         selected = [i for i, included in enumerate(sum(mask, [])) if included]
-        score = ssim([ref_pixels[i] for i in selected], [actual_pixels[i] for i in selected])
-        results.append({"asset": name, "stable_region_ssim": round(score, 6), "threshold": 0.10, "passed": score >= 0.10})
+        ref_selected = [ref_pixels[i] for i in selected]
+        actual_selected = [actual_pixels[i] for i in selected]
+        score = ssim(ref_selected, actual_selected)
+        absolute_differences = [abs(a - b) for a, b in zip(ref_selected, actual_selected)]
+        result = {
+            "asset": name,
+            "stable_region_ssim": round(score, 6),
+            "pixel_comparison": {
+                "mean_absolute_error": round(sum(absolute_differences) / len(absolute_differences), 6),
+                "matching_pixel_ratio_at_16": round(sum(diff <= 16 for diff in absolute_differences) / len(absolute_differences), 6),
+                "compared_pixels": len(selected),
+            },
+            "threshold": 0.10,
+            "passed": score >= 0.10,
+        }
+        if name == "landing-page":
+            ref_rgb = ref.convert("RGB")
+            actual_rgb = Image.open(next(generated_dir.glob(f"*-{name}.png"))).convert("RGB")
+            diff = Image.new("RGB", actual_rgb.size)
+            overlay = Image.blend(ref_rgb, actual_rgb, 0.5)
+            diff_pixels = []
+            for ref_pixel, actual_pixel, included in zip(ref_rgb.getdata(), actual_rgb.getdata(), sum(mask, [])):
+                if not included:
+                    diff_pixels.append((255, 255, 255))
+                    continue
+                delta = max(abs(a - b) for a, b in zip(ref_pixel, actual_pixel))
+                diff_pixels.append((min(255, delta * 4), 0, 0))
+            diff.putdata(diff_pixels)
+            diff_path = generated_dir / "landing-page-pixel-diff.png"
+            overlay_path = generated_dir / "landing-page-overlay.png"
+            diff.save(diff_path, "PNG", optimize=True)
+            overlay.save(overlay_path, "PNG", optimize=True)
+            result["pixel_comparison"].update({"diff_artifact": str(diff_path), "overlay_artifact": str(overlay_path)})
+        results.append(result)
     report = {"method": "fixed structural regions; variable month/content regions excluded", "results": results, "passed": all(x["passed"] for x in results)}
     Path(args.report).write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))

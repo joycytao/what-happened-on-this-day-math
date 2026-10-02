@@ -171,7 +171,7 @@ def pill(draw, box, text, size=34):
     draw.text((x + w // 2, y + 9), text, anchor="ma", fill="white", font=fitted(text, w - 24, size))
 
 
-def card(canvas, page, box, label, label_style="pill", label_width=None):
+def card(canvas, page, box, label, label_style="pill", label_width=None, outline=True):
     x, y, w, h = box
     shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     ImageDraw.Draw(shadow).rounded_rectangle((x + 8, y + 10, x + w + 8, y + h + 10), 12, fill=(43, 49, 63, 45))
@@ -182,7 +182,8 @@ def card(canvas, page, box, label, label_style="pill", label_width=None):
     sheet.paste(fitted_image, ((w - fitted_image.width) // 2, (h - fitted_image.height) // 2))
     canvas.paste(sheet, (x, y))
     draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=5)
+    if outline:
+        draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=5)
     if label_style == "pill":
         pill_width = label_width or w
         pill(draw, (x + (w - pill_width) // 2, y + h + 10, pill_width, 54), label, 34)
@@ -358,7 +359,7 @@ def compose_landing_page(month, day_count, pages, out):
     ]
     for key, cx, cy, width, height, angle, label in cards:
         worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
-        card(worksheet, pages[key], (16, 16, width, height), "", label_style="none")
+        card(worksheet, pages[key], (16, 16, width, height), "", label_style="none", outline=False)
         worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
         canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
         label_lines = label.split("\n")
