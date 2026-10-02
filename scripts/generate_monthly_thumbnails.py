@@ -339,23 +339,37 @@ def compose_daily_practice(month, pages, out):
 
 def compose_landing_page(month, day_count, pages, out):
     """Compose the canonical five-page landing-page product preview."""
-    canvas = base_canvas()
+    # Start from the supplied canonical reference so the fixed frame, border,
+    # background, and footer geometry remain reference-derived rather than
+    # being approximated by a second vector drawing.
+    reference = Path("references /thumbnail-assets/thumbnail-5-reference.png")
+    if reference.exists():
+        canvas = Image.open(reference).convert("RGBA").resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+    else:
+        canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, month.title(), 48, 126, 820)
+    # Clear only variable-content regions; retain the canonical frame itself.
+    draw.rectangle((40, 40, 1220, 430), fill=BG)
+    draw.rectangle((40, 430, 1220, 960), fill=BG)
+    draw.rectangle((40, 960, 1220, 1060), fill=BG)
+    draw.rectangle((40, 1060, 1220, 1215), fill=BG)
+    # Keep the month inside the reference's side-line gap even when a longer
+    # month name replaces October.
+    centered(draw, month.title(), 4, 150, 720)
     draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
     draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
-    centered(draw, "Morning Work Math", 202, 108, 1180)
+    centered(draw, "Morning Work Math", 202, 112, 1160)
     centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
 
     # Keep the complete header unobstructed: the canonical reference reserves
     # the upper third for the month/title/subtitle and starts the five-card
     # strip below it.
     cards = [
-        ("reading_passage", 176, 700, 250, 500, -2.0, "READING\nPASSAGE"),
-        ("level1", 406, 692, 250, 500, 1.0, "LEVEL 1"),
-        ("level2", 636, 696, 250, 500, -1.0, "LEVEL 2"),
-        ("level3", 866, 692, 250, 500, 2.0, "LEVEL 3"),
-        ("answer_key", 1096, 700, 250, 500, -1.0, "ANSWER KEY"),
+        ("reading_passage", 176, 704, 260, 500, -2.0, "READING\nPASSAGE"),
+        ("level1", 407, 700, 260, 500, 1.0, "LEVEL 1"),
+        ("level2", 638, 702, 260, 500, -1.0, "LEVEL 2"),
+        ("level3", 869, 700, 260, 500, 2.0, "LEVEL 3"),
+        ("answer_key", 1088, 704, 260, 500, -1.0, "ANSWER KEY"),
     ]
     for key, cx, cy, width, height, angle, label in cards:
         worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
@@ -363,13 +377,26 @@ def compose_landing_page(month, day_count, pages, out):
         worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
         canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
         label_lines = label.split("\n")
-        label_font = fitted(label.replace("\n", " "), 220, 30)
+        label_font = fitted(label.replace("\n", " "), 232, 30)
         for index, line in enumerate(label_lines):
-            draw.text((cx, 982 + index * 34), line, anchor="ma", fill=NAVY, font=label_font)
+            draw.text((cx, 966 + index * 34), line, anchor="ma", fill=NAVY, font=label_font)
     draw = ImageDraw.Draw(canvas)
     draw.line((45, 1140, 548, 1140), fill=ORANGE, width=6)
     draw.line((708, 1140, 1215, 1140), fill=ORANGE, width=6)
-    studio_logo(draw, 630, 1140, 138)
+    # The reference's outlined 6 pm studio mark is a fixed visual element.
+    # Reuse that approved mark instead of regenerating a simplified hexagon.
+    if reference.exists():
+        ref = Image.open(reference).convert("RGBA").resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+        logo = ref.crop((550, 1065, 710, 1215))
+        pixels = logo.load()
+        for y in range(logo.height):
+            for x in range(logo.width):
+                r, g, b, _ = pixels[x, y]
+                if abs(r - 254) < 5 and abs(g - 255) < 5 and abs(b - 239) < 5:
+                    pixels[x, y] = (r, g, b, 0)
+        canvas.alpha_composite(logo, (550, 1065))
+    else:
+        studio_logo(draw, 630, 1140, 138)
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 

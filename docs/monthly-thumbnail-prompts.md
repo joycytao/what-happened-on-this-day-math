@@ -210,6 +210,49 @@ worksheet. No overlapping labels. No oversized logo. No changed color palette.
 No footer overlap.
 ```
 
+## Thumbnail 5 — Landing Page Product Preview
+
+```text
+Use the supplied canonical landing-page reference image as the exact visual
+source of truth. Create a square 1260×1260 product-preview thumbnail for the
+monthly printable math worksheet packet.
+
+Preserve the fixed reference geometry exactly:
+- warm ivory background, orange rounded frame, and bottom divider lines;
+- deep-navy geometric sans-serif typography and its hierarchy;
+- large month title, large MORNING WORK MATH title, and smaller day-count line;
+- five slightly rotated white worksheet cards with soft shadows, in one row;
+- card order: READING PASSAGE, LEVEL 1, LEVEL 2, LEVEL 3, ANSWER KEY;
+- label positions, card proportions, overlap order, footer spacing, and the
+  outlined 6 pm studio logo.
+
+Replace only month-specific content:
+- month name;
+- day count in the subtitle;
+- the five worksheet previews, which must be cropped or scaled from the final
+  verified monthly PDF and never invented or rewritten.
+
+The November output must read:
+November
+Morning Work Math
+30 Daily Word Problems · 3 Levels
+
+Keep the reference's canvas size, card geometry, rotations, shadows, logo,
+spacing, border, colors, and typography hierarchy unchanged. This is a
+deterministic compositor specification, not permission to redesign the image.
+```
+
+Negative prompt:
+
+```text
+Do not change the canvas size or frame. Do not simplify or redraw the logo.
+Do not use a different card ratio, grid, rotation, shadow, overlap, label
+position, font hierarchy, palette, or footer treatment. Do not generate fake
+worksheet text, questions, answer keys, or page previews. Do not use an
+October page in the November output. Do not add extra text, decorations,
+gradients, people, classroom scenes, or photographic backgrounds.
+```
+
 For the October example, use `[MONTH] = October`, `[WORKSHEET PAGE NUMBER] = 2`,
 `[LEVEL] = Level 1`, and `[MONTH DOODLE] = a small hand-drawn orange pumpkin
 accent`.
