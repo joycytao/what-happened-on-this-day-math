@@ -47,16 +47,167 @@
     },
     {
       "asset": "landing-page",
-      "stable_region_ssim": 0.409911,
+      "stable_region_ssim": 0.556437,
       "pixel_comparison": {
-        "mean_absolute_error": 37.524746,
-        "matching_pixel_ratio_at_16": 0.787125,
+        "mean_absolute_error": 29.227059,
+        "matching_pixel_ratio_at_16": 0.834836,
         "compared_pixels": 915960,
         "diff_artifact": "/private/tmp/math-issue-139-landing-page/output/tpt/november-morning-work-math/visual-assets/landing-page-pixel-diff.png",
         "overlay_artifact": "/private/tmp/math-issue-139-landing-page/output/tpt/november-morning-work-math/visual-assets/landing-page-overlay.png"
       },
       "threshold": 0.1,
-      "passed": true
+      "passed": true,
+      "card_layout": {
+        "method": "white-sheet silhouette IoU per fixed card region; worksheet copy excluded",
+        "regions": {
+          "reading_passage": {
+            "region": [
+              35,
+              440,
+              305,
+              970
+            ],
+            "silhouette_iou": 0.310457,
+            "silhouette_matching_ratio": 0.504584,
+            "passed": true
+          },
+          "level1": {
+            "region": [
+              265,
+              440,
+              535,
+              970
+            ],
+            "silhouette_iou": 0.381473,
+            "silhouette_matching_ratio": 0.458847,
+            "passed": true
+          },
+          "level2": {
+            "region": [
+              495,
+              440,
+              765,
+              970
+            ],
+            "silhouette_iou": 0.409158,
+            "silhouette_matching_ratio": 0.48406,
+            "passed": true
+          },
+          "level3": {
+            "region": [
+              725,
+              440,
+              995,
+              970
+            ],
+            "silhouette_iou": 0.404444,
+            "silhouette_matching_ratio": 0.505297,
+            "passed": true
+          },
+          "answer_key": {
+            "region": [
+              950,
+              440,
+              1225,
+              970
+            ],
+            "silhouette_iou": 0.347491,
+            "silhouette_matching_ratio": 0.527575,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      "typography_layout": {
+        "method": "dark-ink bounding boxes in fixed title and label regions",
+        "regions": {
+          "month": {
+            "reference_bbox": [
+              310,
+              63,
+              952,
+              190
+            ],
+            "actual_bbox": [
+              278,
+              65,
+              989,
+              190
+            ],
+            "edge_deltas": [
+              -32,
+              2,
+              37,
+              0
+            ],
+            "passed": true
+          },
+          "title": {
+            "reference_bbox": [
+              71,
+              200,
+              1189,
+              339
+            ],
+            "actual_bbox": [
+              79,
+              200,
+              1179,
+              325
+            ],
+            "edge_deltas": [
+              8,
+              0,
+              -10,
+              -14
+            ],
+            "passed": true
+          },
+          "subtitle": {
+            "reference_bbox": [
+              127,
+              349,
+              1130,
+              418
+            ],
+            "actual_bbox": [
+              132,
+              350,
+              1129,
+              419
+            ],
+            "edge_deltas": [
+              5,
+              1,
+              -1,
+              1
+            ],
+            "passed": true
+          },
+          "labels": {
+            "reference_bbox": [
+              98,
+              977,
+              1198,
+              1041
+            ],
+            "actual_bbox": [
+              121,
+              978,
+              1168,
+              1037
+            ],
+            "edge_deltas": [
+              23,
+              1,
+              -30,
+              -4
+            ],
+            "passed": true
+          }
+        },
+        "passed": true
+      }
     }
   ],
   "passed": true

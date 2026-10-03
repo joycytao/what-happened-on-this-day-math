@@ -231,7 +231,8 @@ Preserve the fixed reference geometry exactly:
 
 For the compositor, preserve the reference's fixed bands: the month/title
 header occupies the upper 430 px, the card strip begins at approximately y=455
-and uses five 260×490 px cards with the reference centers and rotations, the
+and uses the reference's outer 260×490 px cards and inner 225×490 px cards
+with the reference centers and rotations, the
 uppercase labels sit immediately below the cards, and the footer rules remain
 at y=1140 with the centered logo between them. The day-count line uses the
 same bold hierarchy as the reference; only its month-specific number changes.
@@ -256,9 +257,10 @@ these fixed regions aligned to the October reference:
 - Worksheet strip: preserve the five-card order and the reference card
   rectangles, aspect ratio, rotations, z-order, overlap, top/bottom bounds,
   and soft shadow offsets. The silhouette must visibly fan: use approximately
-  -4°, -2°, 0°, +2°, +4° rotations with the outer cards lower than the middle
-  card, while keeping the 260×490 portrait windows unchanged. The cards must
-  not become a uniform flat grid.
+  approximately +3°, +1°, 0°, -1°, -3° rotations with the outer cards lower
+  than the middle card. Preserve the fixture's proportions: wide outer cards
+  and narrower inner cards (about 260×490 for the outer cards and 225×490 for
+  the inner cards). The cards must not become a uniform flat grid.
 - Card previews: use the real November PDF pages, cropped/scaled into the
   reference card windows without changing the card geometry. Do not let page
   content determine card size or push cards vertically.
@@ -270,10 +272,11 @@ these fixed regions aligned to the October reference:
   it with a simplified solid hexagon or a logo with a white rectangular crop.
 - Typography: use the same heavy geometric display treatment as the reference
   for the month, product title, subtitle, and labels. On the production host,
-  lock `Avenir Next Heavy` (or the exact approved reference font asset) for
-  the bold display hierarchy. Do not fall back to generic Arial Black, Arial
-  Rounded, or a light sans-serif substitute; verify the headline silhouette
-  against the fixture.
+  lock the verified `Futura ExtraBold` reference asset for the bold display
+  hierarchy (font index 4 in the production host's `Futura.ttc`, with the
+  exact fixture-matching font file recorded in QA). Do not silently substitute
+  Arial Black, Arial Rounded, or a light sans-serif; verify the headline
+  silhouette and bounding box against the fixture.
 
 The visual QA must compare fixed regions independently: frame/background,
 month/title bands, subtitle, card silhouettes/shadows/overlap, labels, and

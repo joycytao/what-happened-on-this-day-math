@@ -22,6 +22,10 @@ test("November TPT handoff contains five generated assets and a landing-page ima
   const qa = JSON.parse(await readFile(qaPath, "utf8"));
   const landingQa = qa.results.find((result) => result.asset === "landing-page");
   assert.equal(landingQa.passed, true);
+  assert.equal(landingQa.card_layout.passed, true);
+  assert.equal(Object.keys(landingQa.card_layout.regions).length, 5);
+  assert.equal(landingQa.typography_layout.passed, true);
+  assert.equal(Object.keys(landingQa.typography_layout.regions).length, 4);
   assert.equal(landingQa.pixel_comparison.compared_pixels > 0, true);
   assert.equal(landingQa.pixel_comparison.matching_pixel_ratio_at_16 >= 0.75, true);
   assert.equal(await readFile(landingQa.pixel_comparison.diff_artifact).then(() => true), true);

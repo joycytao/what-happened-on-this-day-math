@@ -105,8 +105,8 @@ def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
 def landing_font(size: int, bold: bool = True):
     """Use the locked reference display face for the landing-page asset only."""
     candidates = [
+        ("/System/Library/Fonts/Supplemental/Futura.ttc", 4) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
         ("/System/Library/Fonts/Avenir Next.ttc", 8) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
-        ("/System/Library/Fonts/Supplemental/Arial Black.ttf", 0) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
     ]
     for candidate, index in candidates:
         if Path(candidate).exists():
@@ -125,7 +125,7 @@ def landing_fitted(text: str, width: int, size: int, bold: bool = True):
 
 def landing_centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
     f = landing_fitted(text, max_width, size, bold)
-    draw.text((630, y), text, anchor="ma", fill=fill, font=f, stroke_width=1 if bold else 0, stroke_fill=fill)
+    draw.text((630, y), text, anchor="ma", fill=fill, font=f)
 
 
 def cover_font(size: int, bold: bool = True):
@@ -383,12 +383,15 @@ def compose_landing_page(month, day_count, pages, out):
     # month name replaces October.
     # The reference month sits in the upper title band; longer month names
     # are fitted without changing that band's vertical center.
-    month_size = 150 if len(month) <= 7 else 132
-    landing_centered(draw, month.title(), 16, month_size, 820)
+    month_size = 150 if len(month) <= 7 else 158
+    # November is longer than October, so keep its ink center in the same
+    # upper-band vertical center instead of letting the font ascent pull it
+    # toward the frame.
+    landing_centered(draw, month.title(), 36, month_size, 820)
     draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
     draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
-    landing_centered(draw, "Morning Work Math", 172, 112, 1160)
-    landing_centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 338, 54, 1100, bold=True)
+    landing_centered(draw, "Morning Work Math", 172, 122, 1160)
+    landing_centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 338, 65, 1100, bold=True)
 
     # Keep the complete header unobstructed: the canonical reference reserves
     # the upper third for the month/title/subtitle and starts the five-card
@@ -397,11 +400,11 @@ def compose_landing_page(month, day_count, pages, out):
     # outward, while the middle card is highest and nearly square to the
     # canvas. Keep the windows portrait and overlap them in z-order.
     cards = [
-        ("reading_passage", 176, 713, 260, 490, -4.0, "READING\nPASSAGE"),
-        ("level1", 404, 700, 260, 490, -1.8, "LEVEL 1"),
-        ("level2", 634, 694, 260, 490, 0.0, "LEVEL 2"),
-        ("level3", 864, 700, 260, 490, 1.8, "LEVEL 3"),
-        ("answer_key", 1085, 713, 260, 490, 4.0, "ANSWER KEY"),
+        ("reading_passage", 176, 704, 260, 490, 3.0, "READING\nPASSAGE"),
+        ("level1", 407, 701, 225, 490, 1.0, "LEVEL 1"),
+        ("level2", 628, 700, 225, 490, 0.0, "LEVEL 2"),
+        ("level3", 848, 701, 225, 490, -1.0, "LEVEL 3"),
+        ("answer_key", 1084, 704, 260, 490, -3.0, "ANSWER KEY"),
     ]
     for key, cx, cy, width, height, angle, label in cards:
         worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
