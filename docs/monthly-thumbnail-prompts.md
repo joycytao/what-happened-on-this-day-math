@@ -221,7 +221,10 @@ Preserve the fixed reference geometry exactly:
 - warm ivory background, orange rounded frame, and bottom divider lines;
 - deep-navy geometric sans-serif typography and its hierarchy;
 - large month title, large MORNING WORK MATH title, and smaller day-count line;
-- five slightly rotated white worksheet cards with soft shadows, in one row;
+- five white worksheet cards with soft shadows in a visible shallow fan: the
+  outside cards sit lower and rotate outward, the middle card sits highest,
+  and adjacent cards overlap in z-order; never render them as a flat row or
+  uniform grid;
 - card order: READING PASSAGE, LEVEL 1, LEVEL 2, LEVEL 3, ANSWER KEY;
 - label positions, card proportions, overlap order, footer spacing, and the
   outlined 6 pm studio logo.
@@ -252,7 +255,10 @@ these fixed regions aligned to the October reference:
   centered placement. Only the day count changes from 31 to 30.
 - Worksheet strip: preserve the five-card order and the reference card
   rectangles, aspect ratio, rotations, z-order, overlap, top/bottom bounds,
-  and soft shadow offsets. The cards must not become a uniform flat grid.
+  and soft shadow offsets. The silhouette must visibly fan: use approximately
+  -4°, -2°, 0°, +2°, +4° rotations with the outer cards lower than the middle
+  card, while keeping the 260×490 portrait windows unchanged. The cards must
+  not become a uniform flat grid.
 - Card previews: use the real November PDF pages, cropped/scaled into the
   reference card windows without changing the card geometry. Do not let page
   content determine card size or push cards vertically.
@@ -262,6 +268,12 @@ these fixed regions aligned to the October reference:
 - Footer: preserve both orange rules, their y-position and endpoints, and the
   complete outlined `6 pm studio` logo at the reference center. Do not replace
   it with a simplified solid hexagon or a logo with a white rectangular crop.
+- Typography: use the same heavy geometric display treatment as the reference
+  for the month, product title, subtitle, and labels. On the production host,
+  lock `Avenir Next Heavy` (or the exact approved reference font asset) for
+  the bold display hierarchy. Do not fall back to generic Arial Black, Arial
+  Rounded, or a light sans-serif substitute; verify the headline silhouette
+  against the fixture.
 
 The visual QA must compare fixed regions independently: frame/background,
 month/title bands, subtitle, card silhouettes/shadows/overlap, labels, and
@@ -277,7 +289,7 @@ Replace only month-specific content:
 - the five worksheet previews, which must be cropped or scaled from the final
   verified monthly PDF and never invented or rewritten.
 
-The November output must read:
+The November output must read (using the reference's centered dot separator):
 November
 Morning Work Math
 30 Daily Word Problems · 3 Levels

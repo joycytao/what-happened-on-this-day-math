@@ -18,12 +18,12 @@ SIZE = 1260
 
 def font(size: int, bold: bool = True):
     candidates = [
-        "/System/Library/Fonts/Supplemental/Arial Black.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
-        "/System/Library/Fonts/Arial.ttf",
+        ("/System/Library/Fonts/Supplemental/Arial Black.ttf", 0) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
+        ("/System/Library/Fonts/Arial.ttf", 0),
     ]
-    for candidate in candidates:
+    for candidate, index in candidates:
         if Path(candidate).exists():
-            return ImageFont.truetype(candidate, size)
+            return ImageFont.truetype(candidate, size, index=index)
     return ImageFont.load_default()
 
 
@@ -102,14 +102,40 @@ def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
     draw.text((630, y), text, anchor="ma", fill=fill, font=fitted(text, max_width, size, bold))
 
 
+def landing_font(size: int, bold: bool = True):
+    """Use the locked reference display face for the landing-page asset only."""
+    candidates = [
+        ("/System/Library/Fonts/Avenir Next.ttc", 8) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
+        ("/System/Library/Fonts/Supplemental/Arial Black.ttf", 0) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
+    ]
+    for candidate, index in candidates:
+        if Path(candidate).exists():
+            return ImageFont.truetype(candidate, size, index=index)
+    return font(size, bold)
+
+
+def landing_fitted(text: str, width: int, size: int, bold: bool = True):
+    while size > 12:
+        f = landing_font(size, bold)
+        if ImageDraw.Draw(Image.new("RGB", (1, 1))).textbbox((0, 0), text, font=f)[2] <= width:
+            return f
+        size -= 1
+    return landing_font(12, bold)
+
+
+def landing_centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
+    f = landing_fitted(text, max_width, size, bold)
+    draw.text((630, y), text, anchor="ma", fill=fill, font=f, stroke_width=1 if bold else 0, stroke_fill=fill)
+
+
 def cover_font(size: int, bold: bool = True):
     candidates = [
-        "/System/Library/Fonts/Supplemental/Arial Black.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
-        "/System/Library/Fonts/Arial.ttf",
+        ("/System/Library/Fonts/Supplemental/Arial Black.ttf", 0) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
+        ("/System/Library/Fonts/Arial.ttf", 0),
     ]
-    for candidate in candidates:
+    for candidate, index in candidates:
         if Path(candidate).exists():
-            return ImageFont.truetype(candidate, size)
+            return ImageFont.truetype(candidate, size, index=index)
     return font(size, bold)
 
 
@@ -358,21 +384,24 @@ def compose_landing_page(month, day_count, pages, out):
     # The reference month sits in the upper title band; longer month names
     # are fitted without changing that band's vertical center.
     month_size = 150 if len(month) <= 7 else 132
-    centered(draw, month.title(), 16, month_size, 820)
+    landing_centered(draw, month.title(), 16, month_size, 820)
     draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
     draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
-    centered(draw, "Morning Work Math", 172, 112, 1160)
-    centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 338, 54, 1100, bold=True)
+    landing_centered(draw, "Morning Work Math", 172, 112, 1160)
+    landing_centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 338, 54, 1100, bold=True)
 
     # Keep the complete header unobstructed: the canonical reference reserves
     # the upper third for the month/title/subtitle and starts the five-card
     # strip below it.
+    # The reference uses a shallow fan: the outside cards sit lower and turn
+    # outward, while the middle card is highest and nearly square to the
+    # canvas. Keep the windows portrait and overlap them in z-order.
     cards = [
-        ("reading_passage", 176, 704, 260, 490, -2.0, "READING\nPASSAGE"),
-        ("level1", 407, 701, 260, 490, 1.0, "LEVEL 1"),
-        ("level2", 638, 702, 260, 490, -1.0, "LEVEL 2"),
-        ("level3", 869, 701, 260, 490, 2.0, "LEVEL 3"),
-        ("answer_key", 1088, 704, 260, 490, -1.0, "ANSWER KEY"),
+        ("reading_passage", 176, 713, 260, 490, -4.0, "READING\nPASSAGE"),
+        ("level1", 404, 700, 260, 490, -1.8, "LEVEL 1"),
+        ("level2", 634, 694, 260, 490, 0.0, "LEVEL 2"),
+        ("level3", 864, 700, 260, 490, 1.8, "LEVEL 3"),
+        ("answer_key", 1085, 713, 260, 490, 4.0, "ANSWER KEY"),
     ]
     for key, cx, cy, width, height, angle, label in cards:
         worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
@@ -380,9 +409,16 @@ def compose_landing_page(month, day_count, pages, out):
         worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
         canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
         label_lines = label.split("\n")
-        label_font = fitted(label.replace("\n", " "), 232, 30)
+        label_font = landing_fitted(label.replace("\n", " "), 232, 30)
+        label_y = 973 if key in {"reading_passage", "answer_key"} else 969
         for index, line in enumerate(label_lines):
-            draw.text((cx, 964 + index * 34), line, anchor="ma", fill=NAVY, font=label_font)
+            draw.text(
+                (cx, label_y + index * 34),
+                line,
+                anchor="ma",
+                fill=NAVY,
+                font=label_font,
+            )
     draw = ImageDraw.Draw(canvas)
     draw.line((45, 1140, 548, 1140), fill=ORANGE, width=6)
     draw.line((708, 1140, 1215, 1140), fill=ORANGE, width=6)

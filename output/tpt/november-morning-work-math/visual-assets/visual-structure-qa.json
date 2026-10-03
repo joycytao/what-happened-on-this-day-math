@@ -47,10 +47,10 @@
     },
     {
       "asset": "landing-page",
-      "stable_region_ssim": 0.442566,
+      "stable_region_ssim": 0.409911,
       "pixel_comparison": {
-        "mean_absolute_error": 33.943748,
-        "matching_pixel_ratio_at_16": 0.808376,
+        "mean_absolute_error": 37.524746,
+        "matching_pixel_ratio_at_16": 0.787125,
         "compared_pixels": 915960,
         "diff_artifact": "/private/tmp/math-issue-139-landing-page/output/tpt/november-morning-work-math/visual-assets/landing-page-pixel-diff.png",
         "overlay_artifact": "/private/tmp/math-issue-139-landing-page/output/tpt/november-morning-work-math/visual-assets/landing-page-overlay.png"
