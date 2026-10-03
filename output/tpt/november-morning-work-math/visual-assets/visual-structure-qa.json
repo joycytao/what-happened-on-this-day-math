@@ -4,24 +4,57 @@
     {
       "asset": "cover",
       "stable_region_ssim": 0.499512,
+      "pixel_comparison": {
+        "mean_absolute_error": 13.594928,
+        "matching_pixel_ratio_at_16": 0.867025,
+        "compared_pixels": 397384
+      },
       "threshold": 0.1,
       "passed": true
     },
     {
       "asset": "whats-included",
       "stable_region_ssim": 0.658081,
+      "pixel_comparison": {
+        "mean_absolute_error": 21.31893,
+        "matching_pixel_ratio_at_16": 0.803366,
+        "compared_pixels": 533820
+      },
       "threshold": 0.1,
       "passed": true
     },
     {
       "asset": "different-math",
       "stable_region_ssim": 0.274166,
+      "pixel_comparison": {
+        "mean_absolute_error": 26.061287,
+        "matching_pixel_ratio_at_16": 0.779832,
+        "compared_pixels": 440728
+      },
       "threshold": 0.1,
       "passed": true
     },
     {
       "asset": "daily-practice",
       "stable_region_ssim": 0.136903,
+      "pixel_comparison": {
+        "mean_absolute_error": 29.058495,
+        "matching_pixel_ratio_at_16": 0.748688,
+        "compared_pixels": 390340
+      },
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "landing-page",
+      "stable_region_ssim": 0.442566,
+      "pixel_comparison": {
+        "mean_absolute_error": 33.943748,
+        "matching_pixel_ratio_at_16": 0.808376,
+        "compared_pixels": 915960,
+        "diff_artifact": "/private/tmp/math-issue-139-landing-page/output/tpt/november-morning-work-math/visual-assets/landing-page-pixel-diff.png",
+        "overlay_artifact": "/private/tmp/math-issue-139-landing-page/output/tpt/november-morning-work-math/visual-assets/landing-page-overlay.png"
+      },
       "threshold": 0.1,
       "passed": true
     }

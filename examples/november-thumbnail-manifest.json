@@ -27,6 +27,10 @@
     "daily_practice": {
       "output": "output/thumbnails/november-v1.0-daily-practice.png",
       "source_pages": { "worksheet": 3 }
+    },
+    "landing_page": {
+      "output": "output/thumbnails/november-v1.0-landing-page.png",
+      "source_pages": { "reading_passage": 2, "level1": 3, "level2": 4, "level3": 5, "answer_key": 122 }
     }
   }
 }

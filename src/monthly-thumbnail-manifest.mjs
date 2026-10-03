@@ -1,11 +1,12 @@
 import { readFile } from "node:fs/promises";
 
-const TEMPLATE_NAMES = ["cover", "whats_included", "different_math", "daily_practice"];
-const PAGE_TEMPLATES = new Set(["whats_included", "different_math", "daily_practice"]);
+const TEMPLATE_NAMES = ["cover", "whats_included", "different_math", "daily_practice", "landing_page"];
+const PAGE_TEMPLATES = new Set(["whats_included", "different_math", "daily_practice", "landing_page"]);
 const REQUIRED_SOURCE_LABELS = {
   whats_included: ["story", "level1", "level2", "level3", "answer_key"],
   different_math: ["story", "level1", "level2", "level3"],
   daily_practice: ["worksheet"],
+  landing_page: ["reading_passage", "level1", "level2", "level3", "answer_key"],
 };
 
 export async function loadMonthlyThumbnailManifest(path) {

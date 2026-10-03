@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the four requested, real-page monthly thumbnail compositions."""
+"""Generate the five requested, real-page monthly thumbnail compositions."""
 
 import argparse
 import hashlib
@@ -171,7 +171,7 @@ def pill(draw, box, text, size=34):
     draw.text((x + w // 2, y + 9), text, anchor="ma", fill="white", font=fitted(text, w - 24, size))
 
 
-def card(canvas, page, box, label, label_style="pill", label_width=None):
+def card(canvas, page, box, label, label_style="pill", label_width=None, outline=True):
     x, y, w, h = box
     shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     ImageDraw.Draw(shadow).rounded_rectangle((x + 8, y + 10, x + w + 8, y + h + 10), 12, fill=(43, 49, 63, 45))
@@ -182,7 +182,8 @@ def card(canvas, page, box, label, label_style="pill", label_width=None):
     sheet.paste(fitted_image, ((w - fitted_image.width) // 2, (h - fitted_image.height) // 2))
     canvas.paste(sheet, (x, y))
     draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=5)
+    if outline:
+        draw.rounded_rectangle((x, y, x + w, y + h), 12, outline=ORANGE, width=5)
     if label_style == "pill":
         pill_width = label_width or w
         pill(draw, (x + (w - pill_width) // 2, y + h + 10, pill_width, 54), label, 34)
@@ -336,6 +337,72 @@ def compose_daily_practice(month, pages, out):
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
+def compose_landing_page(month, day_count, pages, out):
+    """Compose the canonical five-page landing-page product preview."""
+    # Start from the supplied canonical reference so the fixed frame, border,
+    # background, and footer geometry remain reference-derived rather than
+    # being approximated by a second vector drawing.
+    reference = Path("references /thumbnail-assets/thumbnail-5-reference.png")
+    if reference.exists():
+        canvas = Image.open(reference).convert("RGBA").resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+    else:
+        canvas = base_canvas()
+    draw = ImageDraw.Draw(canvas)
+    # Clear only variable-content regions; retain the canonical frame itself.
+    draw.rectangle((40, 40, 1220, 430), fill=BG)
+    draw.rectangle((40, 430, 1220, 960), fill=BG)
+    draw.rectangle((40, 960, 1220, 1060), fill=BG)
+    draw.rectangle((40, 1060, 1220, 1215), fill=BG)
+    # Keep the month inside the reference's side-line gap even when a longer
+    # month name replaces October.
+    # The reference month sits in the upper title band; longer month names
+    # are fitted without changing that band's vertical center.
+    month_size = 150 if len(month) <= 7 else 132
+    centered(draw, month.title(), 16, month_size, 820)
+    draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
+    draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
+    centered(draw, "Morning Work Math", 172, 112, 1160)
+    centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 338, 54, 1100, bold=True)
+
+    # Keep the complete header unobstructed: the canonical reference reserves
+    # the upper third for the month/title/subtitle and starts the five-card
+    # strip below it.
+    cards = [
+        ("reading_passage", 176, 704, 260, 490, -2.0, "READING\nPASSAGE"),
+        ("level1", 407, 701, 260, 490, 1.0, "LEVEL 1"),
+        ("level2", 638, 702, 260, 490, -1.0, "LEVEL 2"),
+        ("level3", 869, 701, 260, 490, 2.0, "LEVEL 3"),
+        ("answer_key", 1088, 704, 260, 490, -1.0, "ANSWER KEY"),
+    ]
+    for key, cx, cy, width, height, angle, label in cards:
+        worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
+        card(worksheet, pages[key], (16, 16, width, height), "", label_style="none", outline=False)
+        worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
+        canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
+        label_lines = label.split("\n")
+        label_font = fitted(label.replace("\n", " "), 232, 30)
+        for index, line in enumerate(label_lines):
+            draw.text((cx, 964 + index * 34), line, anchor="ma", fill=NAVY, font=label_font)
+    draw = ImageDraw.Draw(canvas)
+    draw.line((45, 1140, 548, 1140), fill=ORANGE, width=6)
+    draw.line((708, 1140, 1215, 1140), fill=ORANGE, width=6)
+    # The reference's outlined 6 pm studio mark is a fixed visual element.
+    # Reuse that approved mark instead of regenerating a simplified hexagon.
+    if reference.exists():
+        ref = Image.open(reference).convert("RGBA").resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+        logo = ref.crop((550, 1065, 710, 1215))
+        pixels = logo.load()
+        for y in range(logo.height):
+            for x in range(logo.width):
+                r, g, b, _ = pixels[x, y]
+                if abs(r - 254) < 5 and abs(g - 255) < 5 and abs(b - 239) < 5:
+                    pixels[x, y] = (r, g, b, 0)
+        canvas.alpha_composite(logo, (550, 1065))
+    else:
+        studio_logo(draw, 630, 1140, 138)
+    canvas.convert("RGB").save(out, "PNG", optimize=True)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
@@ -374,18 +441,21 @@ def main():
         whats = {key: render_page(page) for key, page in pages["whats_included"]["source_pages"].items()}
         different = {key: render_page(page) for key, page in pages["different_math"]["source_pages"].items()}
         daily = {key: render_page(page) for key, page in pages["daily_practice"]["source_pages"].items()}
+        landing = {key: render_page(page) for key, page in pages["landing_page"]["source_pages"].items()}
         first = whats["story"]
         day_count = int(manifest["product"].get("day_count", 31))
         compose_cover(manifest["product"]["month"], day_count, args.output_dir / f"{prefix}-cover.png", first, doodle_path)
         compose_whats_included(manifest["product"]["month"], whats, args.output_dir / f"{prefix}-whats-included.png")
         compose_different_math(manifest["product"]["month"], day_count, different, args.output_dir / f"{prefix}-different-math.png")
         compose_daily_practice(manifest["product"]["month"], daily, args.output_dir / f"{prefix}-daily-practice.png")
-    names = ["cover", "whats-included", "different-math", "daily-practice"]
+        compose_landing_page(manifest["product"]["month"], day_count, landing, args.output_dir / f"{prefix}-landing-page.png")
+    names = ["cover", "whats-included", "different-math", "daily-practice", "landing-page"]
     labels = {
         "cover": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems", "3 Levels"],
         "whats_included": ["WHAT’S INCLUDED", "STORY", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"],
         "different_math": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems · 3 Levels", "Level 1", "Level 2", "Level 3"],
         "daily_practice": ["Ready for", "Daily Practice", "Morning Work", "Bell Ringers", "Homeschool"],
+        "landing_page": [manifest["product"]["month"].title(), "Morning Work Math", f"{day_count} Daily Word Problems · 3 Levels", "Reading Passage", "Level 1", "Level 2", "Level 3", "Answer Key"],
     }
     checksums = {name: hashlib.sha256((args.output_dir / f"{prefix}-{name}.png").read_bytes()).hexdigest() for name in names}
     report = {
@@ -409,6 +479,7 @@ def main():
             "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "three subtly tilted worksheet cards in one row", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered upright real worksheet preview", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
+            "landing_page": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "five subtly tilted worksheet cards in one row", "labels": ["READING PASSAGE", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"], "parityFixture": "references /thumbnail-assets/thumbnail-5-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
         },
     }
     (args.output_dir / "monthly-thumbnail-report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
