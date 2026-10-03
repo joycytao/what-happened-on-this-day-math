@@ -355,21 +355,24 @@ def compose_landing_page(month, day_count, pages, out):
     draw.rectangle((40, 1060, 1220, 1215), fill=BG)
     # Keep the month inside the reference's side-line gap even when a longer
     # month name replaces October.
-    centered(draw, month.title(), 4, 150, 720)
+    # The reference month sits in the upper title band; longer month names
+    # are fitted without changing that band's vertical center.
+    month_size = 150 if len(month) <= 7 else 132
+    centered(draw, month.title(), 16, month_size, 820)
     draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
     draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
-    centered(draw, "Morning Work Math", 202, 112, 1160)
-    centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
+    centered(draw, "Morning Work Math", 172, 112, 1160)
+    centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 338, 54, 1100, bold=True)
 
     # Keep the complete header unobstructed: the canonical reference reserves
     # the upper third for the month/title/subtitle and starts the five-card
     # strip below it.
     cards = [
-        ("reading_passage", 176, 704, 260, 500, -2.0, "READING\nPASSAGE"),
-        ("level1", 407, 700, 260, 500, 1.0, "LEVEL 1"),
-        ("level2", 638, 702, 260, 500, -1.0, "LEVEL 2"),
-        ("level3", 869, 700, 260, 500, 2.0, "LEVEL 3"),
-        ("answer_key", 1088, 704, 260, 500, -1.0, "ANSWER KEY"),
+        ("reading_passage", 176, 704, 260, 490, -2.0, "READING\nPASSAGE"),
+        ("level1", 407, 701, 260, 490, 1.0, "LEVEL 1"),
+        ("level2", 638, 702, 260, 490, -1.0, "LEVEL 2"),
+        ("level3", 869, 701, 260, 490, 2.0, "LEVEL 3"),
+        ("answer_key", 1088, 704, 260, 490, -1.0, "ANSWER KEY"),
     ]
     for key, cx, cy, width, height, angle, label in cards:
         worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
@@ -379,7 +382,7 @@ def compose_landing_page(month, day_count, pages, out):
         label_lines = label.split("\n")
         label_font = fitted(label.replace("\n", " "), 232, 30)
         for index, line in enumerate(label_lines):
-            draw.text((cx, 966 + index * 34), line, anchor="ma", fill=NAVY, font=label_font)
+            draw.text((cx, 964 + index * 34), line, anchor="ma", fill=NAVY, font=label_font)
     draw = ImageDraw.Draw(canvas)
     draw.line((45, 1140, 548, 1140), fill=ORANGE, width=6)
     draw.line((708, 1140, 1215, 1140), fill=ORANGE, width=6)

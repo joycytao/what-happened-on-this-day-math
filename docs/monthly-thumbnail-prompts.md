@@ -226,6 +226,13 @@ Preserve the fixed reference geometry exactly:
 - label positions, card proportions, overlap order, footer spacing, and the
   outlined 6 pm studio logo.
 
+For the compositor, preserve the reference's fixed bands: the month/title
+header occupies the upper 430 px, the card strip begins at approximately y=455
+and uses five 260×490 px cards with the reference centers and rotations, the
+uppercase labels sit immediately below the cards, and the footer rules remain
+at y=1140 with the centered logo between them. The day-count line uses the
+same bold hierarchy as the reference; only its month-specific number changes.
+
 Replace only month-specific content:
 - month name;
 - day count in the subtitle;
