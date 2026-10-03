@@ -233,6 +233,44 @@ uppercase labels sit immediately below the cards, and the footer rules remain
 at y=1140 with the centered logo between them. The day-count line uses the
 same bold hierarchy as the reference; only its month-specific number changes.
 
+### Strict November-to-October alignment checklist
+
+Treat `references /thumbnail-assets/thumbnail-5-reference.png` as a layout
+fixture, not as a loose style inspiration. The November compositor must keep
+these fixed regions aligned to the October reference:
+
+- Canvas and frame: 1260×1260 px; warm ivory background; rounded orange frame
+  and its inset, stroke, and corner radius unchanged.
+- Month band: centered title in the same upper band as `October`; preserve the
+  side rules at y≈154 (x≈70–269 and x≈991–1190). A longer month may use a
+  smaller fitted font, but it must remain vertically centered in the same band
+  and must not move the title, subtitle, or card row.
+- Main title: `Morning Work Math` must occupy the same x/y band, width, weight,
+  and line-height as the reference. Do not lower it to compensate for the
+  longer month name.
+- Subtitle: keep the reference's bold navy hierarchy, baseline, tracking, and
+  centered placement. Only the day count changes from 31 to 30.
+- Worksheet strip: preserve the five-card order and the reference card
+  rectangles, aspect ratio, rotations, z-order, overlap, top/bottom bounds,
+  and soft shadow offsets. The cards must not become a uniform flat grid.
+- Card previews: use the real November PDF pages, cropped/scaled into the
+  reference card windows without changing the card geometry. Do not let page
+  content determine card size or push cards vertically.
+- Labels: preserve the reference uppercase navy labels, font weight, size,
+  baseline, and the two-line `READING / PASSAGE` wrap. Labels must remain
+  below the cards and above the footer region.
+- Footer: preserve both orange rules, their y-position and endpoints, and the
+  complete outlined `6 pm studio` logo at the reference center. Do not replace
+  it with a simplified solid hexagon or a logo with a white rectangular crop.
+
+The visual QA must compare fixed regions independently: frame/background,
+month/title bands, subtitle, card silhouettes/shadows/overlap, labels, and
+footer/logo. A single aggregate `passed=true` with a permissive global
+threshold is insufficient. Record each region's bounding box, clipping or
+overflow result, pixel-match ratio, SSIM/MAE, and an overlay/difference image;
+variable November worksheet copy may be excluded only inside the card content
+windows.
+
 Replace only month-specific content:
 - month name;
 - day count in the subtitle;
