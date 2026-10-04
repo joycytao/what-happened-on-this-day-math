@@ -197,6 +197,21 @@ def pill(draw, box, text, size=34):
     draw.text((x + w // 2, y + 9), text, anchor="ma", fill="white", font=fitted(text, w - 24, size))
 
 
+def fit_page_preserving_aspect(source, target_size):
+    """Fill a card window without distorting the worksheet screenshot.
+
+    The fixed landing-page cards are intentionally narrower than a full PDF
+    page. Scale proportionally, then crop the overflow from the centered
+    edges; never stretch the source page to the target dimensions.
+    """
+    return ImageOps.fit(
+        source,
+        target_size,
+        method=Image.Resampling.LANCZOS,
+        centering=(0.5, 0.5),
+    )
+
+
 def card(canvas, page, box, label, label_style="pill", label_width=None, outline=True, fit_mode="contain"):
     x, y, w, h = box
     shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
@@ -205,10 +220,9 @@ def card(canvas, page, box, label, label_style="pill", label_width=None, outline
     source = Image.open(page).convert("RGB")
     target_size = (w - 12, h - 12)
     if fit_mode == "cover":
-        # The canonical landing fixture maps the complete worksheet page into
-        # the fixed portrait card window. Preserve the real page and logo,
-        # while avoiding the false top/bottom bars produced by contain.
-        fitted_image = source.resize(target_size, Image.Resampling.LANCZOS)
+        # Fill the fixed card window while preserving the worksheet's aspect
+        # ratio; crop only the centered overflow instead of stretching it.
+        fitted_image = fit_page_preserving_aspect(source, target_size)
     else:
         fitted_image = ImageOps.contain(source, target_size, method=Image.Resampling.LANCZOS)
     sheet = Image.new("RGB", (w, h), "white")

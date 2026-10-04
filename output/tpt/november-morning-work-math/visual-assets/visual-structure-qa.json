@@ -67,8 +67,8 @@
               305,
               970
             ],
-            "silhouette_iou": 0.550196,
-            "silhouette_matching_ratio": 0.601607,
+            "silhouette_iou": 0.530235,
+            "silhouette_matching_ratio": 0.588176,
             "passed": true
           },
           "level1": {
@@ -78,8 +78,8 @@
               535,
               970
             ],
-            "silhouette_iou": 0.777549,
-            "silhouette_matching_ratio": 0.790217,
+            "silhouette_iou": 0.76614,
+            "silhouette_matching_ratio": 0.780175,
             "passed": true
           },
           "level2": {
@@ -89,8 +89,8 @@
               765,
               970
             ],
-            "silhouette_iou": 0.810051,
-            "silhouette_matching_ratio": 0.8229,
+            "silhouette_iou": 0.805359,
+            "silhouette_matching_ratio": 0.818672,
             "passed": true
           },
           "level3": {
@@ -100,8 +100,8 @@
               995,
               970
             ],
-            "silhouette_iou": 0.740986,
-            "silhouette_matching_ratio": 0.759986,
+            "silhouette_iou": 0.735036,
+            "silhouette_matching_ratio": 0.755185,
             "passed": true
           },
           "answer_key": {
@@ -111,8 +111,8 @@
               1225,
               970
             ],
-            "silhouette_iou": 0.568004,
-            "silhouette_matching_ratio": 0.628,
+            "silhouette_iou": 0.564813,
+            "silhouette_matching_ratio": 0.628961,
             "passed": true
           }
         },
@@ -141,20 +141,20 @@
             },
             "actual": {
               "bbox": [
-                67,
-                503,
+                47,
+                502,
                 293,
                 958
               ],
-              "top_margin_ratio": 0.118868,
+              "top_margin_ratio": 0.116981,
               "bottom_margin_ratio": 0.022642,
-              "ink_span_ratio": 0.858491
+              "ink_span_ratio": 0.860377
             },
             "crop_mode": "cover",
             "deltas": {
-              "top_margin_ratio": 0.090566,
+              "top_margin_ratio": 0.088679,
               "bottom_margin_ratio": 0.0,
-              "ink_span_ratio": 0.090566
+              "ink_span_ratio": 0.08868
             },
             "passed": true
           },

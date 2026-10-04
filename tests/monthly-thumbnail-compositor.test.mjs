@@ -194,6 +194,24 @@ test("repeated generation preserves identical layout and style checksums", async
   assert.deepEqual(second.checksums, first.checksums);
 });
 
+test("landing worksheet fitting preserves source aspect ratio while filling the card window", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (400, 800), 'white')",
+      "fitted = module.fit_page_preserving_aspect(source, (220, 420))",
+      "assert fitted.size == (220, 420), fitted.size",
+      "assert fitted.getpixel((0, 0)) == (255, 255, 255)",
+    ].join(";"),
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
 test("stops before writing thumbnails when the PDF checksum is stale", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-stale-"));
   const manifest = JSON.parse(await readFile("examples/monthly-thumbnail.example.json", "utf8"));
