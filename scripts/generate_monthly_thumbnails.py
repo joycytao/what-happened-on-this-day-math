@@ -218,7 +218,10 @@ def card(canvas, page, box, label, label_style="pill", label_width=None, outline
     ImageDraw.Draw(shadow).rounded_rectangle((x + 8, y + 10, x + w + 8, y + h + 10), 12, fill=(43, 49, 63, 45))
     canvas.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(8)))
     source = Image.open(page).convert("RGB")
-    target_size = (w - 12, h - 12)
+    # Landing cards have no outline; fill their complete paper window so the
+    # synthetic white inset cannot create bright seams between overlapping
+    # worksheet screenshots. Other card modes retain their original inset.
+    target_size = (w, h) if fit_mode == "cover" else (w - 12, h - 12)
     if fit_mode == "cover":
         # Fill the fixed card window while preserving the worksheet's aspect
         # ratio; crop only the centered overflow instead of stretching it.

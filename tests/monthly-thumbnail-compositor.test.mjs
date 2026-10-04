@@ -212,6 +212,28 @@ test("landing worksheet fitting preserves source aspect ratio while filling the 
   assert.equal(result.status, 0, result.stderr || result.stdout);
 });
 
+test("landing cover cards do not add an artificial white border around worksheet screenshots", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "import tempfile",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (100, 200), (250, 248, 248))",
+      "page = tempfile.NamedTemporaryFile(suffix='.png')",
+      "source.save(page.name)",
+      "canvas = Image.new('RGBA', (40, 60), (0, 0, 0, 0))",
+      "module.card(canvas, page.name, (0, 0, 20, 40), '', label_style='none', outline=False, fit_mode='cover')",
+      "assert canvas.getpixel((0, 0))[:3] == (250, 248, 248), canvas.getpixel((0, 0))",
+      "page.close()",
+    ].join(";")
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
 test("stops before writing thumbnails when the PDF checksum is stale", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-stale-"));
   const manifest = JSON.parse(await readFile("examples/monthly-thumbnail.example.json", "utf8"));
