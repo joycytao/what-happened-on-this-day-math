@@ -33,7 +33,7 @@ const result = spawnSync(python, ["scripts/generate_monthly_thumbnails.py", "--m
 if (result.status !== 0) throw new Error(result.stderr.trim() || result.stdout.trim() || "thumbnail generation failed");
 
 const prefix = `${manifest.product.month}-${manifest.product.version}`;
-const names = ["cover", "whats-included", "different-math", "daily-practice"];
+const names = ["cover", "whats-included", "different-math", "daily-practice", "landing-page"];
 const assets = names.map((name) => {
   const assetPath = path.join(outputDir, `${prefix}-${name}.png`);
   if (!fs.existsSync(assetPath)) throw new Error(`generated thumbnail missing: ${assetPath}`);
@@ -63,7 +63,7 @@ const handoff = {
   sourcePdf: { path: path.relative(root, pdfPath), sha256: actualPdfSha256, pageCount: manifest.pdf.page_count },
   doodle: { path: path.relative(root, doodlePath), sha256: report.doodle_sha256 },
   assets,
-  landingPageImage: assets.find((asset) => asset.id === "different-math"),
+  landingPageImage: assets.find((asset) => asset.id === "landing-page"),
   sourcePages: manifest.templates,
   qa: {
     status: structuralQaReport.passed ? "review" : "blocked",

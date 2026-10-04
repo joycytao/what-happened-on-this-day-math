@@ -32,11 +32,11 @@ test("renders only the unique source pages declared by the October manifest", as
 
   const report = JSON.parse(await readFile(join(outputDir, "source-pages.json"), "utf8"));
   assert.deepEqual(report.pages.map(({ page, types }) => [page, types]), [
-    [1, ["different_math.story", "whats_included.story"]],
-    [2, ["daily_practice.worksheet", "different_math.level1", "whats_included.level1"]],
-    [3, ["different_math.level2", "whats_included.level2"]],
-    [4, ["different_math.level3", "whats_included.level3"]],
-    [125, ["whats_included.answer_key"]],
+    [1, ["different_math.story", "landing_page.reading_passage", "whats_included.story"]],
+    [2, ["daily_practice.worksheet", "different_math.level1", "landing_page.level1", "whats_included.level1"]],
+    [3, ["different_math.level2", "landing_page.level2", "whats_included.level2"]],
+    [4, ["different_math.level3", "landing_page.level3", "whats_included.level3"]],
+    [125, ["landing_page.answer_key", "whats_included.answer_key"]],
   ]);
 });
 
@@ -44,7 +44,7 @@ function pngDimensions(buffer) {
   return [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
 }
 
-test("generates the four requested 1260px monthly thumbnail concepts", async () => {
+test("generates the five requested 1260px monthly thumbnail concepts", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-"));
   const result = spawnSync(PYTHON, [
     "scripts/generate_monthly_thumbnails.py",
@@ -53,7 +53,7 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
   ], { encoding: "utf8" });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  const names = ["cover", "whats-included", "different-math", "daily-practice"];
+  const names = ["cover", "whats-included", "different-math", "daily-practice", "landing-page"];
   for (const name of names) {
     const image = await readFile(join(outputDir, `october-v1.0-${name}.png`));
     assert.deepEqual(pngDimensions(image), [1260, 1260], name);
@@ -65,6 +65,7 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
     whats_included: { headline: "WHAT’S INCLUDED", sourceLayout: "story, level 1, level 2 / level 3, answer key", headlineEmphasis: "three orange rays on each side", labelStyle: "orange pills narrower than cards", footer: "centered logo without divider lines", parityFixture: "references /thumbnail-assets/thumbnail-2-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
     different_math: { headline: ["October", "Morning Work Math"], supportingText: "31 Daily Word Problems · 3 Levels", sourceLayout: "three subtly tilted worksheet cards in one row", headlineSideLines: "short orange horizontal rules around the month", labelStyle: "large uppercase navy labels", parityFixture: "references /thumbnail-assets/thumbnail-3-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
     daily_practice: { headline: ["READY FOR", "DAILY PRACTICE"], useCases: ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], headlineEmphasis: "three orange rays on each side", useCaseSeparators: "vertical orange lines", sourceLayout: "one centered upright real worksheet preview", parityFixture: "references /thumbnail-assets/thumbnail-4-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
+    landing_page: { headline: ["October", "Morning Work Math"], supportingText: "31 Daily Word Problems · 3 Levels", sourceLayout: "five subtly tilted worksheet cards in one row", labels: ["READING PASSAGE", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"], parityFixture: "references /thumbnail-assets/thumbnail-5-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
   });
 });
 
@@ -191,6 +192,79 @@ test("repeated generation preserves identical layout and style checksums", async
   const second = JSON.parse(await readFile(join(secondDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.deepEqual(second.style, first.style);
   assert.deepEqual(second.checksums, first.checksums);
+});
+
+test("landing worksheet fitting preserves source aspect ratio while filling the card window", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (400, 800), 'white')",
+      "fitted = module.fit_page_preserving_aspect(source, (220, 420))",
+      "assert fitted.size == (220, 420), fitted.size",
+      "assert fitted.getpixel((0, 0)) == (255, 255, 255)",
+    ].join(";"),
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test("landing worksheet fitting keeps the left edge when horizontal cropping is required", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (800, 400), (0, 0, 255))",
+      "source.paste((255, 0, 0), (0, 0, 250, 400))",
+      "fitted = module.fit_page_preserving_aspect(source, (220, 420))",
+      "assert fitted.getpixel((0, 210)) == (255, 0, 0), fitted.getpixel((0, 210))",
+    ].join(";"),
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test("landing cover cards do not add an artificial white border around worksheet screenshots", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "import tempfile",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (100, 200), (250, 248, 248))",
+      "page = tempfile.NamedTemporaryFile(suffix='.png')",
+      "source.save(page.name)",
+      "canvas = Image.new('RGBA', (40, 60), (0, 0, 0, 0))",
+      "module.card(canvas, page.name, (0, 0, 20, 40), '', label_style='none', outline=False, fit_mode='cover')",
+      "assert canvas.getpixel((0, 0))[:3] == (250, 248, 248), canvas.getpixel((0, 0))",
+      "page.close()",
+    ].join(";")
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test("landing typography keeps the reference month band and multiline label scale", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "assert module.landing_month_font_size('November') == 150",
+      "assert module.landing_label_font(['READING', 'PASSAGE']).size >= 38",
+    ].join(";")
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
 });
 
 test("stops before writing thumbnails when the PDF checksum is stale", async () => {
