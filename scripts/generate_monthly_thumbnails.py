@@ -123,6 +123,17 @@ def landing_fitted(text: str, width: int, size: int, bold: bool = True):
     return landing_font(12, bold)
 
 
+def landing_month_font_size(month: str):
+    """Keep every month in the canonical reference's fixed title band."""
+    return 150
+
+
+def landing_label_font(lines):
+    """Fit each label line independently at the reference label scale."""
+    longest_line = max(lines, key=len)
+    return landing_fitted(longest_line, 232, 40)
+
+
 def landing_centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
     f = landing_fitted(text, max_width, size, bold)
     draw.text((630, y), text, anchor="ma", fill=fill, font=f)
@@ -407,7 +418,7 @@ def compose_landing_page(month, day_count, pages, out):
     # month name replaces October.
     # The reference month sits in the upper title band; longer month names
     # are fitted without changing that band's vertical center.
-    month_size = 150 if len(month) <= 7 else 158
+    month_size = landing_month_font_size(month)
     # November is longer than October, so keep its ink center in the same
     # upper-band vertical center instead of letting the font ascent pull it
     # toward the frame.
@@ -436,7 +447,7 @@ def compose_landing_page(month, day_count, pages, out):
         worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
         canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
         label_lines = label.split("\n")
-        label_font = landing_fitted(label.replace("\n", " "), 232, 30)
+        label_font = landing_label_font(label_lines)
         label_y = 973 if key in {"reading_passage", "answer_key"} else 969
         for index, line in enumerate(label_lines):
             draw.text(

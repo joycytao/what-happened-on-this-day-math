@@ -234,6 +234,21 @@ test("landing cover cards do not add an artificial white border around worksheet
   assert.equal(result.status, 0, result.stderr || result.stdout);
 });
 
+test("landing typography keeps the reference month band and multiline label scale", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "assert module.landing_month_font_size('November') == 150",
+      "assert module.landing_label_font(['READING', 'PASSAGE']).size >= 38",
+    ].join(";")
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
 test("stops before writing thumbnails when the PDF checksum is stale", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-stale-"));
   const manifest = JSON.parse(await readFile("examples/monthly-thumbnail.example.json", "utf8"));
