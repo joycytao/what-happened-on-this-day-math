@@ -49,7 +49,7 @@
       "asset": "landing-page",
       "stable_region_ssim": 0.556437,
       "pixel_comparison": {
-        "mean_absolute_error": 29.227059,
+        "mean_absolute_error": 29.227057,
         "matching_pixel_ratio_at_16": 0.834836,
         "compared_pixels": 915960,
         "diff_artifact": "/private/tmp/math-issue-139-landing-page/output/tpt/november-morning-work-math/visual-assets/landing-page-pixel-diff.png",
@@ -67,8 +67,8 @@
               305,
               970
             ],
-            "silhouette_iou": 0.310457,
-            "silhouette_matching_ratio": 0.504584,
+            "silhouette_iou": 0.550196,
+            "silhouette_matching_ratio": 0.601607,
             "passed": true
           },
           "level1": {
@@ -78,8 +78,8 @@
               535,
               970
             ],
-            "silhouette_iou": 0.381473,
-            "silhouette_matching_ratio": 0.458847,
+            "silhouette_iou": 0.777549,
+            "silhouette_matching_ratio": 0.790217,
             "passed": true
           },
           "level2": {
@@ -89,8 +89,8 @@
               765,
               970
             ],
-            "silhouette_iou": 0.409158,
-            "silhouette_matching_ratio": 0.48406,
+            "silhouette_iou": 0.810051,
+            "silhouette_matching_ratio": 0.8229,
             "passed": true
           },
           "level3": {
@@ -100,8 +100,8 @@
               995,
               970
             ],
-            "silhouette_iou": 0.404444,
-            "silhouette_matching_ratio": 0.505297,
+            "silhouette_iou": 0.740986,
+            "silhouette_matching_ratio": 0.759986,
             "passed": true
           },
           "answer_key": {
@@ -111,8 +111,199 @@
               1225,
               970
             ],
-            "silhouette_iou": 0.347491,
-            "silhouette_matching_ratio": 0.527575,
+            "silhouette_iou": 0.568004,
+            "silhouette_matching_ratio": 0.628,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      "card_content": {
+        "method": "normalized worksheet ink bounds; copy pixels excluded",
+        "regions": {
+          "reading_passage": {
+            "region": [
+              35,
+              440,
+              305,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                47,
+                455,
+                293,
+                958
+              ],
+              "top_margin_ratio": 0.028302,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.949057
+            },
+            "actual": {
+              "bbox": [
+                67,
+                503,
+                293,
+                958
+              ],
+              "top_margin_ratio": 0.118868,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.858491
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.090566,
+              "bottom_margin_ratio": 0.0,
+              "ink_span_ratio": 0.090566
+            },
+            "passed": true
+          },
+          "level1": {
+            "region": [
+              265,
+              440,
+              535,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                277,
+                452,
+                523,
+                954
+              ],
+              "top_margin_ratio": 0.022642,
+              "bottom_margin_ratio": 0.030189,
+              "ink_span_ratio": 0.94717
+            },
+            "actual": {
+              "bbox": [
+                277,
+                501,
+                523,
+                958
+              ],
+              "top_margin_ratio": 0.115094,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.862264
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.092452,
+              "bottom_margin_ratio": 0.007547,
+              "ink_span_ratio": 0.084906
+            },
+            "passed": true
+          },
+          "level2": {
+            "region": [
+              495,
+              440,
+              765,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                507,
+                452,
+                753,
+                953
+              ],
+              "top_margin_ratio": 0.022642,
+              "bottom_margin_ratio": 0.032075,
+              "ink_span_ratio": 0.945283
+            },
+            "actual": {
+              "bbox": [
+                507,
+                501,
+                753,
+                958
+              ],
+              "top_margin_ratio": 0.115094,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.862264
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.092452,
+              "bottom_margin_ratio": 0.009433,
+              "ink_span_ratio": 0.083019
+            },
+            "passed": true
+          },
+          "level3": {
+            "region": [
+              725,
+              440,
+              995,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                737,
+                454,
+                983,
+                956
+              ],
+              "top_margin_ratio": 0.026415,
+              "bottom_margin_ratio": 0.026415,
+              "ink_span_ratio": 0.94717
+            },
+            "actual": {
+              "bbox": [
+                737,
+                471,
+                983,
+                958
+              ],
+              "top_margin_ratio": 0.058491,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.918868
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.032076,
+              "bottom_margin_ratio": 0.003773,
+              "ink_span_ratio": 0.028302
+            },
+            "passed": true
+          },
+          "answer_key": {
+            "region": [
+              950,
+              440,
+              1225,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                962,
+                456,
+                1213,
+                958
+              ],
+              "top_margin_ratio": 0.030189,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.94717
+            },
+            "actual": {
+              "bbox": [
+                962,
+                471,
+                1213,
+                958
+              ],
+              "top_margin_ratio": 0.058491,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.918868
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.028302,
+              "bottom_margin_ratio": 0.0,
+              "ink_span_ratio": 0.028302
+            },
             "passed": true
           }
         },

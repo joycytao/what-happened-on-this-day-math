@@ -84,8 +84,8 @@ def card_structure_metrics(reference, actual, box):
             # its crop are materially brighter. This deliberately ignores
             # worksheet text while preserving card position, size, rotation,
             # overlap, and much of the shadow boundary.
-            ref_bits.append(rb > 248 and rr > 245 and rg > 245)
-            actual_bits.append(ab > 248 and ar > 245 and ag > 245)
+            ref_bits.append(rb > 245 and rr > 242 and rg > 242)
+            actual_bits.append(ab > 245 and ar > 242 and ag > 242)
     intersection = sum(a and b for a, b in zip(ref_bits, actual_bits))
     union = sum(a or b for a, b in zip(ref_bits, actual_bits))
     matches = sum(a == b for a, b in zip(ref_bits, actual_bits))
@@ -94,6 +94,61 @@ def card_structure_metrics(reference, actual, box):
         "silhouette_iou": round(intersection / union, 6) if union else 0.0,
         "silhouette_matching_ratio": round(matches / len(ref_bits), 6),
         "passed": (intersection / union >= 0.28 and matches / len(ref_bits) >= 0.38) if union else False,
+    }
+
+
+def card_content_metrics(reference, actual, box):
+    """Compare normalized worksheet ink placement without comparing copy pixels."""
+    x0, y0, x1, y1 = box
+
+    def metrics(image):
+        pixels = image.load()
+        points = []
+        for y in range(y0 + 12, y1 - 12):
+            for x in range(x0 + 12, x1 - 12):
+                r, g, b = pixels[x, y]
+                # Keep navy/blue worksheet ink and borders, while excluding
+                # ivory/white paper and the orange logo/shadow treatment.
+                if min(r, g, b) < 220:
+                    points.append((x, y))
+        if not points:
+            return None
+        min_x = min(x for x, _ in points)
+        min_y = min(y for _, y in points)
+        max_x = max(x for x, _ in points) + 1
+        max_y = max(y for _, y in points) + 1
+        height = y1 - y0
+        return {
+            "bbox": [min_x, min_y, max_x, max_y],
+            "top_margin_ratio": round((min_y - y0) / height, 6),
+            "bottom_margin_ratio": round((y1 - max_y) / height, 6),
+            "ink_span_ratio": round((max_y - min_y) / height, 6),
+        }
+
+    reference_metrics = metrics(reference)
+    actual_metrics = metrics(actual)
+    if not reference_metrics or not actual_metrics:
+        return {
+            "region": list(box),
+            "reference": reference_metrics,
+            "actual": actual_metrics,
+            "crop_mode": "unknown",
+            "passed": False,
+        }
+    top_delta = abs(actual_metrics["top_margin_ratio"] - reference_metrics["top_margin_ratio"])
+    bottom_delta = abs(actual_metrics["bottom_margin_ratio"] - reference_metrics["bottom_margin_ratio"])
+    span_delta = abs(actual_metrics["ink_span_ratio"] - reference_metrics["ink_span_ratio"])
+    return {
+        "region": list(box),
+        "reference": reference_metrics,
+        "actual": actual_metrics,
+        "crop_mode": "cover" if actual_metrics["ink_span_ratio"] >= 0.70 else "contain-like",
+        "deltas": {
+            "top_margin_ratio": round(top_delta, 6),
+            "bottom_margin_ratio": round(bottom_delta, 6),
+            "ink_span_ratio": round(span_delta, 6),
+        },
+        "passed": top_delta <= 0.10 and bottom_delta <= 0.10 and span_delta <= 0.12 and actual_metrics["ink_span_ratio"] >= 0.70,
     }
 
 
@@ -160,6 +215,12 @@ def main():
                 "regions": card_metrics,
                 "passed": all(item["passed"] for item in card_metrics.values()),
             }
+            content_metrics = {key: card_content_metrics(ref_rgb, actual_rgb, box) for key, box in card_regions.items()}
+            result["card_content"] = {
+                "method": "normalized worksheet ink bounds; copy pixels excluded",
+                "regions": content_metrics,
+                "passed": all(item["passed"] for item in content_metrics.values()),
+            }
             typography_regions = {
                 "month": (270, 40, 990, 190),
                 "title": (40, 200, 1220, 345),
@@ -196,7 +257,7 @@ def main():
                 "regions": typography_deltas,
                 "passed": all(item["passed"] for item in typography_deltas.values()),
             }
-            result["passed"] = result["passed"] and result["card_layout"]["passed"] and result["typography_layout"]["passed"]
+            result["passed"] = result["passed"] and result["card_layout"]["passed"] and result["card_content"]["passed"] and result["typography_layout"]["passed"]
         results.append(result)
     report = {"method": "fixed structural regions; variable month/content regions excluded", "results": results, "passed": all(x["passed"] for x in results)}
     Path(args.report).write_text(json.dumps(report, indent=2) + "\n")

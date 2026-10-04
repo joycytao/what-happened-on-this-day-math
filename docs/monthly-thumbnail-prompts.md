@@ -261,9 +261,12 @@ these fixed regions aligned to the October reference:
   than the middle card. Preserve the fixture's proportions: wide outer cards
   and narrower inner cards (about 260×490 for the outer cards and 225×490 for
   the inner cards). The cards must not become a uniform flat grid.
-- Card previews: use the real November PDF pages, cropped/scaled into the
-  reference card windows without changing the card geometry. Do not let page
-  content determine card size or push cards vertically.
+- Card previews: use the real November PDF pages, scaled into the fixed
+  reference card windows without changing the card geometry. The landing
+  compositor must fill each portrait window with the complete rendered page
+  (including its real logo) instead of using `contain`, which creates false
+  top/bottom white bars. Do not let page content determine card size or push
+  cards vertically, and do not crop away the page's bottom logo.
 - Labels: preserve the reference uppercase navy labels, font weight, size,
   baseline, and the two-line `READING / PASSAGE` wrap. Labels must remain
   below the cards and above the footer region.
@@ -284,7 +287,9 @@ footer/logo. A single aggregate `passed=true` with a permissive global
 threshold is insufficient. Record each region's bounding box, clipping or
 overflow result, pixel-match ratio, SSIM/MAE, and an overlay/difference image;
 variable November worksheet copy may be excluded only inside the card content
-windows.
+windows; QA must still measure each card's normalized ink bounds, top/bottom
+whitespace ratios, and full-page coverage so a contain-like preview cannot
+pass as a reference-aligned card.
 
 Replace only month-specific content:
 - month name;

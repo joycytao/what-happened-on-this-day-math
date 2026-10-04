@@ -26,6 +26,12 @@ test("November TPT handoff contains five generated assets and a landing-page ima
   assert.equal(Object.keys(landingQa.card_layout.regions).length, 5);
   assert.equal(landingQa.typography_layout.passed, true);
   assert.equal(Object.keys(landingQa.typography_layout.regions).length, 4);
+  assert.equal(landingQa.card_content.passed, true);
+  assert.equal(Object.keys(landingQa.card_content.regions).length, 5);
+  for (const region of Object.values(landingQa.card_content.regions)) {
+    assert.equal(region.crop_mode, "cover");
+    assert.equal(region.passed, true);
+  }
   assert.equal(landingQa.pixel_comparison.compared_pixels > 0, true);
   assert.equal(landingQa.pixel_comparison.matching_pixel_ratio_at_16 >= 0.75, true);
   assert.equal(await readFile(landingQa.pixel_comparison.diff_artifact).then(() => true), true);
