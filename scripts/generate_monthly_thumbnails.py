@@ -219,7 +219,7 @@ def fit_page_preserving_aspect(source, target_size):
         source,
         target_size,
         method=Image.Resampling.LANCZOS,
-        centering=(0.5, 0.5),
+        centering=(0.0, 0.5),
     )
 
 

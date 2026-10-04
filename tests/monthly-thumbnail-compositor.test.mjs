@@ -212,6 +212,24 @@ test("landing worksheet fitting preserves source aspect ratio while filling the 
   assert.equal(result.status, 0, result.stderr || result.stdout);
 });
 
+test("landing worksheet fitting keeps the left edge when horizontal cropping is required", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (800, 400), (0, 0, 255))",
+      "source.paste((255, 0, 0), (0, 0, 250, 400))",
+      "fitted = module.fit_page_preserving_aspect(source, (220, 420))",
+      "assert fitted.getpixel((0, 210)) == (255, 0, 0), fitted.getpixel((0, 210))",
+    ].join(";"),
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
 test("landing cover cards do not add an artificial white border around worksheet screenshots", () => {
   const result = spawnSync(PYTHON, [
     "-c",
