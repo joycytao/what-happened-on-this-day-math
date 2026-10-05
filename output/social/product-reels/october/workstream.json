@@ -1,0 +1,342 @@
+{
+  "valid": true,
+  "errors": [],
+  "schemaVersion": "1.0.0",
+  "campaignId": "october-product-reels",
+  "month": "October",
+  "productName": "October Morning Work Math",
+  "redirectUrl": "https://6pm-studio.com/go/october",
+  "numberOfDays": 31,
+  "packageFeatures": [
+    "31 daily word problems",
+    "three differentiated levels",
+    "historical mini-stories"
+  ],
+  "sourceRelease": {
+    "manifestPath": "releases/october-v1.0.manifest.json",
+    "packageId": "october-morning-work-math",
+    "packageVersion": "v1.0",
+    "sourceCommit": "6adca38",
+    "releaseReady": true,
+    "stale": false,
+    "gates": {
+      "content": true,
+      "mathematics": true,
+      "source": true,
+      "layout": true,
+      "pdf": true,
+      "cover": true,
+      "derivedAssets": true
+    },
+    "artifactChecksums": {
+      "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
+      "preview": "40058f59f69f9715f84612e19179c29f257d4543884ae10e4da06b3dc42d86ff",
+      "readingPassage": "374f3d5c791503a02433de446c08b0c28002b31f38e7c35c6101298c18686535",
+      "level1": "3c465bd4ab5ac832cc77a156dc8edbe8971bbd2f173490a44492c1b207c53a20",
+      "level2": "2a5a523be1f7f7fe82b28b0f242b43d15ec95d79a2a00b669cf503f983904a85",
+      "level3": "f56cc8764f5c403bff75f9395b446922377458ed2a8cbce4f3ebd5f107e65316"
+    }
+  },
+  "pairedWorkstream": {
+    "type": "carousel",
+    "inputPath": "examples/october-carousel-workstream.input.json",
+    "generator": "scripts/generate-carousels.mjs",
+    "outputPath": "output/social/carousels/october-carousels/workstream.json"
+  },
+  "records": [
+    {
+      "schemaVersion": "1.0.0",
+      "id": "october-week-1",
+      "month": "October",
+      "productName": "October Morning Work Math",
+      "productUrl": "https://6pm-studio.com/go/october",
+      "canvas": "1080x1920",
+      "fps": 30,
+      "durationSeconds": 10,
+      "audio": "silent-by-default",
+      "hook": "I think I just discovered a simple way to make monthly math practice feel doable.",
+      "overlay": [
+        "A full month of story-based math practice",
+        "Reading passage + Level 1 + Level 2 + Level 3",
+        "October Morning Work Math",
+        "See the full package on TPT"
+      ],
+      "evidenceAssets": [
+        "output/thumbnails/october-v1.0-cover.png",
+        "output/thumbnails/october-v1.0-whats-included.png",
+        "reports/october-worksheet-pages/01-reading-passage.svg",
+        "reports/october-worksheet-pages/01-level1.svg",
+        "reports/october-worksheet-pages/01-level2.svg",
+        "reports/october-worksheet-pages/01-level3.svg"
+      ],
+      "scenes": [
+        {
+          "asset": "output/thumbnails/october-v1.0-cover.png",
+          "treatment": "full",
+          "note": "Open with the monthly product cover."
+        },
+        {
+          "asset": "output/thumbnails/october-v1.0-whats-included.png",
+          "treatment": "controlled-crop",
+          "note": "Move through the product preview."
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-reading-passage.svg",
+          "treatment": "crop",
+          "note": "Show a reading-passage crop."
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level1.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level2.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level3.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "output/thumbnails/october-v1.0-cover.png",
+          "treatment": "full",
+          "note": "End on the cover and monthly CTA."
+        }
+      ],
+      "cta": {
+        "text": "Find October Morning Work Math on TPT",
+        "redirectUrl": "https://6pm-studio.com/go/october"
+      },
+      "captionDirection": "Keep the caption focused on what is included rather than making a broad learning claim.",
+      "claimPolicy": {
+        "sourceAssetsOnly": true,
+        "noTestimonials": true,
+        "noUnsupportedOutcomes": true,
+        "noAnswerKeyExposure": true
+      },
+      "qa": {
+        "humanReviewRequired": true,
+        "answerKeyExposed": false,
+        "publicDisplayStatus": "review",
+        "missingAssets": [],
+        "monthMatch": true,
+        "redirectMatch": true
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "october-week-2",
+      "month": "October",
+      "productName": "October Morning Work Math",
+      "productUrl": "https://6pm-studio.com/go/october",
+      "canvas": "1080x1920",
+      "fps": 30,
+      "durationSeconds": 10,
+      "audio": "silent-by-default",
+      "hook": "What no one tells you about math practice: one topic can need different levels of support.",
+      "overlay": [
+        "Same monthly theme",
+        "Three levels of math practice",
+        "Choose the page that fits the learner",
+        "Explore October Morning Work Math"
+      ],
+      "evidenceAssets": [
+        "reports/october-worksheet-pages/01-level1.svg",
+        "reports/october-worksheet-pages/01-level2.svg",
+        "reports/october-worksheet-pages/01-level3.svg",
+        "output/thumbnails/october-v1.0-cover.png"
+      ],
+      "scenes": [
+        {
+          "asset": "reports/october-worksheet-pages/01-level1.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level2.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level3.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "output/thumbnails/october-v1.0-cover.png",
+          "treatment": "full",
+          "note": "Return to the monthly cover and CTA."
+        }
+      ],
+      "cta": {
+        "text": "Find October Morning Work Math on TPT",
+        "redirectUrl": "https://6pm-studio.com/go/october"
+      },
+      "captionDirection": "Describe the three-level structure without claiming that one level is universally correct for a child.",
+      "claimPolicy": {
+        "sourceAssetsOnly": true,
+        "noTestimonials": true,
+        "noUnsupportedOutcomes": true,
+        "noAnswerKeyExposure": true
+      },
+      "qa": {
+        "humanReviewRequired": true,
+        "answerKeyExposed": false,
+        "publicDisplayStatus": "review",
+        "missingAssets": [],
+        "monthMatch": true,
+        "redirectMatch": true
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "october-week-3",
+      "month": "October",
+      "productName": "October Morning Work Math",
+      "productUrl": "https://6pm-studio.com/go/october",
+      "canvas": "1080x1920",
+      "fps": 30,
+      "durationSeconds": 10,
+      "audio": "silent-by-default",
+      "hook": "I used to believe reading and math had to be practiced separately—until I saw how one monthly topic can connect them.",
+      "overlay": [
+        "Start with the reading passage",
+        "Notice the numbers and details",
+        "Move into differentiated math practice",
+        "October Morning Work Math"
+      ],
+      "evidenceAssets": [
+        "reports/october-worksheet-pages/01-reading-passage.svg",
+        "reports/october-worksheet-pages/01-level1.svg",
+        "reports/october-worksheet-pages/01-level2.svg",
+        "reports/october-worksheet-pages/01-level3.svg",
+        "output/thumbnails/october-v1.0-cover.png"
+      ],
+      "scenes": [
+        {
+          "asset": "reports/october-worksheet-pages/01-reading-passage.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-reading-passage.svg",
+          "treatment": "detail-zoom",
+          "note": "Use a controlled zoom on a relevant detail or number."
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level1.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level2.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level3.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "output/thumbnails/october-v1.0-cover.png",
+          "treatment": "full",
+          "note": "End with the cover and CTA."
+        }
+      ],
+      "cta": {
+        "text": "Find October Morning Work Math on TPT",
+        "redirectUrl": "https://6pm-studio.com/go/october"
+      },
+      "captionDirection": "Explain the sequence from reading passage to math task without implying that every page is shown.",
+      "claimPolicy": {
+        "sourceAssetsOnly": true,
+        "noTestimonials": true,
+        "noUnsupportedOutcomes": true,
+        "noAnswerKeyExposure": true
+      },
+      "qa": {
+        "humanReviewRequired": true,
+        "answerKeyExposed": false,
+        "publicDisplayStatus": "review",
+        "missingAssets": [],
+        "monthMatch": true,
+        "redirectMatch": true
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "october-week-4",
+      "month": "October",
+      "productName": "October Morning Work Math",
+      "productUrl": "https://6pm-studio.com/go/october",
+      "canvas": "1080x1920",
+      "fps": 30,
+      "durationSeconds": 10,
+      "audio": "silent-by-default",
+      "hook": "If you are looking for a ready-to-use monthly math routine, this is for you.",
+      "overlay": [
+        "Choose a day",
+        "Read the short passage",
+        "Complete the math page that fits",
+        "Repeat throughout the month",
+        "Explore October Morning Work Math"
+      ],
+      "evidenceAssets": [
+        "output/thumbnails/october-v1.0-cover.png",
+        "reports/october-worksheet-pages/01-reading-passage.svg",
+        "reports/october-worksheet-pages/01-level2.svg",
+        "output/thumbnails/october-v1.0-whats-included.png"
+      ],
+      "scenes": [
+        {
+          "asset": "output/thumbnails/october-v1.0-cover.png",
+          "treatment": "full",
+          "note": "Show the cover as the starting point."
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-reading-passage.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "reports/october-worksheet-pages/01-level2.svg",
+          "treatment": "crop",
+          "note": ""
+        },
+        {
+          "asset": "output/thumbnails/october-v1.0-whats-included.png",
+          "treatment": "collage",
+          "note": "Show a small collage without inventing a classroom or family scene."
+        },
+        {
+          "asset": "output/thumbnails/october-v1.0-cover.png",
+          "treatment": "full",
+          "note": "End on the monthly CTA."
+        }
+      ],
+      "cta": {
+        "text": "Find October Morning Work Math on TPT",
+        "redirectUrl": "https://6pm-studio.com/go/october"
+      },
+      "captionDirection": "Position the product as a ready-to-use resource for a routine without claiming every family or classroom uses it the same way.",
+      "claimPolicy": {
+        "sourceAssetsOnly": true,
+        "noTestimonials": true,
+        "noUnsupportedOutcomes": true,
+        "noAnswerKeyExposure": true
+      },
+      "qa": {
+        "humanReviewRequired": true,
+        "answerKeyExposed": false,
+        "publicDisplayStatus": "review",
+        "missingAssets": [],
+        "monthMatch": true,
+        "redirectMatch": true
+      }
+    }
+  ]
+}

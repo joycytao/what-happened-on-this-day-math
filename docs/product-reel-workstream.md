@@ -52,3 +52,24 @@ Copy the input example, replace the month/product/URLs, verify the actual asset
 paths and day count, and write four new hooks only when the package's evidence
 supports them. Do not retain October-specific wording or hashtags in another
 month.
+
+## October release manifest
+
+The approved October input is
+`examples/october-product-reel-workstream.input.json`; its deterministic output
+is `output/social/product-reels/october/workstream.json`. It records the
+October package identity, source release manifest, source commit, and SHA-256
+checksums for every evidence asset. The former Smithsonian source returned
+HTTP 403, so the October 8 claim now uses two accessible official NOAA sources;
+the source gate passes without a waiver. The validator still requires an
+explicit owner waiver whenever a future source gate is intentionally false.
+
+The paired Carousel workstream consumes
+`examples/october-carousel-workstream.input.json` plus the Product Reel output:
+
+```bash
+npm run social:carousels -- \
+  --input examples/october-carousel-workstream.input.json \
+  --reels output/social/product-reels/october/workstream.json \
+  --output output/social/carousels/october-carousels/workstream.json
+```

@@ -57,3 +57,59 @@ test("blocks missing product evidence, redirect mismatch, and answer-key assets"
   assert.match(result.errors.join("\n"), /level2/);
   assert.match(result.errors.join("\n"), /answer-key/);
 });
+
+test("requires an explicit owner waiver when the source gate is false", () => {
+  const release = {
+    manifestPath: "releases/october-v1.0.manifest.json",
+    packageId: "october-morning-work-math",
+    packageVersion: "v1.0",
+    sourceCommit: "6adca38",
+    releaseReady: false,
+    stale: false,
+    gates: { content: true, mathematics: true, source: false, layout: true, pdf: true, cover: true, derivedAssets: true },
+    artifactChecksums: Object.fromEntries(["cover", "preview", "readingPassage", "level1", "level2", "level3"].map((key) => [key, "a".repeat(64)]))
+  };
+  const withoutWaiver = validateProductReelInput({ ...input, release });
+  assert.equal(withoutWaiver.valid, false);
+  assert.match(withoutWaiver.errors.join("\n"), /owner waiver/);
+
+  const withWaiver = buildProductReelWorkstream({
+    ...input,
+    release: { ...release, sourceGateWaived: true, waiverReason: "Owner-approved October source-gate waiver for Product Reel manifest generation." }
+  });
+  assert.equal(withWaiver.valid, true, withWaiver.errors.join("\n"));
+  assert.equal(withWaiver.sourceRelease.sourceGateWaived, true);
+  assert.equal(withWaiver.sourceRelease.gates.source, false);
+});
+
+test("does not allow a stale or unreleased manifest to pass without the waiver", () => {
+  const release = {
+    manifestPath: "releases/october-v1.0.manifest.json",
+    packageId: "october-morning-work-math",
+    packageVersion: "v1.0",
+    sourceCommit: "6adca38",
+    releaseReady: false,
+    stale: true,
+    gates: { content: true, mathematics: true, source: true, layout: true, pdf: true, cover: true, derivedAssets: true },
+    artifactChecksums: Object.fromEntries(["cover", "preview", "readingPassage", "level1", "level2", "level3"].map((key) => [key, "a".repeat(64)]))
+  };
+  const result = validateProductReelInput({ ...input, release });
+  assert.equal(result.valid, false);
+  assert.match(result.errors.join("\n"), /release-ready/);
+  assert.match(result.errors.join("\n"), /non-stale/);
+});
+
+test("preserves a machine-readable paired Carousel workstream reference", () => {
+  const result = buildProductReelWorkstream({
+    ...input,
+    pairedWorkstream: {
+      type: "carousel",
+      inputPath: "examples/october-carousel-workstream.input.json",
+      generator: "scripts/generate-carousels.mjs",
+      outputPath: "output/social/carousels/october-carousels/workstream.json"
+    }
+  });
+  assert.equal(result.valid, true);
+  assert.equal(result.pairedWorkstream.type, "carousel");
+  assert.equal(result.pairedWorkstream.generator, "scripts/generate-carousels.mjs");
+});
