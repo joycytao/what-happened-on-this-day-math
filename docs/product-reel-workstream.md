@@ -59,9 +59,10 @@ The approved October input is
 `examples/october-product-reel-workstream.input.json`; its deterministic output
 is `output/social/product-reels/october/workstream.json`. It records the
 October package identity, source release manifest, source commit, and SHA-256
-checksums for every evidence asset. The October source gate is preserved as
-`source: false` and explicitly marked with the owner-approved waiver in the
-input; the waiver does not rewrite the underlying release QA report.
+checksums for every evidence asset. The former Smithsonian source returned
+HTTP 403, so the October 8 claim now uses two accessible official NOAA sources;
+the source gate passes without a waiver. The validator still requires an
+explicit owner waiver whenever a future source gate is intentionally false.
 
 The paired Carousel workstream consumes
 `examples/october-carousel-workstream.input.json` plus the Product Reel output:

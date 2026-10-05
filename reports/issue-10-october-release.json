@@ -1,5 +1,5 @@
 {
-  "valid": false,
+  "valid": true,
   "month": 10,
   "dayCount": 31,
   "expectedPageCount": 127,
@@ -14,13 +14,11 @@
   "validation": {
     "content": true,
     "mathematics": true,
-    "source": false,
+    "source": true,
     "layout": true,
     "pdf": true
   },
-  "failureDetails": [
-    "source: smithsonian-octopus source returned HTTP 403"
-  ],
+  "failureDetails": [],
   "visualInspection": {
     "valid": true,
     "pages": [
@@ -46,11 +44,9 @@
       "errors": []
     },
     "source": {
-      "valid": false,
+      "valid": true,
       "checked": true,
-      "errors": [
-        "smithsonian-octopus source returned HTTP 403"
-      ],
+      "errors": [],
       "results": [
         {
           "id": "ford-model-t",
@@ -221,11 +217,18 @@
           "ok": true
         },
         {
-          "id": "smithsonian-octopus",
-          "url": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
-          "status": 403,
-          "finalUrl": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
-          "ok": false
+          "id": "noaa-cephalopod-days",
+          "url": "https://sanctuaries.noaa.gov/news/oct20/cephalopod-days.html",
+          "status": 200,
+          "finalUrl": "https://sanctuaries.noaa.gov/news/oct20/cephalopod-days.html",
+          "ok": true
+        },
+        {
+          "id": "noaa-octopus-intelligence",
+          "url": "https://www.fisheries.noaa.gov/science-blog/view-inside-kodiak-lab-aquarium-post-4",
+          "status": 200,
+          "finalUrl": "https://www.fisheries.noaa.gov/science-blog/view-inside-kodiak-lab-aquarium-post-4",
+          "ok": true
         },
         {
           "id": "fifa-pele",
