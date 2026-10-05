@@ -4,6 +4,7 @@ const MONTHS = [
 ];
 
 const REQUIRED_ASSETS = ["cover", "preview", "readingPassage", "level1", "level2", "level3"];
+const SHA256_PATTERN = /^[a-f0-9]{64}$/;
 
 const WEEK_PLANS = [
   {
@@ -55,6 +56,41 @@ function normalizeMonth(value) {
   return match ?? "";
 }
 
+function validateSourceRelease(input, errors) {
+  const release = input.release;
+  if (release === undefined) return null;
+  if (!release || typeof release !== "object" || Array.isArray(release)) {
+    pushError(errors, "release must be an object when provided");
+    return null;
+  }
+  for (const field of ["manifestPath", "packageId", "packageVersion", "sourceCommit"]) {
+    if (typeof release[field] !== "string" || release[field].trim() === "") pushError(errors, `release.${field} is required`);
+  }
+  if (release.releaseReady !== true && release.sourceGateWaived !== true) {
+    pushError(errors, "release must be release-ready unless the source-gate waiver is recorded");
+  }
+  if (release.stale !== false) pushError(errors, "release manifest must be explicitly non-stale");
+  if (!release.gates || typeof release.gates !== "object" || Array.isArray(release.gates)) {
+    pushError(errors, "release.gates is required");
+  } else {
+    for (const gate of ["content", "mathematics", "layout", "pdf", "cover", "derivedAssets"]) {
+      if (release.gates[gate] !== true) pushError(errors, `release gate must pass: ${gate}`);
+    }
+    if (release.gates.source !== true) {
+      if (release.sourceGateWaived !== true) pushError(errors, "release source gate is false and no owner waiver is recorded");
+      if (typeof release.waiverReason !== "string" || release.waiverReason.trim() === "") pushError(errors, "release.waiverReason is required for a source-gate waiver");
+    }
+  }
+  if (!release.artifactChecksums || typeof release.artifactChecksums !== "object" || Array.isArray(release.artifactChecksums)) {
+    pushError(errors, "release.artifactChecksums is required");
+  } else {
+    for (const asset of REQUIRED_ASSETS) {
+      if (!SHA256_PATTERN.test(String(release.artifactChecksums[asset] ?? ""))) pushError(errors, `release artifact checksum is invalid: ${asset}`);
+    }
+  }
+  return release;
+}
+
 export function validateProductReelInput(input = {}) {
   const errors = [];
   const month = normalizeMonth(input.month);
@@ -72,10 +108,11 @@ export function validateProductReelInput(input = {}) {
   const assets = input.assets ?? {};
   for (const key of REQUIRED_ASSETS) if (typeof assets[key] !== "string" || assets[key].trim() === "") pushError(errors, `missing product evidence asset: ${key}`);
   if (typeof assets.answerKey === "string" && assets.answerKey.trim() !== "") pushError(errors, "answer-key assets are not permitted in Product Reels");
+  const release = validateSourceRelease(input, errors);
   return {
     valid: errors.length === 0,
     errors,
-    normalized: { ...input, month, productName, redirectUrl, productUrl, assets: { ...assets } }
+    normalized: { ...input, month, productName, redirectUrl, productUrl, assets: { ...assets }, release }
   };
 }
 
@@ -124,6 +161,8 @@ export function buildProductReelWorkstream(input = {}) {
     redirectUrl: normalized.redirectUrl,
     numberOfDays: normalized.numberOfDays,
     packageFeatures: [...normalized.packageFeatures],
+    ...(normalized.release ? { sourceRelease: structuredClone(normalized.release) } : {}),
+    ...(normalized.pairedWorkstream ? { pairedWorkstream: structuredClone(normalized.pairedWorkstream) } : {}),
     records
   };
 }

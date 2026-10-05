@@ -1,0 +1,13 @@
+{
+  "month": "October",
+  "productName": "October Morning Work Math",
+  "redirectUrl": "https://6pm-studio.com/go/october",
+  "assets": {
+    "cover": "output/thumbnails/october-v1.0-cover.png",
+    "preview": "output/thumbnails/october-v1.0-whats-included.png",
+    "readingPassage": "reports/october-worksheet-pages/01-reading-passage.svg",
+    "level1": "reports/october-worksheet-pages/01-level1.svg",
+    "level2": "reports/october-worksheet-pages/01-level2.svg",
+    "level3": "reports/october-worksheet-pages/01-level3.svg"
+  }
+}

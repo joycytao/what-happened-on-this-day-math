@@ -8,7 +8,7 @@
 - Template version: 1.0.0.
 - Visual sample pages rasterized: 1, 2, 3, 4, 124, 125, 126, 127.
 - Validation gates: content=true, mathematics=true, source=false, layout=true, PDF=true.
-- Failure details: source: nps-edison-light source request failed: TypeError: fetch failed.
+- Failure details: source: smithsonian-octopus source returned HTTP 403.
 
 ## Release decision
 

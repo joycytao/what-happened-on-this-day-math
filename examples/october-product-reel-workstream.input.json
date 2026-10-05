@@ -1,0 +1,54 @@
+{
+  "month": "October",
+  "productName": "October Morning Work Math",
+  "redirectUrl": "https://6pm-studio.com/go/october",
+  "productUrl": "https://6pm-studio.com/go/october",
+  "primaryAudience": "elementary teachers and homeschool families",
+  "numberOfDays": 31,
+  "packageFeatures": [
+    "31 daily word problems",
+    "three differentiated levels",
+    "historical mini-stories"
+  ],
+  "pairedWorkstream": {
+    "type": "carousel",
+    "inputPath": "examples/october-carousel-workstream.input.json",
+    "generator": "scripts/generate-carousels.mjs",
+    "outputPath": "output/social/carousels/october-carousels/workstream.json"
+  },
+  "assets": {
+    "cover": "output/thumbnails/october-v1.0-cover.png",
+    "preview": "output/thumbnails/october-v1.0-whats-included.png",
+    "readingPassage": "reports/october-worksheet-pages/01-reading-passage.svg",
+    "level1": "reports/october-worksheet-pages/01-level1.svg",
+    "level2": "reports/october-worksheet-pages/01-level2.svg",
+    "level3": "reports/october-worksheet-pages/01-level3.svg"
+  },
+  "release": {
+    "manifestPath": "releases/october-v1.0.manifest.json",
+    "packageId": "october-morning-work-math",
+    "packageVersion": "v1.0",
+    "sourceCommit": "6adca38",
+    "releaseReady": false,
+    "stale": false,
+    "sourceGateWaived": true,
+    "waiverReason": "Owner-approved October source-gate waiver for Product Reel manifest generation.",
+    "gates": {
+      "content": true,
+      "mathematics": true,
+      "source": false,
+      "layout": true,
+      "pdf": true,
+      "cover": true,
+      "derivedAssets": true
+    },
+    "artifactChecksums": {
+      "cover": "33594e598e473db308e03fdb5247e09478d9b49709100ca1ffd8f72e0cb33981",
+      "preview": "40058f59f69f9715f84612e19179c29f257d4543884ae10e4da06b3dc42d86ff",
+      "readingPassage": "374f3d5c791503a02433de446c08b0c28002b31f38e7c35c6101298c18686535",
+      "level1": "3c465bd4ab5ac832cc77a156dc8edbe8971bbd2f173490a44492c1b207c53a20",
+      "level2": "2a5a523be1f7f7fe82b28b0f242b43d15ec95d79a2a00b669cf503f983904a85",
+      "level3": "f56cc8764f5c403bff75f9395b446922377458ed2a8cbce4f3ebd5f107e65316"
+    }
+  }
+}

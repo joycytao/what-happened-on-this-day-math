@@ -46,7 +46,7 @@
       "source_pdf": "v1.0",
       "source_pages": {"story": 1, "level1": 2, "level2": 3, "level3": 4, "answer_key": 125},
       "output_path": "output/thumbnails/october-v1.0-whats-included.png",
-      "sha256": "47bf78895e21c118c5ddb0134480b2995c983c2095e2ccd280825cfd133da829",
+      "sha256": "40058f59f69f9715f84612e19179c29f257d4543884ae10e4da06b3dc42d86ff",
       "dimensions": [1260, 1260],
       "format": "one-packet-three-levels"
     },

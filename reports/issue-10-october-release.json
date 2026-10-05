@@ -19,7 +19,7 @@
     "pdf": true
   },
   "failureDetails": [
-    "source: nps-edison-light source request failed: TypeError: fetch failed"
+    "source: smithsonian-octopus source returned HTTP 403"
   ],
   "visualInspection": {
     "valid": true,
@@ -49,7 +49,7 @@
       "valid": false,
       "checked": true,
       "errors": [
-        "nps-edison-light source request failed: TypeError: fetch failed"
+        "smithsonian-octopus source returned HTTP 403"
       ],
       "results": [
         {
@@ -111,8 +111,9 @@
         {
           "id": "nps-edison-light",
           "url": "https://www.npshistory.com/publications/edis/brochures/2008.pdf",
-          "error": "TypeError: fetch failed",
-          "ok": false
+          "status": 200,
+          "finalUrl": "https://www.npshistory.com/publications/edis/brochures/2008.pdf",
+          "ok": true
         },
         {
           "id": "nps-statue-liberty",
@@ -222,9 +223,9 @@
         {
           "id": "smithsonian-octopus",
           "url": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
-          "status": 200,
+          "status": 403,
           "finalUrl": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
-          "ok": true
+          "ok": false
         },
         {
           "id": "fifa-pele",
@@ -281,7 +282,7 @@
       "actualPageCount": 127,
       "firstPageSize": "1158.75 x 1500 pts",
       "lastPageSize": "1158.75 x 1499.25 pts",
-      "path": "/private/tmp/what-happened-on-this-day-math-issue-10/output/pdf/october-worksheet-packet.pdf"
+      "path": "/private/tmp/math-issue-142-product-reel-manifest/output/pdf/october-worksheet-packet.pdf"
     }
   }
 }
