@@ -378,23 +378,41 @@ def compose_daily_practice(month, pages, out):
         # for future monthly manifests.
         Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
         return
-    canvas = base_canvas()
+    # October is the source of truth for this thumbnail's frame, typography,
+    # footer, and logo. Start from the checked-in parity fixture so those
+    # fixed regions cannot drift while the real worksheet page changes by
+    # month. November intentionally replaces only the worksheet preview and
+    # the header accents requested by the owner.
+    if canonical.exists():
+        canvas = Image.open(canonical).convert("RGBA").resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+    else:
+        canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    centered(draw, "READY FOR", 42, 114, 1180)
-    accented_title(draw, "DAILY PRACTICE", 174, 104, 1180)
-    card(canvas, pages["worksheet"], (325, 320, 610, 700), "", label_style="none")
-    items = ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"]
-    widths = [draw.textbbox((0, 0), item, font=font(30))[2] for item in items]
-    total = sum(widths) + 2 * 62
-    x = (SIZE - total) // 2
-    for index, item in enumerate(items):
-        draw.text((x, 1050), item, anchor="la", fill=NAVY, font=font(30))
-        x += widths[index]
-        if index < len(items) - 1:
-            draw.line((x + 31, 1040, x + 31, 1080), fill=ORANGE, width=6)
-            x += 62
-    footer(canvas)
-    logo(canvas, pages["worksheet"])
+
+    # Replace the diagonal rays in the October fixture with the requested
+    # clean horizontal arrow brackets, while leaving the headline untouched.
+    draw.rectangle((92, 92, 218, 222), fill=BG)
+    draw.rectangle((1042, 92, 1168, 222), fill=BG)
+    arrow_width = 8
+    draw.line((122, 157, 190, 157), fill=ORANGE, width=arrow_width)
+    draw.line((190, 157, 169, 139), fill=ORANGE, width=arrow_width)
+    draw.line((190, 157, 169, 175), fill=ORANGE, width=arrow_width)
+    draw.line((1138, 157, 1070, 157), fill=ORANGE, width=arrow_width)
+    draw.line((1070, 157, 1091, 139), fill=ORANGE, width=arrow_width)
+    draw.line((1070, 157, 1091, 175), fill=ORANGE, width=arrow_width)
+
+    # The October preview window is a borderless, softly shadowed 601x696
+    # crop. Fit the real November PDF page into that same window without
+    # stretching it; the shadow remains supplied by the canonical fixture.
+    preview_box = (329, 323, 930, 1019)
+    source = Image.open(pages["worksheet"]).convert("RGB")
+    fitted_image = ImageOps.fit(
+        source,
+        (preview_box[2] - preview_box[0], preview_box[3] - preview_box[1]),
+        method=Image.Resampling.LANCZOS,
+        centering=(0.5, 0.5),
+    )
+    canvas.paste(fitted_image, preview_box[:2])
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
@@ -549,10 +567,10 @@ def main():
         "pdf_sha256": actual_pdf_sha256,
         "doodle_sha256": hashlib.sha256(doodle_path.read_bytes()).hexdigest() if doodle_path else None,
         "copyConcepts": {
-            "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin" if doodle_path is None else str(doodle_path), "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading"},
+            "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin" if doodle_path is None else manifest["doodle"]["path"], "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading"},
             "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "three subtly tilted worksheet cards in one row", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
-            "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered upright real worksheet preview", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
+            "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "horizontal arrow brackets on each side for the November variant", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered borderless real worksheet preview with October-matched shadow and crop", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "landing_page": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "five subtly tilted worksheet cards in one row", "labels": ["READING PASSAGE", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"], "parityFixture": "references /thumbnail-assets/thumbnail-5-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
         },
     }

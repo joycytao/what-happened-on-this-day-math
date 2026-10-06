@@ -141,6 +141,31 @@ test("Thumbnail 4 visual QA records fixed-region and variable-preview parity art
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
+test("November daily-practice uses the October frame with the approved arrow variant", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "november-thumbnail-4-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "november-thumbnail-4-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail4_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-4-reference.png",
+    "--generated", join(generatedDir, "november-v1.0-daily-practice.png"),
+    "--output-dir", outputDir,
+    "--header-style", "arrows",
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-4-visual-qa.json"), "utf8"));
+  assert.equal(report.headerStyle, "arrows");
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.equal(report.normalized.size[0], 1260);
+  assert.equal(report.normalized.size[1], 1260);
+});
+
 test("report records the prompt-specific treatments instead of only generic copy", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-contract-"));
   const result = spawnSync(PYTHON, [
@@ -153,6 +178,7 @@ test("report records the prompt-specific treatments instead of only generic copy
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.equal(report.copyConcepts.different_math.labelStyle, "large uppercase navy labels");
   assert.equal(report.copyConcepts.daily_practice.useCaseSeparators, "vertical orange lines");
+  assert.equal(report.copyConcepts.daily_practice.headlineEmphasis, "horizontal arrow brackets on each side for the November variant");
   assert.equal(report.copyConcepts.whats_included.headlineEmphasis, "three orange rays on each side");
 });
 

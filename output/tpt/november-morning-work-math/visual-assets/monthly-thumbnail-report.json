@@ -67,11 +67,11 @@
     "cover": "bfe0cfe9754aa5a88e73b7f69d3e1be393543cb570cbd42b89ecd67d82865f2f",
     "whats-included": "d9fe749b4a11e814e4b72cf82a5d00f898051903859b0961a425742c848a00c1",
     "different-math": "a15bbaa657976df4449a1729cf0bf9230dbe43896ddeee0a3687906b790b5194",
-    "daily-practice": "3a6b2dbcddcf5276f444a957dba994bfc4fc76419a84cde23c4abe77af45fb45",
+    "daily-practice": "adf89b7d52b19c073da3e68d9b962cea9440f3253bb64a944e72481bcbb62f6b",
     "landing-page": "d4a3749b65005509be802ab93fdbcf05c56dad28f72909ce0f71ca87ecb80502"
   },
   "pdf": "output/pdf/november-worksheet-packet-final.pdf",
-  "pdf_sha256": "fa566bb4e4e90594bdc2844be482ae8c4b7c8adc3cf6392fe2fd6b6684ba247c",
+  "pdf_sha256": "8eb64b0184f467448f03eb30c9176067981dcc42e6c3d0fcb73034f13e690093",
   "doodle_sha256": "497e637a7cd7256733a00fbfbb7a64ec5047abec3cc8eeee327860435a7ced2a",
   "copyConcepts": {
     "cover": {
@@ -81,7 +81,7 @@
         "30 DAILY WORD PROBLEMS"
       ],
       "levelsBlock": "3 LEVELS with orange side lines",
-      "doodle": "/private/tmp/math-issue-139-landing-page/references /worksheet-assets/november-turkey-doodle.png",
+      "doodle": "references /worksheet-assets/november-turkey-doodle.png",
       "doodlePrompt": "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading"
     },
     "whats_included": {
@@ -115,9 +115,9 @@
         "BELL RINGERS",
         "HOMESCHOOL"
       ],
-      "headlineEmphasis": "three orange rays on each side",
+      "headlineEmphasis": "horizontal arrow brackets on each side for the November variant",
       "useCaseSeparators": "vertical orange lines",
-      "sourceLayout": "one centered upright real worksheet preview",
+      "sourceLayout": "one centered borderless real worksheet preview with October-matched shadow and crop",
       "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png",
       "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
     },
