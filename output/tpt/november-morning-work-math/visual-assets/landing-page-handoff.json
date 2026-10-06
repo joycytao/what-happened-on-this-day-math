@@ -3,6 +3,12 @@
   "packageId": "november-morning-work-math",
   "packageVersion": "v1.0",
   "month": "november",
+  "landingPage": {
+    "monthSlug": "november",
+    "title": "November Morning Work Math",
+    "description": "30 daily word problems across 3 levels, with separate answer keys.",
+    "productUrl": "http://6pm-studio.com/go/november"
+  },
   "sourcePdf": {
     "path": "output/pdf/november-worksheet-packet-final.pdf",
     "sha256": "fa566bb4e4e90594bdc2844be482ae8c4b7c8adc3cf6392fe2fd6b6684ba247c",
