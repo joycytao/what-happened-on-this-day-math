@@ -5,6 +5,7 @@
   "expectedPageCount": 123,
   "expectedPageCountWithoutCover": 123,
   "expectedPageCountWithCover": 124,
+  "expectedFinalReleasePageCount": 125,
   "actualPageCount": 123,
   "cover": {
     "status": "pending_issue_86",

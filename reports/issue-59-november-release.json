@@ -3,6 +3,7 @@
   "month": 11,
   "expectedPageCount": 123,
   "actualPageCount": 123,
+  "finalReleasePageCount": 125,
   "sourceCoverage": {
     "dailyDays": 30,
     "dailyPages": 120,

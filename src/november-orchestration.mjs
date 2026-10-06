@@ -2,7 +2,7 @@ import { access, readFile, writeFile } from "node:fs/promises";
 
 export const NOVEMBER_TEMPLATE_VERSION = "1.0.0";
 export const NOVEMBER_SOURCE_PAGE_COUNT = 123;
-export const NOVEMBER_FINAL_PAGE_COUNT = 124;
+export const NOVEMBER_FINAL_PAGE_COUNT = 125;
 
 export function parseNovemberArguments(argv) {
   const monthIndex = argv.indexOf("--month");
@@ -19,6 +19,7 @@ export function buildNovemberPageMappings() {
     cover: { finalPage: 1, sourcePages: [] },
     dailyWorksheets: { sourcePages: [1, 120], finalPages: [2, 121] },
     answerKeys: { sourcePages: [121, 123], finalPages: [122, 124], order: ["level1", "level2", "level3"] },
+    followUp: { sourcePages: [], finalPages: [125], asset: "references /worksheet-assets/follow-up-page-reference.png" },
   };
 }
 
@@ -63,9 +64,10 @@ export function validateNovemberInputs(inputs) {
   };
 }
 
-export async function mergeApprovedNovemberCover({ coverPdf, sourcePdf, finalPdf }) {
+export async function mergeApprovedNovemberCover({ coverPdf, sourcePdf, followUpPng, finalPdf }) {
   const { PDFDocument } = await import("pdf-lib");
-  const [coverBytes, sourceBytes] = await Promise.all([readFile(coverPdf), readFile(sourcePdf)]);
+  if (!followUpPng) throw new Error("approved follow-up PNG is required for the final November release");
+  const [coverBytes, sourceBytes, followUpBytes] = await Promise.all([readFile(coverPdf), readFile(sourcePdf), readFile(followUpPng)]);
   const cover = await PDFDocument.load(coverBytes);
   const source = await PDFDocument.load(sourceBytes);
   if (cover.getPageCount() !== 1) throw new Error("cover PDF must contain exactly one page");
@@ -75,6 +77,9 @@ export async function mergeApprovedNovemberCover({ coverPdf, sourcePdf, finalPdf
     const pages = await output.copyPages(document, document.getPageIndices());
     pages.forEach((page) => output.addPage(page));
   }
+  const followUpImage = await output.embedPng(followUpBytes);
+  const followUpPage = output.addPage([cover.getPage(0).getWidth(), cover.getPage(0).getHeight()]);
+  followUpPage.drawImage(followUpImage, { x: 0, y: 0, width: followUpPage.getWidth(), height: followUpPage.getHeight() });
   if (output.getPageCount() !== NOVEMBER_FINAL_PAGE_COUNT) throw new Error(`final PDF must contain ${NOVEMBER_FINAL_PAGE_COUNT} pages`);
   await writeFile(finalPdf, await output.save({ useObjectStreams: false }));
   return { sourcePageCount: source.getPageCount(), finalPageCount: output.getPageCount() };
