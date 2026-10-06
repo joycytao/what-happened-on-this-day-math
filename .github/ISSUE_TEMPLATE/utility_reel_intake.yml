@@ -1,0 +1,48 @@
+name: Utility Reel intake
+description: Submit one permission-confirmed completed student test for internal Utility Reel review.
+title: "[Utility Reel intake]: "
+labels:
+  - "type: feature"
+  - "status: pending review"
+body:
+  - type: input
+    id: cycle_id
+    attributes:
+      label: Cycle ID
+      description: Use a stable identifier such as student-test-2026-10-01.
+    validations:
+      required: true
+  - type: textarea
+    id: source_file
+    attributes:
+      label: Source file
+      description: Attach the completed test here. Do not include unnecessary names, faces, or private information.
+    validations:
+      required: true
+  - type: input
+    id: source_sha256
+    attributes:
+      label: SHA-256 checksum
+      description: Provide the checksum of the attached original file.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Required confirmations
+      options:
+        - label: I have permission to submit this student work for internal processing.
+          required: true
+        - label: I confirm the submission contains no unnecessary names, faces, or private information.
+          required: true
+        - label: I understand the original may be retained for up to 90 days and then deleted.
+          required: true
+        - label: I understand only the approved clean copy may be used for rendering or release.
+          required: true
+  - type: checkboxes
+    id: owner_review
+    attributes:
+      label: Owner review
+      options:
+        - label: I am the authorized owner/reviewer for this intake.
+          required: true
