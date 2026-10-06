@@ -4,6 +4,8 @@ const ALLOWED_CATEGORIES = [
 ];
 
 const STAGES = ["Recover", "Understand", "Practice"];
+const CONSENT_VERSION = "2026-10-06";
+const APPROVED_CONSENT = "I confirm that I have permission to submit this student work for internal processing. I confirm that the submission contains no unnecessary names, faces, or private information. The original file may be reviewed internally, retained for up to 90 days, and deleted afterward. Only the approved clean copy may be used for downstream rendering or release.";
 
 function addError(errors, message) {
   if (!errors.includes(message)) errors.push(message);
@@ -26,6 +28,9 @@ export function validateUtilityReelIntake(input = {}) {
   if (!isSha256(input.sourceSha256)) addError(errors, "sourceSha256 must be a 64-character hexadecimal checksum");
   if (input.permissionConfirmed !== true) addError(errors, "permission must be explicitly confirmed");
   if (input.privacyRedactionConfirmed !== true) addError(errors, "privacy redaction must be explicitly confirmed");
+  if (input.consentVersion !== CONSENT_VERSION) addError(errors, `consentVersion must be ${CONSENT_VERSION}`);
+  if (input.consentText !== APPROVED_CONSENT) addError(errors, "consentText must match the approved wording");
+  if (input.retentionDays !== 90) addError(errors, "retentionDays must be 90");
   if (!isRelativePath(input.redactionReport)) addError(errors, "redactionReport must be a repository-relative report path");
   if (!Number.isInteger(input.sourcePageCount) || input.sourcePageCount < 1) addError(errors, "sourcePageCount must be a positive integer");
   const cleanReviewCopyPath = String(input.cleanReviewCopyPath ?? "").trim();
@@ -43,6 +48,9 @@ export function validateUtilityReelIntake(input = {}) {
       cycleId,
       sourceFile,
       cleanReviewCopyPath,
+      consentVersion: input.consentVersion,
+      consentText: input.consentText,
+      retentionDays: input.retentionDays,
       originalMustRemainUntouched: true,
       highConfidenceCategories: [...(input.highConfidenceCategories ?? [])]
     }
@@ -109,6 +117,8 @@ export function buildUtilityReelCycle(input = {}) {
       pageCount: normalized.sourcePageCount,
       permissionConfirmed: normalized.permissionConfirmed,
       privacyRedactionConfirmed: normalized.privacyRedactionConfirmed,
+      consentVersion: normalized.consentVersion,
+      retentionDays: normalized.retentionDays,
       redactionReport: normalized.redactionReport,
       originalMustRemainUntouched: true
     },

@@ -8,6 +8,9 @@ const intake = {
   sourceSha256: "a".repeat(64),
   permissionConfirmed: true,
   privacyRedactionConfirmed: true,
+  consentVersion: "2026-10-06",
+  consentText: "I confirm that I have permission to submit this student work for internal processing. I confirm that the submission contains no unnecessary names, faces, or private information. The original file may be reviewed internally, retained for up to 90 days, and deleted afterward. Only the approved clean copy may be used for downstream rendering or release.",
+  retentionDays: 90,
   redactionReport: "intake/redaction-report.json",
   sourcePageCount: 3,
   cleanReviewCopyPath: "output/utility/student-test-2026-10-01/clean-review-copy.pdf",
@@ -19,6 +22,13 @@ test("validates explicit permission, privacy, and original-preservation intake",
   assert.equal(result.valid, true);
   assert.equal(result.normalized.sourceFile, intake.sourceFile);
   assert.equal(result.normalized.originalMustRemainUntouched, true);
+});
+
+test("requires the approved consent version and ninety-day retention", () => {
+  const result = validateUtilityReelIntake({ ...intake, consentVersion: "old", retentionDays: 30 });
+  assert.equal(result.valid, false);
+  assert.match(result.errors.join("\n"), /consentVersion/);
+  assert.match(result.errors.join("\n"), /retentionDays/);
 });
 
 test("builds Recover, Understand, and Practice records in order", () => {

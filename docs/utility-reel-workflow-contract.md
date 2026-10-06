@@ -5,6 +5,21 @@ test. It creates a three-week hand-off contract: Recover, Understand, and
 Practice. It does not discover files, overwrite the source, diagnose a child,
 or publish automatically.
 
+## Intake entry point and privacy contract
+
+Submitters use the private GitHub Issue Form `.github/ISSUE_TEMPLATE/utility_reel_intake.yml`.
+Only the owner may submit or view originals. The original attachment remains an
+immutable intake reference and is not copied into the repository.
+
+The approved consent wording is version `2026-10-06`:
+
+> I confirm that I have permission to submit this student work for internal processing. I confirm that the submission contains no unnecessary names, faces, or private information. The original file may be reviewed internally, retained for up to 90 days, and deleted afterward. Only the approved clean copy may be used for downstream rendering or release.
+
+The original and redaction report are retained for 90 days, then deleted. The
+clean review copy is stored separately at
+`output/utility/<cycleId>/clean-review-copy.pdf`; the redaction report is stored
+at `reports/utility/<cycleId>/redaction-report.json`.
+
 ## Intake gate
 
 The intake JSON must include:
