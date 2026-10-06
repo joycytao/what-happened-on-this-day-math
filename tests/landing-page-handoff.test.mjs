@@ -8,7 +8,7 @@ test("builds deterministic landing-page metadata from a monthly product", () => 
     monthSlug: "november",
     title: "November Morning Work Math",
     description: "30 daily word problems across 3 levels, with separate answer keys.",
-    productUrl: "http://6pm-studio.com/go/november",
+    productUrl: "https://6pm-studio.com/go/november",
   });
 });
 

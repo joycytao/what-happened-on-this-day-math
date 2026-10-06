@@ -60,15 +60,17 @@ The answer key is placed after the daily modules. Its rendered page count is
 part of the approved packet layout and must be measured from the final PDF;
 do not infer it from a fixed formula.
 
-The approved total page counts are:
+The approved base packet totals (cover + daily modules + Answer Keys, before the optional approved follow-up page) are:
 
 - 30-day month: `124 pages`
 - 31-day month: `127 pages`
 
-The final follow-up validation contract adds one page to those approved
-baseline totals: `125 pages` for a 30-day month and `128 pages` for a 31-day
-month. The follow-up must be the final rendered page, and the preceding three
-pages must be Answer Key levels 1–3. See
+The final release contract adds one approved follow-up page to those base
+totals: `125 pages` for a 30-day month and `128 pages` for a 31-day month.
+For November specifically, the source/pre-cover packet is `123` pages, the
+cover-only packet is `124` pages, and the final release PDF is `125` pages.
+The follow-up must be the final rendered page, and the preceding three pages
+must be Answer Key levels 1–3. See
 `docs/final-follow-up-page-validation.md` and Issue #116.
 
 The page-count rules for February have not been specified and must not be
@@ -199,8 +201,9 @@ Before delivering a monthly packet, verify all of the following:
   levels 1–3 and is the final rendered page.
 - The final follow-up page is independently checked for reference identity,
   page order, page count, margins, clipping, overflow, and visual comparison.
-- The computed total is 124 pages for a 30-day month or 127 pages for a
-  31-day month.
+- The computed base total is 124 pages for a 30-day month or 127 pages for a
+  31-day month; when the approved follow-up is enabled, the final release is
+  125 or 128 pages respectively.
 - Every date appears exactly once and is in calendar order.
 - Every entry uses one preferred theme and avoids unsuitable subject matter.
 - Every Reading Passage is 150–250 English words and starts with a relatable
@@ -390,10 +393,11 @@ The order means:
   mathematics before rendering.
 - #57 and #58 depend on #56 and may run in parallel: #57 renders 120 November
   daily pages, while #58 renders three November Answer Key pages.
-- #59 depends on #57 and #58 and assembles/QA-checks the 123-page November PDF.
+- #59 depends on #57 and #58 and assembles/QA-checks the 123-page November source PDF.
 - #60 depends on #59 and is the November content/PDF release report gate.
 - #61 depends on #60 and integrates the month-only orchestration for
-  `node scripts/generate-monthly.mjs --month 11`.
+  `node scripts/generate-monthly.mjs --month 11`, including the approved
+  follow-up page in the final 125-page release.
 
 When a new issue is created, an existing issue changes scope or status, or a
 new dependency is discovered, recalculate the execution order before starting

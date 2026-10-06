@@ -29,6 +29,6 @@ export function buildLandingPageMetadata(product) {
     monthSlug,
     title: `${titleCase(monthSlug)} Morning Work Math`,
     description: `${dayCount} daily word problems across 3 levels, with separate answer keys.`,
-    productUrl: `http://6pm-studio.com/go/${monthSlug}`,
+    productUrl: `https://6pm-studio.com/go/${monthSlug}`,
   };
 }

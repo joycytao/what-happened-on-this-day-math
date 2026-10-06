@@ -10,7 +10,7 @@ asset identified by `landingPageImage` rather than guessing a filename.
 
 The handoff also contains `landingPage` metadata: `monthSlug`, display `title`,
 card `description`, and the deterministic redirect URL
-`http://6pm-studio.com/go/<monthSlug>`. The TPT workstream commits the generated
+`https://6pm-studio.com/go/<monthSlug>`. The TPT workstream commits the generated
 visual-assets directory to `main` before dispatching the downstream landing-page
 workflow, so the consumer reads an immutable repository revision.
 

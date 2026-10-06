@@ -26,6 +26,7 @@ const paths = {
   coverReport: resolve(root, "reports/issue-86-november-cover.json"),
   coverVisualQa: resolve(root, "reports/worksheet-cover-visual-qa/visual-qa.json"),
   sourcePdf: resolve(root, "output/pdf/november-worksheet-packet.pdf"),
+  followUpPng: resolve(root, "references /worksheet-assets/follow-up-page-reference.png"),
   finalPdf: resolve(root, "output/pdf/november-worksheet-packet-final.pdf"),
   manifest: resolve(root, "reports/issue-61-november-orchestration.json"),
 };
@@ -61,7 +62,7 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  await mergeApprovedNovemberCover({ coverPdf: paths.coverManifest.replace("cover-manifest.json", "november-worksheet-cover.pdf"), sourcePdf: paths.sourcePdf, finalPdf: paths.finalPdf });
+  await mergeApprovedNovemberCover({ coverPdf: paths.coverManifest.replace("cover-manifest.json", "november-worksheet-cover.pdf"), sourcePdf: paths.sourcePdf, followUpPng: paths.followUpPng, finalPdf: paths.finalPdf });
   report.actualPageCounts = { source: pdfPages(paths.sourcePdf), final: pdfPages(paths.finalPdf) };
   await writeFile(paths.manifest, `${JSON.stringify(report, null, 2)}\n`, "utf8");
   console.log(JSON.stringify(report, null, 2));

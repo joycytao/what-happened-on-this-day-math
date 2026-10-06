@@ -30,13 +30,14 @@ test("November arguments require month 11 and the approved template version", ()
   assert.throws(() => parseNovemberArguments(["--month", "11", "--template-version", "9.0.0"]), /unsupported template version/);
 });
 
-test("approved November input produces the 123-to-124 page mapping", () => {
+test("approved November input produces the 123-to-125 page mapping", () => {
   const result = validateNovemberInputs(passingInputs());
   assert.equal(result.valid, true);
   assert.equal(result.sourcePageCount, NOVEMBER_SOURCE_PAGE_COUNT);
   assert.equal(result.finalPageCount, NOVEMBER_FINAL_PAGE_COUNT);
   assert.deepEqual(result.mappings, buildNovemberPageMappings());
   assert.deepEqual(result.mappings.dailyWorksheets, { sourcePages: [1, 120], finalPages: [2, 121] });
+  assert.deepEqual(result.mappings.followUp, { sourcePages: [], finalPages: [125], asset: "references /worksheet-assets/follow-up-page-reference.png" });
   assert.equal(result.pageOneRole, "worksheet-coversheet");
 });
 

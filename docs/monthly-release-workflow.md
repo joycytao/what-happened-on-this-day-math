@@ -23,7 +23,8 @@ an annual bundle references only released monthly units.
    one approved cover as page 1, record page count and source-page mappings,
    and run independent content, mathematics, source, layout, PDF, and visual
    gates. The current November pre-cover baseline remains 123 pages; the final
-   cover-bearing November contract is 124 pages.
+   cover-bearing November base packet is 124 pages; the final release package
+   adds the approved follow-up page and is 125 pages.
 7. **Derived assets** — generate thumbnails only from the approved final PDF
    and record the source checksum and page mappings. A PDF or cover change
    invalidates affected thumbnails and their visual QA records.
