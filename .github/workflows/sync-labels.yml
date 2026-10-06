@@ -22,7 +22,13 @@ jobs:
               ['priority: low', 'cfd3d7', 'Useful but lower-priority work'],
               ['status: blocked', 'e4e669', 'Cannot proceed until a dependency or decision is resolved'],
               ['status: pending review', 'fbca04', 'Waiting for review or triage'],
-              ['status: ready to pickup', '0e8a16', 'Approved and ready for an agent to pick up']
+              ['status: ready to pickup', '0e8a16', 'Approved and ready for an agent to pick up'],
+              ['status: qa', 'fbca04', 'Waiting for QA evidence'],
+              ['social:product-reel', '5319e7', 'Product Reel workstream'],
+              ['social:carousel', '5319e7', 'Carousel workstream'],
+              ['social:utility-reel', '5319e7', 'Utility Reel workstream'],
+              ['content:monthly', '1d76db', 'Monthly content source'],
+              ['content:utility', '1d76db', 'User-provided utility source']
             ];
             for (const [name, color, description] of labels) {
               try {
