@@ -1,0 +1,130 @@
+name: Queue monthly social workstreams
+
+on:
+  workflow_run:
+    workflows: [Monthly package release]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      month:
+        description: English month name
+        required: true
+        type: string
+      year:
+        description: Four-digit release year
+        required: true
+        type: string
+      package_id:
+        description: Stable released package identity
+        required: true
+        type: string
+      manifest_path:
+        description: Repository-relative release manifest path
+        required: true
+        type: string
+      content_path:
+        description: Repository-relative monthly content path
+        required: true
+        type: string
+      thumbnail_manifest_path:
+        description: Repository-relative landing-page handoff manifest
+        required: true
+        type: string
+      project_owner:
+        description: Project owner login; defaults to joycytao
+        required: false
+        default: joycytao
+        type: string
+      project_number:
+        description: Existing Project number; defaults to 2
+        required: false
+        default: "2"
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+  repository-projects: write
+
+concurrency:
+  group: social-monthly-queue-${{ inputs.package_id || vars.SOCIAL_RELEASE_PACKAGE_ID || github.event.workflow_run.id }}
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      MONTH: ${{ inputs.month || vars.SOCIAL_RELEASE_MONTH }}
+      YEAR: ${{ inputs.year || vars.SOCIAL_RELEASE_YEAR }}
+      PACKAGE_ID: ${{ inputs.package_id || vars.SOCIAL_RELEASE_PACKAGE_ID }}
+      MANIFEST_PATH: ${{ inputs.manifest_path || vars.SOCIAL_RELEASE_MANIFEST_PATH }}
+      CONTENT_PATH: ${{ inputs.content_path || vars.SOCIAL_RELEASE_CONTENT_PATH }}
+      THUMBNAIL_MANIFEST_PATH: ${{ inputs.thumbnail_manifest_path || vars.SOCIAL_RELEASE_THUMBNAIL_MANIFEST_PATH }}
+      PROJECT_OWNER: ${{ inputs.project_owner || vars.SOCIAL_PROJECT_OWNER || 'joycytao' }}
+      PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '2' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build deterministic Issue plan
+        run: >-
+          node scripts/build-social-issue-plan.mjs
+          --mode monthly
+          --month "$MONTH"
+          --year "$YEAR"
+          --package-id "$PACKAGE_ID"
+          --manifest-path "$MANIFEST_PATH"
+          --content-path "$CONTENT_PATH"
+          --thumbnail-manifest-path "$THUMBNAIL_MANIFEST_PATH"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --output /tmp/social-issue-plan.json
+      - name: Create or update monthly Issues and add them to the existing Project
+        uses: actions/github-script@v7
+        env:
+          PLAN_PATH: /tmp/social-issue-plan.json
+          PROJECT_OWNER: ${{ env.PROJECT_OWNER }}
+          PROJECT_NUMBER: ${{ env.PROJECT_NUMBER }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const plan = JSON.parse(fs.readFileSync(process.env.PLAN_PATH, 'utf8'));
+            const labels = [
+              ['type: feature', 'a2eeef', 'A request for new or improved functionality'],
+              ['social:product-reel', '5319e7', 'Product Reel workstream'],
+              ['social:carousel', '5319e7', 'Carousel workstream'],
+              ['content:monthly', '1d76db', 'Monthly content source'],
+              ['status:ready to pickup', '0e8a16', 'Approved for Codex pickup'],
+              ['status:blocked', 'e4e669', 'Blocked by a dependency'],
+              ['status:pending review', 'fbca04', 'Waiting for human review']
+            ];
+            for (const [name, color, description] of labels) {
+              try { await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name }); }
+              catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
+              }
+            }
+            const all = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100 });
+            const issueIds = [];
+            for (const desired of plan.issues) {
+              const existing = all.find(issue => !issue.pull_request && (issue.body || '').includes(desired.marker));
+              const payload = { owner: context.repo.owner, repo: context.repo.repo, title: desired.title, body: desired.body, labels: desired.labels, state: 'open' };
+              const result = existing
+                ? await github.rest.issues.update({ ...payload, issue_number: existing.number })
+                : await github.rest.issues.create(payload);
+              issueIds.push(result.data.node_id);
+              core.info(`${existing ? 'Updated' : 'Created'} #${result.data.number}: ${desired.title}`);
+            }
+            const projectData = await github.graphql(`query($login:String!,$number:Int!){ user(login:$login){ projectV2(number:$number){ id title items(first:100){nodes{content{... on Issue{id}}}} } } }`, { login: process.env.PROJECT_OWNER, number: Number(process.env.PROJECT_NUMBER) });
+            const project = projectData.user?.projectV2;
+            if (!project) throw new Error(`Project ${process.env.PROJECT_OWNER}/${process.env.PROJECT_NUMBER} was not found`);
+            const existingContent = new Set(project.items.nodes.map(item => item.content?.id).filter(Boolean));
+            for (const contentId of issueIds) {
+              if (existingContent.has(contentId)) continue;
+              await github.graphql(`mutation($projectId:ID!,$contentId:ID!){ addProjectV2ItemById(input:{projectId:$projectId,contentId:$contentId}){ item { id } } }`, { projectId: project.id, contentId });
+            }
+            core.info(`Queued ${issueIds.length} Issues in Project ${project.title}. Status remains human-managed; no custom field option IDs are guessed.`);

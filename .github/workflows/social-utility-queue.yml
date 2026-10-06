@@ -1,0 +1,109 @@
+name: Queue Utility Reel workstream
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      cycle_id:
+        description: Stable Utility Reel cycle ID
+        required: true
+        type: string
+      intake_issue:
+        description: Owner-approved intake Issue number
+        required: true
+        type: string
+      project_owner:
+        required: false
+        default: joycytao
+        type: string
+      project_number:
+        required: false
+        default: "2"
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+  repository-projects: write
+
+jobs:
+  queue:
+    if: github.event_name == 'workflow_dispatch' || (github.event.label.name == 'status:ready to pickup' && startsWith(github.event.issue.title, '[Utility Reel intake]'))
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_OWNER: ${{ inputs.project_owner || vars.SOCIAL_PROJECT_OWNER || 'joycytao' }}
+      PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '2' }}
+    steps:
+      - name: Read cycle ID from the owner-approved intake Issue
+        if: github.event_name == 'issues'
+        id: intake
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const match = body.match(/###\s*Cycle ID\s*\n+\s*([^\n]+)/i);
+            if (!match) core.setFailed('Utility intake is missing a Cycle ID');
+            else core.setOutput('cycle_id', match[1].trim());
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build deterministic Issue plan
+        env:
+          CYCLE_ID: ${{ inputs.cycle_id || steps.intake.outputs.cycle_id }}
+          INTAKE_ISSUE: ${{ inputs.intake_issue || github.event.issue.number }}
+        run: >-
+          node scripts/build-social-issue-plan.mjs
+          --mode utility
+          --cycle-id "$CYCLE_ID"
+          --intake-issue "$INTAKE_ISSUE"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --output /tmp/social-issue-plan.json
+      - name: Create or update Utility Issues and add them to the existing Project
+        uses: actions/github-script@v7
+        env:
+          PLAN_PATH: /tmp/social-issue-plan.json
+          PROJECT_OWNER: ${{ env.PROJECT_OWNER }}
+          PROJECT_NUMBER: ${{ env.PROJECT_NUMBER }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const plan = JSON.parse(fs.readFileSync(process.env.PLAN_PATH, 'utf8'));
+            const labels = [
+              ['type: feature', 'a2eeef', 'A request for new or improved functionality'],
+              ['social:utility-reel', '5319e7', 'Utility Reel workstream'],
+              ['content:utility', '1d76db', 'User-provided utility source'],
+              ['status:ready to pickup', '0e8a16', 'Approved for Codex pickup'],
+              ['status:blocked', 'e4e669', 'Blocked by a dependency'],
+              ['status:pending review', 'fbca04', 'Waiting for human review']
+            ];
+            for (const [name, color, description] of labels) {
+              try { await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name }); }
+              catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
+              }
+            }
+            const all = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100 });
+            const issueIds = [];
+            for (const desired of plan.issues) {
+              const existing = all.find(issue => !issue.pull_request && (issue.body || '').includes(desired.marker));
+              const payload = { owner: context.repo.owner, repo: context.repo.repo, title: desired.title, body: desired.body, labels: desired.labels, state: 'open' };
+              const result = existing
+                ? await github.rest.issues.update({ ...payload, issue_number: existing.number })
+                : await github.rest.issues.create(payload);
+              issueIds.push(result.data.node_id);
+              core.info(`${existing ? 'Updated' : 'Created'} #${result.data.number}: ${desired.title}`);
+            }
+            const projectData = await github.graphql(`query($login:String!,$number:Int!){ user(login:$login){ projectV2(number:$number){ id title items(first:100){nodes{content{... on Issue{id}}}} } } }`, { login: process.env.PROJECT_OWNER, number: Number(process.env.PROJECT_NUMBER) });
+            const project = projectData.user?.projectV2;
+            if (!project) throw new Error(`Project ${process.env.PROJECT_OWNER}/${process.env.PROJECT_NUMBER} was not found`);
+            const existingContent = new Set(project.items.nodes.map(item => item.content?.id).filter(Boolean));
+            for (const contentId of issueIds) {
+              if (existingContent.has(contentId)) continue;
+              await github.graphql(`mutation($projectId:ID!,$contentId:ID!){ addProjectV2ItemById(input:{projectId:$projectId,contentId:$contentId}){ item { id } } }`, { projectId: project.id, contentId });
+            }
+            core.info(`Queued ${issueIds.length} Utility Issues in Project ${project.title}.`);
