@@ -5,6 +5,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { PNG } from "pngjs";
 import { validateMonthlyThumbnailManifest } from "../src/monthly-thumbnail-manifest.mjs";
+import { buildLandingPageMetadata } from "../src/landing-page-handoff.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -60,6 +61,7 @@ const handoff = {
   packageId: option("--package-id", manifest.product.id),
   packageVersion: option("--package-version", manifest.product.version),
   month: manifest.product.month,
+  landingPage: buildLandingPageMetadata(manifest.product),
   sourcePdf: { path: path.relative(root, pdfPath), sha256: actualPdfSha256, pageCount: manifest.pdf.page_count },
   doodle: { path: path.relative(root, doodlePath), sha256: report.doodle_sha256 },
   assets,
