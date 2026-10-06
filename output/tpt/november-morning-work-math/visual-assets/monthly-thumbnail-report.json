@@ -67,7 +67,7 @@
     "cover": "bfe0cfe9754aa5a88e73b7f69d3e1be393543cb570cbd42b89ecd67d82865f2f",
     "whats-included": "d9fe749b4a11e814e4b72cf82a5d00f898051903859b0961a425742c848a00c1",
     "different-math": "a15bbaa657976df4449a1729cf0bf9230dbe43896ddeee0a3687906b790b5194",
-    "daily-practice": "adf89b7d52b19c073da3e68d9b962cea9440f3253bb64a944e72481bcbb62f6b",
+    "daily-practice": "eb9ca33b9774b0a4d675e993a965b01326c7ab39a1a39334a324ffc73723a9ce",
     "landing-page": "d4a3749b65005509be802ab93fdbcf05c56dad28f72909ce0f71ca87ecb80502"
   },
   "pdf": "output/pdf/november-worksheet-packet-final.pdf",
@@ -115,7 +115,7 @@
         "BELL RINGERS",
         "HOMESCHOOL"
       ],
-      "headlineEmphasis": "horizontal arrow brackets on each side for the November variant",
+      "headlineEmphasis": "three orange rays on each side",
       "useCaseSeparators": "vertical orange lines",
       "sourceLayout": "one centered borderless real worksheet preview with October-matched shadow and crop",
       "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png",
