@@ -36,6 +36,7 @@
     "tpt:metadata:generate": "node scripts/generate-tpt-metadata.mjs",
     "social:utility-reels": "node scripts/generate-utility-reel-cycle.mjs",
     "social:product-reels": "node scripts/generate-product-reels.mjs",
+    "social:product-reel:render": "node scripts/render-product-reel-mp4.mjs",
     "social:carousels": "node scripts/generate-carousels.mjs",
     "tpt:workstream:run": "node scripts/run-tpt-workstream.mjs",
     "tpt:project:plan": "node scripts/write-tpt-project-plan.mjs",
