@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { PAGE_TEMPLATE_NAMES, REQUIRED_SOURCE_LABELS, validateThumbnailSourceMapping } from "./thumbnail-source-mapping.mjs";
+import { PAGE_TEMPLATE_NAMES, validateThumbnailSourceMapping } from "./thumbnail-source-mapping.mjs";
 
 const TEMPLATE_NAMES = ["cover", ...PAGE_TEMPLATE_NAMES];
 
@@ -39,9 +39,6 @@ export function validateMonthlyThumbnailManifest(manifest) {
     if (PAGE_TEMPLATE_NAMES.includes(name)) {
       required(template.source_pages, `templates.${name}.source_pages`);
       if (!template.source_pages || typeof template.source_pages !== "object") continue;
-      for (const label of REQUIRED_SOURCE_LABELS[name]) {
-        required(template.source_pages[label], `templates.${name}.source_pages.${label}`);
-      }
     }
   }
 
