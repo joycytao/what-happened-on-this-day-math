@@ -20,7 +20,7 @@
     "gradeBand": "Grades 1-5",
     "format": "Printable PDF",
     "productRelationship": "monthly standalone",
-    "description": "A 30-day November packet with daily historical mini-stories and three leveled math word problems. It includes a worksheet coversheet, 120 printable daily practice pages, three separate answer-key pages, and an approved final follow-up page for teacher use.",
+    "description": "Make daily math practice more meaningful with this November morning work packet for elementary students. This no-prep resource includes 30 daily math word problems built around historical mini-stories connected to real November dates. Each day provides one focused problem and three levels of mathematical challenge, making it easier to support different learners in the same classroom or homeschool setting. Students can begin with the same historical story, then complete the Level that best matches their current needs.",
     "contents": {
       "dailyModules": 30,
       "levels": [
@@ -31,6 +31,15 @@
       "answerKeys": 3,
       "followUpPages": 1,
       "finalPageCount": 125,
+      "suggestedUses": [
+        "Morning work",
+        "Math bell ringers",
+        "Independent practice",
+        "Homework",
+        "Homeschool learning routines",
+        "Early finisher work"
+      ],
+      "footerCopy": "Use one shared story to create a common learning moment, then choose the math Level that fits each student.",
       "cover": "output/worksheet-cover/november-worksheet-cover.pdf",
       "finalPdf": "output/pdf/november-worksheet-packet-final.pdf"
     },
