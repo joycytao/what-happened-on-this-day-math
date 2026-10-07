@@ -306,29 +306,31 @@ def compose_whats_included(month, pages, out):
         # geometry below with month-specific real PDF pages substituted.
         Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
         return
-    canvas = base_canvas()
+    # Use the approved October raster as the complete fixed-region source of
+    # truth. Only replace the five worksheet screenshot interiors; this keeps
+    # the frame, headline, pills, shadows, spacing, and footer logo pixel
+    # stable instead of approximating them with a second drawing.
+    canvas = Image.open(canonical).convert("RGBA") if canonical.exists() else base_canvas()
+    if canvas.size != (SIZE, SIZE):
+        canvas = canvas.resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+    cards = [
+        ("story", (31, 134, 380, 440)),
+        ("level1", (437, 134, 380, 440)),
+        ("level2", (843, 134, 380, 440)),
+        ("level3", (196, 656, 414, 460)),
+        ("answer_key", (646, 656, 414, 460)),
+    ]
     draw = ImageDraw.Draw(canvas)
-    # Thumbnail 2's canonical frame begins at the card row; its top area is
-    # intentionally open around the headline and rays.
-    draw.rectangle((0, 0, SIZE, 133), fill=BG)
-    draw.line((30, 134, 30, 1230), fill=ORANGE, width=8)
-    draw.line((1230, 134, 1230, 1230), fill=ORANGE, width=8)
-    draw.line((30, 1230, 1230, 1230), fill=ORANGE, width=8)
-    cover_text_box(canvas, "WHAT’S INCLUDED", (250, 24, 1010, 104))
-    for points in [
-        ((186, 34), (216, 58)), ((180, 72), (212, 72)), ((186, 110), (216, 87)),
-        ((1074, 34), (1044, 58)), ((1080, 72), (1048, 72)), ((1074, 110), (1044, 87)),
-    ]:
-        draw.line(points, fill=ORANGE, width=8)
-    for x, key, label in [(31, "story", "STORY"), (437, "level1", "LEVEL 1"), (843, "level2", "LEVEL 2")]:
-        card(canvas, pages[key], (x, 134, 380, 440), label, label_width=320)
-    for x, key, label in [(196, "level3", "LEVEL 3"), (646, "answer_key", "ANSWER KEY")]:
-        card(canvas, pages[key], (x, 656, 414, 460), label, label_width=340)
-    # The reference uses a centered logo below the second-row labels rather
-    # than the long divider lines used by the other thumbnail concepts.
-    logo_image = extract_page_logo(pages["story"])
-    logo_image.thumbnail((92, 92), Image.Resampling.LANCZOS)
-    canvas.alpha_composite(logo_image, ((SIZE - logo_image.width) // 2, 1180))
+    for key, (x, y, w, h) in cards:
+        source = Image.open(pages[key]).convert("RGB")
+        target_size = (w - 12, h - 12)
+        fitted_image = ImageOps.contain(source, target_size, method=Image.Resampling.LANCZOS)
+        # Clear only the screenshot interior, leaving the canonical orange
+        # border, shadow, pill label, and all other fixed pixels untouched.
+        draw.rectangle((x + 6, y + 6, x + w - 6, y + h - 6), fill="white")
+        paste_x = x + 6 + (target_size[0] - fitted_image.width) // 2
+        paste_y = y + 6 + (target_size[1] - fitted_image.height) // 2
+        canvas.paste(fitted_image, (paste_x, paste_y))
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 

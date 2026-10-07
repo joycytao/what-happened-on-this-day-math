@@ -1,6 +1,6 @@
 {
   "reference": "references /thumbnail-assets/thumbnail-2-reference.png",
-  "generated": "output/thumbnails/october-v1.0-whats-included.png",
+  "generated": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-whats-included.png",
   "normalized": {
     "size": [
       1260,
@@ -62,9 +62,9 @@
         411,
         574
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 22.771694577352473,
+      "changed_pixel_ratio": 0.23586722488038278,
+      "ssim": 0.28151712151777025
     },
     "level1": {
       "box": [
@@ -73,9 +73,9 @@
         817,
         574
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 6.424653110047847,
+      "changed_pixel_ratio": 0.06988038277511961,
+      "ssim": 0.5151312564844638
     },
     "level2": {
       "box": [
@@ -84,9 +84,9 @@
         1223,
         574
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 8.00703947368421,
+      "changed_pixel_ratio": 0.08507775119617225,
+      "ssim": 0.3610460687758369
     },
     "level3": {
       "box": [
@@ -95,9 +95,9 @@
         610,
         1116
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 8.557741720926977,
+      "changed_pixel_ratio": 0.08811699222852341,
+      "ssim": 0.4369583844609519
     },
     "answer_key": {
       "box": [
@@ -106,15 +106,21 @@
         1060,
         1116
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 31.271758384092976,
+      "changed_pixel_ratio": 0.28952425960932576,
+      "ssim": 0.1544452357059384
     }
+  },
+  "outsideVariableRegions": {
+    "compared_pixel_count": 1587600,
+    "changed_pixel_count": 0,
+    "changed_pixel_ratio": 0.0
   },
   "visualAcceptance": {
     "fixedRegionMinSsim": 1.0,
     "fixedRegionThreshold": 0.5,
     "footerLogoSsim": 1.0,
+    "outsideVariableChangedPixelCount": 0,
     "passed": true
   },
   "artifacts": [
