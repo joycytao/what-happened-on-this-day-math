@@ -18,6 +18,15 @@ FIXED_REGIONS = {
     "use_case_row": (50, 1035, 1210, 1120),
     "footer": (35, 1135, 1225, 1225),
 }
+NOVEMBER_FIXED_REGIONS = {
+    "header_and_rays": FIXED_REGIONS["header_and_rays"],
+    "preview_shadow_top": (300, 315, 960, 323),
+    "preview_shadow_left": (300, 315, 329, 1020),
+    "preview_shadow_right": (930, 315, 960, 1020),
+    "preview_shadow_bottom": (300, 1019, 960, 1030),
+    "use_case_row": FIXED_REGIONS["use_case_row"],
+    "footer": FIXED_REGIONS["footer"],
+}
 VARIABLE_REGIONS = {"worksheet_preview": (325, 320, 935, 1020)}
 
 
@@ -68,7 +77,8 @@ def main():
     side = Image.new("RGB", (2520, 1260), "white")
     side.paste(reference, (0, 0)); side.paste(generated, (1260, 0))
     side.save(args.output_dir / "thumbnail-4-side-by-side.png")
-    fixed = {name: compare(reference, generated, box) for name, box in FIXED_REGIONS.items()}
+    fixed_regions = NOVEMBER_FIXED_REGIONS if args.generated.name.startswith("november-") else FIXED_REGIONS
+    fixed = {name: compare(reference, generated, box) for name, box in fixed_regions.items()}
     variable = {name: compare(reference, generated, box) for name, box in VARIABLE_REGIONS.items()}
     minimum = min(metric["ssim"] for metric in fixed.values())
     report = {"reference": str(args.reference), "generated": str(args.generated),

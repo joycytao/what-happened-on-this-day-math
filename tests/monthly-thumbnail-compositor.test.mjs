@@ -141,6 +141,38 @@ test("Thumbnail 4 visual QA records fixed-region and variable-preview parity art
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
+test("November daily-practice uses the October frame and decorative rays", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "november-thumbnail-4-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "november-thumbnail-4-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail4_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-4-reference.png",
+    "--generated", join(generatedDir, "november-v1.0-daily-practice.png"),
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-4-visual-qa.json"), "utf8"));
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.equal(report.normalized.size[0], 1260);
+  assert.equal(report.normalized.size[1], 1260);
+  assert.deepEqual(Object.keys(report.fixedRegions), [
+    "header_and_rays",
+    "preview_shadow_top",
+    "preview_shadow_left",
+    "preview_shadow_right",
+    "preview_shadow_bottom",
+    "use_case_row",
+    "footer",
+  ]);
+});
+
 test("report records the prompt-specific treatments instead of only generic copy", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-contract-"));
   const result = spawnSync(PYTHON, [
@@ -153,6 +185,7 @@ test("report records the prompt-specific treatments instead of only generic copy
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.equal(report.copyConcepts.different_math.labelStyle, "large uppercase navy labels");
   assert.equal(report.copyConcepts.daily_practice.useCaseSeparators, "vertical orange lines");
+  assert.equal(report.copyConcepts.daily_practice.headlineEmphasis, "three orange rays on each side");
   assert.equal(report.copyConcepts.whats_included.headlineEmphasis, "three orange rays on each side");
 });
 
