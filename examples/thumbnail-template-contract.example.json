@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "templates": {
+    "cover": {
+      "version": "v1.0.0",
+      "canvas": { "width": 1260, "height": 1260 },
+      "fixed_regions": { "frame": { "x": 30, "y": 30, "width": 1200, "height": 1200 }, "footer": { "x": 45, "y": 1130, "width": 1170, "height": 80 } },
+      "variable_regions": { "month_title": { "x": 250, "y": 120, "width": 760, "height": 190 }, "doodle": { "x": 430, "y": 600, "width": 400, "height": 360 } },
+      "assets": { "reference": "references /thumbnail-assets/thumbnail-1-reference.png", "logo": "references /worksheet-assets/6pm-studio-logo.svg" },
+      "layout": { "z_order": ["background", "frame", "month_title", "doodle", "footer", "logo"], "crop_anchor": "center", "shadow": false, "border_policy": "preserve", "typography": { "title": "display-navy", "supporting": "display-navy" } }
+    },
+    "whats_included": {
+      "version": "v1.0.0",
+      "canvas": { "width": 1260, "height": 1260 },
+      "fixed_regions": { "frame": { "x": 30, "y": 30, "width": 1200, "height": 1200 }, "footer": { "x": 45, "y": 1130, "width": 1170, "height": 80 } },
+      "variable_regions": { "worksheet_cards": { "x": 100, "y": 260, "width": 1060, "height": 760 }, "headline": { "x": 180, "y": 90, "width": 900, "height": 140 } },
+      "assets": { "reference": "references /thumbnail-assets/thumbnail-2-reference.png", "logo": "references /worksheet-assets/6pm-studio-logo.svg" },
+      "layout": { "z_order": ["background", "frame", "headline", "worksheet_cards", "footer", "logo"], "crop_anchor": "center", "shadow": true, "border_policy": "preserve", "typography": { "headline": "display-navy", "labels": "uppercase-navy" } }
+    },
+    "different_math": {
+      "version": "v1.0.0",
+      "canvas": { "width": 1260, "height": 1260 },
+      "fixed_regions": { "frame": { "x": 30, "y": 30, "width": 1200, "height": 1200 }, "footer": { "x": 45, "y": 1130, "width": 1170, "height": 80 } },
+      "variable_regions": { "worksheet_cards": { "x": 90, "y": 250, "width": 1080, "height": 760 }, "month_title": { "x": 210, "y": 80, "width": 840, "height": 180 } },
+      "assets": { "reference": "references /thumbnail-assets/thumbnail-3-reference.png", "logo": "references /worksheet-assets/6pm-studio-logo.svg" },
+      "layout": { "z_order": ["background", "frame", "month_title", "worksheet_cards", "footer", "logo"], "crop_anchor": "center", "shadow": true, "border_policy": "preserve", "typography": { "title": "display-navy", "labels": "uppercase-navy" } }
+    },
+    "daily_practice": {
+      "version": "v1.0.0",
+      "canvas": { "width": 1260, "height": 1260 },
+      "fixed_regions": { "frame": { "x": 30, "y": 30, "width": 1200, "height": 1200 }, "footer": { "x": 45, "y": 1130, "width": 1170, "height": 80 } },
+      "variable_regions": { "worksheet": { "x": 250, "y": 300, "width": 760, "height": 650 }, "headline": { "x": 110, "y": 80, "width": 1040, "height": 190 } },
+      "assets": { "reference": "references /thumbnail-assets/thumbnail-4-reference.png", "logo": "references /worksheet-assets/6pm-studio-logo.svg" },
+      "layout": { "z_order": ["background", "frame", "headline", "worksheet", "footer", "logo"], "crop_anchor": "center", "shadow": true, "border_policy": "none", "typography": { "headline": "display-navy", "use_cases": "uppercase-navy" } }
+    },
+    "landing_page": {
+      "version": "v1.0.0",
+      "canvas": { "width": 1260, "height": 1260 },
+      "fixed_regions": { "frame": { "x": 30, "y": 30, "width": 1200, "height": 1200 }, "footer": { "x": 45, "y": 1130, "width": 1170, "height": 80 } },
+      "variable_regions": { "worksheet_cards": { "x": 70, "y": 280, "width": 1120, "height": 700 }, "headline": { "x": 180, "y": 80, "width": 900, "height": 180 } },
+      "assets": { "reference": "references /thumbnail-assets/thumbnail-5-reference.png", "logo": "references /worksheet-assets/6pm-studio-logo.svg" },
+      "layout": { "z_order": ["background", "frame", "headline", "worksheet_cards", "footer", "logo"], "crop_anchor": "left", "shadow": true, "border_policy": "none", "typography": { "title": "display-navy", "labels": "uppercase-navy" } }
+    }
+  }
+}
