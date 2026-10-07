@@ -10,7 +10,9 @@ const outputDir = process.argv[4] ?? `output/tpt/${JSON.parse(fs.readFileSync(pa
 const manifest = JSON.parse(fs.readFileSync(path.join(root, manifestPath), 'utf8'));
 const content = JSON.parse(fs.readFileSync(path.join(root, contentPath), 'utf8'));
 const taxonomy = JSON.parse(fs.readFileSync(path.join(root, 'examples/tpt-metadata-taxonomy.example.json'), 'utf8'));
-const result = buildTptMetadata({ manifest, content, taxonomy, releaseManifestPath: manifestPath, contentPath });
+const positioningBriefPath = 'examples/tpt-positioning-brief.example.json';
+const positioningBrief = JSON.parse(fs.readFileSync(path.join(root, positioningBriefPath), 'utf8'));
+const result = buildTptMetadata({ manifest, content, taxonomy, positioningBrief, releaseManifestPath: manifestPath, contentPath, positioningBriefPath });
 if (!result.valid) {
   console.error(result.errors.join('\n'));
   process.exit(1);
