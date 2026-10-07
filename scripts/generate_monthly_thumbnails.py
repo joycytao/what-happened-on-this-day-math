@@ -340,34 +340,35 @@ def compose_different_math(month, day_count, pages, out):
         # cards and day-count copy substituted by the manifest.
         Image.open(canonical).convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(out, "PNG", optimize=True)
         return
-    canvas = base_canvas()
+    if canonical.exists():
+        canvas = Image.open(canonical).convert("RGBA")
+        if canvas.size != (SIZE, SIZE):
+            canvas = canvas.resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+    else:
+        canvas = base_canvas()
     draw = ImageDraw.Draw(canvas)
-    # Thumbnail 3 uses the compact “product feature” reference: a title-case
-    # month with short rules, one large product title, one subtitle, then
-    # three readable worksheet cards with subtle opposing tilts.
-    centered(draw, month.title(), 48, 126, 820)
-    draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
-    draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
-    centered(draw, "Morning Work Math", 202, 108, 1180)
+    # Keep the October reference as the fixed visual system. Clear only the
+    # month and day-count text bands before drawing November copy; the title,
+    # rules, frame, labels, footer, and logo remain pixel-stable.
+    draw.rectangle((270, 45, 990, 205), fill=BG)
+    draw.rectangle((80, 335, 1180, 425), fill=BG)
+    centered(draw, month.title(), 62, 108, 820)
     centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
 
     cards = [
-        ("level1", 240, 697, 372, 510, -2.0),
-        ("level2", 630, 697, 392, 512, 0.0),
-        ("level3", 1028, 697, 372, 510, 2.0),
+        ("level1", 243, 704, 376, 495, -2.0),
+        ("level2", 629, 698, 396, 510, 0.0),
+        ("level3", 1015, 704, 379, 495, 2.0),
     ]
     for key, cx, cy, width, height, angle in cards:
-        worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
-        card(worksheet, pages[key], (16, 16, width, height), "", label_style="none")
+        worksheet = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        source = Image.open(pages[key]).convert("RGB")
+        fitted_image = ImageOps.contain(source, (width, height), method=Image.Resampling.LANCZOS)
+        paper = Image.new("RGBA", (width, height), "white")
+        paper.paste(fitted_image, ((width - fitted_image.width) // 2, (height - fitted_image.height) // 2))
+        worksheet.alpha_composite(paper)
         worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
         canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
-        draw = ImageDraw.Draw(canvas)
-        label = key.replace("level", "LEVEL ")
-        draw.text((cx, 982), label, anchor="ma", fill=NAVY, font=fitted(label, width - 8, 64))
-    draw = ImageDraw.Draw(canvas)
-    draw.line((45, 1140, 548, 1140), fill=ORANGE, width=6)
-    draw.line((712, 1140, 1215, 1140), fill=ORANGE, width=6)
-    studio_logo(draw, 630, 1140, 138)
     canvas.convert("RGB").save(out, "PNG", optimize=True)
 
 
@@ -556,7 +557,7 @@ def main():
         "copyConcepts": {
             "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin" if doodle_path is None else manifest["doodle"]["path"], "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading"},
             "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
-            "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "three subtly tilted worksheet cards in one row", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
+            "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "October reference frame with three fixed-geometry real worksheet replacements", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region pixel QA passes"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered borderless real worksheet preview with October-matched shadow and crop", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "landing_page": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "five subtly tilted worksheet cards in one row", "labels": ["READING PASSAGE", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"], "parityFixture": "references /thumbnail-assets/thumbnail-5-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
         },

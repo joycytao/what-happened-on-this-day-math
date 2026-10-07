@@ -1,6 +1,6 @@
 {
   "reference": "references /thumbnail-assets/thumbnail-3-reference.png",
-  "generated": "output/thumbnails/october-v1.0-different-math.png",
+  "generated": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-different-math.png",
   "normalized": {
     "size": [
       1260,
@@ -9,34 +9,12 @@
     "mode": "RGB"
   },
   "fixedRegions": {
-    "month_and_rules": {
-      "box": [
-        55,
-        55,
-        1205,
-        205
-      ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
-    },
     "headline": {
       "box": [
         75,
         205,
         1185,
         330
-      ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
-    },
-    "subtitle": {
-      "box": [
-        120,
-        335,
-        1140,
-        420
       ],
       "mean_absolute_error": 0.0,
       "changed_pixel_ratio": 0.0,
@@ -63,6 +41,72 @@
       "mean_absolute_error": 0.0,
       "changed_pixel_ratio": 0.0,
       "ssim": 1.0
+    },
+    "top_frame": {
+      "box": [
+        30,
+        30,
+        1230,
+        45
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "left_frame": {
+      "box": [
+        30,
+        30,
+        45,
+        1230
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "right_frame": {
+      "box": [
+        1215,
+        30,
+        1230,
+        1230
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "bottom_frame": {
+      "box": [
+        30,
+        1215,
+        1230,
+        1230
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "left_month_rule": {
+      "box": [
+        65,
+        145,
+        275,
+        165
+      ],
+      "mean_absolute_error": 0.03126984126984127,
+      "changed_pixel_ratio": 0.0007142857142857143,
+      "ssim": 0.9997767331154719
+    },
+    "right_month_rule": {
+      "box": [
+        985,
+        145,
+        1195,
+        165
+      ],
+      "mean_absolute_error": 0.01119047619047619,
+      "changed_pixel_ratio": 0.0004761904761904762,
+      "ssim": 0.9999563738524173
     }
   },
   "variableCards": {
@@ -70,38 +114,62 @@
       "box": [
         45,
         435,
-        430,
+        435,
         965
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 6.914734720206418,
+      "changed_pixel_ratio": 0.08308659893565554,
+      "ssim": 0.16761667407506475
     },
     "level2": {
       "box": [
-        430,
-        435,
-        830,
+        425,
+        425,
+        835,
         965
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 7.328211382113821,
+      "changed_pixel_ratio": 0.08778681120144535,
+      "ssim": 0.1902258416595045
     },
     "level3": {
       "box": [
-        830,
+        825,
         435,
         1220,
         965
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 8.870636095852241,
+      "changed_pixel_ratio": 0.10280869357535229,
+      "ssim": 0.1436587198038406
+    }
+  },
+  "variableCopy": {
+    "month": {
+      "box": [
+        270,
+        45,
+        990,
+        205
+      ],
+      "mean_absolute_error": 69.31951967592593,
+      "changed_pixel_ratio": 0.36638020833333335,
+      "ssim": 0.2690326295595515
+    },
+    "day_count": {
+      "box": [
+        80,
+        335,
+        1180,
+        425
+      ],
+      "mean_absolute_error": 46.43340740740741,
+      "changed_pixel_ratio": 0.266989898989899,
+      "ssim": 0.2508212055450467
     }
   },
   "visualAcceptance": {
-    "fixedRegionMinSsim": 1.0,
+    "fixedRegionMinSsim": 0.9997767331154719,
     "fixedRegionThreshold": 0.5,
     "passed": true
   },
