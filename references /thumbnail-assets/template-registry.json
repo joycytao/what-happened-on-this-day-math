@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "templates": {
+    "cover": {
+      "template_id": "thumbnail-1",
+      "version": "v1.0.0",
+      "reference": "references /thumbnail-assets/thumbnail-1-reference.png",
+      "sha256": "cf92112667ac3efb1b0f5a7bc0c15eaf703b72c349ff04c3cb1b48078e0a2cd4",
+      "contract": "examples/thumbnail-template-contract.example.json#/templates/cover"
+    },
+    "whats_included": {
+      "template_id": "thumbnail-2",
+      "version": "v1.0.0",
+      "reference": "references /thumbnail-assets/thumbnail-2-reference.png",
+      "sha256": "bc2e5dcf26ab9e2aeb2ec515b953ac24c68658eae582a24753dda0045f475129",
+      "contract": "examples/thumbnail-template-contract.example.json#/templates/whats_included"
+    },
+    "different_math": {
+      "template_id": "thumbnail-3",
+      "version": "v1.0.0",
+      "reference": "references /thumbnail-assets/thumbnail-3-reference.png",
+      "sha256": "aa719ae086b5ec50d460951bb0caa943cb616b0bc0d1e1fdf0c7ffe06ec0845d",
+      "contract": "examples/thumbnail-template-contract.example.json#/templates/different_math"
+    },
+    "daily_practice": {
+      "template_id": "thumbnail-4",
+      "version": "v1.0.0",
+      "reference": "references /thumbnail-assets/thumbnail-4-reference.png",
+      "sha256": "0b71b6fa54f3aa5e7b215071db13b6b5e1d4977afcd746979d97e5e67720f67f",
+      "contract": "examples/thumbnail-template-contract.example.json#/templates/daily_practice"
+    },
+    "landing_page": {
+      "template_id": "thumbnail-5",
+      "version": "v1.0.0",
+      "reference": "references /thumbnail-assets/thumbnail-5-reference.png",
+      "sha256": "cd950effa047070b0936be34cf80bcdd10ac409225877f3d211fe3995442fd7d",
+      "contract": "examples/thumbnail-template-contract.example.json#/templates/landing_page"
+    }
+  }
+}
