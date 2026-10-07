@@ -1,13 +1,7 @@
 import { readFile } from "node:fs/promises";
+import { PAGE_TEMPLATE_NAMES, REQUIRED_SOURCE_LABELS, validateThumbnailSourceMapping } from "./thumbnail-source-mapping.mjs";
 
-const TEMPLATE_NAMES = ["cover", "whats_included", "different_math", "daily_practice", "landing_page"];
-const PAGE_TEMPLATES = new Set(["whats_included", "different_math", "daily_practice", "landing_page"]);
-const REQUIRED_SOURCE_LABELS = {
-  whats_included: ["story", "level1", "level2", "level3", "answer_key"],
-  different_math: ["story", "level1", "level2", "level3"],
-  daily_practice: ["worksheet"],
-  landing_page: ["reading_passage", "level1", "level2", "level3", "answer_key"],
-};
+const TEMPLATE_NAMES = ["cover", ...PAGE_TEMPLATE_NAMES];
 
 export async function loadMonthlyThumbnailManifest(path) {
   return JSON.parse(await readFile(path, "utf8"));
@@ -42,21 +36,16 @@ export function validateMonthlyThumbnailManifest(manifest) {
     required(template, `templates.${name}`);
     if (!template) continue;
     required(template.output, `templates.${name}.output`);
-    if (PAGE_TEMPLATES.has(name)) {
+    if (PAGE_TEMPLATE_NAMES.includes(name)) {
       required(template.source_pages, `templates.${name}.source_pages`);
       if (!template.source_pages || typeof template.source_pages !== "object") continue;
       for (const label of REQUIRED_SOURCE_LABELS[name]) {
         required(template.source_pages[label], `templates.${name}.source_pages.${label}`);
       }
-      for (const [label, page] of Object.entries(template.source_pages)) {
-        if (!Number.isInteger(page) || page < 1) {
-          errors.push(`templates.${name}.source_pages.${label} must be a positive integer page number`);
-        } else if (Number.isInteger(manifest.pdf?.page_count) && page > manifest.pdf.page_count) {
-          errors.push(`templates.${name}.source_pages.${label} requests page ${page}, but pdf.page_count is ${manifest.pdf.page_count}`);
-        }
-      }
     }
   }
+
+  errors.push(...validateThumbnailSourceMapping(manifest));
 
   return { valid: errors.length === 0, errors };
 }
