@@ -112,8 +112,33 @@ test("Thumbnail 3 visual QA records fixed-region and variable-card parity artifa
   assert.equal(qa.status, 0, qa.stderr || qa.stdout);
   const report = JSON.parse(await readFile(join(outputDir, "thumbnail-3-visual-qa.json"), "utf8"));
   assert.equal(report.visualAcceptance.passed, true);
-  assert.deepEqual(Object.keys(report.fixedRegions), ["month_and_rules", "headline", "subtitle", "labels", "footer"]);
+  assert.deepEqual(Object.keys(report.fixedRegions), ["headline", "labels", "footer", "top_frame", "left_frame", "right_frame", "bottom_frame", "left_month_rule", "right_month_rule"]);
   assert.deepEqual(Object.keys(report.variableCards), ["level1", "level2", "level3"]);
+  for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
+});
+
+test("November different-math preserves the October frame and replaces only copy/screenshots", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "november-thumbnail-3-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "november-thumbnail-3-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail3_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-3-reference.png",
+    "--generated", join(generatedDir, "november-v1.0-different-math.png"),
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-3-visual-qa.json"), "utf8"));
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.equal(report.normalized.size[0], 1260);
+  assert.equal(report.normalized.size[1], 1260);
+  assert.deepEqual(Object.keys(report.variableCopy), ["month", "day_count"]);
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
