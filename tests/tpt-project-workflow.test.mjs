@@ -21,3 +21,11 @@ test("release trigger starts TPT only after a successful monthly release", () =>
   assert.match(triggerWorkflow, /uses: \.\/\.github\/workflows\/tpt-workstream\.yml/);
   assert.match(triggerWorkflow, /thumbnail_manifest_path:/);
 });
+
+test("successful TPT runs persist the complete generated package, not only the handoff directory", () => {
+  assert.match(workflow, /name: Commit complete TPT package to main/);
+  assert.match(workflow, /PACKAGE_DIR: output\/tpt\/\$\{\{ inputs\.package_id \}\}/);
+  assert.match(workflow, /git add "\$PACKAGE_DIR"/);
+  assert.doesNotMatch(workflow, /git add "\$HANDOFF_DIR"/);
+  assert.match(workflow, /git commit -m "Publish TPT package for \$\{PACKAGE_ID\}"/);
+});
