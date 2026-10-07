@@ -355,18 +355,31 @@ def compose_different_math(month, day_count, pages, out):
     centered(draw, month.title(), 62, 108, 820)
     centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 347, 54, 1100, bold=False)
 
+    # The canonical image already contains the October worksheet cards. Clear
+    # their full visual envelopes before compositing November pages; otherwise
+    # the old white paper and shadows remain underneath the replacement cards
+    # and produce the reported "overlap on overlap" effect. These envelopes
+    # stop above the fixed level labels and are redrawn below with the same
+    # card geometry and rotation.
+    for box in [(40, 420, 440, 970), (420, 410, 840, 970), (820, 420, 1220, 970)]:
+        draw.rectangle(box, fill=BG)
+
     cards = [
         ("level1", 243, 704, 376, 495, -2.0),
         ("level2", 629, 698, 396, 510, 0.0),
         ("level3", 1015, 704, 379, 495, 2.0),
     ]
     for key, cx, cy, width, height, angle in cards:
-        worksheet = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        source = Image.open(pages[key]).convert("RGB")
-        fitted_image = ImageOps.contain(source, (width, height), method=Image.Resampling.LANCZOS)
-        paper = Image.new("RGBA", (width, height), "white")
-        paper.paste(fitted_image, ((width - fitted_image.width) // 2, (height - fitted_image.height) // 2))
-        worksheet.alpha_composite(paper)
+        worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
+        card(
+            worksheet,
+            pages[key],
+            (16, 16, width, height),
+            "",
+            label_style="none",
+            outline=False,
+            fit_mode="cover",
+        )
         worksheet = worksheet.rotate(angle, resample=Image.Resampling.BICUBIC, expand=True)
         canvas.alpha_composite(worksheet, (cx - worksheet.width // 2, cy - worksheet.height // 2))
     canvas.convert("RGB").save(out, "PNG", optimize=True)

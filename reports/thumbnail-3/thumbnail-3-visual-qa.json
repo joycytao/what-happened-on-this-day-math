@@ -71,9 +71,9 @@
         1230,
         1230
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 0.07940740740740741,
+      "changed_pixel_ratio": 0.007277777777777778,
+      "ssim": 0.9998376293033906
     },
     "bottom_frame": {
       "box": [
@@ -117,9 +117,9 @@
         435,
         965
       ],
-      "mean_absolute_error": 6.914734720206418,
-      "changed_pixel_ratio": 0.08308659893565554,
-      "ssim": 0.16761667407506475
+      "mean_absolute_error": 7.326805353975165,
+      "changed_pixel_ratio": 0.09412675374939526,
+      "ssim": 0.14953136526288158
     },
     "level2": {
       "box": [
@@ -128,9 +128,9 @@
         835,
         965
       ],
-      "mean_absolute_error": 7.328211382113821,
-      "changed_pixel_ratio": 0.08778681120144535,
-      "ssim": 0.1902258416595045
+      "mean_absolute_error": 7.764744052996085,
+      "changed_pixel_ratio": 0.10221770551038843,
+      "ssim": 0.19233203986079547
     },
     "level3": {
       "box": [
@@ -139,9 +139,9 @@
         1220,
         965
       ],
-      "mean_absolute_error": 8.870636095852241,
-      "changed_pixel_ratio": 0.10280869357535229,
-      "ssim": 0.1436587198038406
+      "mean_absolute_error": 9.347227131597803,
+      "changed_pixel_ratio": 0.11577740625746358,
+      "ssim": 0.13368058165495003
     }
   },
   "variableCopy": {
