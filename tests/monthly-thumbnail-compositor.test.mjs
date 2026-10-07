@@ -93,6 +93,32 @@ test("Thumbnail 2 visual QA records fixed-region and variable-card parity artifa
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
+test("November what's-included changes only the five worksheet screenshot regions", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "november-thumbnail-2-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "november-thumbnail-2-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail2_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-2-reference.png",
+    "--generated", join(generatedDir, "november-v1.0-whats-included.png"),
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-2-visual-qa.json"), "utf8"));
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.equal(report.outsideVariableRegions.changed_pixel_count, 0);
+  assert.equal(report.normalized.size[0], 1260);
+  assert.equal(report.normalized.size[1], 1260);
+  assert.deepEqual(Object.keys(report.variableCards), ["story", "level1", "level2", "level3", "answer_key"]);
+  for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
+});
+
 test("Thumbnail 3 visual QA records fixed-region and variable-card parity artifacts", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "thumbnail-3-qa-"));
   const generatedDir = await mkdtemp(join(tmpdir(), "thumbnail-3-generated-"));
