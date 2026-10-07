@@ -365,9 +365,12 @@ def compose_different_math(month, day_count, pages, out):
         draw.rectangle(box, fill=BG)
 
     cards = [
-        ("level1", 243, 704, 376, 495, -2.0),
+        # Pillow's positive angle tilts the top edge upward to the right.
+        # The October reference fans outward: the left sheet rises toward
+        # the center and the right sheet falls toward the center.
+        ("level1", 243, 704, 376, 495, 2.0),
         ("level2", 629, 698, 396, 510, 0.0),
-        ("level3", 1015, 704, 379, 495, 2.0),
+        ("level3", 1015, 704, 379, 495, -2.0),
     ]
     for key, cx, cy, width, height, angle in cards:
         worksheet = Image.new("RGBA", (width + 32, height + 32), (0, 0, 0, 0))
