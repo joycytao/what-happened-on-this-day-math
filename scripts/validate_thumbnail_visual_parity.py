@@ -75,6 +75,16 @@ def outside_variable(reference: Image.Image, generated: Image.Image, variable_re
     }
 
 
+def region_geometry(regions):
+    in_bounds = all(
+        region["x"] >= 0 and region["y"] >= 0
+        and region["x"] + region["width"] <= SIZE[0]
+        and region["y"] + region["height"] <= SIZE[1]
+        for region in regions.values()
+    )
+    return {"clipping": {"passed": in_bounds}, "overflow": {"passed": in_bounds}}
+
+
 def legibility(generated: Image.Image, variable_regions):
     pixels = np.asarray(generated)
     results = {}
@@ -112,6 +122,7 @@ def main():
     fixed = {name: metric(reference, generated, region) for name, region in contract["fixed_regions"].items()}
     variable = {name: metric(reference, generated, region) for name, region in contract["variable_regions"].items()}
     outside = outside_variable(reference, generated, contract["variable_regions"])
+    geometry = region_geometry({**contract["fixed_regions"], **contract["variable_regions"]})
     fixed_min_ssim = min(item["ssim"] for item in fixed.values())
     legibility_results = legibility(generated, contract["variable_regions"])
     report = {
@@ -126,13 +137,13 @@ def main():
         "fixedRegions": fixed,
         "variableRegions": variable,
         "outsideVariableRegions": outside,
-        "geometry": {"clipping": {"passed": True}, "overflow": {"passed": True}},
+        "geometry": geometry,
         "legibility": legibility_results,
         "visualAcceptance": {
             "fixedRegionMinSsim": fixed_min_ssim,
             "fixedRegionThreshold": args.fixed_ssim_threshold,
             "outsideVariableChangedPixelCount": outside["changed_pixel_count"],
-            "passed": fixed_min_ssim >= args.fixed_ssim_threshold and all(item["passed"] for item in legibility_results.values()),
+            "passed": fixed_min_ssim >= args.fixed_ssim_threshold and all(item["passed"] for item in legibility_results.values()) and all(item["passed"] for item in geometry.values()),
         },
         "artifacts": [side_name, overlay_name, diff_name],
     }
