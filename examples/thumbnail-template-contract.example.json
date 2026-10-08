@@ -21,7 +21,7 @@
       "version": "v1.0.0",
       "canvas": { "width": 1260, "height": 1260 },
       "fixed_regions": { "frame": { "x": 30, "y": 30, "width": 1200, "height": 1200 }, "footer": { "x": 45, "y": 1130, "width": 1170, "height": 80 } },
-      "variable_regions": { "worksheet_cards": { "x": 90, "y": 250, "width": 1080, "height": 760 }, "month_title": { "x": 210, "y": 80, "width": 840, "height": 180 } },
+      "variable_regions": { "worksheet_cards": { "x": 90, "y": 250, "width": 1080, "height": 760 }, "month_title": { "x": 210, "y": 80, "width": 840, "height": 180 }, "day_count": { "x": 80, "y": 330, "width": 1100, "height": 110 } },
       "assets": { "reference": "references /thumbnail-assets/thumbnail-3-reference.png", "logo": "references /worksheet-assets/6pm-studio-logo.svg" },
       "layout": { "z_order": ["background", "frame", "month_title", "worksheet_cards", "footer", "logo"], "crop_anchor": "center", "shadow": true, "border_policy": "preserve", "typography": { "title": "display-navy", "labels": "uppercase-navy" } }
     },
