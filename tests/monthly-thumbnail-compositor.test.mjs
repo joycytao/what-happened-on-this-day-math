@@ -69,6 +69,31 @@ test("generates the five requested 1260px monthly thumbnail concepts", async () 
   });
 });
 
+test("reports fixed and variable composition layers from the versioned contract", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-layers-"));
+  const result = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
+  for (const name of ["cover", "whats_included", "different_math", "daily_practice", "landing_page"]) {
+    const layers = report.compositionLayers[name];
+    assert.ok(layers, name);
+    assert.deepEqual(layers.canvas, [1260, 1260], name);
+    assert.ok(Object.keys(layers.fixed_regions).length > 0, `${name} fixed regions`);
+    assert.ok(Object.keys(layers.variable_regions).length > 0, `${name} variable regions`);
+    for (const region of Object.values(layers.variable_regions)) {
+      assert.ok(region.x >= 0 && region.y >= 0, `${name} variable origin`);
+      assert.ok(region.x + region.width <= 1260, `${name} variable width`);
+      assert.ok(region.y + region.height <= 1260, `${name} variable height`);
+    }
+  }
+  assert.match(report.templateContract, /thumbnail-template-contract\.example\.json$/);
+});
+
 test("Thumbnail 2 visual QA records fixed-region and variable-card parity artifacts", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "thumbnail-2-qa-"));
   const generatedDir = await mkdtemp(join(tmpdir(), "thumbnail-2-generated-"));
