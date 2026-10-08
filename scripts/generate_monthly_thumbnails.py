@@ -6,6 +6,7 @@ import hashlib
 import json
 import subprocess
 import tempfile
+from dataclasses import dataclass
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageOps
@@ -14,6 +15,58 @@ BG = "#FEFFEF"
 NAVY = "#2B313F"
 ORANGE = "#FF8A00"
 SIZE = 1260
+
+
+@dataclass(frozen=True)
+class CompositionLayers:
+    """Machine-readable fixed/variable layer contract for one thumbnail.
+
+    Generation loads the same contract that QA uses to decide which pixels
+    may change between months. This makes the month-specific boundary
+    explicit in the generated report instead of leaving it undocumented.
+    """
+
+    name: str
+    version: str
+    canvas: tuple[int, int]
+    fixed_regions: dict
+    variable_regions: dict
+
+    @classmethod
+    def from_contract(cls, contract_path: Path, name: str):
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        template = contract["templates"].get(name)
+        if template is None:
+            raise KeyError(f"template contract missing {name!r}")
+        canvas = (template["canvas"]["width"], template["canvas"]["height"])
+        if canvas != (SIZE, SIZE):
+            raise ValueError(f"{name} canvas must be {SIZE}x{SIZE}, got {canvas}")
+        return cls(
+            name=name,
+            version=template["version"],
+            canvas=canvas,
+            fixed_regions=template["fixed_regions"],
+            variable_regions=template["variable_regions"],
+        )
+
+    def report(self):
+        return {
+            "version": self.version,
+            "canvas": list(self.canvas),
+            "fixed_regions": self.fixed_regions,
+            "variable_regions": self.variable_regions,
+        }
+
+
+def resolve_contract_path(manifest_path: Path, requested: Path) -> Path:
+    """Resolve a contract from the invocation directory or beside the manifest."""
+    candidates = [requested]
+    if not requested.is_absolute():
+        candidates.extend([Path.cwd() / requested, manifest_path.parent / requested])
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate.resolve()
+    raise FileNotFoundError(f"thumbnail template contract does not exist: {requested}")
 
 
 def font(size: int, bold: bool = True):
@@ -505,9 +558,20 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--template-contract",
+        type=Path,
+        default=Path("examples/thumbnail-template-contract.example.json"),
+        help="versioned fixed/variable layer contract used by generation and QA",
+    )
     args = parser.parse_args()
     manifest_path = args.manifest.resolve()
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    contract_path = resolve_contract_path(manifest_path, args.template_contract)
+    layers = {
+        name: CompositionLayers.from_contract(contract_path, name)
+        for name in ["cover", "whats_included", "different_math", "daily_practice", "landing_page"]
+    }
     pdf = Path(manifest["pdf"]["path"])
     if not pdf.is_absolute():
         pdf = (Path.cwd() / pdf).resolve()
@@ -567,6 +631,11 @@ def main():
             "deterministic": True,
         },
         "templates": names,
+        "compositionLayers": {
+            name.replace("-", "_"): layers[name.replace("-", "_")].report()
+            for name in names
+        },
+        "templateContract": str(contract_path),
         "labels": labels,
         "checksums": checksums,
         "pdf": manifest["pdf"]["path"],
