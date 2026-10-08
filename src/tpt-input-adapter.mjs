@@ -23,8 +23,18 @@ function packageArtifact(manifest, id) {
   return manifest.artifacts.find((artifact) => artifact.id === id);
 }
 
-export function buildTptMetadata({ manifest, content, taxonomy, releaseManifestPath = 'examples/monthly-release-manifest.example.json', contentPath = 'content/monthly/month-10.json' }) {
+function loadPositioningBrief(positioningBrief, positioningBriefPath) {
+  if (positioningBrief) return positioningBrief;
+  try {
+    return JSON.parse(fs.readFileSync(path.resolve(positioningBriefPath), 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+export function buildTptMetadata({ manifest, content, taxonomy, positioningBrief, releaseManifestPath = 'examples/monthly-release-manifest.example.json', contentPath = 'content/monthly/month-10.json', positioningBriefPath = 'examples/tpt-positioning-brief.example.json' }) {
   const errors = [];
+  const brief = loadPositioningBrief(positioningBrief, positioningBriefPath);
   const manifestResult = validateMonthlyReleaseManifest(manifest);
   if (!manifestResult.valid) manifestResult.errors.forEach((error) => fail(errors, `release manifest: ${error}`));
   const expectedMonth = monthNumber(manifest?.month);
@@ -33,6 +43,9 @@ export function buildTptMetadata({ manifest, content, taxonomy, releaseManifestP
   if (!contentResult.valid) contentResult.errors.forEach((error) => fail(errors, `content: ${error}`));
   const taxonomyResult = validateTptMetadataTaxonomy(taxonomy);
   if (!taxonomyResult.valid) taxonomyResult.errors.forEach((error) => fail(errors, `taxonomy: ${error}`));
+  if (!brief?.corePromise) fail(errors, 'positioning brief: corePromise is required');
+  if (!Array.isArray(brief?.targetBuyers) || brief.targetBuyers.length === 0) fail(errors, 'positioning brief: targetBuyers is required');
+  if (!Array.isArray(brief?.claimsBoundaries) || brief.claimsBoundaries.length === 0) fail(errors, 'positioning brief: claimsBoundaries is required');
   if (manifest?.month !== monthName(expectedMonth)) fail(errors, 'manifest month must be a valid English month name');
   if (content?.month !== expectedMonth) fail(errors, 'content month must match the release manifest');
   if (errors.length) return { valid: false, errors };
@@ -68,7 +81,9 @@ export function buildTptMetadata({ manifest, content, taxonomy, releaseManifestP
       gradeBand: 'Grades 1-5',
       format: 'Printable PDF',
       productRelationship: 'monthly standalone',
-      description: `A ${dayCount}-day ${month} packet with daily historical mini-stories and three leveled math word problems. It includes a worksheet coversheet, printable practice pages, and separate answer keys for teacher use.`,
+      description: brief.copyReference.shortDescriptionTemplate
+        .replace('{dayCount}', String(dayCount))
+        .replace('{month}', month),
       contents: {
         dailyModules: dayCount,
         levels: ['Level 1', 'Level 2', 'Level 3'],
@@ -82,17 +97,20 @@ export function buildTptMetadata({ manifest, content, taxonomy, releaseManifestP
         pageMappings: pageMappings?.path,
         thumbnailQa: thumbnailQa?.path,
         releaseManifest: releaseManifestPath,
-        monthlyContent: contentPath
+        monthlyContent: contentPath,
+        positioningBrief: positioningBriefPath
       }
     },
     provenance: {
       package: { source: releaseManifestPath, fields: ['packageId', 'packageVersion', 'month', 'year', 'sourceCommit', 'releaseStatus'] },
       contents: { source: contentPath, fields: ['days.length', 'mathLevels', 'answerKey'] },
       assets: { source: releaseManifestPath, fields: ['artifacts.finalPdf', 'artifacts.coverPdfPage', 'artifacts.pageMappings', 'artifacts.thumbnailQa'] },
-      taxonomy: { source: 'examples/tpt-metadata-taxonomy.example.json', fields: ['titleRules', 'keywordGroups', 'relationshipRules'] }
+      taxonomy: { source: 'examples/tpt-metadata-taxonomy.example.json', fields: ['titleRules', 'keywordGroups', 'relationshipRules'] },
+      positioning: { source: positioningBriefPath, fields: ['corePromise', 'targetBuyers', 'evidence', 'claimsBoundaries', 'copyReference'] }
     },
     claims: {
       unsupported: [],
+      boundaries: brief.claimsBoundaries,
       humanQaRequired: true,
       publicationStatus: 'review'
     }
