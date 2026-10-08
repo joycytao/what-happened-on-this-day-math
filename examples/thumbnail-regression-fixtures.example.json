@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "fixtures": [
+    {
+      "id": "daily-practice-frame",
+      "thumbnail_type": "daily_practice",
+      "failure_modes": ["border removal", "shadow", "aspect ratio", "typography hierarchy"],
+      "fixed_regions": ["frame", "footer"],
+      "variable_regions": ["worksheet", "headline"]
+    },
+    {
+      "id": "different-math-fan",
+      "thumbnail_type": "different_math",
+      "failure_modes": ["outward fan orientation", "overlap order", "day-count copy"],
+      "fixed_regions": ["frame", "footer"],
+      "variable_regions": ["worksheet_cards", "month_title", "day_count"]
+    },
+    {
+      "id": "whats-included-screenshot-only",
+      "thumbnail_type": "whats_included",
+      "failure_modes": ["worksheet-screenshot-only replacement", "card seam", "label geometry"],
+      "fixed_regions": ["frame", "footer"],
+      "variable_regions": ["worksheet_cards", "headline"]
+    },
+    {
+      "id": "landing-page-card-seam",
+      "thumbnail_type": "landing_page",
+      "failure_modes": ["card seam", "crop anchor", "logo", "shadow"],
+      "fixed_regions": ["frame", "footer"],
+      "variable_regions": ["worksheet_cards", "headline"]
+    },
+    {
+      "id": "cover-typography-doodle",
+      "thumbnail_type": "cover",
+      "failure_modes": ["typography hierarchy", "doodle", "fixed frame"],
+      "fixed_regions": ["frame", "footer"],
+      "variable_regions": ["month_title", "doodle"]
+    }
+  ]
+}
