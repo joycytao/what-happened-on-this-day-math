@@ -283,8 +283,9 @@ def card(canvas, page, box, label, label_style="pill", label_width=None, outline
     canvas.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(8)))
     source = Image.open(page).convert("RGB")
     # Landing cards have no outline; fill their complete paper window so the
-    # synthetic white inset cannot create bright seams between overlapping
-    # worksheet screenshots. Other card modes retain their original inset.
+    # synthetic inset cannot create a bright seam between worksheet screenshots.
+    # The padding must use the canonical canvas color. The PDF pixels remain
+    # untouched inside the fitted image.
     target_size = (w, h) if fit_mode == "cover" else (w - 12, h - 12)
     if fit_mode == "cover":
         # Fill the fixed card window while preserving the worksheet's aspect
@@ -292,7 +293,7 @@ def card(canvas, page, box, label, label_style="pill", label_width=None, outline
         fitted_image = fit_page_preserving_aspect(source, target_size)
     else:
         fitted_image = ImageOps.contain(source, target_size, method=Image.Resampling.LANCZOS)
-    sheet = Image.new("RGB", (w, h), "white")
+    sheet = Image.new("RGB", (w, h), BG)
     sheet.paste(fitted_image, ((w - fitted_image.width) // 2, (h - fitted_image.height) // 2))
     canvas.paste(sheet, (x, y))
     draw = ImageDraw.Draw(canvas)
