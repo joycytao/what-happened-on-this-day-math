@@ -244,6 +244,17 @@ answer-key check does not prove that the rendered PDF has the correct page
 count, page order, margins, or absence of overflow. A passing renderer check
 does not prove that the historical claims or answers are correct.
 
+## Issue triage and agent governance
+
+Before changing the Issue workflow, assigning work, or deciding whether an
+Issue is ready for pickup, read `docs/agent-governance.md`.
+
+The `pm-triage` agent owns question routing and Issue completeness. Every open
+question must have exactly one Decision Owner; consulted agents provide input
+but do not compete with that owner. Only the Human Accountable Owner may
+approve `status: ready to pickup`. Unresolved blocking questions or
+dependencies keep the Issue blocked.
+
 Before modifying the issue workflow, recalculate the dependency graph from the
 current open Issues and update the documented order when a new Issue, scope
 change, closure, or prerequisite changes the graph. Preserve unrelated local
