@@ -1,0 +1,57 @@
+name: Emit product.confirmed Carousel handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      approval_issue:
+        description: Approved release Issue number carrying status: ready to dispatch
+        required: true
+        type: string
+      payload_path:
+        description: Repository-relative product-confirmed/v1 Carousel payload
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  handoff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate and render Carousel handoff story
+        run: >-
+          npm run social:product-confirmed --
+          --template carousel
+          --input "${{ inputs.payload_path }}"
+          --output-dir /tmp/product-confirmed-carousel-handoff
+      - name: Create or update one idempotent Carousel story
+        uses: actions/github-script@v7
+        env:
+          APPROVAL_ISSUE: ${{ inputs.approval_issue }}
+          PAYLOAD_PATH: /tmp/product-confirmed-carousel-handoff/product-confirmed.json
+          STORY_PATH: /tmp/product-confirmed-carousel-handoff/product-carousel-story.md
+        with:
+          script: |
+            const fs = require('node:fs');
+            const payload = JSON.parse(fs.readFileSync(process.env.PAYLOAD_PATH, 'utf8'));
+            const body = fs.readFileSync(process.env.STORY_PATH, 'utf8');
+            const approval = await github.rest.issues.get({ owner: context.repo.owner, repo: context.repo.repo, issue_number: Number(process.env.APPROVAL_ISSUE) });
+            const labels = approval.data.labels.map((label) => typeof label === 'string' ? label : label.name);
+            if (!labels.includes('status: ready to dispatch') || payload.approval.issue_number !== Number(process.env.APPROVAL_ISSUE)) {
+              core.setFailed('approval_label_missing');
+              return;
+            }
+            const marker = `<!-- product-handoff-id: ${payload.handoff_id} -->`;
+            const all = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
+            const existing = all.find((issue) => !issue.pull_request && (issue.body || '').includes(marker));
+            const input = { owner: context.repo.owner, repo: context.repo.repo, title: `Carousel handoff: ${payload.product_title}`, body, labels: ['status: ready to pickup', 'type: feature'] };
+            const result = existing ? await github.rest.issues.update({ ...input, issue_number: existing.number }) : await github.rest.issues.create(input);
+            core.info(`${existing ? 'Updated' : 'Created'} Carousel story #${result.data.number}`);

@@ -5,6 +5,7 @@ import path from "node:path";
 export const PRODUCT_CONFIRMED_SCHEMA = "product-confirmed/v1";
 export const PRODUCT_CONFIRMED_EVENT = "product.confirmed";
 export const PRODUCT_REEL_TEMPLATE_ID = "reel-v1";
+export const PRODUCT_CAROUSEL_TEMPLATE_ID = "carousel-v1";
 export const APPROVAL_LABEL = "status: ready to dispatch";
 export const STORY_LABELS = ["status: ready to pickup", "type: feature"];
 
@@ -71,7 +72,7 @@ export function validateProductConfirmedInput(input = {}, { root = process.cwd()
   if (input.schema_version !== PRODUCT_CONFIRMED_SCHEMA) add(errors, `schema_version must be ${PRODUCT_CONFIRMED_SCHEMA}`);
   if (input.event !== PRODUCT_CONFIRMED_EVENT) add(errors, `event must be ${PRODUCT_CONFIRMED_EVENT}`);
   const handoffId = requiredString(input.handoff_id, "handoff_id", errors);
-  if (handoffId && !/^what-happened-on-this-day-math:[a-z0-9-]+:reel$/.test(handoffId)) add(errors, "handoff_id must identify one monthly reel handoff");
+  if (handoffId && !/^what-happened-on-this-day-math:[a-z0-9-]+:(reel|carousel)$/.test(handoffId)) add(errors, "handoff_id must identify one monthly reel or carousel handoff");
   const productId = requiredString(input.product_id, "product_id", errors);
   const month = requiredString(input.month, "month", errors);
   if (month && !MONTHS.has(month.toLowerCase())) add(errors, "month must be an English month name");
@@ -92,7 +93,8 @@ export function validateProductConfirmedInput(input = {}, { root = process.cwd()
     : [];
   if (!input.template || typeof input.template !== "object") add(errors, "template is required");
   const template = input.template ?? {};
-  if (template.template_id !== PRODUCT_REEL_TEMPLATE_ID) add(errors, `template.template_id must be ${PRODUCT_REEL_TEMPLATE_ID}`);
+  const expectedTemplate = handoffId.endsWith(":carousel") ? PRODUCT_CAROUSEL_TEMPLATE_ID : PRODUCT_REEL_TEMPLATE_ID;
+  if (template.template_id !== expectedTemplate) add(errors, `template.template_id must be ${expectedTemplate}`);
   const templateVersion = requiredString(template.template_version, "template.template_version", errors);
   if (!input.approval || typeof input.approval !== "object") add(errors, "approval is required");
   const approval = input.approval ?? {};
@@ -118,14 +120,17 @@ export function validateProductConfirmedInput(input = {}, { root = process.cwd()
   return { valid: errors.length === 0, errors, payload };
 }
 
-export function buildProductReelStory(input, options = {}) {
+export function buildProductConfirmedStory(input, options = {}) {
   const validation = validateProductConfirmedInput(input, options);
   if (!validation.valid) return { ...validation, story: null };
   const payload = validation.payload;
+  const isCarousel = payload.template.template_id === PRODUCT_CAROUSEL_TEMPLATE_ID;
+  const workstream = isCarousel ? "Carousel" : "Product Reel";
+  const templateId = payload.template.template_id;
   const marker = `<!-- product-handoff-id: ${payload.handoff_id} -->`;
   const story = [
     marker,
-    `# Product Reel handoff: ${payload.product_title}`,
+    `# ${workstream} handoff: ${payload.product_title}`,
     "",
     "This story was emitted from a validated `product.confirmed` release handoff.",
     "",
@@ -135,18 +140,28 @@ export function buildProductReelStory(input, options = {}) {
     JSON.stringify(payload, null, 2),
     "```",
     "",
-    "## Fixed reel-v1 checklist",
+    `## Fixed ${templateId} checklist`,
     "",
-    "- [ ] Confirm the four weekly records use only the referenced public assets.",
-    "- [ ] Confirm the rendered reel is 1080x1920, 30 fps, and human-reviewed.",
+    `- [ ] Confirm the four weekly ${isCarousel ? "carousel" : "reel"} records use only the referenced public assets.`,
+    isCarousel ? "- [ ] Confirm every carousel has 1080x1080 slides and is human-reviewed." : "- [ ] Confirm the rendered reel is 1080x1920, 30 fps, and human-reviewed.",
     "- [ ] Confirm answer keys and unsupported claims are not exposed.",
     `- [ ] Confirm the CTA uses ${payload.month_redirect_url} and ${payload.tpt_url} is the approved listing.`,
     "- [ ] Attach the rendered MP4/sidecar, QA report, branch, and PR before closure.",
     "",
-    "Production command: `npm run social:product-reels -- --input <validated-input> --output output/social/product-reels/<month>/workstream.json`",
+    isCarousel
+      ? "Production command: `npm run social:carousels -- --input <validated-input> --reels <validated-reel-output> --output output/social/carousels/<month>-carousels/workstream.json`"
+      : "Production command: `npm run social:product-reels -- --input <validated-input> --output output/social/product-reels/<month>/workstream.json`",
     "Publication remains blocked until human QA is complete.",
   ].join("\n");
   return { ...validation, marker, labels: [...STORY_LABELS], story };
+}
+
+export function buildProductReelStory(input, options = {}) {
+  return buildProductConfirmedStory(input, options);
+}
+
+export function buildProductCarouselStory(input, options = {}) {
+  return buildProductConfirmedStory(input, options);
 }
 
 export function findProductReelStory(issues, handoffId) {

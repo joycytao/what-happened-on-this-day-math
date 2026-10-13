@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { buildProductReelStory, findProductReelStory, validateProductConfirmedInput } from "../src/product-confirmed-handoff.mjs";
+import { buildProductCarouselStory, buildProductReelStory, findProductReelStory, validateProductConfirmedInput } from "../src/product-confirmed-handoff.mjs";
 
 function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "product-confirmed-") );
@@ -54,4 +54,18 @@ test("fails closed with named errors for unapproved or stale handoffs", () => {
   assert.equal(result.valid, false);
   assert.match(result.errors.join("\n"), /approval_label_missing/);
   assert.match(result.errors.join("\n"), /pdf_checksum_mismatch/);
+});
+
+test("builds a product-confirmed Carousel story from the same normalized payload", () => {
+  const { root, input } = fixture();
+  const carouselInput = {
+    ...input,
+    handoff_id: "what-happened-on-this-day-math:november:carousel",
+    template: { template_id: "carousel-v1", template_version: "1.0.0" }
+  };
+  const result = buildProductCarouselStory(carouselInput, { root });
+  assert.equal(result.valid, true, result.errors.join("\n"));
+  assert.match(result.story, /Carousel handoff/);
+  assert.match(result.story, /carousel-v1/);
+  assert.match(result.story, /social:carousels/);
 });
