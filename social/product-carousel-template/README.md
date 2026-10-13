@@ -11,7 +11,7 @@ This is the reusable monthly Product Carousel for `@engineermom.worksheets`.
 - Slide 2: six packet pages in two rows: Level 1, Level 2, Level 3.
 - Slide 3: six representative reading-passage pages. The title shows the full monthly count: `30 DAILY READINGS.` or `31 DAILY READINGS.` depending on the month.
 - Slide 4: fixed profile CTA using the back-view profile asset and link-in-bio language.
-- Worksheet cards preserve the full page and use a small `10px` corner radius; no answer key is exposed in the Cover preview.
+- Worksheet cards preserve the full page and use a small `10px` corner radius; the renderer adds no separate white backing panel or shadow, so the only paper color comes from the source worksheet itself. No answer key is exposed in the Cover preview.
 
 ## Monthly variants
 

@@ -34,6 +34,7 @@ constraints. It does not publish to Instagram.
 - Keep the canvas at `1080x1350`.
 - Do not show answer-key pages in the public carousel.
 - Preserve worksheet page proportions; never crop worksheet content.
+- Do not add a contrasting white backing panel or drop shadow behind worksheet cards; preserve the source worksheet paper appearance against the carousel background.
 - Keep Slide 2 and Slide 3 source-backed by the month packet.
 - Slide 3 title must represent the complete monthly reading library: `30 DAILY READINGS.` or `31 DAILY READINGS.` based on the discovered `NN-reading-passage.svg` count. The visual remains the original six readable sample cards.
 - Do not invent sale/free claims for the campaign-aligned variant.
