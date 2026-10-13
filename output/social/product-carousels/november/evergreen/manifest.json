@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "product-carousel/v1",
+  "month": "november",
+  "variant": "evergreen",
+  "canvas": "1080x1350",
+  "slideCount": 4,
+  "templateId": "product-carousel-v1",
+  "sourceAssets": {
+    "cover": "output/worksheet-cover/november-worksheet-cover.png",
+    "slide2": [
+      "reports/november-worksheet-pages/01-level1.svg",
+      "reports/november-worksheet-pages/01-level2.svg",
+      "reports/november-worksheet-pages/01-level3.svg",
+      "reports/november-worksheet-pages/02-level1.svg",
+      "reports/november-worksheet-pages/02-level2.svg",
+      "reports/november-worksheet-pages/02-level3.svg"
+    ],
+    "slide3": [
+      "reports/november-worksheet-pages/01-reading-passage.svg",
+      "reports/november-worksheet-pages/02-reading-passage.svg",
+      "reports/november-worksheet-pages/03-reading-passage.svg",
+      "reports/november-worksheet-pages/04-reading-passage.svg",
+      "reports/november-worksheet-pages/05-reading-passage.svg",
+      "reports/november-worksheet-pages/06-reading-passage.svg"
+    ],
+    "cta": "social/product-carousel-template/media/profile-back-view.png"
+  },
+  "hook": "A full month of math practice, ready to use.",
+  "support": "Reading passages, three levels, and answer keys in one packet.",
+  "campaignBadge": null,
+  "qa": {
+    "humanReviewRequired": true,
+    "answerKeyExposed": false,
+    "worksheetContentCropped": false
+  }
+}
