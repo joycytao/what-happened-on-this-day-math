@@ -23,7 +23,7 @@ body:
     id: perspective_title
     attributes:
       label: Perspective or hook
-      description: Write the single idea the viewer should remember.
+      description: Write the dynamic perspective or single idea supplied for this post.
       placeholder: "The way we review matters more than how many pages we finish."
     validations:
       required: true
@@ -40,7 +40,7 @@ body:
     id: insight
     attributes:
       label: Core insight
-      description: State the perspective in plain English and identify the practical takeaway.
+      description: State the supplied perspective in plain English and identify the practical takeaway.
     validations:
       required: true
 
@@ -68,13 +68,14 @@ body:
     id: slide_plan
     attributes:
       label: Slide plan
-      description: List the job and on-screen text for each slide. Include the intended slide count.
+      description: List the job and on-screen text for each slide. The default is 6 slides, but the final count may vary when the perspective needs fewer or more slides.
       placeholder: |
         1. Hook / perspective
         2. Context
         3. Evidence
         4. Practical implication
-        5. CTA
+        5. Practical takeaway
+        6. CTA
     validations:
       required: true
 
