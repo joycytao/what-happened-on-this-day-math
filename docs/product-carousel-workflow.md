@@ -22,16 +22,19 @@ npm run social:product-carousel -- \
 The renderer reads:
 
 - `output/worksheet-cover/<month>-worksheet-cover.png`
-- `reports/<month>-worksheet-pages/NN-reading-passage.svg`
+- `reports/<month>-worksheet-pages/NN-reading-passage.svg` for each day in the month
 - `reports/<month>-worksheet-pages/NN-level1.svg`
 - `reports/<month>-worksheet-pages/NN-level2.svg`
 - `reports/<month>-worksheet-pages/NN-level3.svg`
 - fixed scene/profile assets under `social/product-carousel-template/media/`
 
 It writes two directories, each containing four 1080×1350 PNG slides and a
-`manifest.json`. Slide 2 and Slide 3 use source-backed worksheet pages; answer
-key pages are never rendered into public slides. The output is review-only and
-requires human QA before publishing.
+`manifest.json`. Slide 2 uses source-backed worksheet pages. Slide 3 uses a
+compact contact sheet containing the complete monthly reading library: 28–31
+daily reading passages, depending on the month. The renderer discovers the
+available reading-passage files and records their count in the manifest.
+Answer-key pages are never rendered into public slides. The output is
+review-only and requires human QA before publishing.
 
 ## Calendar contract
 

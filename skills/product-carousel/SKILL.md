@@ -16,7 +16,7 @@ carousel. It creates exactly two four-slide variants:
 Required month assets:
 
 - `output/worksheet-cover/<month>-worksheet-cover.png`
-- `reports/<month>-worksheet-pages/NN-reading-passage.svg`
+- `reports/<month>-worksheet-pages/NN-reading-passage.svg` for every day in the month
 - `reports/<month>-worksheet-pages/NN-level1.svg`
 - `reports/<month>-worksheet-pages/NN-level2.svg`
 - `reports/<month>-worksheet-pages/NN-level3.svg`
@@ -35,5 +35,6 @@ constraints. It does not publish to Instagram.
 - Do not show answer-key pages in the public carousel.
 - Preserve worksheet page proportions; never crop worksheet content.
 - Keep Slide 2 and Slide 3 source-backed by the month packet.
+- Slide 3 must represent the complete monthly reading library: 28–31 daily reading passages, discovered from the available `NN-reading-passage.svg` assets rather than hard-coded to a sample count.
 - Do not invent sale/free claims for the campaign-aligned variant.
 - Human review is required before publication.
