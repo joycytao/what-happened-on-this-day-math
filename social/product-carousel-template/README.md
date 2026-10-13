@@ -9,7 +9,7 @@ This is the reusable monthly Product Carousel for `@engineermom.worksheets`.
 - Palette: `#203245`, `#D8C6B2`, `#F6F0E2`.
 - Slide 1: seasonal family-learning scene, monthly cover, reading passage, Level 1, and Level 3.
 - Slide 2: six packet pages in two rows: Level 1, Level 2, Level 3.
-- Slide 3: the complete monthly reading library, with one reading-passage page for every day in the month (28–31 pages, depending on the month).
+- Slide 3: six representative reading-passage pages. The title shows the full monthly count: `30 DAILY READINGS.` or `31 DAILY READINGS.` depending on the month.
 - Slide 4: fixed profile CTA using the back-view profile asset and link-in-bio language.
 - Worksheet cards preserve the full page and use a small `10px` corner radius; no answer key is exposed in the Cover preview.
 
@@ -34,7 +34,8 @@ The build reads the generated monthly worksheet SVGs from
 `reports/<month>-worksheet-pages/` and the month cover from
 `output/worksheet-cover/<month>-worksheet-cover.png`.
 
-The reading-library slide uses a compact contact-sheet layout so the full
-month is represented without cropping source pages. The output is review-only
-until a human confirms the assets and copy. The spreadsheet row for each
-variant is the scheduling source of truth.
+The reading-library slide uses the original six-card layout. The title carries
+the full monthly count while the six source-backed pages provide a readable
+sample of the library. The output is review-only until a human confirms the
+assets and copy. The spreadsheet row for each variant is the scheduling source
+of truth.

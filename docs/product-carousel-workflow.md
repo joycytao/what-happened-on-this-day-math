@@ -29,10 +29,11 @@ The renderer reads:
 - fixed scene/profile assets under `social/product-carousel-template/media/`
 
 It writes two directories, each containing four 1080×1350 PNG slides and a
-`manifest.json`. Slide 2 uses source-backed worksheet pages. Slide 3 uses a
-compact contact sheet containing the complete monthly reading library: 28–31
-daily reading passages, depending on the month. The renderer discovers the
-available reading-passage files and records their count in the manifest.
+`manifest.json`. Slide 2 uses source-backed worksheet pages. Slide 3 discovers
+the full monthly reading-passage count and uses it only in the title (`30 DAILY
+READINGS.` or `31 DAILY READINGS.`); the visual keeps six readable sample pages
+in the original six-card layout. The manifest records both the full count and
+the six-page sample.
 Answer-key pages are never rendered into public slides. The output is
 review-only and requires human QA before publishing.
 

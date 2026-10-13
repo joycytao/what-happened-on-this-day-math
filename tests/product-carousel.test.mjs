@@ -16,7 +16,8 @@ test("November Product Carousel output contains two four-slide variants", async 
     assert.equal(manifest.canvas, "1080x1350");
     assert.equal(manifest.slideCount, 4);
     assert.equal(manifest.readingPassageCount, 30);
-    assert.equal(manifest.sourceAssets.slide3.length, 30);
+    assert.equal(manifest.readingSampleCount, 6);
+    assert.equal(manifest.sourceAssets.slide3.length, 6);
     assert.equal(manifest.qa.answerKeyExposed, false);
     assert.equal(manifest.qa.worksheetContentCropped, false);
   }
