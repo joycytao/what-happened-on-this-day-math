@@ -1,0 +1,115 @@
+name: Perspective Carousel
+description: Plan an insight-led Carousel built around a clear parenting or learning perspective.
+title: "[Perspective Carousel]: "
+labels:
+  - "type: feature"
+  - "status: pending review"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for a Carousel whose primary value is a point of view, observation, or practical insight. This is separate from Product, Learning System, and Clean Worksheet Carousels.
+
+  - type: input
+    id: publish_date
+    attributes:
+      label: Publish date
+      description: Use YYYY-MM-DD.
+      placeholder: "2026-11-05"
+    validations:
+      required: true
+
+  - type: input
+    id: perspective_title
+    attributes:
+      label: Perspective or hook
+      description: Write the single idea the viewer should remember.
+      placeholder: "The way we review matters more than how many pages we finish."
+    validations:
+      required: true
+
+  - type: textarea
+    id: audience_tension
+    attributes:
+      label: Audience tension
+      description: What belief, frustration, or question is this Carousel addressing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: insight
+    attributes:
+      label: Core insight
+      description: State the perspective in plain English and identify the practical takeaway.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or source
+      description: Link or describe the worksheet, observation, data, or example that supports the perspective. Do not make unsupported claims.
+    validations:
+      required: true
+
+  - type: textarea
+    id: asset_paths
+    attributes:
+      label: Asset paths
+      description: List the exact local or repository paths for every image, screenshot, or source document.
+      placeholder: |
+        - Cover scene: ...
+        - Evidence image: ...
+        - CTA profile: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: slide_plan
+    attributes:
+      label: Slide plan
+      description: List the job and on-screen text for each slide. Include the intended slide count.
+      placeholder: |
+        1. Hook / perspective
+        2. Context
+        3. Evidence
+        4. Practical implication
+        5. CTA
+    validations:
+      required: true
+
+  - type: textarea
+    id: cta
+    attributes:
+      label: CTA
+      description: State the final action, profile handle, link, or save/share prompt.
+    validations:
+      required: true
+
+  - type: textarea
+    id: copy
+    attributes:
+      label: Caption and hashtags
+      description: Provide draft English caption copy and relevant hashtags, or leave the fields for the generator to create.
+
+  - type: checkboxes
+    id: acceptance
+    attributes:
+      label: Production checklist
+      options:
+        - label: The perspective is distinct from a Product, Learning System, or Clean Worksheet Carousel.
+          required: true
+        - label: Every factual or product-specific claim has a source or asset.
+          required: true
+        - label: Personal information in worksheet or family images is removed or blurred.
+          required: true
+        - label: The final slide includes an approved CTA.
+          required: true
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+
+  - type: textarea
+    id: open_questions
+    attributes:
+      label: Open questions or blockers
+      description: Record decisions needed before generation, including missing assets or copy.
