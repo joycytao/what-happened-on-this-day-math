@@ -10,6 +10,14 @@ body:
       value: |
         Use this form for a Carousel whose primary value is a point of view, observation, or practical insight. This is separate from Product, Learning System, and Clean Worksheet Carousels.
 
+        Default six-slide structure:
+        1. Cover / personal note
+        2. The problem
+        3. The self-check
+        4. The method
+        5. Real-world sample
+        6. CTA
+
   - type: input
     id: publish_date
     attributes:
@@ -68,14 +76,14 @@ body:
     id: slide_plan
     attributes:
       label: Slide plan
-      description: List the job and on-screen text for each slide. The default is 6 slides, but the final count may vary when the perspective needs fewer or more slides.
+      description: List the job and on-screen text for each slide. The default is the approved six-slide structure above, but the final count may vary when the perspective needs fewer or more slides.
       placeholder: |
-        1. Hook / perspective
-        2. Context
-        3. Evidence
-        4. Practical implication
-        5. Practical takeaway
-        6. CTA
+        1. Cover / personal note: hook
+        2. The problem: what the audience recognizes
+        3. The self-check: signs or questions
+        4. The method: practical approach
+        5. Real-world sample: supplied evidence
+        6. CTA: save, follow, comment, or link
     validations:
       required: true
 
