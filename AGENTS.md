@@ -255,6 +255,9 @@ but do not compete with that owner. Only the Human Accountable Owner may
 approve `status: ready to pickup`. Unresolved blocking questions or
 dependencies keep the Issue blocked.
 
+When performing PM triage, use `skills/pm-triage/SKILL.md` and preserve the
+required Decision Register and Triage Summary format.
+
 Before modifying the issue workflow, recalculate the dependency graph from the
 current open Issues and update the documented order when a new Issue, scope
 change, closure, or prerequisite changes the graph. Preserve unrelated local
