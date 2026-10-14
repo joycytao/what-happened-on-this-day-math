@@ -1,0 +1,23 @@
+{
+  "format": "perspective-sharing-reel",
+  "accountHandle": "@engineermom.worksheets",
+  "profileImage": "assets/profile-avatar.png",
+  "backgroundImage": "assets/free-scene.png",
+  "cards": [
+    { "headline": "...", "body": "..." },
+    { "headline": "...", "body": "..." },
+    { "headline": "...", "body": "..." },
+    { "headline": "...", "body": "..." },
+    { "headline": "...", "body": "..." }
+  ],
+  "cardDuration": 4.4,
+  "transitionDuration": 0.48,
+  "musicFile": null,
+  "musicCredit": null,
+  "caption": {
+    "hook": "...",
+    "body": "...",
+    "cta": "...",
+    "hashtags": []
+  }
+}

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perspective-Sharing Reel Sample</title>
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #3E2C25; }
+    [data-composition-id="perspective-sharing-reel"] {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #3E2C25;
+      color: #3E2C25;
+      font-family: "Avenir Next", Arial, sans-serif;
+    }
+    .background {
+      position: absolute;
+      inset: -4%;
+      width: 108%;
+      height: 108%;
+      object-fit: cover;
+      filter: brightness(.72) saturate(.82);
+      transform-origin: center center;
+    }
+    .warm-wash { position: absolute; inset: 0; background: rgba(62,44,37,.18); }
+    .topline, .bottomline { position: absolute; left: 68px; right: 68px; z-index: 20; color: #FFFDF8; display: flex; justify-content: space-between; align-items: center; }
+    .topline { top: 68px; font-size: 20px; letter-spacing: 3px; font-weight: 600; }
+    .topline .small { font-size: 16px; letter-spacing: 1.5px; opacity: .82; }
+    .bottomline { bottom: 64px; font-size: 17px; letter-spacing: 1.8px; }
+    .bottomline .studio { opacity: .72; }
+    .message-viewport { position: absolute; left: 0; right: 0; top: 455px; height: 930px; overflow: hidden; z-index: 10; }
+    .message-track { display: flex; width: 5400px; height: 100%; transform: translateX(0); }
+    .message-scene { flex: 0 0 1080px; height: 100%; padding: 0 92px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; }
+    .message-card { width: 896px; min-height: 690px; box-sizing: border-box; padding: 48px 58px 58px; background: rgba(244,237,225,.97); border: 3px solid rgba(203,180,155,.96); border-radius: 38px; box-shadow: 0 28px 60px rgba(28,18,13,.28); display: flex; flex-direction: column; }
+    .profile-row { display: flex; align-items: center; gap: 20px; padding-bottom: 30px; border-bottom: 2px solid rgba(139,96,74,.32); }
+    .avatar { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 50%; object-fit: cover; border: 3px solid #FFFDF8; box-shadow: 0 5px 14px rgba(62,44,37,.18); }
+    .handle { font-size: 28px; font-weight: 700; letter-spacing: .3px; }
+    .message-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+    .message-body .eyebrow { margin: 0; color: #8B604A; font-size: 22px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; }
+    .message-body h1, .message-body p { margin: 0; max-width: 760px; }
+    .message-body h1 { font-family: Georgia, "Times New Roman", serif; font-size: 60px; line-height: 1.05; letter-spacing: -1.5px; font-weight: 700; }
+    .message-body p { font-size: 35px; line-height: 1.28; letter-spacing: -.3px; }
+    .message-body .accent { color: #8B604A; font-weight: 700; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; color: rgba(62,44,37,.62); font-size: 20px; letter-spacing: 1px; }
+    .dots { display: flex; gap: 10px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: #CBB49B; }
+    .dot.active { background: #8B604A; }
+    .cta-pill { align-self: flex-start; padding: 18px 28px; border-radius: 999px; background: #8B604A; color: #FFFDF8; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+</head>
+<body>
+  <div data-composition-id="perspective-sharing-reel" data-width="1080" data-height="1920">
+    <img class="background" id="background" src="assets/free-scene.png" alt="Warm worksheet desk scene" />
+    <div class="warm-wash"></div>
+    <div class="topline" id="topline"><span>PERSPECTIVE-SHARING REEL</span><span class="small">01 / 05</span></div>
+
+    <div class="message-viewport">
+      <div class="message-track" id="message-track">
+        <section class="message-scene">
+          <article class="message-card">
+            <div class="profile-row"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span></div>
+            <div class="message-body"><h1>Children didn’t need more math explanations.</h1><p>They needed more chances to think through the problem on their own.</p></div>
+            <div class="card-footer"><span>save this thought</span><span class="dots"><i class="dot active"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></span></div>
+          </article>
+        </section>
+        <section class="message-scene">
+          <article class="message-card">
+            <div class="profile-row"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span></div>
+            <div class="message-body"><h1>Sometimes the struggle doesn’t look like confusion.</h1><p>The child may listen carefully, but the pencil stays still—and <span class="accent">“I don’t know”</span> comes quickly.</p></div>
+            <div class="card-footer"><span>look beneath the answer</span><span class="dots"><i class="dot"></i><i class="dot active"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></span></div>
+          </article>
+        </section>
+        <section class="message-scene">
+          <article class="message-card">
+            <div class="profile-row"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span></div>
+            <div class="message-body"><h1>That doesn’t always mean they need another explanation.</h1><p>They may need support that helps them <span class="accent">start thinking</span> before asking for the answer.</p></div>
+            <div class="card-footer"><span>change the question first</span><span class="dots"><i class="dot"></i><i class="dot"></i><i class="dot active"></i><i class="dot"></i><i class="dot"></i></span></div>
+          </article>
+        </section>
+        <section class="message-scene">
+          <article class="message-card">
+            <div class="profile-row"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span></div>
+            <div class="message-body"><h1>Put the thinking back in their hands.</h1><p>I ask what the problem gives them. Then I ask them to <span class="accent">write, explain, and teach it back</span> to me.</p></div>
+            <div class="card-footer"><span>think first · ask second</span><span class="dots"><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot active"></i><i class="dot"></i></span></div>
+          </article>
+        </section>
+        <section class="message-scene">
+          <article class="message-card">
+            <div class="profile-row"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span></div>
+            <div class="message-body"><h1>The first independent solution is worth the wait.</h1><p>Save this for the next math struggle.</p><span class="cta-pill">SAVE · SHARE · FOLLOW</span></div>
+            <div class="card-footer"><span>by 6pm studio</span><span class="dots"><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot active"></i></span></div>
+          </article>
+        </section>
+      </div>
+    </div>
+    <div class="bottomline" id="bottomline"><span>@engineermom.worksheets</span><span class="studio">by 6pm studio</span></div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.from("#background", { opacity: 0, scale: 1.04, duration: 0.9, ease: "sine.out" }, 0.1);
+      tl.from(".warm-wash", { opacity: 0, duration: 0.7, ease: "power1.out" }, 0.2);
+      tl.from("#topline", { opacity: 0, y: -22, duration: 0.5, ease: "power3.out" }, 0.25);
+      tl.from("#bottomline", { opacity: 0, y: 18, duration: 0.5, ease: "power2.out" }, 0.35);
+      tl.from(".message-card", { opacity: 0, y: 36, scale: 0.985, duration: 0.65, ease: "back.out(1.1)" }, 0.45);
+      tl.to("#message-track", { x: -1080, duration: 0.48, ease: "power3.inOut" }, 4.55);
+      tl.to("#message-track", { x: -2160, duration: 0.48, ease: "power3.inOut" }, 8.95);
+      tl.to("#message-track", { x: -3240, duration: 0.48, ease: "power3.inOut" }, 13.35);
+      tl.to("#message-track", { x: -4320, duration: 0.48, ease: "power3.inOut" }, 17.75);
+      tl.to("#background", { scale: 1.08, duration: 22, ease: "none", overwrite: "auto" }, 1.0);
+      tl.to("#topline, #bottomline", { opacity: 0, duration: 0.55, ease: "sine.inOut" }, 22.0);
+      window.__timelines["perspective-sharing-reel"] = tl;
+    </script>
+  </div>
+</body>
+</html>
