@@ -16,6 +16,8 @@ Reusable vertical Reel templates for the math repo.
 
 - [`before-after-worksheet-reel-template`](before-after-worksheet-reel-template/DESIGN.md): AI prompt → source worksheet → cleanup → clean result → before/after → CTA.
 - [`perspective-sharing-reel-template`](perspective-sharing-reel-template/DESIGN.md): warm lifestyle scene with connected message cards for a parenting or learning perspective.
+- [`product-reel-template`](product-reel-template/DESIGN.md): four weekly product-evidence Reels for a verified monthly package.
+- [`campaign-reminder-template`](campaign-reminder-template/DESIGN.md): launch and ending-soon variants for free and paid campaigns.
 
 The corresponding triggering and production instructions live under [`../skills/`](../skills/).
 
