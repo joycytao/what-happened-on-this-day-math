@@ -161,3 +161,6 @@ The triage summary should state:
 The existing repository governance remains authoritative: human review is
 required before an Issue receives `status: ready to pickup`, and blocked work
 must not be picked up.
+
+The reusable project skill for applying this process is
+`skills/pm-triage/SKILL.md`.
