@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <title>From Worksheets to a Weekly Learning System</title>
+  <link rel="stylesheet" href="carousel.css">
+</head>
+<body>
+  <main id="carousel"></main>
+  <script src="content.js"></script>
+  <script>
+    const c = window.carouselContent;
+    const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+    const lines = (s) => esc(s).replaceAll('\n', '<br>');
+    const header = (n) => `<header><span>${esc(c.handle)}</span><span>0${n}/${c.pageCount}</span></header>`;
+    const pills = (items) => items.map(item => `<span class="pill">${esc(item)}</span>`).join('');
+    const metric = ([label, value]) => `<div class="metric"><span>${esc(label)}</span><div class="bar"><i style="width:${value}%" data-value="${value}"></i></div></div>`;
+    const html = `
+      <section class="slide cover">
+        ${header(1)}<div class="cover-photo" style="background-image:url('${c.cover.image}')"></div><div class="cover-shade"></div>
+        <div class="cover-panel"><div class="eyebrow">${esc(c.cover.eyebrow)}</div><h1>${lines(c.cover.hook)}</h1><p>${esc(c.cover.support)}</p><div class="rule"></div><div class="meta">SAVE &nbsp;•&nbsp; ANALYZE &nbsp;•&nbsp; PERSONALIZE</div></div>
+      </section>
+      <section class="slide standard">
+        ${header(2)}<div class="eyebrow">${esc(c.context.eyebrow)}</div><h2>${lines(c.context.title)}</h2>
+        <div class="context-card"><div class="label">${esc(c.context.cardLabel)}</div><p>${lines(c.context.body)}</p><hr><div class="card-goal">${esc(c.context.cardGoal)}</div></div><div class="takeaway">${esc(c.context.takeaway)}</div>
+      </section>
+      <section class="slide standard">
+        ${header(3)}<div class="eyebrow">${esc(c.system.eyebrow)}</div><h2>${lines(c.system.title)}</h2>
+        <div class="system-cards">${c.system.cards.map(card => `<article class="system-card"><div class="number">${esc(card.number)}</div><hr><h3>${esc(card.title)}</h3><div class="pills">${pills(card.pills)}</div><div class="tool-label">${esc(card.label)}</div><p class="body">${lines(card.body)}</p></article>`).join('')}</div><div class="system-takeaway">${esc(c.system.takeaway)}</div>
+      </section>
+      <section class="slide standard">
+        ${header(4)}<div class="eyebrow">${esc(c.result.eyebrow)}</div><h2>${lines(c.result.title)}</h2><p class="support">${esc(c.result.support)}</p>
+        <div class="method-grid">${c.result.methods.map((item, i) => `<article class="method-card"><div class="method-number">0${i + 1}</div><h3>${esc(item.title)}</h3><p>${lines(item.body)}</p></article>`).join('')}</div>
+        <p class="result-footer">${esc(c.result.footer)}</p>
+      </section>
+      <section class="slide standard">
+        ${header(5)}<div class="eyebrow">${esc(c.systemSetup.eyebrow)}</div><h2>${lines(c.systemSetup.title)}</h2><p class="support">${esc(c.systemSetup.support)}</p>
+        <div class="sample-grid ${c.systemSetup.images.length === 1 ? 'single-sample' : ''}">${c.systemSetup.images.map(item => `<div class="sample-wrap"><img class="sample-image" src="${item.src}" alt="${esc(item.label)}"><div class="detail-label">${esc(item.label)}</div></div>`).join('')}</div>
+        <div class="sample-note"><div class="label">${esc(c.systemSetup.label)}</div><p>${lines(c.systemSetup.body)}</p></div>
+      </section>
+      <section class="slide cta">
+        ${header(6)}<img class="profile" src="${c.cta.profileImage}" alt="Profile portrait"><div class="handle">${esc(c.handle)}</div><h2>${lines(c.cta.title)}</h2><p class="steps">${esc(c.cta.step1)}<br>${esc(c.cta.step2)}</p><button>${esc(c.cta.button)}</button><div class="cta-footer">${esc(c.cta.footer)}</div><hr><div class="social-line">SAVE&nbsp;&nbsp;•&nbsp;&nbsp;SHARE&nbsp;&nbsp;•&nbsp;&nbsp;FOLLOW</div>
+      </section>`;
+    document.querySelector('#carousel').innerHTML = html;
+  </script>
+</body>
+</html>

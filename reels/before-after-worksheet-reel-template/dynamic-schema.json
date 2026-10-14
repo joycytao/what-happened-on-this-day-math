@@ -1,0 +1,28 @@
+{
+  "format": "before-after-worksheet-reel",
+  "accountHandle": "@engineermom.worksheets",
+  "profileImage": "assets/profile-avatar.png",
+  "hook": "What if a worksheet didn't have to be used only once?",
+  "aiPrompt": "...",
+  "sourceFileName": "source.pdf",
+  "cleanFileName": "source-clean.pdf",
+  "sourcePdf": "assets/source.pdf",
+  "cleanPdf": "assets/source-clean.pdf",
+  "page": 1,
+  "blurRegions": [],
+  "processingText": "Cleaning the page while preserving the worksheet structure...",
+  "cta": {
+    "headline": "...",
+    "body": "...",
+    "button": "SAVE · SHARE · FOLLOW"
+  },
+  "musicFile": null,
+  "musicCredit": null,
+  "notificationSounds": true,
+  "caption": {
+    "hook": "...",
+    "body": "...",
+    "cta": "...",
+    "hashtags": []
+  }
+}

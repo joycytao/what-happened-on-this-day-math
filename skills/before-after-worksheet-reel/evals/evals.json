@@ -1,0 +1,8 @@
+{
+  "skill_name": "before-after-worksheet-reel",
+  "evals": [
+    { "id": 1, "prompt": "Create a before-after worksheet Reel from a source PDF and a clean PDF. The AI prompt is long, so preserve readability by adjusting timing. Show only page 1, blur only the student's name, use the default music, add notification chimes, and produce the caption.", "expected_output": "Readable nine-step Reel plan/manifest with page 1 only, name-only redaction, default music, caption, CTA, and verification." },
+    { "id": 2, "prompt": "Create a worksheet cleanup Reel from a page that contains a visible student name but no other identifying fields. Do not blur the entire page.", "expected_output": "Explicit name blur region; remaining worksheet stays readable." },
+    { "id": 3, "prompt": "Create a before-after worksheet Reel without a supplied music file.", "expected_output": "Current cold-winter-breeze default is selected and credited." }
+  ]
+}

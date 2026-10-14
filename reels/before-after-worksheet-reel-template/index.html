@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Worksheet Cleanup Before After Reel</title>
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #F5F0E7; }
+    [data-composition-id="before-after-reel"] { position: relative; width: 100%; height: 100%; overflow: hidden; background: #F5F0E7; color: #3E2C25; font-family: "Avenir Next", Arial, sans-serif; }
+    .topline, .footer { position: absolute; left: 70px; right: 70px; z-index: 30; display: flex; justify-content: space-between; align-items: center; color: #806F63; }
+    .topline { top: 64px; font-size: 19px; letter-spacing: 3px; font-weight: 700; }
+    .topline span:last-child { font-size: 16px; letter-spacing: 1.5px; font-weight: 500; }
+    .footer { bottom: 56px; font-size: 17px; letter-spacing: 1.2px; }
+    .footer strong { color: #3E2C25; }
+    .scene { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+    .chat-viewport { position: absolute; left: 0; right: 0; top: 250px; height: 1370px; overflow: hidden; }
+    .chat-thread { position: relative; width: 100%; padding: 0 70px 240px; box-sizing: border-box; }
+    .chat-card { position: relative; width: 820px; min-height: 730px; box-sizing: border-box; padding: 42px 48px 46px; background: rgba(255,253,248,.98); border: 3px solid #D8C7B5; border-radius: 30px; box-shadow: 0 22px 48px rgba(62,44,37,.15); }
+    .thread-card { top: auto; right: auto; left: auto; margin-bottom: 40px; }
+    .from-right { margin-left: auto; }
+    .from-left { margin-left: 0; }
+    .hook-card { min-height: 300px; width: 720px; }
+    .hook-card .chat-body { padding-top: 34px; }
+    .hook-card .hook-text { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 43px; line-height: 1.18; }
+    .chat-header { display: flex; align-items: center; gap: 18px; padding-bottom: 28px; border-bottom: 2px solid #E2D5C8; }
+    .avatar { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; border: 3px solid #F5F0E7; box-shadow: 0 4px 12px rgba(62,44,37,.16); }
+    .handle { font-weight: 700; font-size: 26px; }
+    .timestamp { margin-left: auto; color: #806F63; font-size: 18px; }
+    .prompt-badge { margin-left: auto; padding: 8px 14px; border: 2px solid #8B604A; border-radius: 999px; color: #8B604A; font-size: 16px; font-weight: 800; letter-spacing: 1.5px; }
+    .chat-body { padding-top: 42px; }
+    .chat-body h1 { margin: 0 0 30px; font-family: Georgia, "Times New Roman", serif; font-size: 58px; line-height: 1.08; letter-spacing: -1.3px; }
+    .chat-body p { margin: 0 0 24px; font-size: 31px; line-height: 1.34; }
+    .chat-body .muted { color: #806F63; font-size: 24px; }
+    .prompt-card .chat-body p { font-size: 27px; line-height: 1.25; }
+    .prompt-card .chat-body h1 { font-size: 46px; margin-bottom: 22px; }
+    .file-card { min-height: 490px; }
+    .file-row { display: flex; align-items: center; gap: 22px; padding: 24px; border: 2px solid #D8C7B5; border-radius: 24px; background: #F5F0E7; }
+    .file-icon { width: 72px; height: 84px; border: 3px solid #8B604A; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #8B604A; font-size: 18px; font-weight: 800; }
+    .file-name { font-size: 28px; font-weight: 700; }
+    .file-meta { margin-top: 8px; color: #806F63; font-size: 21px; }
+    .dots { display: flex; gap: 12px; justify-content: center; margin-top: 44px; }
+    .dots i { width: 14px; height: 14px; border-radius: 50%; background: #D8C7B5; }
+    .dots i.active { background: #8B604A; }
+    .document-focus { position: absolute; inset: 125px 86px 120px; display: flex; align-items: center; justify-content: center; }
+    .document-focus img { max-width: 100%; max-height: 100%; object-fit: contain; border: 3px solid #D8C7B5; border-radius: 12px; box-shadow: 0 22px 46px rgba(62,44,37,.2); background: white; }
+    .document-tag { position: absolute; left: 0; top: -46px; color: #8B604A; font-size: 22px; font-weight: 800; letter-spacing: 3px; }
+    .processing { position: relative; width: 820px; box-sizing: border-box; padding: 70px 48px; background: rgba(255,253,248,.98); border: 3px solid #D8C7B5; border-radius: 30px; text-align: center; box-shadow: 0 22px 48px rgba(62,44,37,.15); }
+    .processing h1 { margin: 0 0 20px; font-family: Georgia, "Times New Roman", serif; font-size: 54px; }
+    .processing p { margin: 0; font-size: 27px; color: #806F63; }
+    .compare { position: absolute; left: 58px; right: 58px; top: 310px; bottom: 190px; display: flex; gap: 24px; align-items: center; }
+    .compare-panel { flex: 1; min-width: 0; text-align: center; }
+    .compare-panel h2 { margin: 0 0 20px; color: #8B604A; font-size: 23px; letter-spacing: 4px; }
+    .compare-panel img { width: 100%; max-height: 1050px; object-fit: contain; border: 3px solid #D8C7B5; border-radius: 14px; box-shadow: 0 18px 36px rgba(62,44,37,.14); background: white; }
+    .compare-note { position: absolute; left: 80px; right: 80px; bottom: 98px; text-align: center; color: #806F63; font-size: 24px; }
+    .cta-scene { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+    .cta-card { position: absolute; left: 86px; right: 86px; top: 520px; padding: 72px 58px 78px; box-sizing: border-box; background: rgba(255,253,248,.98); border: 3px solid #D8C7B5; border-radius: 38px; box-shadow: 0 22px 48px rgba(62,44,37,.15); text-align: center; }
+    .cta-card h1 { margin: 0 0 30px; font-family: Georgia, "Times New Roman", serif; font-size: 58px; line-height: 1.08; letter-spacing: -1.3px; }
+    .cta-card p { margin: 0 auto 34px; max-width: 760px; font-size: 31px; line-height: 1.32; }
+    .cta-pill { display: inline-block; padding: 18px 28px; border-radius: 999px; background: #8B604A; color: #FFFDF8; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+</head>
+<body>
+  <div data-composition-id="before-after-reel" data-width="1080" data-height="1920">
+    <div class="topline"><span>WORKSHEET CLEANUP</span><span>BEFORE → AFTER</span></div>
+    <div class="footer"><span><strong>@engineermom.worksheets</strong></span><span>by 6pm studio</span></div>
+
+    <section class="scene chat-scene" id="chat-scene">
+      <div class="chat-viewport"><div class="chat-thread" id="chat-thread">
+        <article class="chat-card hook-card thread-card from-right" id="hook-card">
+          <div class="chat-header"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span><span class="timestamp">now</span></div>
+          <div class="chat-body"><p class="hook-text">What if a worksheet didn’t have to be used only once?</p></div>
+        </article>
+        <article class="chat-card prompt-card thread-card from-right" id="prompt-card">
+        <div class="chat-header"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span><span class="prompt-badge">AI PROMPT</span><span class="timestamp">now</span></div>
+        <div class="chat-body">
+          <h1>Clean and recreate this worksheet PDF.</h1>
+          <p>Preserve all questions, numbering, choices, diagrams, and answer spaces.</p>
+          <p>Remove handwritten answers, checkmarks, circles, grading marks, names, dates, scores, and comments.</p>
+          <p>OCR every page. Verify the wording, order, and mathematical symbols. Use LaTeX for mathematical expressions.</p>
+          <p class="muted">Mark unclear content as [NEEDS HUMAN REVIEW]. Do not guess or add missing information. Output .txt, editable .tex, and final .pdf.</p>
+        </div>
+        </article>
+        <article class="chat-card file-card thread-card from-right" id="upload-card">
+        <div class="chat-header"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span><span class="timestamp">uploaded</span></div>
+        <div class="chat-body"><h1>Source worksheet</h1><div class="file-row"><div class="file-icon">PDF</div><div><div class="file-name">checkup1.3-exam.pdf</div><div class="file-meta">2 pages · worksheet scan</div></div></div></div>
+        </article>
+        <article class="processing thread-card from-left" id="processing-card"><h1>Rebuilding the worksheet</h1><p>OCR · checking page order · restoring answer spaces</p><div class="dots"><i class="active"></i><i></i><i></i></div></article>
+        <article class="chat-card file-card thread-card from-left" id="result-card">
+          <div class="chat-header"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">@engineermom.worksheets</span><span class="timestamp">ready</span></div>
+          <div class="chat-body"><h1>Clean worksheet ready.</h1><div class="file-row"><div class="file-icon">PDF</div><div><div class="file-name">checkup1.3-exam-clean.pdf</div><div class="file-meta">printable worksheet · page 1 preview</div></div></div></div>
+        </article>
+      </div></div>
+    </section>
+
+    <section class="scene source-scene" id="source-scene"><div class="document-focus"><img src="assets/before-redacted-1.png" alt="Redacted original worksheet page with handwritten marks" /></div></section>
+
+    <section class="scene clean-scene" id="clean-scene"><div class="document-focus"><img src="assets/after-1.png" alt="Clean worksheet page" /></div></section>
+
+    <section class="scene compare-scene" id="compare-scene">
+      <div class="compare"><div class="compare-panel"><h2>BEFORE</h2><img src="assets/before-redacted-1.png" alt="Redacted before worksheet" /></div><div class="compare-panel"><h2>AFTER</h2><img src="assets/after-1.png" alt="After worksheet" /></div></div>
+    </section>
+
+    <section class="cta-scene" id="cta-scene">
+      <article class="cta-card" id="cta-card">
+        <h1>Keep this workflow for your next worksheet cleanup.</h1>
+        <p>Follow <strong>@engineermom.worksheets</strong> for more practical worksheet resources.</p>
+        <span class="cta-pill">SAVE · SHARE · FOLLOW</span>
+      </article>
+    </section>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.from(".topline, .footer", { opacity: 0, y: 18, duration: 0.5, ease: "power2.out", stagger: 0.08 }, 0.1);
+      tl.to("#chat-scene", { opacity: 1, duration: 0.01 }, 0.2);
+      tl.from("#hook-card", { opacity: 0, x: 920, duration: 0.7, ease: "power3.out" }, 0.25);
+      tl.from("#prompt-card", { opacity: 0, x: 920, duration: 0.7, ease: "power3.out" }, 2.7);
+      tl.to("#chat-thread", { y: -300, duration: 0.9, ease: "power2.inOut" }, 3.15);
+      tl.from("#upload-card", { opacity: 0, x: 920, duration: 0.65, ease: "power3.out" }, 5.1);
+      tl.to("#chat-thread", { y: -800, duration: 1.0, ease: "power2.inOut" }, 6.0);
+      tl.to("#upload-card", { scale: 1.02, duration: 1.0, ease: "sine.inOut" }, 6.1);
+      tl.to("#chat-scene", { opacity: 0, duration: 0.01 }, 8.85);
+      tl.to("#source-scene", { opacity: 1, duration: 0.01 }, 8.85);
+      tl.from("#source-scene .document-focus", { opacity: 0, scale: 0.88, duration: 0.7, ease: "back.out(1.1)" }, 8.9);
+      tl.to("#source-scene .document-focus", { scale: 1.035, duration: 2.2, ease: "sine.inOut" }, 9.6);
+      tl.to("#source-scene .document-focus", { opacity: 0, scale: 0.78, duration: 0.55, ease: "power2.in" }, 12.15);
+      tl.to("#source-scene", { opacity: 0, duration: 0.01 }, 17.1);
+      tl.to("#chat-scene", { opacity: 1, duration: 0.01 }, 12.7);
+      tl.to("#chat-thread", { y: -1260, duration: 1.0, ease: "power2.inOut" }, 12.7);
+      tl.from("#processing-card", { opacity: 0, x: -920, duration: 0.65, ease: "power3.out" }, 12.75);
+      tl.to("#processing-card .dots i", { backgroundColor: "#8B604A", duration: 0.22, stagger: 0.26, repeat: 2, yoyo: true, ease: "sine.inOut" }, 13.4);
+      tl.from("#result-card", { opacity: 0, x: -920, duration: 0.65, ease: "power3.out" }, 16.0);
+      tl.to("#chat-thread", { y: -1760, duration: 1.0, ease: "power2.inOut" }, 16.0);
+      tl.to("#chat-scene", { opacity: 0, duration: 0.01 }, 23.3);
+      tl.to("#clean-scene", { opacity: 1, duration: 0.01 }, 23.3);
+      tl.from("#clean-scene .document-focus", { opacity: 0, scale: 0.88, duration: 0.7, ease: "back.out(1.1)" }, 23.35);
+      tl.to("#clean-scene .document-focus", { scale: 1.035, duration: 2.4, ease: "sine.inOut" }, 24.05);
+      tl.to("#clean-scene .document-focus", { opacity: 0, scale: 0.82, duration: 0.55, ease: "power2.in" }, 26.85);
+      tl.to("#clean-scene", { opacity: 0, duration: 0.01 }, 27.4);
+      tl.to("#compare-scene", { opacity: 1, duration: 0.01 }, 27.4);
+      tl.from("#compare-scene .compare-panel", { opacity: 0, y: 34, duration: 0.65, ease: "power3.out", stagger: 0.16 }, 27.45);
+      tl.to("#compare-scene", { opacity: 0, duration: 0.7, ease: "sine.inOut" }, 33.3);
+      tl.to("#cta-scene", { opacity: 1, duration: 0.01 }, 33.3);
+      tl.from("#cta-card", { opacity: 0, x: 1050, duration: 0.7, ease: "power3.out" }, 33.4);
+      tl.to("#cta-scene", { opacity: 0, duration: 0.7, ease: "sine.inOut" }, 36.8);
+      window.__timelines["before-after-reel"] = tl;
+    </script>
+  </div>
+</body>
+</html>
