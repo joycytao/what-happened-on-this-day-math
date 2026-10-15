@@ -14,7 +14,8 @@ Use five connected cards by default:
 
 - Warm lifestyle or homeschool scene as the background.
 - Cream cards, cocoa typography, beige border, and quiet shadow.
-- Cards push horizontally as connected thoughts.
+- The outer frame stays fixed: title/page count at the top and account/studio line at the bottom.
+- The message card is centered inside a 930px viewport and is 690px tall; only this card layer pushes horizontally as connected thoughts.
 - Background uses a slow, subtle scale-up.
 - Cards are the primary reading surface and must remain readable on a phone.
 - Do not use literal two-sided DM UI.
@@ -27,7 +28,7 @@ Start from the current approximately 23-second / five-card sample. Extend `cardD
 
 ## Source of truth
 
-This directory is the migrated source of truth for the composition, assets, and renderer configuration. `design-tokens.json` is the shared layout contract consumed by the fallback renderer and injected into the HyperFrames renderer. Do not tune card coordinates, font sizes, CTA position, or transition timing in only one renderer.
+This directory is the migrated source of truth for the composition, assets, and renderer configuration. `design-tokens.json` is the shared layout contract consumed by the fallback renderer. The HyperFrames HTML mirrors the same fixed-frame/card-viewport model. Do not tune card coordinates, font sizes, CTA position, or transition timing in only one renderer.
 
 Dynamic per Reel:
 

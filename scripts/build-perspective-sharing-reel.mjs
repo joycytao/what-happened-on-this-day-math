@@ -40,66 +40,86 @@ function ffmpegTextPath(path, text) {
 function renderFallback() {
   const frameDir = resolve(projectDir, "exports/perspective-learning-system-frames");
   mkdirSync(frameDir, { recursive: true });
-  const framePaths = [];
   const backgroundPath = resolve(projectDir, source.reel.backgroundImage ?? "assets/free-scene.png");
-  const cardBackgroundPath = resolve(projectDir, "assets/rounded-card.png");
+  const cardBackgroundPath = resolve(projectDir, "assets/rounded-card-reference.png");
   const avatarPath = resolve(projectDir, source.reel.profileImage ?? "assets/profile-avatar.png");
   const ctaPath = resolve(projectDir, "assets/cta-pill.png");
   const font = design.typography.bodyFont;
   const boldFont = design.typography.boldFont;
   const titleFont = design.typography.titleFont;
+  const cardY = 575;
+  const cardHeight = 690;
+  const contentLeft = 150;
+  const profileTop = cardY + 48;
+  const dividerY = cardY + 163;
+  const footerY = cardY + cardHeight - 78;
+  const transitionDuration = source.reel.transitionDuration ?? design.motion.transitionDuration;
+  const targetDuration = source.reel.targetDuration ?? design.motion.targetDuration;
+  const transitionStarts = [4.55, 8.95, 13.35, 17.75];
+  const layerPaths = [];
+
   source.reel.cards.forEach((card, index) => {
     const titlePath = resolve(frameDir, `title-${index + 1}.txt`);
     const bodyPath = resolve(frameDir, `body-${index + 1}.txt`);
-    const footerPath = resolve(frameDir, `footer-${index + 1}.txt`);
     ffmpegTextPath(titlePath, wrap(card.headline, 25).join("\n"));
     ffmpegTextPath(bodyPath, wrap(card.body, 39).join("\n"));
-    ffmpegTextPath(footerPath, `${source.reel.handle}  ·  ${index + 1} / ${source.reel.cards.length}`);
+    const titleLineCount = wrap(card.headline, 25).length;
     const bodyLineCount = wrap(card.body, 39).length;
-    const ctaY = 875 + bodyLineCount * 45 + design.cta.gapAfterBody;
-    const framePath = resolve(frameDir, `frame-${String(index + 1).padStart(2, "0")}.png`);
+    const titleLineHeight = 70;
+    const bodyLineHeight = 49;
+    const ctaHeight = card.cta ? 56 : 0;
+    const contentHeight = titleLineCount * titleLineHeight + 28 + bodyLineCount * bodyLineHeight + (card.cta ? design.cta.gapAfterBody + ctaHeight : 0);
+    const contentTop = cardY + 185 + Math.max(0, (cardHeight - 185 - 78 - 36 - contentHeight) / 2);
+    const titleY = Math.round(contentTop);
+    const bodyY = titleY + titleLineCount * titleLineHeight + 28;
+    const ctaY = bodyY + bodyLineCount * bodyLineHeight + design.cta.gapAfterBody;
+    const layerPath = resolve(frameDir, `layer-${String(index + 1).padStart(2, "0")}.png`);
     const contentFilters = [
-      `drawbox=x=${design.profile.dividerX}:y=${design.profile.dividerY}:w=${design.profile.dividerWidth}:h=2:color=#CBB49B@0.55:t=fill`,
-      `drawtext=font='${boldFont}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=${design.typography.handleSize}:x=${design.profile.handleX}:y=${design.profile.handleY}`,
-      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=${design.typography.titleSize}:line_spacing=10:x=150:y=680:expansion=none`,
-      `drawtext=font='${font}':textfile=${bodyPath}:fontcolor=#765F54:fontsize=${design.typography.bodySize}:line_spacing=14:x=150:y=875:expansion=none`,
-      `drawtext=font='${font}':text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=${design.typography.footerSize}:x=150:y=1310`,
-      `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='○ ○ ○ ○ ○':fontcolor=#CBB49B:fontsize=18:x=835:y=1308`,
-      `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='●':fontcolor=#8B604A:fontsize=18:x=${835 + index * 18}:y=1308`,
+      `drawbox=x=${design.profile.dividerX}:y=${dividerY}:w=${design.profile.dividerWidth}:h=2:color=#CBB49B@0.55:t=fill`,
+      `drawtext=font='${boldFont}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=${design.typography.handleSize}:x=${design.profile.handleX}:y=${profileTop + 19}`,
+      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=${design.typography.titleSize}:line_spacing=10:x=${contentLeft}:y=${titleY}:expansion=none`,
+      `drawtext=font='${font}':textfile=${bodyPath}:fontcolor=#765F54:fontsize=${design.typography.bodySize}:line_spacing=14:x=${contentLeft}:y=${bodyY}:expansion=none`,
+      `drawtext=font='${font}':text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=${design.typography.footerSize}:x=150:y=${footerY}`,
+      `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='○ ○ ○ ○ ○':fontcolor=#CBB49B:fontsize=18:x=835:y=${footerY - 2}`,
+      `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='●':fontcolor=#8B604A:fontsize=18:x=${835 + index * 18}:y=${footerY - 2}`,
       ...(card.cta ? [
         `drawtext=font='${boldFont}':text='${card.cta}':fontcolor=#FFFDF8:fontsize=${design.typography.ctaSize}:x=${design.cta.textX}:y=${ctaY + design.cta.textYOffset}`
       ] : [])
     ];
     const imageChain = [
-      "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=brightness=-0.16:saturation=0.82,drawbox=x=0:y=0:w=1080:h=1920:color=#3E2C25@0.25:t=fill[base]",
+      "[0:v]format=rgba[canvas]",
       "[1:v]format=rgba[card]",
-      `[base][card]overlay=x=${design.card.x}:y=${design.card.y}:format=auto[withcard]`,
+      `[canvas][card]overlay=x=${design.card.x}:y=${cardY}:format=auto[withcard]`,
       `[2:v]scale=${design.profile.avatarSize}:${design.profile.avatarSize},format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(hypot(X-${design.profile.avatarSize / 2},Y-${design.profile.avatarSize / 2}),${design.profile.avatarSize / 2 - 3}),255,0)'[avatar]`,
-      `[withcard][avatar]overlay=x=${design.profile.avatarX}:y=${design.profile.avatarY}:format=auto[withavatar]`
+      `[withcard][avatar]overlay=x=${design.profile.avatarX}:y=${profileTop}:format=auto[withavatar]`
     ];
     const contentInput = card.cta ? "withcta" : "withavatar";
     if (card.cta) {
       imageChain.push("[3:v]format=rgba[cta]", `[withavatar][cta]overlay=x=${design.cta.x}:y=${ctaY}:format=auto[withcta]`);
     }
     const filter = imageChain.join(";") + `;[${contentInput}]${contentFilters.join(",")}[final]`;
-    const result = spawnSync("ffmpeg", ["-y", "-i", backgroundPath, "-i", cardBackgroundPath, "-i", avatarPath, "-i", ctaPath, "-filter_complex", filter, "-map", "[final]", "-frames:v", "1", framePath], { stdio: "inherit" });
+    const result = spawnSync("ffmpeg", ["-y", "-f", "lavfi", "-i", "color=c=black@0.0:s=1080x1920,format=rgba", "-i", cardBackgroundPath, "-i", avatarPath, "-i", ctaPath, "-filter_complex", filter, "-map", "[final]", "-frames:v", "1", layerPath], { stdio: "inherit" });
     if (result.status !== 0) throw new Error(`Fallback frame render failed for card ${index + 1}`);
-    framePaths.push(framePath);
+    layerPaths.push(layerPath);
   });
   const silentOutput = `${output}.silent.mp4`;
-  const transitionDuration = source.reel.transitionDuration ?? design.motion.transitionDuration;
-  const targetDuration = source.reel.targetDuration ?? design.motion.targetDuration;
-  const segmentDuration = (targetDuration + transitionDuration * (framePaths.length - 1)) / framePaths.length;
-  const videoArgs = ["-y"];
-  framePaths.forEach((framePath) => videoArgs.push("-loop", "1", "-framerate", "30", "-t", String(segmentDuration), "-i", framePath));
-  const videoFilters = framePaths.map((_, index) => `[${index}:v]format=yuv420p,setsar=1[v${index}]`);
-  let current = "[v0]";
-  for (let index = 1; index < framePaths.length; index += 1) {
-    const next = `[slide${index}]`;
-    const offset = (segmentDuration - transitionDuration) * index;
-    videoFilters.push(`${current}[v${index}]xfade=transition=slideleft:duration=${transitionDuration}:offset=${offset}${next}`);
+  const videoArgs = ["-y", "-loop", "1", "-framerate", "30", "-i", backgroundPath];
+  layerPaths.forEach((layerPath) => videoArgs.push("-loop", "1", "-framerate", "30", "-i", layerPath));
+  const videoFilters = [
+    `[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=brightness=-0.16:saturation=0.82,drawbox=x=0:y=0:w=1080:h=1920:color=#3E2C25@0.25:t=fill,drawtext=font='${boldFont}':text='P E R S P E C T I V E - S H A R I N G   R E E L':fontcolor=#FFFDF8:fontsize=20:x=68:y=68,drawtext=font='Avenir Next':text='01 / 05':fontcolor=#FFFDF8:fontsize=16:x=w-tw-68:y=68,drawtext=font='Avenir Next':text='${source.reel.handle}':fontcolor=#FFFDF8:fontsize=17:x=68:y=h-64-th,drawtext=font='Avenir Next':text='by 6pm studio':fontcolor=#FFFDF8@0.72:fontsize=17:x=w-tw-68:y=h-64-th[base]`
+  ];
+  let current = "[base]";
+  layerPaths.forEach((_, index) => {
+    const start = index === 0 ? 0 : transitionStarts[index - 1];
+    const end = index === layerPaths.length - 1 ? targetDuration : transitionStarts[index] + transitionDuration;
+    const nextStart = index < transitionStarts.length ? transitionStarts[index] : null;
+    const enter = index === 0 ? "0" : `(1-min(max((t-${start})/${transitionDuration},0),1))*1080`;
+    const exit = nextStart === null ? "0" : `0-min(max((t-${nextStart})/${transitionDuration},0),1)*1080`;
+    const xExpr = index === 0 ? exit : `if(lt(t,${start + transitionDuration}),${enter},${exit})`;
+    const next = `[composed${index}]`;
+    videoFilters.push(`${current}[${index + 1}:v]overlay=x='${xExpr}':y=0:enable='between(t,${start},${end})':format=auto${next}`);
     current = next;
-  }
+  });
   videoArgs.push("-filter_complex", `${videoFilters.join(";")};${current}format=yuv420p[video]`, "-map", "[video]", "-t", String(targetDuration), "-movflags", "+faststart", silentOutput);
   const result = spawnSync("ffmpeg", videoArgs, { stdio: "inherit" });
   if (result.status !== 0) throw new Error("Fallback Reel assembly failed");
