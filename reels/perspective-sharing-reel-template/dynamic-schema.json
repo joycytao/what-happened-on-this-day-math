@@ -4,13 +4,14 @@
   "profileImage": "assets/profile-avatar.png",
   "backgroundImage": "assets/free-scene.png",
   "cards": [
-    { "headline": "...", "body": "..." },
-    { "headline": "...", "body": "..." },
-    { "headline": "...", "body": "..." },
-    { "headline": "...", "body": "..." },
-    { "headline": "...", "body": "..." }
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "...", "cta": "SAVE · SHARE · FOLLOW" }
   ],
-  "cardDuration": 4.4,
+  "cardDuration": 3.833333333,
+  "targetDuration": 23,
   "transitionDuration": 0.48,
   "musicFile": null,
   "musicCredit": null,

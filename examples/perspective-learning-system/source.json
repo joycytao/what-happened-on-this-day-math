@@ -6,6 +6,7 @@
   "reel": {
     "handle": "@engineermom.afterhours",
     "studio": "by 6pm studio",
+    "profileImage": "assets/profile-avatar.png",
     "backgroundImage": "assets/learning-system-scene.png",
     "cards": [
       {

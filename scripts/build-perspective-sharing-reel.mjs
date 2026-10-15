@@ -20,6 +20,7 @@ if (!existsSync(resolve(projectDir, "index.html"))) {
 mkdirSync(resolve(projectDir, "exports"), { recursive: true });
 
 const source = JSON.parse(await readFile(inputPath, "utf8"));
+const design = JSON.parse(await readFile(resolve(projectDir, "design-tokens.json"), "utf8"));
 
 function wrap(text, maxLength) {
   const lines = [];
@@ -42,10 +43,10 @@ function renderFallback() {
   const framePaths = [];
   const backgroundPath = resolve(projectDir, source.reel.backgroundImage ?? "assets/free-scene.png");
   const cardBackgroundPath = resolve(projectDir, "assets/rounded-card.png");
-  const avatarPath = resolve(projectDir, "assets/profile-avatar-circle.png");
+  const avatarPath = resolve(projectDir, source.reel.profileImage ?? "assets/profile-avatar.png");
   const ctaPath = resolve(projectDir, "assets/cta-pill.png");
-  const font = "Avenir Next";
-  const titleFont = "/System/Library/Fonts/Supplemental/Georgia.ttf";
+  const font = design.typography.bodyFont;
+  const titleFont = design.typography.titleFont;
   source.reel.cards.forEach((card, index) => {
     const titlePath = resolve(frameDir, `title-${index + 1}.txt`);
     const bodyPath = resolve(frameDir, `body-${index + 1}.txt`);
@@ -55,27 +56,27 @@ function renderFallback() {
     ffmpegTextPath(footerPath, `${source.reel.handle}  ·  ${index + 1} / ${source.reel.cards.length}`);
     const framePath = resolve(frameDir, `frame-${String(index + 1).padStart(2, "0")}.png`);
     const contentFilters = [
-      "drawbox=x=150:y=592:w=780:h=2:color=#CBB49B@0.55:t=fill",
-      `drawtext=font='${font}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=28:x=215:y=516`,
-      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=60:line_spacing=10:x=150:y=680:expansion=none`,
-      `drawtext=font='${font}':textfile=${bodyPath}:fontcolor=#765F54:fontsize=35:line_spacing=14:x=150:y=875:expansion=none`,
-      `drawtext=font='${font}':text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=20:x=150:y=1310`,
+      `drawbox=x=${design.profile.dividerX}:y=${design.profile.dividerY}:w=${design.profile.dividerWidth}:h=2:color=#CBB49B@0.55:t=fill`,
+      `drawtext=font='${font}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=${design.typography.handleSize}:x=${design.profile.handleX}:y=${design.profile.handleY}`,
+      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=${design.typography.titleSize}:line_spacing=10:x=150:y=680:expansion=none`,
+      `drawtext=font='${font}':textfile=${bodyPath}:fontcolor=#765F54:fontsize=${design.typography.bodySize}:line_spacing=14:x=150:y=875:expansion=none`,
+      `drawtext=font='${font}':text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=${design.typography.footerSize}:x=150:y=1310`,
       `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='○ ○ ○ ○ ○':fontcolor=#CBB49B:fontsize=18:x=835:y=1308`,
       `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='●':fontcolor=#8B604A:fontsize=18:x=${835 + index * 18}:y=1308`,
       ...(card.cta ? [
-        `drawtext=font='${font}':text='${card.cta}':fontcolor=#FFFDF8:fontsize=18:x=168:y=1142`
+        `drawtext=font='${font}':text='${card.cta}':fontcolor=#FFFDF8:fontsize=${design.typography.ctaSize}:x=${design.cta.textX}:y=${design.cta.textY}`
       ] : [])
     ];
     const imageChain = [
       "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=brightness=-0.16:saturation=0.82,drawbox=x=0:y=0:w=1080:h=1920:color=#3E2C25@0.25:t=fill[base]",
       "[1:v]format=rgba[card]",
-      "[base][card]overlay=x=92:y=455:format=auto[withcard]",
-      "[2:v]format=rgba[avatar]",
-      "[withcard][avatar]overlay=x=132:y=497:format=auto[withavatar]"
+      `[base][card]overlay=x=${design.card.x}:y=${design.card.y}:format=auto[withcard]`,
+      `[2:v]scale=${design.profile.avatarSize}:${design.profile.avatarSize},format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(hypot(X-${design.profile.avatarSize / 2},Y-${design.profile.avatarSize / 2}),${design.profile.avatarSize / 2 - 3}),255,0)'[avatar]`,
+      `[withcard][avatar]overlay=x=${design.profile.avatarX}:y=${design.profile.avatarY}:format=auto[withavatar]`
     ];
     const contentInput = card.cta ? "withcta" : "withavatar";
     if (card.cta) {
-      imageChain.push("[3:v]format=rgba[cta]", "[withavatar][cta]overlay=x=150:y=1110:format=auto[withcta]");
+      imageChain.push("[3:v]format=rgba[cta]", `[withavatar][cta]overlay=x=${design.cta.x}:y=${design.cta.y}:format=auto[withcta]`);
     }
     const filter = imageChain.join(";") + `;[${contentInput}]${contentFilters.join(",")}[final]`;
     const result = spawnSync("ffmpeg", ["-y", "-i", backgroundPath, "-i", cardBackgroundPath, "-i", avatarPath, "-i", ctaPath, "-filter_complex", filter, "-map", "[final]", "-frames:v", "1", framePath], { stdio: "inherit" });
@@ -83,8 +84,8 @@ function renderFallback() {
     framePaths.push(framePath);
   });
   const silentOutput = `${output}.silent.mp4`;
-  const transitionDuration = source.reel.transitionDuration ?? 0.48;
-  const targetDuration = source.reel.targetDuration ?? 23;
+  const transitionDuration = source.reel.transitionDuration ?? design.motion.transitionDuration;
+  const targetDuration = source.reel.targetDuration ?? design.motion.targetDuration;
   const segmentDuration = (targetDuration + transitionDuration * (framePaths.length - 1)) / framePaths.length;
   const videoArgs = ["-y"];
   framePaths.forEach((framePath) => videoArgs.push("-loop", "1", "-framerate", "30", "-t", String(segmentDuration), "-i", framePath));

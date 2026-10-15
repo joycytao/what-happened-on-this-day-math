@@ -67,7 +67,9 @@
       const content = window.PERSPECTIVE_CONTENT || {
         handle: "@engineermom.afterhours",
         studio: "by 6pm studio",
-        cardDuration: 4.2,
+        cardDuration: 3.833333333,
+        targetDuration: 23,
+        transitionDuration: 0.48,
         cards: [
           { headline: "Children didn’t need more math explanations.", body: "They needed more chances to think through the problem on their own." },
           { headline: "Sometimes the struggle doesn’t look like confusion.", body: "The child may listen carefully, but the pencil stays still—and “I don’t know” comes quickly." },
@@ -81,9 +83,9 @@
       track.innerHTML = content.cards.map((card, index) => `
         <section class="message-scene">
           <article class="message-card">
-            <div class="profile-row"><img class="avatar" src="assets/profile-avatar.png" alt="Profile placeholder" /><span class="handle">${content.handle}</span></div>
-            <div class="message-body"><h1>${card.headline}</h1><p>${card.body}</p>${index === content.cards.length - 1 && card.cta ? `<span class="cta-pill">${card.cta}</span>` : ""}</div>
-            <div class="card-footer"><span>${index === content.cards.length - 1 ? content.studio : "stay with the thought"}</span><span class="dots">${content.cards.map((_, dotIndex) => `<i class="dot${dotIndex === index ? " active" : ""}"></i>`).join("")}</span></div>
+            <div class="profile-row"><img class="avatar" src="${content.profileImage ?? "assets/profile-avatar.png"}" alt="Profile placeholder" /><span class="handle">${content.handle}</span></div>
+            <div class="message-body"><h1>${card.headline}</h1><p>${card.bodyHtml ?? card.body}</p>${index === content.cards.length - 1 && card.cta ? `<span class="cta-pill">${card.cta}</span>` : ""}</div>
+            <div class="card-footer"><span>${card.footer ?? (index === content.cards.length - 1 ? content.studio : "stay with the thought")}</span><span class="dots">${content.cards.map((_, dotIndex) => `<i class="dot${dotIndex === index ? " active" : ""}"></i>`).join("")}</span></div>
           </article>
         </section>`).join("");
       const tl = gsap.timeline({ paused: true });
@@ -92,11 +94,12 @@
       tl.from("#topline", { opacity: 0, y: -22, duration: 0.5, ease: "power3.out" }, 0.25);
       tl.from("#bottomline", { opacity: 0, y: 18, duration: 0.5, ease: "power2.out" }, 0.35);
       tl.from(".message-card", { opacity: 0, y: 36, scale: 0.985, duration: 0.65, ease: "back.out(1.1)" }, 0.45);
+      const transitionDuration = content.transitionDuration ?? 0.55;
       const firstTransition = 0.45 + content.cardDuration;
       for (let index = 1; index < content.cards.length; index += 1) {
-        tl.to("#message-track", { x: -1080 * index, duration: 0.55, ease: "power3.inOut" }, firstTransition + content.cardDuration * (index - 1));
+        tl.to("#message-track", { x: -1080 * index, duration: transitionDuration, ease: "power3.inOut" }, firstTransition + content.cardDuration * (index - 1));
       }
-      const totalDuration = firstTransition + content.cardDuration * (content.cards.length - 1) + 0.7;
+      const totalDuration = content.targetDuration ?? (firstTransition + content.cardDuration * (content.cards.length - 1) + 0.7);
       tl.to("#background", { scale: 1.08, duration: totalDuration, ease: "none", overwrite: "auto" }, 1.0);
       tl.to("#topline, #bottomline", { opacity: 0, duration: 0.55, ease: "sine.inOut" }, totalDuration - 0.6);
       window.__timelines["perspective-sharing-reel"] = tl;

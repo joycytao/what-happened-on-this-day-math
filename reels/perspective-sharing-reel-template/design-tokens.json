@@ -1,0 +1,8 @@
+{
+  "canvas": { "width": 1080, "height": 1920 },
+  "card": { "x": 92, "y": 455, "width": 896, "height": 930 },
+  "profile": { "avatarSize": 76, "avatarX": 132, "avatarY": 497, "handleX": 215, "handleY": 516, "dividerX": 150, "dividerY": 592, "dividerWidth": 780 },
+  "typography": { "bodyFont": "Avenir Next", "titleFont": "/System/Library/Fonts/Supplemental/Georgia.ttf", "handleSize": 28, "titleSize": 60, "bodySize": 35, "footerSize": 20, "ctaSize": 18 },
+  "cta": { "x": 150, "y": 1110, "textX": 168, "textY": 1142 },
+  "motion": { "targetDuration": 23, "transitionDuration": 0.48 }
+}

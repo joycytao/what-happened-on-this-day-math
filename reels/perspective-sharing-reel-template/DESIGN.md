@@ -27,7 +27,19 @@ Start from the current approximately 23-second / five-card sample. Extend `cardD
 
 ## Source of truth
 
-This directory is the migrated source of truth for the composition, assets, and HyperFrames configuration. The generator should reuse that composition system rather than create a literal messaging-app clone.
+This directory is the migrated source of truth for the composition, assets, and renderer configuration. `design-tokens.json` is the shared layout contract consumed by the fallback renderer and injected into the HyperFrames renderer. Do not tune card coordinates, font sizes, CTA position, or transition timing in only one renderer.
+
+Dynamic per Reel:
+
+- `handle`, `studio`, `backgroundImage`, `musicFile`, and `musicCredit`.
+- Card `headline`, `body`, optional `cta`, and card count.
+- `cardDuration`, `targetDuration`, and `transitionDuration` when a Reel needs a deliberate timing change.
+
+Static design contract:
+
+- 1080×1920 canvas.
+- Five-card clean message-card structure by default.
+- Profile row, divider, rounded cream card, Georgia headline, Avenir Next body, dots, and final CTA pill.
 
 ## Build
 
