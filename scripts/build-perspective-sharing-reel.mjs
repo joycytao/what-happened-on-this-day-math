@@ -46,6 +46,7 @@ function renderFallback() {
   const avatarPath = resolve(projectDir, source.reel.profileImage ?? "assets/profile-avatar.png");
   const ctaPath = resolve(projectDir, "assets/cta-pill.png");
   const font = design.typography.bodyFont;
+  const boldFont = design.typography.boldFont;
   const titleFont = design.typography.titleFont;
   source.reel.cards.forEach((card, index) => {
     const titlePath = resolve(frameDir, `title-${index + 1}.txt`);
@@ -54,17 +55,19 @@ function renderFallback() {
     ffmpegTextPath(titlePath, wrap(card.headline, 25).join("\n"));
     ffmpegTextPath(bodyPath, wrap(card.body, 39).join("\n"));
     ffmpegTextPath(footerPath, `${source.reel.handle}  ·  ${index + 1} / ${source.reel.cards.length}`);
+    const bodyLineCount = wrap(card.body, 39).length;
+    const ctaY = 875 + bodyLineCount * 45 + 28;
     const framePath = resolve(frameDir, `frame-${String(index + 1).padStart(2, "0")}.png`);
     const contentFilters = [
       `drawbox=x=${design.profile.dividerX}:y=${design.profile.dividerY}:w=${design.profile.dividerWidth}:h=2:color=#CBB49B@0.55:t=fill`,
-      `drawtext=font='${font}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=${design.typography.handleSize}:x=${design.profile.handleX}:y=${design.profile.handleY}`,
+      `drawtext=font='${boldFont}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=${design.typography.handleSize}:x=${design.profile.handleX}:y=${design.profile.handleY}`,
       `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=${design.typography.titleSize}:line_spacing=10:x=150:y=680:expansion=none`,
       `drawtext=font='${font}':textfile=${bodyPath}:fontcolor=#765F54:fontsize=${design.typography.bodySize}:line_spacing=14:x=150:y=875:expansion=none`,
       `drawtext=font='${font}':text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=${design.typography.footerSize}:x=150:y=1310`,
       `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='○ ○ ○ ○ ○':fontcolor=#CBB49B:fontsize=18:x=835:y=1308`,
       `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='●':fontcolor=#8B604A:fontsize=18:x=${835 + index * 18}:y=1308`,
       ...(card.cta ? [
-        `drawtext=font='${font}':text='${card.cta}':fontcolor=#FFFDF8:fontsize=${design.typography.ctaSize}:x=${design.cta.textX}:y=${design.cta.textY}`
+        `drawtext=font='${boldFont}':text='${card.cta}':fontcolor=#FFFDF8:fontsize=${design.typography.ctaSize}:x=${design.cta.textX}:y=${ctaY + design.cta.textYOffset}`
       ] : [])
     ];
     const imageChain = [
@@ -76,7 +79,7 @@ function renderFallback() {
     ];
     const contentInput = card.cta ? "withcta" : "withavatar";
     if (card.cta) {
-      imageChain.push("[3:v]format=rgba[cta]", `[withavatar][cta]overlay=x=${design.cta.x}:y=${design.cta.y}:format=auto[withcta]`);
+      imageChain.push("[3:v]format=rgba[cta]", `[withavatar][cta]overlay=x=${design.cta.x}:y=${ctaY}:format=auto[withcta]`);
     }
     const filter = imageChain.join(";") + `;[${contentInput}]${contentFilters.join(",")}[final]`;
     const result = spawnSync("ffmpeg", ["-y", "-i", backgroundPath, "-i", cardBackgroundPath, "-i", avatarPath, "-i", ctaPath, "-filter_complex", filter, "-map", "[final]", "-frames:v", "1", framePath], { stdio: "inherit" });
