@@ -38,3 +38,5 @@ node scripts/build-perspective-sharing-reel.mjs
 ```
 
 Pass an output path as the first argument when needed.
+
+The default build uses the repo's FFmpeg fallback so the sample can be rendered without a globally installed HyperFrames CLI. Pass `--hyperframes` after the input path when the HyperFrames CLI is available and the full composition renderer is desired.

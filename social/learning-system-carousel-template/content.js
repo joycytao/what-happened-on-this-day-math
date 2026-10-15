@@ -1,6 +1,6 @@
 window.carouselContent = {
   seriesName: "Helping Kids Think Through Math",
-  handle: "@engineermom.worksheets",
+  handle: "@engineermom.afterhours",
   pageCount: 6,
   palette: { background: "#F6F0E2", ink: "#203245", beige: "#D8C6B2" },
   cover: {

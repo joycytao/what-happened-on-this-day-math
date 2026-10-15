@@ -46,7 +46,7 @@ def multiline(draw, xy, text, fnt, fill=INK, spacing=8, anchor=None):
 def base(page):
     im = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(im)
-    d.text((96, 66), "@engineermom.worksheets", font=F["label"], fill=MUTED)
+    d.text((96, 66), "@engineermom.afterhours", font=F["label"], fill=MUTED)
     d.line((96, 104, 984, 104), fill=SOFT, width=2)
     d.text((900, 66), f"0{page}/05", font=F["label"], fill=MUTED)
     return im, d
@@ -119,7 +119,7 @@ def slide_5():
     rr(d, (390, 170, 690, 470), 150, SOFT, SOFT, 0)
     d.ellipse((420, 200, 660, 440), fill=BG, outline=INK, width=4)
     centered(d, "PORTRAIT", 292, F["label"], fill=INK)
-    centered(d, "@engineermom.worksheets", 520, F["label"], fill=MUTED)
+    centered(d, "@engineermom.afterhours", 520, F["label"], fill=MUTED)
     centered(d, "FOLLOW FOR MORE", 590, F["title"], fill=INK)
     centered(d, "A short promise about what people will get.", 700, F["body"], fill=INK)
     rr(d, (330, 820, 750, 906), 43, INK, INK, 0)
