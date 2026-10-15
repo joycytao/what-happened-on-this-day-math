@@ -31,6 +31,8 @@
       }
     ],
     "cardDuration": 3.833333333,
+    "targetDuration": 23,
+    "transitionDuration": 0.48,
     "musicFile": "assets/perspective-music.mp3",
     "musicCredit": "Chilly Kitty - captain fluff [Thematic]"
   },
