@@ -12,6 +12,6 @@
     "footerSize": 20,
     "ctaSize": 24
   },
-  "cta": { "x": 150, "textX": 178, "textYOffset": 18 },
+  "cta": { "x": 150, "textX": 178, "textYOffset": 18, "gapAfterBody": 52 },
   "motion": { "targetDuration": 23, "transitionDuration": 0.48 }
 }

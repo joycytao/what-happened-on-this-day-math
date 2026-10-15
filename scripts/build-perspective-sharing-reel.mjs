@@ -56,7 +56,7 @@ function renderFallback() {
     ffmpegTextPath(bodyPath, wrap(card.body, 39).join("\n"));
     ffmpegTextPath(footerPath, `${source.reel.handle}  ·  ${index + 1} / ${source.reel.cards.length}`);
     const bodyLineCount = wrap(card.body, 39).length;
-    const ctaY = 875 + bodyLineCount * 45 + 28;
+    const ctaY = 875 + bodyLineCount * 45 + design.cta.gapAfterBody;
     const framePath = resolve(frameDir, `frame-${String(index + 1).padStart(2, "0")}.png`);
     const contentFilters = [
       `drawbox=x=${design.profile.dividerX}:y=${design.profile.dividerY}:w=${design.profile.dividerWidth}:h=2:color=#CBB49B@0.55:t=fill`,
