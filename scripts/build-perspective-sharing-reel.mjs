@@ -56,13 +56,14 @@ function renderFallback() {
     const framePath = resolve(frameDir, `frame-${String(index + 1).padStart(2, "0")}.png`);
     const contentFilters = [
       "drawbox=x=150:y=592:w=780:h=2:color=#CBB49B@0.55:t=fill",
-      `drawtext=font='${font}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=25:x=215:y=516`,
-      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=52:line_spacing=10:x=150:y=690:expansion=none`,
-      `drawtext=font='${font}':textfile=${bodyPath}:fontcolor=#765F54:fontsize=28:line_spacing=14:x=150:y=885:expansion=none`,
-      `drawtext=font='${font}':text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=17:x=150:y=1310`,
-      `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='${"o ".repeat(index)}o${" o".repeat(source.reel.cards.length - index - 1)}':fontcolor=#8B604A:fontsize=16:x=835:y=1304`,
+      `drawtext=font='${font}':text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=28:x=215:y=516`,
+      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=60:line_spacing=10:x=150:y=680:expansion=none`,
+      `drawtext=font='${font}':textfile=${bodyPath}:fontcolor=#765F54:fontsize=35:line_spacing=14:x=150:y=875:expansion=none`,
+      `drawtext=font='${font}':text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=20:x=150:y=1310`,
+      `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='○ ○ ○ ○ ○':fontcolor=#CBB49B:fontsize=18:x=835:y=1308`,
+      `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:text='●':fontcolor=#8B604A:fontsize=18:x=${835 + index * 18}:y=1308`,
       ...(card.cta ? [
-        `drawtext=font='${font}':text='${card.cta}':fontcolor=#FFFDF8:fontsize=16:x=168:y=1207`
+        `drawtext=font='${font}':text='${card.cta}':fontcolor=#FFFDF8:fontsize=18:x=168:y=1142`
       ] : [])
     ];
     const imageChain = [
@@ -74,7 +75,7 @@ function renderFallback() {
     ];
     const contentInput = card.cta ? "withcta" : "withavatar";
     if (card.cta) {
-      imageChain.push("[3:v]format=rgba[cta]", "[withavatar][cta]overlay=x=150:y=1175:format=auto[withcta]");
+      imageChain.push("[3:v]format=rgba[cta]", "[withavatar][cta]overlay=x=150:y=1110:format=auto[withcta]");
     }
     const filter = imageChain.join(";") + `;[${contentInput}]${contentFilters.join(",")}[final]`;
     const result = spawnSync("ffmpeg", ["-y", "-i", backgroundPath, "-i", cardBackgroundPath, "-i", avatarPath, "-i", ctaPath, "-filter_complex", filter, "-map", "[final]", "-frames:v", "1", framePath], { stdio: "inherit" });
