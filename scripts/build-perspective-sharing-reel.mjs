@@ -41,6 +41,7 @@ function renderFallback() {
   mkdirSync(frameDir, { recursive: true });
   const framePaths = [];
   const backgroundPath = resolve(projectDir, source.reel.backgroundImage ?? "assets/free-scene.png");
+  const avatarPath = resolve(projectDir, "assets/profile-avatar.png");
   const font = "/System/Library/Fonts/Supplemental/Arial.ttf";
   const titleFont = "/System/Library/Fonts/Supplemental/Georgia.ttf";
   source.reel.cards.forEach((card, index) => {
@@ -51,19 +52,24 @@ function renderFallback() {
     ffmpegTextPath(bodyPath, wrap(card.body, 39).join("\n"));
     ffmpegTextPath(footerPath, `${source.reel.handle}  ·  ${index + 1} / ${source.reel.cards.length}`);
     const framePath = resolve(frameDir, `frame-${String(index + 1).padStart(2, "0")}.png`);
+    const contentFilters = [
+      "drawbox=x=150:y=592:w=780:h=2:color=#CBB49B@0.55:t=fill",
+      `drawtext=fontfile=${font}:text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=25:x=215:y=516`,
+      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=52:line_spacing=10:x=150:y=690:expansion=none`,
+      `drawtext=fontfile=${font}:textfile=${bodyPath}:fontcolor=#765F54:fontsize=28:line_spacing=14:x=150:y=885:expansion=none`,
+      `drawtext=fontfile=${font}:text='${index === source.reel.cards.length - 1 ? "by 6pm studio" : "stay with the thought"}':fontcolor=#8B604A:fontsize=17:x=150:y=1310`,
+      `drawtext=fontfile=${font}:text='${"· ".repeat(index)}● ${"· ".repeat(source.reel.cards.length - index - 1)}':fontcolor=#8B604A:fontsize=22:x=835:y=1304`,
+      ...(card.cta ? [
+        "drawbox=x=150:y=1175:w=260:h=48:color=#8B604A@1:t=fill",
+        `drawtext=fontfile=${font}:text='${card.cta}':fontcolor=#FFFDF8:fontsize=16:x=168:y=1207`
+      ] : [])
+    ];
     const filter = [
-      "scale=1080:1920:force_original_aspect_ratio=increase",
-      "crop=1080:1920",
-      "eq=brightness=-0.16:saturation=0.82",
-      "drawbox=x=0:y=0:w=1080:h=1920:color=#3E2C25@0.25:t=fill",
-      "drawbox=x=92:y=455:w=896:h=930:color=#F4EDE1@0.97:t=fill",
-      "drawbox=x=92:y=455:w=896:h=930:color=#CBB49B@0.9:t=4",
-      `drawtext=fontfile=${font}:text='${source.reel.handle}':fontcolor=#3E2C25:fontsize=28:x=150:y=555`,
-      `drawtext=fontfile=${titleFont}:textfile=${titlePath}:fontcolor=#3E2C25:fontsize=58:line_spacing=12:x=150:y=740:expansion=none`,
-      `drawtext=fontfile=${font}:textfile=${bodyPath}:fontcolor=#765F54:fontsize=35:line_spacing=16:x=150:y=1000:expansion=none`,
-      `drawtext=fontfile=${font}:textfile=${footerPath}:fontcolor=#8B604A:fontsize=21:x=150:y=1325:expansion=none`
-    ].join(",");
-    const result = spawnSync("ffmpeg", ["-y", "-i", backgroundPath, "-frames:v", "1", "-vf", filter, framePath], { stdio: "inherit" });
+      "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=brightness=-0.16:saturation=0.82,drawbox=x=0:y=0:w=1080:h=1920:color=#3E2C25@0.25:t=fill,drawbox=x=92:y=455:w=896:h=930:color=#F4EDE1@0.97:t=fill,drawbox=x=92:y=455:w=896:h=930:color=#CBB49B@0.9:t=4[base]",
+      "[1:v]scale=64:64[avatar]",
+      "[withcard][avatar]overlay=x=132:y=497:format=auto[withavatar]"
+    ].join(";") + `;[withavatar]${contentFilters.join(",")} [final]`;
+    const result = spawnSync("ffmpeg", ["-y", "-i", backgroundPath, "-i", avatarPath, "-filter_complex", filter.replace("[withcard]", "[base]"), "-map", "[final]", "-frames:v", "1", framePath], { stdio: "inherit" });
     if (result.status !== 0) throw new Error(`Fallback frame render failed for card ${index + 1}`);
     framePaths.push(framePath);
   });

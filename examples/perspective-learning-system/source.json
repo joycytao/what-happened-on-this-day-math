@@ -10,11 +10,7 @@
     "cards": [
       {
         "headline": "I started building a learning system.",
-        "body": "It began when my child started struggling to keep up with math at a new school."
-      },
-      {
-        "headline": "The hardest part?",
-        "body": "My child still loved math—but keeping up with the pace became a real struggle."
+        "body": "It began when my child started struggling to keep up with math at a new school. They still loved math—but the pace became a real struggle."
       },
       {
         "headline": "As an engineer, I started with the root cause.",
@@ -30,10 +26,11 @@
       },
       {
         "headline": "Stay with us as we build, learn, and grow.",
-        "body": "This is the beginning of the system—and I’m looking forward to sharing what we learn along the way."
+        "body": "This is the beginning of the system—and I’m looking forward to sharing what we learn along the way.",
+        "cta": "SAVE · SHARE · FOLLOW"
       }
     ],
-    "cardDuration": 4.2,
+    "cardDuration": 3.833333333,
     "musicFile": "assets/perspective-music.mp3",
     "musicCredit": "Chilly Kitty - captain fluff [Thematic]"
   },
