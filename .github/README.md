@@ -12,3 +12,16 @@ This repository uses the shared governance kit from `/Users/jtao/Documents/Proje
 Run `Sync issue labels` from GitHub Actions to create or update the shared labels. When an Issue closes, `Announce next agent pickup` identifies the next eligible Issue.
 
 Agents must respond to every new PR comment: update the same PR when the implementation can be corrected, or create a linked dependency Issue and apply `status: blocked` to both the original Issue and PR when a prerequisite is missing. The dependency Issue must contain `CODEX_DEPENDENCY_FOR: owner/repository#number`. Closing it removes `status: blocked`; human review is required before the original Issue becomes ready again.
+
+## Decision Owner agent requests
+
+Apply exactly one Decision Owner label when an Issue needs a technical or
+product decision:
+
+- `decision-owner: architect`
+- `decision-owner: product-manager`
+
+The `Request Decision Owner agent` workflow adds `agent-requested` and writes a
+marked manual Codex prompt to the Issue. It does not execute an agent, answer
+the question, or change `status: ready to pickup`. After a manual agent run,
+`pm-triage` records the Decision Owner's conclusion and evidence.
