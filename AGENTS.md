@@ -258,6 +258,11 @@ dependencies keep the Issue blocked.
 When performing PM triage, use `skills/pm-triage/SKILL.md` and preserve the
 required Decision Register and Triage Summary format.
 
+For a semi-automatic Decision Owner request, apply exactly one of the labels
+`decision-owner: architect` or `decision-owner: product-manager`. The GitHub
+Action generates a manual Codex prompt and may add `agent-requested`; it does
+not execute the agent, answer the Issue, or change `status: ready to pickup`.
+
 Before modifying the issue workflow, recalculate the dependency graph from the
 current open Issues and update the documented order when a new Issue, scope
 change, closure, or prerequisite changes the graph. Preserve unrelated local

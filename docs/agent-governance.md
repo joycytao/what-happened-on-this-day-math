@@ -164,3 +164,21 @@ must not be picked up.
 
 The reusable project skill for applying this process is
 `skills/pm-triage/SKILL.md`.
+
+## Semi-automatic Decision Owner trigger
+
+The repository supports a manual handoff from GitHub to the Decision Owner
+skills. Apply exactly one of these labels to an Issue:
+
+- `decision-owner: architect`
+- `decision-owner: product-manager`
+
+The `Request Decision Owner agent` workflow adds `agent-requested` when the
+label exists and posts one marked request comment containing the Issue URL,
+role, skill path, and a copyable prompt. Reapplying the same label does not
+create a duplicate request comment for that Issue and role.
+
+This is intentionally semi-automatic: the workflow does not call Codex or an
+external runner, does not answer the open question, and does not alter
+`status: ready to pickup`. After a manual run, `pm-triage` records the
+Decision Owner's conclusion and evidence.
