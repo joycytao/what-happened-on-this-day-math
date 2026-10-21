@@ -215,3 +215,14 @@ to `pm-triage` with an explicit blocker; an invalid transition fails closed.
 `status: ready to pickup` is the human approval gate. The derived
 `state: ready-to-pickup` label is only a routing state and never grants
 permission to implement.
+
+## Recovery rules
+
+- A blocked handoff returns to `pm-triage` with the blocker and evidence.
+- A duplicate `handoffId` is ignored without a second comment or label change.
+- A stale claim is not silently released; a human or `pm-triage` must verify it
+  before using the guarded `release` command.
+- A GitHub connectivity failure is a blocker, never an empty queue and never a
+  reason to claim work from local assumptions.
+- The offline route proof is in
+  `tests/agent-workflow-integration.test.mjs` and uses no token or network.

@@ -25,3 +25,18 @@ The `Request Decision Owner agent` workflow adds `agent-requested` and writes a
 marked manual Codex prompt to the Issue. It does not execute an agent, answer
 the question, or change `status: ready to pickup`. After a manual agent run,
 `pm-triage` records the Decision Owner's conclusion and evidence.
+
+## Versioned agent handoffs
+
+The automated route is split into two layers:
+
+- GitHub Actions validate `CODEX_HANDOFF:v1`, apply derived `agent:*` and
+  `state:*` labels, and route implementation PRs to QA.
+- Codex pickup uses `scripts/agent-pickup.mjs` through the repository GitHub
+  connectivity runner. It claims at most one item, works in a fresh worktree
+  from remote `main`, and writes the next handoff comment.
+
+No workflow invokes an LLM and no repository OpenAI token is required. The
+human `status: ready to pickup` label remains the approval gate. See
+`docs/agent-governance.md` and `docs/agent-runner.md` for the contract and
+recovery rules.

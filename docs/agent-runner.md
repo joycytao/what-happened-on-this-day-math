@@ -36,6 +36,11 @@ The heartbeat reports only a meaningful claim, completion, blocker, failed
 connectivity check, or required human action. Repeated no-work results and
 unchanged queue state produce no notification.
 
+The recovery policy is intentionally conservative: blocked work returns to
+`pm-triage`, duplicate handoff IDs are ignored, stale claims require explicit
+verification before release, and connectivity errors stop the cycle without a
+claim. The complete token-free route is covered by the offline fixture test.
+
 ## Supported commands
 
 ```text
