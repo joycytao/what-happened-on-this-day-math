@@ -24,14 +24,21 @@ jobs:
             const body = context.eventName === 'issue_comment'
               ? context.payload.comment.body
               : context.payload.review.body;
-            const match = body.match(/<!-- CODEX_HANDOFF:v1\s*([\s\S]*?)\s*-->/);
-            if (!match) return;
-
-            let handoff;
-            try {
-              handoff = JSON.parse(match[1]);
-            } catch (error) {
-              core.setFailed(`Invalid CODEX_HANDOFF:v1 JSON: ${error.message}`);
+            if (!body.includes('<!-- CODEX_HANDOFF:v1 -->')) return;
+            const field = (label) => body.match(new RegExp(`^- ${label}: \\`?([^\\`\\n]+)`, 'm'))?.[1]?.trim();
+            const list = (label) => {
+              const match = body.match(new RegExp(`^- ${label}:\\n([\\s\\S]*?)(?=^- \\w|$)`, 'm'));
+              return match ? [...match[1].matchAll(/^\\s{2}- (.+)$/gm)].map(item => item[1].trim()) : [];
+            };
+            const handoff = {
+              handoffId: field('Handoff ID'), from: field('From'), to: field('To'),
+              workItem: field('Work item'), status: field('Status'),
+              completed: list('Completed'), requiredNextAction: list('Required next action'),
+              evidence: list('Evidence'), constraints: list('Constraints'),
+              blockers: list('Blockers'), expectedOutput: list('Expected output'),
+            };
+            if (!handoff.handoffId) {
+              core.setFailed('Invalid CODEX_HANDOFF:v1 markdown: missing Handoff ID');
               return;
             }
 
@@ -43,6 +50,7 @@ jobs:
             });
             const duplicate = comments.some(comment =>
               comment.body?.includes(`"handoffId":"${handoff.handoffId}"`) ||
+              comment.body?.includes(`Handoff ID: \`${handoff.handoffId}\``) ||
               comment.body?.includes(`handoffId: ${handoff.handoffId}`));
             if (duplicate) return;
 

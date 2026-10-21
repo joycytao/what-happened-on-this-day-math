@@ -261,4 +261,3 @@
 Execute Tasks 1–5 sequentially. Each task has a focused test cycle and commit.
 Do not enable write-mode Codex pickup automation until Tasks 1–5 pass and a
 dry-run confirms the current queue is interpreted correctly.
-
