@@ -282,6 +282,10 @@ The existing `status: ready to pickup` label remains a Human Accountable Owner
 gate. `state: ready-to-pickup` is only a routing state and must not be treated
 as approval.
 
+The Codex pickup interface is `scripts/agent-pickup.mjs`. It must use
+`list --role`, `claim --role --issue`, and `release --issue --handoff-id
+--status` through `scripts/github-app-command.mjs`; never call `gh` directly.
+
 ## Worksheet template reuse
 
 Worksheet designs supplied later as PDF or PNG files are reusable project
