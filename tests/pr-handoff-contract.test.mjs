@@ -7,6 +7,7 @@ const workflowPath = new URL("../.github/workflows/pr-handoff.yml", import.meta.
 test("PR workflow routes developer implementation to quality-engineer", async () => {
   const workflow = await readFile(workflowPath, "utf8");
   assert.match(workflow, /pull_request:/);
+  assert.match(workflow, /hasDeveloperHandoff/);
   assert.match(workflow, /agent: quality-engineer/);
   assert.match(workflow, /state: qa/);
   assert.match(workflow, /CODEX_HANDOFF:v1/);

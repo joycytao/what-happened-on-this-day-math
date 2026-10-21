@@ -29,6 +29,10 @@ jobs:
             const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: Number(number) });
             const sha = pr.data.head.sha.slice(0, 12);
             const already = (id) => comments.some(comment => comment.body?.includes(`Handoff ID: \`${id}\``));
+            const hasDeveloperHandoff = comments.some(comment =>
+              comment.body?.includes('<!-- CODEX_HANDOFF:v1 -->') &&
+              comment.body?.includes('From: `developer`') &&
+              comment.body?.includes('To: `quality-engineer`'));
             const body = (handoffId, from, to, status, nextAction, evidence) => [
               '<!-- CODEX_HANDOFF:v1 -->', '', '## Handoff', '',
               `- Handoff ID: \`${handoffId}\``, `- From: \`${from}\``, `- To: \`${to}\``,
@@ -39,6 +43,7 @@ jobs:
             ].join('\n');
 
             if (context.eventName === 'pull_request') {
+              if (!hasDeveloperHandoff) return;
               const files = await github.paginate(github.rest.pulls.listFiles, { owner, repo, pull_number: Number(number), per_page: 100 });
               const paths = files.map(file => file.filename);
               const hasArchitectPath = paths.some(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md');
