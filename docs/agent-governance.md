@@ -182,3 +182,47 @@ This is intentionally semi-automatic: the workflow does not call Codex or an
 external runner, does not answer the open question, and does not alter
 `status: ready to pickup`. After a manual run, `pm-triage` records the
 Decision Owner's conclusion and evidence.
+
+## Versioned agent handoff protocol
+
+Agents communicate through an Issue or Pull Request comment containing one
+machine-readable `<!-- CODEX_HANDOFF:v1 ... -->` marker. The contract is
+validated by `src/agent-handoff.mjs`; `handoffId` is the idempotency key, so a
+router must not apply labels or create a second routing comment for an ID
+already seen on the work item.
+
+The normal role chain is:
+
+```text
+pm-triage
+  → product-manager / architect / social-expert
+  → pm-triage
+  → Human approval
+  → developer
+  → quality-engineer
+  → specialist review
+  → Human merge
+```
+
+`.github/workflows/handoff-router.yml` performs coordination only: it validates
+the marker, checks duplicates, derives `agent:*` and `state:*` labels, and
+records the next handoff. It never calls an LLM. The Codex pickup runner reads
+eligible work through `scripts/github-app-command.mjs`, claims at most one
+item, starts from the latest remote `main` in a dedicated worktree, performs
+the role's work, and writes the next handoff comment. A blocked handoff returns
+to `pm-triage` with an explicit blocker; an invalid transition fails closed.
+
+`status: ready to pickup` is the human approval gate. The derived
+`state: ready-to-pickup` label is only a routing state and never grants
+permission to implement.
+
+## Recovery rules
+
+- A blocked handoff returns to `pm-triage` with the blocker and evidence.
+- A duplicate `handoffId` is ignored without a second comment or label change.
+- A stale claim is not silently released; a human or `pm-triage` must verify it
+  before using the guarded `release` command.
+- A GitHub connectivity failure is a blocker, never an empty queue and never a
+  reason to claim work from local assumptions.
+- The offline route proof is in
+  `tests/agent-workflow-integration.test.mjs` and uses no token or network.

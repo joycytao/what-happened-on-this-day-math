@@ -268,6 +268,24 @@ current open Issues and update the documented order when a new Issue, scope
 change, closure, or prerequisite changes the graph. Preserve unrelated local
 changes and report any unresolved evidence gap instead of guessing.
 
+## Agent handoff runner
+
+Agent-to-agent work uses the versioned `<!-- CODEX_HANDOFF:v1 -->` comment
+contract described in `docs/agent-governance.md` and
+`docs/agent-runner.md`. GitHub Actions route handoffs and maintain derived
+labels; they never call an LLM. Codex pickup automation claims at most one
+eligible work item per cycle, uses the repository GitHub connectivity runner,
+starts from the latest remote `main` in a dedicated worktree, and writes a
+completed or blocked handoff with evidence.
+
+The existing `status: ready to pickup` label remains a Human Accountable Owner
+gate. `state: ready-to-pickup` is only a routing state and must not be treated
+as approval.
+
+The Codex pickup interface is `scripts/agent-pickup.mjs`. It must use
+`list --role`, `claim --role --issue`, and `release --issue --handoff-id
+--status` through `scripts/github-app-command.mjs`; never call `gh` directly.
+
 ## Worksheet template reuse
 
 Worksheet designs supplied later as PDF or PNG files are reusable project
