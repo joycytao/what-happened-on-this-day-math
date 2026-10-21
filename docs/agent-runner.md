@@ -23,6 +23,13 @@ released; use `release --issue <number> --handoff-id <id> --status blocked|rejec
 after verifying the existing claim. The existing `status: ready to pickup`
 label remains a human approval gate and is never added by an agent.
 
+Implementation PRs are routed by `.github/workflows/pr-handoff.yml`. A
+developer PR creates one QA handoff. Governance/schema/orchestration changes
+request architect consultation, and social-format changes request
+social-expert consultation. QA rejection returns the PR to developer with the
+review URL as evidence; QA completion creates a human-review handoff and never
+merges automatically.
+
 ## Quiet heartbeat behavior
 
 The heartbeat reports only a meaningful claim, completion, blocker, failed
