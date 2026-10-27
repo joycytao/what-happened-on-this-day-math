@@ -1,5 +1,14 @@
 # AGENTS.md
 
+## Agent skills
+
+Use the following skills when the task matches their purpose:
+
+- `triage`: classify GitHub Issues, answer open questions, identify the Decision Owner, and decide whether an issue is ready for pickup.
+- `ask-matt`: use a question-driven process to clarify repository process and agent workflow decisions.
+- `code-review`: review changes against repository standards and requirements.
+- `pr`: prepare pull request descriptions and review context.
+
 ## GitHub App connectivity gate
 
 Repeated automation runs showed that direct App-wrapper calls can collapse to
