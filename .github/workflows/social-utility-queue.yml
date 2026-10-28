@@ -106,4 +106,4 @@ jobs:
               if (existingContent.has(contentId)) continue;
               await github.graphql(`mutation($projectId:ID!,$contentId:ID!){ addProjectV2ItemById(input:{projectId:$projectId,contentId:$contentId}){ item { id } } }`, { projectId: project.id, contentId });
             }
-            core.info(`Queued ${issueIds.length} Utility Issues in Project ${project.title}.`);
+            core.info(`Queued ${issueIds.length} Utility Issues in Social Project ${project.title}; status remains human-managed.`);
