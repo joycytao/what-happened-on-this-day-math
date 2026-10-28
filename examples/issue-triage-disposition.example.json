@@ -1,0 +1,13 @@
+{
+  "requiresHumanReview": true,
+  "dispositions": [
+    {
+      "issue": { "number": 123, "title": "Example duplicate", "state": "OPEN" },
+      "disposition": "close_duplicate",
+      "reason": "A stable marker is owned by another Issue.",
+      "evidence": ["marker: monthly-production:2027-01:tpt", "replacementIssue: 120"],
+      "replacement": { "issueNumber": 120 }
+    }
+  ],
+  "reviewNote": "No close or backlog mutation is authorized until the owner approves each disposition."
+}
