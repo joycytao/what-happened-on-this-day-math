@@ -24,8 +24,8 @@ jobs:
     if: "github.event_name == 'workflow_dispatch' || (github.event.label.name == 'status: ready to pickup' && contains(github.event.issue.body, 'monthly-context:'))"
     runs-on: ubuntu-latest
     env:
-      PROJECT_OWNER: ${{ vars.MATH_PROJECT_OWNER || 'joycytao' }}
-      PROJECT_NUMBER: ${{ vars.MATH_PROJECT_NUMBER || '3' }}
+      PROJECT_OWNER: ${{ vars.MATH_PROJECT_OWNER }}
+      PROJECT_NUMBER: ${{ vars.MATH_PROJECT_NUMBER }}
     steps:
       - uses: actions/checkout@v4
       - name: Validate context and create or update production Issues
@@ -74,6 +74,10 @@ jobs:
               const saved = existing ? await github.rest.issues.update({ ...payload, issue_number: existing.number }) : await github.rest.issues.create(payload);
               issueIds.push(saved.data.node_id);
               core.info(`${existing ? 'Updated' : 'Created'} #${saved.data.number}: ${desired.title}`);
+            }
+            if (!process.env.PROJECT_OWNER || !process.env.PROJECT_NUMBER) {
+              core.warning('Math Project routing is not configured. Set MATH_PROJECT_OWNER and MATH_PROJECT_NUMBER repository variables to add these Issues to a Project.');
+              return;
             }
             const projectData = await github.graphql(`query($login:String!,$number:Int!){ user(login:$login){ projectV2(number:$number){ id title items(first:100){nodes{content{... on Issue{id}}}} } } }`, { login: process.env.PROJECT_OWNER, number: Number(process.env.PROJECT_NUMBER) });
             const project = projectData.user?.projectV2;

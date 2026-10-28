@@ -13,4 +13,6 @@ test("monthly production queue listens for ready labels and writes no guessed pr
   assert.doesNotMatch(workflow, /updateProjectV2ItemFieldValue/);
   assert.match(workflow, /workflow_dispatch:/);
   assert.match(workflow, /if:\s*"github\.event_name.*monthly-context:/);
+  assert.match(workflow, /MATH_PROJECT_OWNER/);
+  assert.match(workflow, /Math Project routing is not configured/);
 });
