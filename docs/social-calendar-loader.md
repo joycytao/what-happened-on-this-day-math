@@ -1,28 +1,36 @@
 # Social calendar loader contract
 
-Issue #187 uses the workbook as the human-facing and runtime source of truth.
-The runtime reads `content/social/content-calendar.xlsx` directly at one
-ingestion boundary, then passes normalized records to downstream generators.
-No generated CSV or JSON export is committed as a second source of truth.
+Issue #187 defines the workbook boundary for the monthly social orchestrator.
+`content/social/content-calendar.xlsx` is the human-facing source of truth. The
+runtime reads it once through `loadSocialCalendar`, validates rows, and returns
+normalized records; downstream builders must not read worksheet cells directly.
 
-## Canonical `Content Calendar` columns
+## API
 
-| Column | Contract |
-| --- | --- |
-| `Content ID` | Unique stable identifier within the requested month. |
-| `Content Type` | `Carousel` or `Reel`. |
-| `Template ID` | `carousel-v1` for Carousel; `reel-v1` for Reel. |
-| `Trigger` | `manual`, `monthly-release`, or `scheduled`. |
-| `Publish Date` | A valid spreadsheet date, normalized to `YYYY-MM-DD`. |
-| `Asset Paths` | One or more repository-relative paths separated by semicolons or new lines. |
-| `Hook` | The short opening hook. |
-| `Caption` | The publication caption. |
-| `Hashtags` | One or more hashtags separated by commas, semicolons, spaces, or new lines. |
-| `Campaign ID` | Stable campaign identifier. |
-| `Campaign Week` | Integer from 1 to 5. |
-| `Output Format` | `png` for Carousel; `mp4` for Reel. |
-| `Generation Status` | `planned`, `ready`, `generated`, `review`, `published`, or `blocked`. |
+```js
+loadSocialCalendar({
+  workbookPath: "content/social/content-calendar.xlsx",
+  month: "2026-11",
+  root: process.cwd(),
+})
+```
 
-`loadSocialCalendar({ workbookPath, month })` accepts a `YYYY-MM` month,
-returns records in deterministic publish-date/content-ID order, and reports
-row-specific validation errors before any generator is called.
+The result is `{ valid, errors, rows, source }`. A valid result contains rows
+sorted by `publicationDate`, then `contentId`. Dates are normalized to ISO
+`YYYY-MM-DD` strings, asset paths and hashtags are arrays, and workbook cell
+formatting does not affect the returned record shape.
+
+## Required worksheet columns
+
+`Content ID`, `Content Type`, `Template ID`, `Trigger`, `Publication Date`,
+`Asset Paths`, `Hook`, `Caption`, and `Hashtags` are required. Optional columns
+are `Output Format`, `Generation Status`, `Campaign ID`, and `Campaign Name`.
+
+`Content Type` must be `Carousel` or `Reel`. The corresponding template IDs are
+`carousel-v1` and `reel-v1`. `Trigger` must be `START` or `ENDING_SOON`.
+Multiple assets or hashtags may be separated by commas, semicolons, or line
+breaks. Invalid rows produce row-numbered errors before any media generation.
+
+The loader filters by the requested `YYYY-MM` month and performs no generation
+or publication itself.
+
