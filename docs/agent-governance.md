@@ -177,8 +177,9 @@ Issue receives one of these labels:
 - `status: ready to pickup`
 
 The two ready-for-agent labels require exactly one supported `agent:` label:
-`pm-triage`, `architect`, or `product-manager`. Missing or conflicting routing
-adds `needs-info` and records a blocked handoff instead of choosing a role.
+`pm-triage`, `architect`, `product-manager`, `social-expert`, `developer`, or
+`quality-engineer`. Missing or conflicting routing adds `needs-info` and records
+a blocked handoff instead of choosing a role.
 
 This is a queue producer, not a model runner. GitHub Actions does not call
 OpenAI or another external model. Codex pickup uses the versioned

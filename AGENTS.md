@@ -8,6 +8,9 @@ Use the following skills when the task matches their purpose:
 - `ask-matt`: use a question-driven process to clarify repository process and agent workflow decisions.
 - `code-review`: review changes against repository standards and requirements.
 - `pr`: prepare pull request descriptions and review context.
+- `developer`: implement an approved Issue within its accepted scope.
+- `quality-engineer`: verify an implementation or PR against acceptance criteria.
+- `social-expert`: answer social-format and channel-specific domain questions.
 
 ## GitHub App connectivity gate
 

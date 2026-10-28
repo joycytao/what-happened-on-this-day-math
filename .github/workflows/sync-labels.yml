@@ -25,6 +25,7 @@ jobs:
               ['status: ready to pickup', '0e8a16', 'Approved and ready for an agent to pick up'],
               ['decision-owner: architect', '5319e7', 'Route the Issue\'s technical decision to the architect agent'],
               ['decision-owner: product-manager', '1d76db', 'Route the Issue\'s product decision to the product-manager agent'],
+              ['decision-owner: social-expert', 'fbca04', 'Route the social-format decision to the social-expert agent'],
               ['agent-requested', 'ededed', 'An agent handoff request has been generated for this Issue'],
               ['agent: pm-triage', '7057ff', 'PM triage is the current routing owner'],
               ['agent: product-manager', '1d76db', 'Product decision owner is active'],
