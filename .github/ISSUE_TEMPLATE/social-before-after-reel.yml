@@ -1,0 +1,52 @@
+name: Social — Before/After Worksheet Reel
+description: Create a before/after worksheet Reel from the registered template.
+title: "[Social Reel][Before/After]: "
+labels:
+  - "social:product-reel"
+  - "content:monthly"
+  - "status: pending review"
+body:
+  - type: input
+    id: month_cycle
+    attributes:
+      label: Month or cycle
+      description: Use the released month and stable package_id when applicable.
+    validations: { required: true }
+  - type: textarea
+    id: asset_resources
+    attributes:
+      label: Asset resources
+      description: List usable paths or attached files for before, after, profile, audio, and any source assets. Placeholder links are not sufficient.
+    validations: { required: true }
+  - type: dropdown
+    id: asset_source
+    attributes:
+      label: Asset source
+      options:
+        - Internal repository/template assets
+        - External, student, customer, or third-party assets
+    validations: { required: true }
+  - type: textarea
+    id: asset_usage_notes
+    attributes:
+      label: Asset usage notes
+      description: Required when any asset is external, student, customer, personal, or third-party; record permission, privacy, attribution, and redaction limits. Write “not applicable” for internal-only assets.
+    validations: { required: true }
+  - type: textarea
+    id: before_after_direction
+    attributes:
+      label: Before/after direction
+      description: Describe the before state, after state, transformation, and lesson/product relationship.
+    validations: { required: true }
+  - type: textarea
+    id: expected_output
+    attributes:
+      label: Expected output
+      description: State the expected MP4, dimensions, duration, sidecar, and QA evidence.
+    validations: { required: true }
+  - type: input
+    id: cta_destination
+    attributes:
+      label: CTA or destination
+      description: CTA text and destination URL or destination description.
+    validations: { required: true }
