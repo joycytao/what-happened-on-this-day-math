@@ -65,7 +65,9 @@
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:prepare:november": "node scripts/prepare-november-cover.mjs",
-    "packet:assemble:november:final": "node scripts/assemble-november-final-package.mjs"
+    "packet:assemble:november:final": "node scripts/assemble-november-final-package.mjs",
+    "social:monthly": "node scripts/run-monthly-social.mjs"
   },
+  "dependencies": { "xlsx": "^0.18.5" },
   "devDependencies": { "pdf-lib": "^1.17.1", "playwright": "^1.63.0", "pngjs": "^7.0.0" }
 }
