@@ -71,3 +71,11 @@ test("rejects incomplete production identity", () => {
   assert.equal(result.valid, false);
   assert.match(result.errors.join("\n"), /inputIssue is required/);
 });
+
+test("allows Issue planning before a Project is configured", () => {
+  const { project: _project, ...withoutProject } = input;
+  const result = buildMonthlyProductionPlan(withoutProject);
+  assert.equal(result.valid, true);
+  assert.match(result.parent.body, /Math Production Project: not configured/);
+  assert.match(result.issues[0].body, /Math Production Project: not configured/);
+});
