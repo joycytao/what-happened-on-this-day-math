@@ -14,6 +14,18 @@ This contract separates queue plumbing from production work.
 - GitHub Actions does not render social assets, diagnose student work, publish
   to social platforms, or run a competing production-generation cron.
 
+All Social queues and product-confirmed handoffs route through the configurable
+Social Project owner/number (`SOCIAL_PROJECT_OWNER` and
+`SOCIAL_PROJECT_NUMBER`, defaulting to `joycytao`/`2`). They add Issue items to
+that Project only; Project Status remains human-managed and no option IDs are
+invented. Math production uses a separate Project and queue.
+
+The eight template-specific Issue Forms are the registered entry points for
+manual Social work. Each requires a month/cycle, usable asset resources,
+expected output, and CTA/destination. External, student, customer, personal,
+or third-party assets also require usage/permission/privacy notes before
+pickup. Excel is not part of this workflow.
+
 ## Monthly queue
 
 `.github/workflows/social-monthly-queue.yml` listens for a successful
