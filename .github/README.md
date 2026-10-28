@@ -11,4 +11,8 @@ This repository uses the shared governance kit from `/Users/jtao/Documents/Proje
 
 Run `Sync issue labels` from GitHub Actions to create or update the shared labels. When an Issue closes, `Announce next agent pickup` identifies the next eligible Issue.
 
+## Monthly context intake
+
+The monthly context scheduler creates one `[Monthly context] YYYY-MM` Issue on the third Monday at 09:00 `America/Chicago` for the month two cycles ahead. The owner supplies one marked JSON comment and applies `status: ready to pickup` only after validation-required fields are complete. The approval label is the gate for creating the monthly production workstream; an unapproved or invalid comment does not create child Issues.
+
 Agents must respond to every new PR comment: update the same PR when the implementation can be corrected, or create a linked dependency Issue and apply `status: blocked` to both the original Issue and PR when a prerequisite is missing. The dependency Issue must contain `CODEX_DEPENDENCY_FOR: owner/repository#number`. Closing it removes `status: blocked`; human review is required before the original Issue becomes ready again.
