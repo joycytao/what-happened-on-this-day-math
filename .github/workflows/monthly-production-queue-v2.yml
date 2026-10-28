@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   queue:
-    if: github.event_name == 'workflow_dispatch' || (github.event.label.name == 'status: ready to pickup' && contains(github.event.issue.body, 'monthly-context:'))
+    if: "github.event_name == 'workflow_dispatch' || (github.event.label.name == 'status: ready to pickup' && contains(github.event.issue.body, 'monthly-context:'))"
     runs-on: ubuntu-latest
     env:
       PROJECT_OWNER: ${{ vars.MATH_PROJECT_OWNER || 'joycytao' }}
