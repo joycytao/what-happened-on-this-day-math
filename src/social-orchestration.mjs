@@ -10,6 +10,18 @@ export const SOCIAL_LABELS = Object.freeze({
   pending: "status:pending review",
 });
 
+const PLACEHOLDER_RESOURCE = /^(?:tbd|todo|n\/a|none|placeholder(?:\.[a-z0-9]+)?|<[^>]+>)$/i;
+
+export function validateAssetResources(resources) {
+  const errors = [];
+  if (!Array.isArray(resources) || resources.length === 0) return { valid: false, errors: ["asset resources are required"], resources: [] };
+  const normalized = resources.map((resource) => typeof resource === "string" ? resource.trim() : "");
+  if (normalized.some((resource) => !resource)) errors.push("asset resources cannot contain empty values");
+  if (normalized.some((resource) => PLACEHOLDER_RESOURCE.test(resource))) errors.push("asset resources cannot be placeholders");
+  if (new Set(normalized.filter(Boolean)).size !== normalized.filter(Boolean).length) errors.push("asset resources must be unique");
+  return { valid: errors.length === 0, errors, resources: normalized.filter(Boolean) };
+}
+
 const MONTHS = new Set([
   "january", "february", "march", "april", "may", "june",
   "july", "august", "september", "october", "november", "december",
@@ -39,7 +51,7 @@ function monthlyInputs(input) {
   return { errors, value: { month, year, packageId, manifestPath, contentPath, thumbnailManifestPath, runUrl } };
 }
 
-function monthlyParent(value) {
+function monthlyParent(value, assetStatus) {
   const marker = `<!-- codex-social-monthly:${value.packageId} -->`;
   const body = [
     marker,
@@ -53,6 +65,8 @@ function monthlyParent(value) {
     `- Release manifest: \`${value.manifestPath}\``,
     `- Content: \`${value.contentPath}\``,
     `- Thumbnail manifest: \`${value.thumbnailManifestPath}\``,
+    `- Asset resources: ${assetStatus.resources.length ? assetStatus.resources.map((resource) => `\`${resource}\``).join(", ") : "none supplied"}`,
+    assetStatus.valid ? "- Asset readiness: complete." : `- Asset readiness: blocked (${assetStatus.errors.join("; ")}).`,
     `- Source workflow run: ${value.runUrl}`,
     "- Expected Reel artifact: `output/social/product-reels/<month>/workstream.json` and the reviewed MP4/sidecar outputs.",
     "- Expected Carousel artifact: `output/social/carousels/<month>-carousels/workstream.json`.",
@@ -70,13 +84,16 @@ function monthlyParent(value) {
   };
 }
 
-function monthlyChild(value, kind, week, dependency = null) {
+function monthlyChild(value, kind, week, dependency = null, assetStatus = { valid: true, errors: [], resources: [] }) {
   const isReel = kind === "product-reel";
   const label = isReel ? SOCIAL_LABELS.productReel : SOCIAL_LABELS.carousel;
   const marker = `<!-- codex-social-monthly:${value.packageId}:${isReel ? "reel" : "carousel"}:${week} -->`;
   const dependencyLine = dependency
     ? `- Dependency: wait for Product Reel week ${dependency} to close before pickup.\n- CODEX_DEPENDS_ON_WEEK:${dependency}`
     : "- Dependency: none; this is the first Codex production step for this week.";
+  const assetLine = assetStatus.valid
+    ? `- Asset resources: ${assetStatus.resources.map((resource) => `\`${resource}\``).join(", ")}`
+    : `- Asset readiness blocker: ${assetStatus.errors.join("; ")}`;
   const command = isReel
     ? `npm run social:product-reels -- --input examples/${value.month.toLowerCase()}-product-reel-workstream.input.json`
     : `npm run social:carousels -- --input examples/${value.month.toLowerCase()}-carousel-workstream.input.json --reels output/social/product-reels/${value.month.toLowerCase()}/workstream.json`;
@@ -90,6 +107,7 @@ function monthlyChild(value, kind, week, dependency = null) {
     `- Week: ${week}`,
     `- Release manifest: \`${value.manifestPath}\``,
     `- Source workflow run: ${value.runUrl}`,
+    assetLine,
     dependencyLine,
     `- Production command: \`${command}\``,
     `- Expected artifact: \`output/social/${isReel ? "product-reels" : "carousels"}/${value.month.toLowerCase()}${isReel ? "" : "-carousels"}/workstream.json\``,
@@ -102,7 +120,7 @@ function monthlyChild(value, kind, week, dependency = null) {
     week,
     key: `monthly:${value.packageId}:${isReel ? "reel" : "carousel"}:${week}`,
     title: `[Social ${isReel ? "Reel" : "Carousel"}] ${value.packageId} week ${week}`,
-    labels: ["type: feature", label, SOCIAL_LABELS.monthly, dependency ? SOCIAL_LABELS.blocked : SOCIAL_LABELS.ready],
+    labels: ["type: feature", label, SOCIAL_LABELS.monthly, dependency || !assetStatus.valid ? SOCIAL_LABELS.blocked : SOCIAL_LABELS.ready],
     marker,
     body,
   };
@@ -111,13 +129,14 @@ function monthlyChild(value, kind, week, dependency = null) {
 export function buildMonthlySocialIssuePlan(input = {}) {
   const parsed = monthlyInputs(input);
   if (parsed.errors.length) return baseResult(parsed.errors);
-  const parent = monthlyParent(parsed.value);
+  const assetStatus = validateAssetResources(input.assetResources);
+  const parent = monthlyParent(parsed.value, assetStatus);
   const issues = [parent];
   for (let week = 1; week <= 4; week += 1) {
-    issues.push(monthlyChild(parsed.value, "product-reel", week));
-    issues.push(monthlyChild(parsed.value, "carousel", week, week));
+    issues.push(monthlyChild(parsed.value, "product-reel", week, null, assetStatus));
+    issues.push(monthlyChild(parsed.value, "carousel", week, week, assetStatus));
   }
-  return baseResult([], issues);
+  return { ...baseResult([], issues), assetReady: assetStatus.valid, assetErrors: assetStatus.errors };
 }
 
 export function buildUtilitySocialIssuePlan(input = {}) {
@@ -127,6 +146,7 @@ export function buildUtilitySocialIssuePlan(input = {}) {
   const runUrl = requiredString(input.runUrl, "runUrl", errors);
   if (!Number.isInteger(intakeIssueNumber) || intakeIssueNumber < 1) errors.push("intakeIssueNumber must be a positive integer");
   if (errors.length) return baseResult(errors);
+  const assetStatus = validateAssetResources(input.assetResources);
 
   const parentMarker = `<!-- codex-social-utility:${cycleId} -->`;
   const issues = [{
@@ -144,6 +164,7 @@ export function buildUtilitySocialIssuePlan(input = {}) {
       `- Intake Issue: #${intakeIssueNumber}`,
       `- Cycle ID: \`${cycleId}\``,
       `- Queue workflow run: ${runUrl}`,
+      assetStatus.valid ? `- Asset resources: ${assetStatus.resources.map((resource) => `\`${resource}\``).join(", ")}` : `- Asset readiness blocker: ${assetStatus.errors.join("; ")}`,
       "- Original, clean review copy, and redaction report follow the 90-day retention contract.",
       "- Automatic publication is out of scope.",
     ].join("\n"),
@@ -156,7 +177,7 @@ export function buildUtilitySocialIssuePlan(input = {}) {
       week,
       key: `utility:${cycleId}:week:${week}`,
       title: `[Utility Reel] ${cycleId} week ${week}`,
-      labels: ["type: feature", SOCIAL_LABELS.utilityReel, SOCIAL_LABELS.utility, week === 1 ? SOCIAL_LABELS.ready : SOCIAL_LABELS.blocked],
+      labels: ["type: feature", SOCIAL_LABELS.utilityReel, SOCIAL_LABELS.utility, week === 1 && assetStatus.valid ? SOCIAL_LABELS.ready : SOCIAL_LABELS.blocked],
       marker,
       body: [
         marker,
@@ -165,11 +186,12 @@ export function buildUtilitySocialIssuePlan(input = {}) {
         "Codex automation is the production worker. GitHub Actions does not diagnose, render, or publish student material.",
         `- Intake Issue: #${intakeIssueNumber}`,
         `- Cycle ID: \`${cycleId}\``,
+        assetStatus.valid ? `- Asset resources: ${assetStatus.resources.map((resource) => `\`${resource}\``).join(", ")}` : `- Asset readiness blocker: ${assetStatus.errors.join("; ")}`,
         dependency,
         "- Production command: `npm run social:utility-reels -- --input examples/utility-reel-intake.example.json`",
         "- Preserve checksum, privacy, clean-copy, redaction-report, mathematics, layout, and human-QA gates.",
       ].join("\n"),
     });
   }
-  return baseResult([], issues);
+  return { ...baseResult([], issues), assetReady: assetStatus.valid, assetErrors: assetStatus.errors };
 }

@@ -14,6 +14,7 @@ const monthlyInput = {
   manifestPath: "releases/october-v1.0.manifest.json",
   contentPath: "content/monthly/month-10.json",
   thumbnailManifestPath: "output/tpt/october-v1.0/visual-assets/landing-page-handoff.json",
+  assetResources: ["releases/october-v1.0.manifest.json", "content/monthly/month-10.json", "output/tpt/october-v1.0/visual-assets/landing-page-handoff.json"],
   runUrl: "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/1",
 };
 
@@ -51,6 +52,7 @@ test("utility plan creates three sequential ready-to-pickup children", () => {
     cycleId: "student-test-2026-10-01",
     intakeIssueNumber: 150,
     runUrl: "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/2",
+    assetResources: ["uploads/student-test.png"],
   });
 
   assert.equal(plan.valid, true);

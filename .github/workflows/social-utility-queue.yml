@@ -13,6 +13,10 @@ on:
         description: Owner-approved intake Issue number
         required: true
         type: string
+      asset_resources:
+        description: Comma-separated usable asset paths or URLs
+        required: false
+        type: string
       project_owner:
         required: false
         default: joycytao
@@ -43,8 +47,12 @@ jobs:
           script: |
             const body = context.payload.issue.body || '';
             const match = body.match(/###\s*Cycle ID\s*\n+\s*([^\n]+)/i);
+            const assets = body.match(/###\s*Asset resources\s*\n+\s*([\s\S]*?)(?=\n###|$)/i);
             if (!match) core.setFailed('Utility intake is missing a Cycle ID');
-            else core.setOutput('cycle_id', match[1].trim());
+            else {
+              core.setOutput('cycle_id', match[1].trim());
+              core.setOutput('asset_resources', (assets?.[1] || '').trim().replace(/\n+/g, ','));
+            }
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -55,11 +63,13 @@ jobs:
         env:
           CYCLE_ID: ${{ inputs.cycle_id || steps.intake.outputs.cycle_id }}
           INTAKE_ISSUE: ${{ inputs.intake_issue || github.event.issue.number }}
+          ASSET_RESOURCES: ${{ inputs.asset_resources || steps.intake.outputs.asset_resources }}
         run: >-
           node scripts/build-social-issue-plan.mjs
           --mode utility
           --cycle-id "$CYCLE_ID"
           --intake-issue "$INTAKE_ISSUE"
+          --asset-resources "$ASSET_RESOURCES"
           --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           --output /tmp/social-issue-plan.json
       - name: Create or update Utility Issues and add them to the existing Project

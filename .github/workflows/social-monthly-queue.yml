@@ -90,6 +90,7 @@ jobs:
           --manifest-path "$MANIFEST_PATH"
           --content-path "$CONTENT_PATH"
           --thumbnail-manifest-path "$THUMBNAIL_MANIFEST_PATH"
+          --asset-resources "$MANIFEST_PATH,$CONTENT_PATH,$THUMBNAIL_MANIFEST_PATH"
           --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           --output /tmp/social-issue-plan.json
       - name: Create or update monthly Issues and add them to the existing Project
