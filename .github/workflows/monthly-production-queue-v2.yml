@@ -1,4 +1,4 @@
-name: Queue monthly math production
+name: Queue monthly math production v2
 
 on:
   issues:
@@ -8,7 +8,7 @@ on:
       issue_number:
         description: Monthly context Issue number for a deterministic/manual run
         required: true
-        type: number
+        type: string
 
 permissions:
   contents: read
@@ -28,7 +28,7 @@ jobs:
       PROJECT_NUMBER: ${{ vars.MATH_PROJECT_NUMBER || '3' }}
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch source Issue and validate, create/update production Issues
+      - name: Validate context and create or update production Issues
         uses: actions/github-script@v7
         env:
           PROJECT_OWNER: ${{ env.PROJECT_OWNER }}

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 
 test("monthly production queue listens for ready labels and writes no guessed project field options", () => {
-  const workflow = fs.readFileSync(new URL("../.github/workflows/monthly-production-queue.yml", import.meta.url), "utf8");
+  const workflow = fs.readFileSync(new URL("../.github/workflows/monthly-production-queue-v2.yml", import.meta.url), "utf8");
   assert.match(workflow, /issues:/);
   assert.match(workflow, /types:\s*\[labeled\]/);
   assert.match(workflow, /status: ready to pickup/);
@@ -11,4 +11,5 @@ test("monthly production queue listens for ready labels and writes no guessed pr
   assert.match(workflow, /addProjectV2ItemById/);
   assert.match(workflow, /status fields remain human-managed/);
   assert.doesNotMatch(workflow, /updateProjectV2ItemFieldValue/);
+  assert.match(workflow, /workflow_dispatch:/);
 });
