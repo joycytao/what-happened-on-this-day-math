@@ -39,7 +39,7 @@ test("reports row-specific errors for missing required fields", async () => {
   assert.match(result.errors.join("\n"), /Row 2: Hashtags is required/);
 });
 
-test("rejects duplicate Content IDs and mismatched templates", async () => {
+test("rejects duplicate Content IDs and unsupported templates", async () => {
   const result = loadSocialCalendar({ workbookPath: await workbookPath([validRows[0], ["reel-02", "Reel", "carousel-v1", "START", "2026-11-13", "assets/reel-2.png", "Hook", "Caption", "#math"]]), month: "2026-11" });
   assert.equal(result.valid, false);
   assert.match(result.errors.join("\n"), /duplicate Content ID "reel-02"/);

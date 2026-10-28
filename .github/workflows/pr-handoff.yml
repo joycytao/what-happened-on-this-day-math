@@ -1,0 +1,74 @@
+name: Route implementation PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+# Consultation labels emitted by this workflow: agent: architect and
+# agent: social-expert. The primary implementation label is agent: quality-engineer.
+
+jobs:
+  handoff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create the next PR handoff
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const number = context.payload.pull_request?.number ?? context.payload.review?.pull_request_url?.split('/').pop();
+            if (!number) return;
+            const pr = await github.rest.pulls.get({ owner, repo, pull_number: Number(number) });
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: Number(number) });
+            const sha = pr.data.head.sha.slice(0, 12);
+            const already = (id) => comments.some(comment => comment.body?.includes(`Handoff ID: \`${id}\``));
+            const hasDeveloperHandoff = comments.some(comment =>
+              comment.body?.includes('<!-- CODEX_HANDOFF:v1 -->') &&
+              comment.body?.includes('From: `developer`') &&
+              comment.body?.includes('To: `quality-engineer`'));
+            const body = (handoffId, from, to, status, nextAction, evidence) => [
+              '<!-- CODEX_HANDOFF:v1 -->', '', '## Handoff', '',
+              `- Handoff ID: \`${handoffId}\``, `- From: \`${from}\``, `- To: \`${to}\``,
+              `- Work item: \`${owner}/${repo}#${number}\``, `- Status: \`${status}\``,
+              '- Completed:', '  - PR event recorded', '- Required next action:', `  - ${nextAction}`,
+              '- Evidence:', `  - ${evidence}`, '- Constraints:', '  - do not merge automatically',
+              '- Blockers:', '  - none', '- Expected output:', '  - reviewed handoff evidence',
+            ].join('\n');
+
+            if (context.eventName === 'pull_request') {
+              if (!hasDeveloperHandoff) return;
+              const files = await github.paginate(github.rest.pulls.listFiles, { owner, repo, pull_number: Number(number), per_page: 100 });
+              const paths = files.map(file => file.filename);
+              const hasArchitectPath = paths.some(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md');
+              const hasSocialPath = paths.some(path => /social|carousel|reel|template/i.test(path));
+              const qaId = `pr:${number}:developer:quality-engineer:${sha}`;
+              if (!already(qaId)) {
+                await github.rest.issues.createComment({ owner, repo, issue_number: Number(number), body: body(qaId, 'developer', 'quality-engineer', 'completed', 'run the quality-engineer checks', `PR ${sha}`) });
+                await github.rest.issues.addLabels({ owner, repo, issue_number: Number(number), labels: ['agent: quality-engineer', 'state: qa'] });
+              }
+              if (hasArchitectPath) {
+                const id = `pr:${number}:architect:consult:${sha}`;
+                if (!already(id)) await github.rest.issues.createComment({ owner, repo, issue_number: Number(number), body: body(id, 'pm-triage', 'architect', 'requested', 'review governance, schema, or orchestration impact', paths.filter(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md').join(', ')) });
+              }
+              if (hasSocialPath) {
+                const id = `pr:${number}:social-expert:consult:${sha}`;
+                if (!already(id)) await github.rest.issues.createComment({ owner, repo, issue_number: Number(number), body: body(id, 'pm-triage', 'social-expert', 'requested', 'review social format and template impact', paths.filter(path => /social|carousel|reel|template/i.test(path)).join(', ')) });
+              }
+              return;
+            }
+
+            const review = context.payload.review;
+            const failed = review.state === 'changes_requested' || /fail|reject|block/i.test(review.body || '');
+            const id = failed ? `pr:${number}:quality-engineer:developer:${sha}` : `pr:${number}:quality-engineer:human-review:${sha}`;
+            if (already(id)) return;
+            const next = failed ? 'developer' : 'human-review';
+            const state = failed ? 'changes-requested' : 'human-review';
+            await github.rest.issues.createComment({ owner, repo, issue_number: Number(number), body: body(id, 'quality-engineer', next, failed ? 'rejected' : 'completed', failed ? 'address QA evidence and update the PR' : 'human maintainer reviews and decides whether to merge', review.html_url || `review on PR #${number}`) });
+            await github.rest.issues.addLabels({ owner, repo, issue_number: Number(number), labels: failed ? ['agent: developer', 'state: changes-requested'] : ['state: human-review'] });

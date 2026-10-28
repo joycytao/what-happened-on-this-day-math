@@ -19,4 +19,38 @@ The monthly context scheduler creates one `[Monthly context] YYYY-MM` Issue on t
 
 Run `npm run github:issues:inventory -- --owner joycytao --repo what-happened-on-this-day-math` for a read-only inventory. A failed GitHub runner read is an error, not an empty result. Review the generated disposition file before any mutation. Closing duplicates or adding `backlog` requires `node scripts/apply-issue-triage.mjs --owner ... --repo ... --disposition reports/issue-triage-disposition.json --confirm`; blocked, closed, and ambiguous Issues are preserved.
 
+When an Issue receives `needs-triage`, `decision-owner:*`, `ready-for-agent`, or
+`status: ready to pickup`, `Queue agent handoff` creates one idempotent
+`CODEX_AGENT_HANDOFF` queue comment. `ready-for-agent` and `status: ready to
+pickup` require exactly one supported `agent:` label. GitHub Actions queues the
+request for Codex; it does not call a model directly.
+
 Agents must respond to every new PR comment: update the same PR when the implementation can be corrected, or create a linked dependency Issue and apply `status: blocked` to both the original Issue and PR when a prerequisite is missing. The dependency Issue must contain `CODEX_DEPENDENCY_FOR: owner/repository#number`. Closing it removes `status: blocked`; human review is required before the original Issue becomes ready again.
+
+## Decision Owner routing
+
+Apply exactly one Decision Owner label when an Issue needs a technical or
+product decision:
+
+- `decision-owner: architect`
+- `decision-owner: product-manager`
+
+The shared `Queue agent handoff` workflow adds `agent-requested` and writes a
+marked Codex queue prompt to the Issue. It does not execute an agent, answer
+the question, or change `status: ready to pickup`. After the agent responds,
+`pm-triage` records the Decision Owner's conclusion and evidence.
+
+## Versioned agent handoffs
+
+The automated route is split into two layers:
+
+- GitHub Actions validate `CODEX_HANDOFF:v1`, apply derived `agent:*` and
+  `state:*` labels, and route implementation PRs to QA.
+- Codex pickup uses `scripts/agent-pickup.mjs` through the repository GitHub
+  connectivity runner. It claims at most one item, works in a fresh worktree
+  from remote `main`, and writes the next handoff comment.
+
+No workflow invokes an LLM and no repository OpenAI token is required. The
+human `status: ready to pickup` label remains the approval gate. See
+`docs/agent-governance.md` and `docs/agent-runner.md` for the contract and
+recovery rules.

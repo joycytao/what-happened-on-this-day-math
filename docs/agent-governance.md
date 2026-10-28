@@ -161,3 +161,71 @@ The triage summary should state:
 The existing repository governance remains authoritative: human review is
 required before an Issue receives `status: ready to pickup`, and blocked work
 must not be picked up.
+
+The reusable project skill for applying this process is
+`skills/pm-triage/SKILL.md`.
+
+## Label-to-agent queue
+
+The `Queue agent handoff` workflow creates one idempotent queue comment when an
+Issue receives one of these labels:
+
+- `needs-triage` routes to `agent: pm-triage`.
+- `decision-owner: architect`
+- `decision-owner: product-manager`
+- `ready-for-agent`
+- `status: ready to pickup`
+
+The two ready-for-agent labels require exactly one supported `agent:` label:
+`pm-triage`, `architect`, `product-manager`, `social-expert`, `developer`, or
+`quality-engineer`. Missing or conflicting routing adds `needs-info` and records
+a blocked handoff instead of choosing a role.
+
+This is a queue producer, not a model runner. GitHub Actions does not call
+OpenAI or another external model. Codex pickup uses the versioned
+`CODEX_HANDOFF:v1` runner described below; after an agent responds,
+`pm-triage` records the decision and evidence.
+
+## Versioned agent handoff protocol
+
+Agents communicate through an Issue or Pull Request comment containing one
+machine-readable `<!-- CODEX_HANDOFF:v1 ... -->` marker. The contract is
+validated by `src/agent-handoff.mjs`; `handoffId` is the idempotency key, so a
+router must not apply labels or create a second routing comment for an ID
+already seen on the work item.
+
+The normal role chain is:
+
+```text
+pm-triage
+  → product-manager / architect / social-expert
+  → pm-triage
+  → Human approval
+  → developer
+  → quality-engineer
+  → specialist review
+  → Human merge
+```
+
+`.github/workflows/handoff-router.yml` performs coordination only: it validates
+the marker, checks duplicates, derives `agent:*` and `state:*` labels, and
+records the next handoff. It never calls an LLM. The Codex pickup runner reads
+eligible work through `scripts/github-app-command.mjs`, claims at most one
+item, starts from the latest remote `main` in a dedicated worktree, performs
+the role's work, and writes the next handoff comment. A blocked handoff returns
+to `pm-triage` with an explicit blocker; an invalid transition fails closed.
+
+`status: ready to pickup` is the human approval gate. The derived
+`state: ready-to-pickup` label is only a routing state and never grants
+permission to implement.
+
+## Recovery rules
+
+- A blocked handoff returns to `pm-triage` with the blocker and evidence.
+- A duplicate `handoffId` is ignored without a second comment or label change.
+- A stale claim is not silently released; a human or `pm-triage` must verify it
+  before using the guarded `release` command.
+- A GitHub connectivity failure is a blocker, never an empty queue and never a
+  reason to claim work from local assumptions.
+- The offline route proof is in
+  `tests/agent-workflow-integration.test.mjs` and uses no token or network.
