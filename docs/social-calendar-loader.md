@@ -34,3 +34,8 @@ breaks. Invalid rows produce row-numbered errors before any media generation.
 The loader filters by the requested `YYYY-MM` month and performs no generation
 or publication itself.
 
+The monthly social workflow reads the human-facing XLSX calendar through
+`loadSocialCalendar({ workbookPath, month, root })`. The loader is the only
+workbook boundary for the social workflow, and invalid input is returned as
+`valid: false` so the downstream orchestrator can fail closed before writing
+output.

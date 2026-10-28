@@ -7,31 +7,36 @@ an annual bundle references only released monthly units.
 
 ## Ordered stages
 
-1. **Source and content readiness** — resolve the month, calendar day count,
+1. **Monthly context intake and production queue** — on the third Monday of
+   each month at 09:00 America/Chicago, queue the content for two months ahead.
+   The context Issue accepts the owner's raw Chinese context/questions; the
+   validated JSON comment is the source evidence and downstream work converts
+   student-facing content to English.
+2. **Source and content readiness** — resolve the month, calendar day count,
    historical sources, English reading passages, and three differentiated math
    levels. The source and content gates must pass before rendering.
-2. **Mathematics and answer-key validation** — independently recompute every
+3. **Mathematics and answer-key validation** — independently recompute every
    answer and validate the three answer-key levels.
-3. **Worksheet rendering** — render the four page types for every calendar day
+4. **Worksheet rendering** — render the four page types for every calendar day
    in the required order: Reading Passage, Level 1, Level 2, Level 3.
-4. **Answer-key rendering** — render the three answer-key pages after the daily
+5. **Answer-key rendering** — render the three answer-key pages after the daily
    modules and verify level order and coverage.
-5. **Worksheet coversheet** — produce the approved portrait coversheet PNG and
+6. **Worksheet coversheet** — produce the approved portrait coversheet PNG and
    worksheet-sized PDF page. This is a manual approval gate; an unapproved
    cover cannot enter the final packet.
-6. **PDF assembly and final QA** — assemble the source packet, insert exactly
+7. **PDF assembly and final QA** — assemble the source packet, insert exactly
    one approved cover as page 1, record page count and source-page mappings,
    and run independent content, mathematics, source, layout, PDF, and visual
    gates. The current November pre-cover baseline remains 123 pages; the final
    cover-bearing November base packet is 124 pages; the final release package
    adds the approved follow-up page and is 125 pages.
-7. **Derived assets** — generate thumbnails only from the approved final PDF
+8. **Derived assets** — generate thumbnails only from the approved final PDF
    and record the source checksum and page mappings. A PDF or cover change
    invalidates affected thumbnails and their visual QA records.
-8. **Listing and landing-page handoff** — prepare TPT metadata/copy and
+9. **Listing and landing-page handoff** — prepare TPT metadata/copy and
    landing-page assets from the released monthly record without publishing
    automatically.
-9. **Release record** — write the human-readable and machine-readable report,
+10. **Release record** — write the human-readable and machine-readable report,
    checksums, artifact paths, gate results, approval status, and failure details.
 
 ## Gate and failure rules
@@ -51,3 +56,6 @@ records and does not bypass any monthly gate.
 
 Run `npm run release:workflow:validate` to validate the machine-readable
 workflow contract.
+
+The orchestration graph, marker contracts, and operator recovery procedure are
+documented in [`docs/monthly-production-orchestration.md`](monthly-production-orchestration.md).

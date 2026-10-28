@@ -1,6 +1,6 @@
 ---
 name: clean-worksheet-carousel
-description: Use when creating a reusable English Instagram carousel for @engineermom.worksheets that promotes a clean worksheet prompt, especially when the weekly Cover lifestyle scene changes but the six-slide system should stay consistent.
+description: Use when creating a reusable English Instagram carousel for @engineermom.afterhours that promotes a clean worksheet prompt, especially when the weekly Cover lifestyle scene changes but the six-slide system should stay consistent.
 ---
 
 # Clean Worksheet Carousel
@@ -12,7 +12,7 @@ Use this workflow for the clean-worksheet-prompt campaign. It shares the parent 
 - Authoring source: shared `template.html`, `carousel.css`, and `content.js`.
 - Instagram output: six separate PNGs, each exactly 1080×1350 px.
 - Social copy output: `output/caption.md`.
-- Account label: `@engineermom.worksheets`.
+- Account label: `@engineermom.afterhours`.
 - Language: English.
 
 ## Fixed slide system

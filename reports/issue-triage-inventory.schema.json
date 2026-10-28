@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["fetchedAt", "issues", "labels", "projects", "connectivity"],
+  "properties": {
+    "fetchedAt": { "type": "string", "format": "date-time" },
+    "connectivity": { "type": "object", "required": ["valid"], "properties": { "valid": { "type": "boolean" }, "category": { "type": "string" } } },
+    "labels": { "type": "array" },
+    "projects": { "type": "array" },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["number", "title", "state", "labels", "bodyMarkers", "linkedPRs", "updatedAt", "projectMemberships"],
+        "properties": {
+          "number": { "type": "integer" },
+          "title": { "type": "string" },
+          "state": { "type": "string" },
+          "labels": { "type": "array" },
+          "bodyMarkers": { "type": "array", "items": { "type": "string" } },
+          "linkedPRs": { "type": "array" },
+          "updatedAt": { "type": "string" },
+          "projectMemberships": { "type": "array" }
+        }
+      }
+    }
+  }
+}

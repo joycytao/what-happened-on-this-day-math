@@ -60,11 +60,14 @@
     "level1:render": "node scripts/render-level1.mjs",
     "level2:render": "node scripts/render-level2.mjs",
     "github:app": "node scripts/github-app-command.mjs",
+    "github:issues:inventory": "node scripts/inventory-github-issues.mjs",
+    "monthly:context:validate": "node --test tests/monthly-context-input.test.mjs",
     "agent:handoff:validate": "node scripts/validate-agent-handoff.mjs",
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:prepare:november": "node scripts/prepare-november-cover.mjs",
-    "packet:assemble:november:final": "node scripts/assemble-november-final-package.mjs"
+    "packet:assemble:november:final": "node scripts/assemble-november-final-package.mjs",
+    "social:monthly": "node scripts/run-monthly-social.mjs"
   },
   "devDependencies": {
     "pdf-lib": "^1.17.1",

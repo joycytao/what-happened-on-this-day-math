@@ -1,6 +1,6 @@
 ---
 name: learning-system-carousel
-description: Use when creating an English Instagram carousel for @engineermom.worksheets about organizing worksheets and tests into a reusable save-analyze-personalize learning system, including lifestyle covers, AI workflow cards, worksheet result crops, blurred system setup, CTA, captions, and hashtags.
+description: Use when creating an English Instagram carousel for @engineermom.afterhours about organizing worksheets and tests into a reusable save-analyze-personalize learning system, including lifestyle covers, AI workflow cards, worksheet result crops, blurred system setup, CTA, captions, and hashtags.
 ---
 
 # From Worksheets to a Weekly Learning System
@@ -28,7 +28,7 @@ Choose this workflow when the post explains how a parent saves worksheets and te
 
 ## Fixed design system
 
-- Account: `@engineermom.worksheets`.
+- Account: `@engineermom.afterhours`.
 - Palette: background `#F6F0E2`, ink `#203245`, beige `#D8C6B2`.
 - Safe area: 96 px outer margin.
 - Header and page number appear on every slide.
@@ -81,7 +81,7 @@ Use a large rounded card with a blurred workflow and a centered, high-contrast l
 Use the circular back-view portrait. Keep `SYSTEM` consistent everywhere:
 
 - `WANT THE LEARNING SYSTEM?`
-- `Step 1: Follow @engineermom.worksheets`
+- `Step 1: Follow @engineermom.afterhours`
 - `Step 2: Comment "SYSTEM"`
 - `LEAVE A COMMENT: "SYSTEM"`
 - `I'll send the system setup in DM.`

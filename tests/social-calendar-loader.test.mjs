@@ -58,4 +58,3 @@ test("requires the workbook path and YYYY-MM month", () => {
   assert.equal(result.valid, false);
   assert.deepEqual(result.errors, ["workbookPath is required", "month must use YYYY-MM format"]);
 });
-

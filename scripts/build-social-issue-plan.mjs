@@ -10,6 +10,16 @@ const value = (name) => {
   const index = args.indexOf(name);
   return index >= 0 ? args[index + 1] ?? "" : "";
 };
+const assetResources = (raw) => {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed;
+  } catch {
+    // Comma-separated paths are convenient for GitHub Actions environment values.
+  }
+  return raw.split(",").map((resource) => resource.trim()).filter(Boolean);
+};
 const mode = value("--mode");
 const output = path.resolve(root, value("--output") || "social-issue-plan.json");
 const input = mode === "monthly"
@@ -21,11 +31,13 @@ const input = mode === "monthly"
       contentPath: value("--content-path"),
       thumbnailManifestPath: value("--thumbnail-manifest-path"),
       runUrl: value("--run-url"),
+      assetResources: assetResources(value("--asset-resources")),
     })
   : buildUtilitySocialIssuePlan({
       cycleId: value("--cycle-id"),
-      intakeIssueNumber: Number(value("--intake-issue")),
-      runUrl: value("--run-url"),
+    intakeIssueNumber: Number(value("--intake-issue")),
+    runUrl: value("--run-url"),
+    assetResources: assetResources(value("--asset-resources")),
     });
 
 if (!mode || !["monthly", "utility"].includes(mode)) {

@@ -11,10 +11,21 @@ on:
         description: Repository-relative product-confirmed/v1 Carousel payload
         required: true
         type: string
+      project_owner:
+        description: Social Project owner login
+        required: false
+        default: joycytao
+        type: string
+      project_number:
+        description: Social Project number
+        required: false
+        default: "2"
+        type: string
 
 permissions:
   contents: read
   issues: write
+  repository-projects: write
 
 jobs:
   handoff:
@@ -36,6 +47,8 @@ jobs:
         uses: actions/github-script@v7
         env:
           APPROVAL_ISSUE: ${{ inputs.approval_issue }}
+          SOCIAL_PROJECT_OWNER: ${{ inputs.project_owner }}
+          SOCIAL_PROJECT_NUMBER: ${{ inputs.project_number }}
           PAYLOAD_PATH: /tmp/product-confirmed-carousel-handoff/product-confirmed.json
           STORY_PATH: /tmp/product-confirmed-carousel-handoff/product-carousel-story.md
         with:
@@ -52,6 +65,14 @@ jobs:
             const marker = `<!-- product-handoff-id: ${payload.handoff_id} -->`;
             const all = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
             const existing = all.find((issue) => !issue.pull_request && (issue.body || '').includes(marker));
-            const input = { owner: context.repo.owner, repo: context.repo.repo, title: `Carousel handoff: ${payload.product_title}`, body, labels: ['status: ready to pickup', 'type: feature'] };
+            const input = { owner: context.repo.owner, repo: context.repo.repo, title: `Carousel handoff: ${payload.product_title}`, body, labels: ['status: ready to pickup', 'type: feature', 'social:carousel'] };
             const result = existing ? await github.rest.issues.update({ ...input, issue_number: existing.number }) : await github.rest.issues.create(input);
             core.info(`${existing ? 'Updated' : 'Created'} Carousel story #${result.data.number}`);
+            const projectData = await github.graphql(`query($login:String!,$number:Int!){ user(login:$login){ projectV2(number:$number){ id title items(first:100){nodes{content{... on Issue{id}}}} } } }`, { login: process.env.SOCIAL_PROJECT_OWNER, number: Number(process.env.SOCIAL_PROJECT_NUMBER) });
+            const project = projectData.user?.projectV2;
+            if (!project) throw new Error('Configured Social Project was not found');
+            const existingContent = new Set(project.items.nodes.map((item) => item.content?.id).filter(Boolean));
+            if (!existingContent.has(result.data.node_id)) {
+              await github.graphql(`mutation($projectId:ID!,$contentId:ID!){ addProjectV2ItemById(input:{projectId:$projectId,contentId:$contentId}){ item { id } } }`, { projectId: project.id, contentId: result.data.node_id });
+            }
+            core.info(`Routed Carousel story to Social Project ${project.title}; status remains human-managed.`);
