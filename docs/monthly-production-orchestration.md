@@ -17,7 +17,7 @@ Only the exact label `status: ready to pickup` starts production queueing.
 
 ## Math Project graph
 
-`.github/workflows/monthly-production-queue.yml` reacts to that label and
+`.github/workflows/monthly-production-queue-v2.yml` reacts to that label and
 creates or updates one parent plus these nine idempotent Issues in the Math
 Production Project:
 
@@ -33,7 +33,10 @@ release-qa -> tpt
 The final two branches are parallel after release QA. Every child body carries
 the month marker, source Issue, raw input comment identity, workflow run, and
 completion-evidence requirements. The queue adds Issues to the configured
-Project but deliberately does not guess or overwrite Project status options.
+Project when the repository variables `MATH_PROJECT_OWNER` and
+`MATH_PROJECT_NUMBER` are present, but deliberately does not guess or overwrite
+Project status options. If those variables are not configured, Issue creation
+still succeeds and the run emits a warning.
 
 ## Release handoff and social separation
 
