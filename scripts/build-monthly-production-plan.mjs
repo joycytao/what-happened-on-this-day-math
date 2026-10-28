@@ -45,7 +45,9 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
     issue,
     comments,
     runUrl: option("--run-url"),
-    project: { owner: option("--project-owner", "joycytao"), number: option("--project-number", "3") },
+    project: option("--project-owner") && option("--project-number")
+      ? { owner: option("--project-owner"), number: option("--project-number") }
+      : undefined,
   });
   const output = option("--output");
   if (output) fs.writeFileSync(output, `${JSON.stringify(result, null, 2)}\n`);

@@ -20,7 +20,7 @@ const LABELS = {
 
 function requiredErrors(input) {
   const errors = [];
-  for (const key of ["month", "inputIssue", "inputArtifact", "runUrl", "project"]) if (!input?.[key]) errors.push(`${key} is required`);
+  for (const key of ["month", "inputIssue", "inputArtifact", "runUrl"]) if (!input?.[key]) errors.push(`${key} is required`);
   if (input?.month && !/^\d{4}-\d{2}$/.test(input.month)) errors.push("month must use YYYY-MM");
   if (input?.project && (!input.project.owner || !Number.isInteger(Number(input.project.number)))) errors.push("project owner and number are required");
   return errors;
@@ -36,7 +36,7 @@ function issueBody({ month, inputIssue, inputArtifact, runUrl, project, key, tit
     `- Source context Issue: #${inputIssue}`,
     `- Raw input evidence: \`${inputArtifact}\``,
     `- Orchestration run: ${runUrl}`,
-    `- Math Production Project: ${project.owner}/${project.number}`,
+    ...(project ? [`- Math Production Project: ${project.owner}/${project.number}`] : ["- Math Production Project: not configured"]),
     "",
     "## Dependencies",
     dependencyText,
@@ -73,7 +73,7 @@ export function buildMonthlyProductionPlan(input = {}) {
       `- Context input Issue: #${input.inputIssue}`,
       `- Raw input evidence: \`${input.inputArtifact}\``,
       `- Orchestration run: ${input.runUrl}`,
-      `- Math Production Project: ${input.project.owner}/${input.project.number}`,
+      ...(input.project ? [`- Math Production Project: ${input.project.owner}/${input.project.number}`] : ["- Math Production Project: not configured"]),
       "- Landing-page and TPT work are parallel only after release QA.",
     ].join("\n"),
     labels: [LABELS.feature, LABELS.monthly, LABELS.review],
