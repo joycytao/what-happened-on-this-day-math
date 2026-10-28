@@ -12,4 +12,5 @@ test("monthly production queue listens for ready labels and writes no guessed pr
   assert.match(workflow, /status fields remain human-managed/);
   assert.doesNotMatch(workflow, /updateProjectV2ItemFieldValue/);
   assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /if:\s*"github\.event_name.*monthly-context:/);
 });
