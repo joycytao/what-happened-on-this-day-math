@@ -19,6 +19,7 @@ export const HANDOFF_TRIGGER_LABELS = new Set([
   "needs-triage",
   "ready-for-agent",
   "status: ready to pickup",
+  ...Object.keys(AGENT_ROUTES),
   ...Object.keys(DECISION_OWNER_ROUTES),
 ]);
 

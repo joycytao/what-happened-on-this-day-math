@@ -51,6 +51,12 @@ for (const role of ["social-expert", "developer", "quality-engineer"]) {
   });
 }
 
+test("adding an agent label directly queues that agent", () => {
+  const plan = buildAgentHandoffPlan(event("agent: developer", ["status: ready to pickup", "agent: developer"]));
+  assert.equal(plan.kind, "handoff");
+  assert.equal(plan.role, "developer");
+});
+
 test("ready-for-agent without a role is blocked", () => {
   const plan = buildAgentHandoffPlan(event("ready-for-agent"));
   assert.equal(plan.kind, "blocked");
