@@ -41,6 +41,28 @@ owner/number default to `joycytao`/`2` and can be overridden by dispatch inputs
 or repository variables. The workflow only adds items to the Project and does
 not update the existing `Status` field or invent custom field option IDs.
 
+## Spreadsheet-driven monthly social run
+
+For the newer XLSX calendar contract, the deterministic entry point is:
+
+```text
+npm run social:monthly -- --month YYYY-MM --calendar <calendar.xlsx> --dry-run
+```
+
+`src/social-calendar-loader.mjs` validates and normalizes the workbook. The
+monthly planner then maps `reel-v1` to `product-reel` and `carousel-v1` to
+`product-carousel`, sorts by publication date and Content ID, and writes one
+manifest at `output/social/monthly/YYYY-MM/manifest.json` (or the requested
+output root). Unsupported template IDs fail closed; they are not silently
+treated as Product Reel or Product Carousel work.
+
+The dry run creates the manifest directory and manifest only. It does not
+render media, publish content, or create per-content output directories. The
+manifest is therefore the handoff artifact for the ready GitHub Issue or Codex
+automation. Full rendering remains behind the existing Product Reel and
+Carousel builders and requires their release-ready asset contract. Campaign and
+weekly template adapters remain follow-up work for Issues #188 and #189.
+
 ## Utility queue
 
 `.github/workflows/social-utility-queue.yml` runs when the owner labels a
