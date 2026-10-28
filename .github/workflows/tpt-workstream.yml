@@ -80,6 +80,17 @@ jobs:
     steps:
       - name: Check out the released source
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Verify release identity and gates
+        env:
+          MANIFEST_PATH: ${{ inputs.manifest_path }}
+          EXPECTED_MONTH: ${{ inputs.month }}
+          EXPECTED_YEAR: ${{ inputs.year }}
+          EXPECTED_PACKAGE_ID: ${{ inputs.package_id }}
+        run: >-
+          node --input-type=module -e 'import fs from "node:fs"; import { validateMonthlyReleaseManifest } from "./src/monthly-release-manifest.mjs"; const path=process.env.MANIFEST_PATH; if (!fs.existsSync(path)) throw new Error(`Release manifest missing: ${path}`); const manifest=JSON.parse(fs.readFileSync(path,"utf8")); const result=validateMonthlyReleaseManifest(manifest,{month:process.env.EXPECTED_MONTH,year:Number(process.env.EXPECTED_YEAR)}); if (manifest.packageId !== process.env.EXPECTED_PACKAGE_ID) result.errors.push(`packageId mismatch: expected ${process.env.EXPECTED_PACKAGE_ID}, got ${manifest.packageId}`); if (!result.valid) throw new Error(result.errors.join("; ")); console.log(`Verified released package ${manifest.packageId}`);'
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

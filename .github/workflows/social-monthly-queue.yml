@@ -65,11 +65,21 @@ jobs:
       PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '2' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Verify release identity and gates
+        env:
+          MANIFEST_PATH: ${{ env.MANIFEST_PATH }}
+          EXPECTED_MONTH: ${{ env.MONTH }}
+          EXPECTED_YEAR: ${{ env.YEAR }}
+          EXPECTED_PACKAGE_ID: ${{ env.PACKAGE_ID }}
+        run: >-
+          node --input-type=module -e 'import fs from "node:fs"; import { validateMonthlyReleaseManifest } from "./src/monthly-release-manifest.mjs"; const path=process.env.MANIFEST_PATH; if (!fs.existsSync(path)) throw new Error(`Release manifest missing: ${path}`); const manifest=JSON.parse(fs.readFileSync(path,"utf8")); const result=validateMonthlyReleaseManifest(manifest,{month:process.env.EXPECTED_MONTH,year:Number(process.env.EXPECTED_YEAR)}); if (manifest.packageId !== process.env.EXPECTED_PACKAGE_ID) result.errors.push(`packageId mismatch: expected ${process.env.EXPECTED_PACKAGE_ID}, got ${manifest.packageId}`); if (!result.valid) throw new Error(result.errors.join("; ")); console.log(`Verified released package ${manifest.packageId}`);'
       - name: Build deterministic Issue plan
         run: >-
           node scripts/build-social-issue-plan.mjs
