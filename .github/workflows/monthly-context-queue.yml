@@ -23,16 +23,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build deterministic context Issue plan
-        run: >-
-          node scripts/build-monthly-context-issue.mjs
-          --now "${{ inputs.now || github.event.repository.updated_at || github.event.workflow_run.updated_at }}"
-          --repository "${{ github.repository }}"
-          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          --output /tmp/monthly-context-issue.json
+        env:
+          INPUT_NOW: ${{ inputs.now }}
+        run: |
+          NOW="$INPUT_NOW"
+          if [ -z "$NOW" ]; then NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"; fi
+          node scripts/build-monthly-context-issue.mjs \
+            --now "$NOW" \
+            --repository "${{ github.repository }}" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --output /tmp/monthly-context-issue.json
       - name: Stop when this UTC cron is not 09:00 Central
         id: guard
         run: |
-          node --input-type=module -e 'import fs from "node:fs"; const parts=new Intl.DateTimeFormat("en-US", {timeZone:"America/Chicago", hour:"2-digit", minute:"2-digit", hourCycle:"h23"}).formatToParts(new Date()); const hour=parts.find(x=>x.type==="hour")?.value; const minute=parts.find(x=>x.type==="minute")?.value; const run=hour === "09" && minute === "00"; console.log(`Central time is ${hour}:${minute}; run=${run}`); fs.appendFileSync(process.env.GITHUB_OUTPUT, `run=${run}\n`);'
+          node --input-type=module -e 'import fs from "node:fs"; const manual=process.env.GITHUB_EVENT_NAME === "workflow_dispatch"; const parts=new Intl.DateTimeFormat("en-US", {timeZone:"America/Chicago", hour:"2-digit", minute:"2-digit", hourCycle:"h23"}).formatToParts(new Date()); const hour=parts.find(x=>x.type==="hour")?.value; const minute=parts.find(x=>x.type==="minute")?.value; const run=manual || (hour === "09" && minute === "00"); console.log(`Central time is ${hour}:${minute}; manual=${manual}; run=${run}`); fs.appendFileSync(process.env.GITHUB_OUTPUT, `run=${run}\n`);'
       - name: Create or update one context Issue
         if: steps.guard.outputs.run == 'true'
         uses: actions/github-script@v7

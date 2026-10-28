@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 
 import {
   buildMonthlyContextIssue,
@@ -32,4 +33,11 @@ test("builds a deterministic January context issue after a November run", () => 
   assert.match(plan.body, /status: ready to pickup/);
   assert.match(plan.body, /Expected calendar days: 31/);
   assert.match(plan.body, /actions\/runs\/123/);
+});
+
+test("manual dispatch can run immediately and defaults to runner time", () => {
+  const workflow = fs.readFileSync(".github/workflows/monthly-context-queue.yml", "utf8");
+  assert.match(workflow, /manual=process\.env\.GITHUB_EVENT_NAME === "workflow_dispatch"/);
+  assert.match(workflow, /date -u \+%Y-%m-%dT%H:%M:%SZ/);
+  assert.doesNotMatch(workflow, /github\.event\.repository\.updated_at/);
 });
