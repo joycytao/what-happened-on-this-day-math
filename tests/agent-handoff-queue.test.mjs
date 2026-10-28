@@ -36,6 +36,21 @@ test("decision-owner labels preserve the existing owner routing", () => {
   assert.match(plan.prompt, /Decision Owner is `product-manager`/);
 });
 
+test("decision-owner social-expert routes to the social skill", () => {
+  const plan = buildAgentHandoffPlan(event("decision-owner: social-expert"));
+  assert.equal(plan.role, "social-expert");
+  assert.equal(plan.skill, "skills/social-expert/SKILL.md");
+});
+
+for (const role of ["social-expert", "developer", "quality-engineer"]) {
+  test(`ready-for-agent routes to ${role}`, () => {
+    const plan = buildAgentHandoffPlan(event("ready-for-agent", [`agent: ${role}`]));
+    assert.equal(plan.kind, "handoff");
+    assert.equal(plan.role, role);
+    assert.match(plan.skill, new RegExp(`skills/${role}/SKILL\\.md`));
+  });
+}
+
 test("ready-for-agent without a role is blocked", () => {
   const plan = buildAgentHandoffPlan(event("ready-for-agent"));
   assert.equal(plan.kind, "blocked");

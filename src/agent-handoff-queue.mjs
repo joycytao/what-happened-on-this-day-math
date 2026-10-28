@@ -4,11 +4,15 @@ export const AGENT_ROUTES = Object.freeze({
   "agent: pm-triage": { role: "pm-triage", skill: "skills/pm-triage/SKILL.md" },
   "agent: architect": { role: "architect", skill: "skills/architect/SKILL.md" },
   "agent: product-manager": { role: "product-manager", skill: "skills/product-manager/SKILL.md" },
+  "agent: social-expert": { role: "social-expert", skill: "skills/social-expert/SKILL.md" },
+  "agent: developer": { role: "developer", skill: "skills/developer/SKILL.md" },
+  "agent: quality-engineer": { role: "quality-engineer", skill: "skills/quality-engineer/SKILL.md" },
 });
 
 export const DECISION_OWNER_ROUTES = Object.freeze({
   "decision-owner: architect": { role: "architect", skill: "skills/architect/SKILL.md" },
   "decision-owner: product-manager": { role: "product-manager", skill: "skills/product-manager/SKILL.md" },
+  "decision-owner: social-expert": { role: "social-expert", skill: "skills/social-expert/SKILL.md" },
 });
 
 export const HANDOFF_TRIGGER_LABELS = new Set([
@@ -50,7 +54,7 @@ export function buildAgentHandoffPlan(event = {}) {
         `- Trigger: \`${triggerLabel}\``,
         `- Reason: ${reason}`,
         "- Required action: add exactly one supported `agent:` label, then reapply the trigger label.",
-        "- Supported routes: `agent: pm-triage`, `agent: architect`, `agent: product-manager`.",
+        "- Supported routes: `agent: pm-triage`, `agent: architect`, `agent: product-manager`, `agent: social-expert`, `agent: developer`, `agent: quality-engineer`.",
         "",
         "GitHub Actions only queues this handoff; it does not invoke an external model.",
       ].join("\n"),
@@ -61,9 +65,7 @@ export function buildAgentHandoffPlan(event = {}) {
     `Use the \`${route.role}\` skill.`,
     `Read Issue #${issueNumber} in full, including dependencies and recent comments.`,
     `Read \`${route.skill}\` and \`docs/agent-governance.md\`.`,
-    route.role === "pm-triage"
-      ? "Create or update the PM triage decision register; assign exactly one Decision Owner per open question and do not invent answers."
-      : `Answer only the open questions whose Decision Owner is \`${route.role}\`, with evidence and scope impact.`,
+    roleInstruction(route.role),
     "Return a concise result that the next agent can consume as a handoff.",
     "Do not change Issue labels or mark the Issue ready to pickup; let pm-triage and the Human Accountable Owner control routing.",
   ].join("\n");
@@ -108,6 +110,13 @@ function resolveRoute(triggerLabel, labels) {
     .filter((label) => AGENT_ROUTES[label])
     .map((label) => AGENT_ROUTES[label]);
   return routes.length === 1 ? routes[0] : null;
+}
+
+function roleInstruction(role) {
+  if (role === "pm-triage") return "Create or update the PM triage decision register; assign exactly one Decision Owner per open question and do not invent answers.";
+  if (role === "developer") return "Implement only the accepted Issue scope, preserve the repository contracts, and return a CODEX_HANDOFF:v1 result with verification evidence.";
+  if (role === "quality-engineer") return "Verify the implementation or PR against its acceptance criteria, record evidence, and return a CODEX_HANDOFF:v1 result with pass/fail and blockers.";
+  return `Answer only the open questions whose Decision Owner is \`${role}\`, with evidence and scope impact.`;
 }
 
 export async function buildPlanFromEventFile(eventPath, outputPath) {
