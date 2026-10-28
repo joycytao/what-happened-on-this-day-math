@@ -1,0 +1,60 @@
+name: Queue monthly context input
+
+on:
+  # GitHub Actions cron is UTC-only. Run both possible UTC hours and let the
+  # job-level guard keep exactly 09:00 America/Chicago through DST changes.
+  schedule:
+    - cron: "0 14 * * 1"
+    - cron: "0 15 * * 1"
+  workflow_dispatch:
+    inputs:
+      now:
+        description: ISO timestamp used for a deterministic dry run
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  queue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build deterministic context Issue plan
+        run: >-
+          node scripts/build-monthly-context-issue.mjs
+          --now "${{ inputs.now || github.event.repository.updated_at || github.event.workflow_run.updated_at }}"
+          --repository "${{ github.repository }}"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          --output /tmp/monthly-context-issue.json
+      - name: Stop when this UTC cron is not 09:00 Central
+        id: guard
+        run: |
+          node --input-type=module -e 'import fs from "node:fs"; const parts=new Intl.DateTimeFormat("en-US", {timeZone:"America/Chicago", hour:"2-digit", minute:"2-digit", hourCycle:"h23"}).formatToParts(new Date()); const hour=parts.find(x=>x.type==="hour")?.value; const minute=parts.find(x=>x.type==="minute")?.value; const run=hour === "09" && minute === "00"; console.log(`Central time is ${hour}:${minute}; run=${run}`); fs.appendFileSync(process.env.GITHUB_OUTPUT, `run=${run}\n`);'
+      - name: Create or update one context Issue
+        if: steps.guard.outputs.run == 'true'
+        uses: actions/github-script@v7
+        env:
+          PLAN_PATH: /tmp/monthly-context-issue.json
+        with:
+          script: |
+            const fs = require('node:fs');
+            const plan = JSON.parse(fs.readFileSync(process.env.PLAN_PATH, 'utf8'));
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100
+            });
+            const existing = issues.find((issue) => !issue.pull_request && (issue.body || '').includes(plan.marker));
+            const payload = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: plan.title,
+              body: plan.body,
+              labels: plan.labels,
+              state: 'open',
+            };
+            const result = existing
+              ? await github.rest.issues.update({ ...payload, issue_number: existing.number })
+              : await github.rest.issues.create(payload);
+            core.info(`${existing ? 'Updated' : 'Created'} context Issue #${result.data.number} for ${plan.targetMonth}`);
