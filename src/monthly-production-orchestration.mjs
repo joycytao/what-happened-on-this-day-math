@@ -22,8 +22,15 @@ function requiredErrors(input) {
   const errors = [];
   for (const key of ["month", "inputIssue", "inputArtifact", "runUrl"]) if (!input?.[key]) errors.push(`${key} is required`);
   if (input?.month && !/^\d{4}-\d{2}$/.test(input.month)) errors.push("month must use YYYY-MM");
-  if (input?.project && (!input.project.owner || !Number.isInteger(Number(input.project.number)))) errors.push("project owner and number are required");
   return errors;
+}
+
+function normaliseProject(project) {
+  if (!project || typeof project.owner !== "string" || !project.owner.trim()) return undefined;
+  const numberValue = String(project.number ?? "").trim();
+  const number = Number(numberValue);
+  if (!/^[1-9]\d*$/.test(numberValue) || !Number.isInteger(number)) return undefined;
+  return { owner: project.owner.trim(), number };
 }
 
 function issueBody({ month, inputIssue, inputArtifact, runUrl, project, key, title, blockedBy }) {
@@ -62,6 +69,7 @@ function issueFor(input, descriptor) {
 export function buildMonthlyProductionPlan(input = {}) {
   const errors = requiredErrors(input);
   if (errors.length) return { valid: false, errors, parent: null, issues: [], dependencies: [] };
+  const planInput = { ...input, project: normaliseProject(input.project) };
   const parent = {
     key: "monthly-parent",
     marker: `<!-- monthly-production:${input.month}:parent -->`,
@@ -73,13 +81,13 @@ export function buildMonthlyProductionPlan(input = {}) {
       `- Context input Issue: #${input.inputIssue}`,
       `- Raw input evidence: \`${input.inputArtifact}\``,
       `- Orchestration run: ${input.runUrl}`,
-      ...(input.project ? [`- Math Production Project: ${input.project.owner}/${input.project.number}`] : ["- Math Production Project: not configured"]),
+      ...(planInput.project ? [`- Math Production Project: ${planInput.project.owner}/${planInput.project.number}`] : ["- Math Production Project: not configured"]),
       "- Landing-page and TPT work are parallel only after release QA.",
     ].join("\n"),
     labels: [LABELS.feature, LABELS.monthly, LABELS.review],
     blockedBy: [],
   };
-  const issues = WORKSTREAMS.map((descriptor) => issueFor(input, descriptor));
+  const issues = WORKSTREAMS.map((descriptor) => issueFor(planInput, descriptor));
   const dependencies = issues.flatMap((issue) => issue.blockedBy.map((dependency) => [dependency, issue.key]));
   return { valid: true, errors: [], parent, issues, dependencies };
 }

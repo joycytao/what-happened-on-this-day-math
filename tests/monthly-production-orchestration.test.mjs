@@ -79,3 +79,11 @@ test("allows Issue planning before a Project is configured", () => {
   assert.match(result.parent.body, /Math Production Project: not configured/);
   assert.match(result.issues[0].body, /Math Production Project: not configured/);
 });
+
+test("does not block Issue planning when Project routing is only partially configured", () => {
+  for (const project of [{ owner: "joycytao" }, { owner: "", number: 3 }, { owner: "joycytao", number: "not-a-number" }]) {
+    const result = buildMonthlyProductionPlan({ ...input, project });
+    assert.equal(result.valid, true);
+    assert.match(result.parent.body, /Math Production Project: not configured/);
+  }
+});
