@@ -10,6 +10,8 @@ test("monthly production queue listens for ready labels and writes no guessed pr
   assert.match(workflow, /monthly-context/);
   assert.match(workflow, /addProjectV2ItemById/);
   assert.match(workflow, /status fields remain human-managed/);
+  assert.match(workflow, /MATH_PROJECT_OWNER/);
+  assert.match(workflow, /MATH_PROJECT_NUMBER \|\| '2'/);
   assert.doesNotMatch(workflow, /updateProjectV2ItemFieldValue/);
   assert.match(workflow, /workflow_dispatch:/);
 });

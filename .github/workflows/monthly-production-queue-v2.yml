@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT_OWNER: ${{ vars.MATH_PROJECT_OWNER || 'joycytao' }}
-      PROJECT_NUMBER: ${{ vars.MATH_PROJECT_NUMBER || '3' }}
+      PROJECT_NUMBER: ${{ vars.MATH_PROJECT_NUMBER || '2' }}
     steps:
       - uses: actions/checkout@v4
       - name: Validate context and create or update production Issues

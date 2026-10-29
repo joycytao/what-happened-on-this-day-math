@@ -6,7 +6,7 @@ import { buildMonthlyProductionQueuePlan, isMonthlyContextReadyIssue } from "../
 const validInput = { month: "2027-01", days: Array.from({ length: 31 }, (_, index) => ({ date: `1/${index + 1}`, title: `Title ${index + 1}`, context: `Context ${index + 1}`, questions: { level1: { prompt: "p", answer: "a" }, level2: { prompt: "p", answer: "a" }, level3: { prompt: "p", answer: "a" } } })) };
 const issue = { number: 201, state: "open", body: "<!-- monthly-context: 2027-01 -->", labels: [{ name: "status: ready to pickup" }] };
 const comments = [{ id: 9, body: `<!-- monthly-content-input: 2027-01 -->\n\`\`\`json\n${JSON.stringify(validInput)}\n\`\`\`` }];
-const identity = { runUrl: "https://github.com/example/actions/runs/1", project: { owner: "joycytao", number: 3 } };
+const identity = { runUrl: "https://github.com/example/actions/runs/1", project: { owner: "joycytao", number: 2 } };
 
 test("only a ready monthly context Issue is actionable", () => {
   assert.equal(isMonthlyContextReadyIssue(issue), true);

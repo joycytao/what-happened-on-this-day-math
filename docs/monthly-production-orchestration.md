@@ -17,6 +17,12 @@ Only the exact label `status: ready to pickup` starts production queueing.
 
 ## Math Project graph
 
+The Math Production Project is the `Content Pipeline` user Project. Configure
+the repository variables `MATH_PROJECT_OWNER=joycytao` and
+`MATH_PROJECT_NUMBER=2` before enabling Project synchronization. Manual or
+reusable workflow inputs may override these values for a deliberate one-off
+run.
+
 `.github/workflows/monthly-production-queue.yml` reacts to that label and
 creates or updates one parent plus these nine idempotent Issues in the Math
 Production Project:
@@ -40,7 +46,7 @@ Project but deliberately does not guess or overwrite Project status options.
 Landing-page and TPT work consume the released monthly package. Their workflows
 check out the exact release run commit and validate the release manifest's
 release status, stale flag, required gates, month/year, and `packageId` before
-doing downstream work. Social work remains in the separate Content Pipeline
+doing downstream work. Social work remains in the separate Social Production
 Project; its monthly queue starts only after the successful monthly release.
 
 ## Failure evidence and recovery

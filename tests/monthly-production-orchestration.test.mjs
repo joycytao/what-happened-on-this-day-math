@@ -8,7 +8,7 @@ const input = {
   inputIssue: 201,
   inputArtifact: "issue-comment:201:comment-9",
   runUrl: "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/9",
-  project: { owner: "joycytao", number: 3 },
+  project: { owner: "joycytao", number: 2 },
 };
 
 test("monthly production plan creates one parent and nine ordered workstreams", () => {

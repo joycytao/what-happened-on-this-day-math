@@ -5,8 +5,8 @@ This contract separates queue plumbing from production work.
 ## Responsibilities
 
 - GitHub Actions creates or updates idempotent parent and child Issues, applies
-  workstream/status labels, adds the Issues to the existing `Content Pipeline`
-  Project (`https://github.com/users/joycytao/projects/2`), and unblocks the
+  workstream/status labels, adds the Issues to the existing `Social Production`
+  Project (`https://github.com/users/joycytao/projects/3`), and unblocks the
   next dependent Issue after a child closes.
 - Codex automation is the only production worker. It picks up the ready Issues,
   runs the documented Reel/Carousel command, creates the implementation PR, and
