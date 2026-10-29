@@ -52,7 +52,7 @@ jobs:
           PAYLOAD_PATH: /tmp/product-confirmed-carousel-handoff/product-confirmed.json
           STORY_PATH: /tmp/product-confirmed-carousel-handoff/product-carousel-story.md
         with:
-          github-token: ${{ secrets.GITHUB_PROJECTS_TOKEN }}
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
           script: |
             const fs = require('node:fs');
             const payload = JSON.parse(fs.readFileSync(process.env.PAYLOAD_PATH, 'utf8'));

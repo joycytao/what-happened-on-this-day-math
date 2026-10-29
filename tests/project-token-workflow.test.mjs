@@ -14,6 +14,6 @@ const workflows = [
 test("Project sync workflows authenticate with the user-project token", () => {
   for (const filename of workflows) {
     const workflow = fs.readFileSync(filename, "utf8");
-    assert.match(workflow, /github-token:\s*\$\{\{ secrets\.GITHUB_PROJECTS_TOKEN \}\}/, filename);
+    assert.match(workflow, /github-token:\s*\$\{\{ secrets\.PROJECTS_TOKEN \}\}/, filename);
   }
 });

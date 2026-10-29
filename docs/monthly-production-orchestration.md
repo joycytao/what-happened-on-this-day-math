@@ -39,8 +39,8 @@ Project status options. If those variables are not configured, Issue creation
 still succeeds and the run emits a warning.
 
 Because this repository uses a user-owned Project, configure the repository
-secret `GITHUB_PROJECTS_TOKEN` with a fine-grained Personal Access Token that
-can read and write Projects. The default Actions `GITHUB_TOKEN` cannot access
+secret `PROJECTS_TOKEN` with a classic Personal Access Token using the `project`
+scope and repository access. The default Actions `GITHUB_TOKEN` cannot access
 user-owned Projects.
 
 ## Release handoff and social separation

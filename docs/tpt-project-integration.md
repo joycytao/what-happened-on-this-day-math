@@ -13,8 +13,8 @@ Configure these repository variables before enabling Project synchronization:
 - TPT_PROJECT_NUMBER: numeric Project v2 number.
 
 Because this repository uses a user-owned Project, configure the repository
-secret `GITHUB_PROJECTS_TOKEN` with a fine-grained Personal Access Token that
-can read and write Projects. The default Actions `GITHUB_TOKEN` cannot access
+secret `PROJECTS_TOKEN` with a classic Personal Access Token using the `project`
+scope and repository access. The default Actions `GITHUB_TOKEN` cannot access
 user-owned Projects.
 
 The workflow also accepts project_owner and project_number as explicit manual
