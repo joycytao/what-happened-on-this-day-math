@@ -17,6 +17,16 @@ test("all social producers route through configurable Social Project settings", 
     assert.match(workflow, /repository-projects: write/, filename);
     assert.match(workflow, /addProjectV2ItemById/, filename);
     assert.doesNotMatch(workflow, /updateProjectV2ItemFieldValue/, filename);
+    assert.doesNotMatch(workflow, /default: "2"/, filename);
+    assert.doesNotMatch(workflow, /SOCIAL_PROJECT_NUMBER \|\| '2'/, filename);
+  }
+});
+
+test("social workflows default to the dedicated Social Production project", () => {
+  for (const filename of files) {
+    const workflow = fs.readFileSync(filename, "utf8");
+    assert.match(workflow, /vars\.SOCIAL_PROJECT_OWNER.*joycytao/s, filename);
+    assert.match(workflow, /vars\.SOCIAL_PROJECT_NUMBER.*3/s, filename);
   }
 });
 

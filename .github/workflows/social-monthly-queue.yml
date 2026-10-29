@@ -36,9 +36,9 @@ on:
         default: joycytao
         type: string
       project_number:
-        description: Existing Project number; defaults to 2
+        description: Social Production Project number; defaults to 3
         required: false
-        default: "2"
+        default: "3"
         type: string
 
 permissions:
@@ -62,7 +62,7 @@ jobs:
       CONTENT_PATH: ${{ inputs.content_path || vars.SOCIAL_RELEASE_CONTENT_PATH }}
       THUMBNAIL_MANIFEST_PATH: ${{ inputs.thumbnail_manifest_path || vars.SOCIAL_RELEASE_THUMBNAIL_MANIFEST_PATH }}
       PROJECT_OWNER: ${{ inputs.project_owner || vars.SOCIAL_PROJECT_OWNER || 'joycytao' }}
-      PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '2' }}
+      PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '3' }}
     steps:
       - uses: actions/checkout@v4
         with:
