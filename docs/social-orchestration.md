@@ -25,7 +25,9 @@ Pipeline](https://github.com/users/joycytao/projects/2) Project and queue.
 Set the repository variables `SOCIAL_PROJECT_OWNER=joycytao` and
 `SOCIAL_PROJECT_NUMBER=3` so scheduled and manually dispatched runs use the
 same explicit target. Workflow inputs may override these values for a deliberate
-one-off run.
+one-off run. Configure the repository secret `GITHUB_PROJECTS_TOKEN` with a
+fine-grained Personal Access Token that can read and write Projects; user-owned
+Projects are not accessible through the default Actions `GITHUB_TOKEN`.
 
 The eight template-specific Issue Forms are the registered entry points for
 manual Social work. Each requires a month/cycle, usable asset resources,

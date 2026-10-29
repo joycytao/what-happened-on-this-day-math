@@ -51,6 +51,7 @@ jobs:
           PAYLOAD_PATH: /tmp/product-confirmed-handoff/product-confirmed.json
           STORY_PATH: /tmp/product-confirmed-handoff/product-reel-story.md
         with:
+          github-token: ${{ secrets.GITHUB_PROJECTS_TOKEN }}
           script: |
             const fs = require('node:fs');
             const payload = JSON.parse(fs.readFileSync(process.env.PAYLOAD_PATH, 'utf8'));

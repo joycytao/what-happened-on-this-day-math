@@ -100,6 +100,7 @@ jobs:
           PROJECT_OWNER: ${{ env.PROJECT_OWNER }}
           PROJECT_NUMBER: ${{ env.PROJECT_NUMBER }}
         with:
+          github-token: ${{ secrets.GITHUB_PROJECTS_TOKEN }}
           script: |
             const fs = require('node:fs');
             const plan = JSON.parse(fs.readFileSync(process.env.PLAN_PATH, 'utf8'));

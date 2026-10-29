@@ -38,6 +38,11 @@ Project when the repository variables `MATH_PROJECT_OWNER` and
 Project status options. If those variables are not configured, Issue creation
 still succeeds and the run emits a warning.
 
+Because this repository uses a user-owned Project, configure the repository
+secret `GITHUB_PROJECTS_TOKEN` with a fine-grained Personal Access Token that
+can read and write Projects. The default Actions `GITHUB_TOKEN` cannot access
+user-owned Projects.
+
 ## Release handoff and social separation
 
 Landing-page and TPT work consume the released monthly package. Their workflows
