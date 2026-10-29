@@ -32,3 +32,10 @@ test("requires a decision state for decision-owner roles", () => {
   assert.equal(isScheduledEligible(issue(10, ["agent: architect"]), "architect"), false);
   assert.equal(isScheduledEligible(issue(10, ["agent: architect", "state: decision-requested"]), "architect"), true);
 });
+
+test("dispatches pm-triage for explicitly untriaged Issues", () => {
+  assert.equal(isScheduledEligible(issue(11, ["agent: pm-triage", "needs-triage"]), "pm-triage"), true);
+  assert.equal(isScheduledEligible(issue(12, ["agent: pm-triage", "state: decision-complete"]), "pm-triage"), true);
+  assert.equal(isScheduledEligible(issue(13, ["agent: pm-triage"]), "pm-triage"), false);
+  assert.equal(isScheduledEligible(issue(14, ["agent: pm-triage", "needs-triage", "status: blocked"]), "pm-triage"), false);
+});

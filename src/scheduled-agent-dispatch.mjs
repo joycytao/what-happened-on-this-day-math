@@ -42,7 +42,9 @@ export function isScheduledEligible(issue, role) {
     return labels.has(`agent: ${role}`) && labels.has("state: decision-requested");
   }
   if (role === "quality-engineer") return labels.has("agent: quality-engineer") && labels.has("state: qa");
-  if (role === "pm-triage") return labels.has("agent: pm-triage") && (labels.has("state: blocked") || labels.has("state: decision-complete"));
+  if (role === "pm-triage") {
+    return labels.has("agent: pm-triage") && (labels.has("needs-triage") || labels.has("state: decision-complete"));
+  }
   return false;
 }
 
