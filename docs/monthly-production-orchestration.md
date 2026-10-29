@@ -38,6 +38,15 @@ Project when the repository variables `MATH_PROJECT_OWNER` and
 Project status options. If those variables are not configured, Issue creation
 still succeeds and the run emits a warning.
 
+Project routing is optional metadata, not a monthly-content validation gate. An
+empty or partially configured owner/number pair is treated as not configured:
+the workflow may omit Project insertion and warn, but it must still validate
+the monthly input and create the production Issues. This behavior was added
+after the monthly context validation reported `project owner and number are
+required` even though the input contract itself does not contain Project
+metadata. Acceptance: a plan with missing or partial Project configuration is
+valid and records `Math Production Project: not configured`.
+
 ## Release handoff and social separation
 
 Landing-page and TPT work consume the released monthly package. Their workflows
