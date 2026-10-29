@@ -16,9 +16,16 @@ This contract separates queue plumbing from production work.
 
 All Social queues and product-confirmed handoffs route through the configurable
 Social Project owner/number (`SOCIAL_PROJECT_OWNER` and
-`SOCIAL_PROJECT_NUMBER`, defaulting to `joycytao`/`2`). They add Issue items to
-that Project only; Project Status remains human-managed and no option IDs are
-invented. Math production uses a separate Project and queue.
+`SOCIAL_PROJECT_NUMBER`, defaulting to `joycytao`/`3`). The current board is
+[Social Production](https://github.com/users/joycytao/projects/3). They add
+Issue items to that Project only; Project Status remains human-managed and no
+option IDs are invented. Math production uses the separate [Content
+Pipeline](https://github.com/users/joycytao/projects/2) Project and queue.
+
+Set the repository variables `SOCIAL_PROJECT_OWNER=joycytao` and
+`SOCIAL_PROJECT_NUMBER=3` so scheduled and manually dispatched runs use the
+same explicit target. Workflow inputs may override these values for a deliberate
+one-off run.
 
 The eight template-specific Issue Forms are the registered entry points for
 manual Social work. Each requires a month/cycle, usable asset resources,
@@ -37,7 +44,7 @@ closes. The existing release gate remains the source event.
 
 The monthly queue requires these inputs: `month`, `year`, `package_id`,
 `manifest_path`, `content_path`, and `thumbnail_manifest_path`. The Project
-owner/number default to `joycytao`/`2` and can be overridden by dispatch inputs
+owner/number default to `joycytao`/`3` and can be overridden by dispatch inputs
 or repository variables. The workflow only adds items to the Project and does
 not update the existing `Status` field or invent custom field option IDs.
 
