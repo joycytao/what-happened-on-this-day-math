@@ -23,7 +23,7 @@ on:
         type: string
       project_number:
         required: false
-        default: "2"
+        default: "3"
         type: string
 
 permissions:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT_OWNER: ${{ inputs.project_owner || vars.SOCIAL_PROJECT_OWNER || 'joycytao' }}
-      PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '2' }}
+      PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '3' }}
     steps:
       - name: Read cycle ID from the owner-approved intake Issue
         if: github.event_name == 'issues'
@@ -79,6 +79,7 @@ jobs:
           PROJECT_OWNER: ${{ env.PROJECT_OWNER }}
           PROJECT_NUMBER: ${{ env.PROJECT_NUMBER }}
         with:
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
           script: |
             const fs = require('node:fs');
             const plan = JSON.parse(fs.readFileSync(process.env.PLAN_PATH, 'utf8'));

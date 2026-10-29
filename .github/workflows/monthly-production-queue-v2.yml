@@ -36,6 +36,7 @@ jobs:
           ISSUE_NUMBER: ${{ inputs.issue_number || github.event.issue.number }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
           script: |
             const { execFileSync } = require('node:child_process');
             const fs = require('node:fs');

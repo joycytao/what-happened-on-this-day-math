@@ -47,6 +47,11 @@ required` even though the input contract itself does not contain Project
 metadata. Acceptance: a plan with missing or partial Project configuration is
 valid and records `Math Production Project: not configured`.
 
+Because this repository uses a user-owned Project, configure the repository
+secret `PROJECTS_TOKEN` with a classic Personal Access Token using the `project`
+scope and repository access. The default Actions `GITHUB_TOKEN` cannot access
+user-owned Projects.
+
 ## Release handoff and social separation
 
 Landing-page and TPT work consume the released monthly package. Their workflows

@@ -9,12 +9,13 @@ Status: evidence complete for repository workflows; no destructive scheduler cha
 | `.github/workflows/tpt-release-trigger.yml` | `workflow_run` for successful `Monthly package release`; also manual `workflow_dispatch` | Release-event entrypoint plus manual rerun | Keep. This is the authoritative monthly release source event. |
 | `.github/workflows/tpt-workstream.yml` | `workflow_call` plus manual `workflow_dispatch` | Reusable/manual workstream | Keep. It is called by the release trigger and is not a schedule. |
 | `.github/workflows/agent-pickup-queue.yml` | `issues: closed` | Queue notification event | Keep. It announces eligible Issues after closure and does not generate social artifacts. |
+| `.github/workflows/scheduled-agent-dispatch.yml` | Every 15 minutes plus manual `workflow_dispatch` | Role dispatch notification | Keep. It assigns at most one eligible Issue per role and posts an idempotent, token-free work brief; it does not execute a model or merge code. |
 | `.github/workflows/dependency-unblock.yml` | `issues: closed` | Dependency event | Keep. It removes blocked labels only when explicit dependency markers are present. |
 | `.github/workflows/sync-labels.yml` | Manual `workflow_dispatch` | Label maintenance | Keep. It is manually invoked and does not generate social artifacts. |
 
 ## Search result
 
-The repository contains no `on.schedule` or `cron` trigger. Product Reel and Carousel generators are repository scripts invoked manually today; no GitHub Actions workflow in this repository schedules or directly invokes them.
+The repository now has one `on.schedule` / `cron` trigger for role dispatch. Product Reel and Carousel generators remain repository scripts invoked manually today; the scheduled agent dispatcher only creates role-specific queue notifications and does not directly invoke a model or generate media.
 
 The intended monthly order remains:
 

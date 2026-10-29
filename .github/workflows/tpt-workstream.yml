@@ -215,6 +215,7 @@ jobs:
         env:
           PROJECT_PLAN: output/tpt/${{ inputs.package_id }}/project-sync.json
         with:
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
           script: |
             const fs = require('node:fs');
             const plan = JSON.parse(fs.readFileSync(process.env.PROJECT_PLAN, 'utf8')).plan;

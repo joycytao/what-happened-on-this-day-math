@@ -19,7 +19,7 @@ on:
       project_number:
         description: Social Project number
         required: false
-        default: "2"
+        default: "3"
         type: string
 
 permissions:
@@ -47,11 +47,12 @@ jobs:
         uses: actions/github-script@v7
         env:
           APPROVAL_ISSUE: ${{ inputs.approval_issue }}
-          SOCIAL_PROJECT_OWNER: ${{ inputs.project_owner }}
-          SOCIAL_PROJECT_NUMBER: ${{ inputs.project_number }}
+          SOCIAL_PROJECT_OWNER: ${{ inputs.project_owner || vars.SOCIAL_PROJECT_OWNER || 'joycytao' }}
+          SOCIAL_PROJECT_NUMBER: ${{ inputs.project_number || vars.SOCIAL_PROJECT_NUMBER || '3' }}
           PAYLOAD_PATH: /tmp/product-confirmed-carousel-handoff/product-confirmed.json
           STORY_PATH: /tmp/product-confirmed-carousel-handoff/product-carousel-story.md
         with:
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
           script: |
             const fs = require('node:fs');
             const payload = JSON.parse(fs.readFileSync(process.env.PAYLOAD_PATH, 'utf8'));
