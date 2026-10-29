@@ -207,6 +207,16 @@ pm-triage
   → Human merge
 ```
 
+## Scheduled role eligibility
+
+The scheduled dispatcher must allow `pm-triage` to pick up an Issue that has
+exactly one `agent: pm-triage` owner label and the `needs-triage` label. This is
+the initial routing state described by the queue labels above. A
+`state: decision-complete` label is also eligible for a follow-up PM triage
+pass. Paused, blocked, claimed, implementation, or dependency-blocked Issues
+remain ineligible; the dispatcher must never treat a blocked Issue as a reason
+to bypass the normal triage gate.
+
 `.github/workflows/handoff-router.yml` performs coordination only: it validates
 the marker, checks duplicates, derives `agent:*` and `state:*` labels, and
 records the next handoff. It never calls an LLM. The Codex pickup runner reads
