@@ -14,6 +14,14 @@ card `description`, and the deterministic redirect URL
 visual-assets directory to `main` before dispatching the downstream landing-page
 workflow, so the consumer reads an immutable repository revision.
 
+The workflow also writes `visual-review-summary.json` and
+`visual-review-summary.md`. These files enumerate each thumbnail and the QA JSON,
+including its archive path, 1260x1260 dimensions, SHA-256 checksum, source PDF
+checksum, and template version. The generated monthly Issue links directly to the
+workflow artifact download page for every listed file. A package is marked `QA`
+only when this summary is valid; missing or failed visual evidence leaves the
+Issue `Blocked`.
+
 Generation is fail-closed: a missing manifest, stale final PDF, missing doodle,
 missing source page, wrong dimensions, or failed structural visual QA stops the TPT
 workstream before downstream packaging.
