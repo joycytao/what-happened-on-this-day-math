@@ -41,3 +41,13 @@ test("builds a review-gated issue body with a stable package marker", () => {
   assert.match(body, /Status: \*\*QA\*\*/);
   assert.match(body, /Human QA is required/);
 });
+
+test("workflow contract exposes direct artifact review evidence", async () => {
+  const workflow = await (await import("node:fs/promises")).readFile(".github/workflows/tpt-workstream.yml", "utf8");
+  assert.match(workflow, /write-tpt-visual-review-summary\.mjs/);
+  assert.match(workflow, /Block ready-for-approval when visual evidence is incomplete/);
+  assert.match(workflow, /Source PDF SHA-256/);
+  assert.match(workflow, /Thumbnail \$\{asset\.id\}: \[download\]/);
+  assert.match(workflow, /secrets\.PROJECTS_TOKEN/);
+  assert.doesNotMatch(workflow, /GITHUB_PROJECTS_TOKEN/);
+});

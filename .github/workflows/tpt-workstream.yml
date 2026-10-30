@@ -114,6 +114,22 @@ jobs:
         if: steps.visual-assets.outcome != 'success'
         run: exit 1
 
+      - name: Build reviewable visual evidence index
+        id: visual-review
+        if: steps.visual-assets.outcome == 'success'
+        continue-on-error: true
+        env:
+          ARTIFACT_NAME: tpt-${{ inputs.package_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: >-
+          node scripts/write-tpt-visual-review-summary.mjs
+          "output/tpt/${{ inputs.package_id }}/visual-assets"
+          "output/tpt/${{ inputs.package_id }}/visual-review-summary.json"
+
+      - name: Block ready-for-approval when visual evidence is incomplete
+        if: steps.visual-assets.outcome != 'success' || steps.visual-review.outcome != 'success'
+        run: exit 1
+
       - name: Validate release and generate TPT outputs
         id: workstream
         continue-on-error: true
@@ -143,6 +159,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ inputs.package_id }}
           WORKSTREAM_OUTPUT: output/tpt/${{ inputs.package_id }}/workstream.json
+          VISUAL_REVIEW_SUMMARY: output/tpt/${{ inputs.package_id }}/visual-review-summary.json
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           ARTIFACT_NAME: tpt-${{ inputs.package_id }}
         with:
@@ -152,8 +169,13 @@ jobs:
             const result = fs.existsSync(outputPath)
               ? JSON.parse(fs.readFileSync(outputPath, 'utf8'))
               : { status: 'blocked', packageId: process.env.PACKAGE_ID, failureReason: 'workstream did not write a result report' };
+            const reviewPath = process.env.VISUAL_REVIEW_SUMMARY;
+            const review = fs.existsSync(reviewPath)
+              ? JSON.parse(fs.readFileSync(reviewPath, 'utf8'))
+              : { valid: false, errors: ['visual-review-summary.json was not written'], assets: [], qa: {} };
             const marker = `<!-- tpt-package-id:${process.env.PACKAGE_ID} -->`;
-            const status = result.status === 'qa' ? 'QA' : 'Blocked';
+            const status = result.status === 'qa' && review.valid ? 'QA' : 'Blocked';
+            const artifactUrl = `${process.env.RUN_URL}/artifacts`;
             const body = [
               marker,
               `# TPT package: ${process.env.PACKAGE_ID}`,
@@ -164,8 +186,13 @@ jobs:
               `- Source commit: \`${result.sourceCommit || 'unknown'}\``,
               `- Idempotency key: \`${result.idempotencyKey || process.env.PACKAGE_ID}\``,
               `- Workflow run: ${process.env.RUN_URL}`,
-              `- Workflow artifact: \`${process.env.ARTIFACT_NAME}\``,
-              `- QA report: \`${result.reportPath || 'not written'}\``,
+              `- Workflow artifact: [${process.env.ARTIFACT_NAME}](${artifactUrl})`,
+              `- Source PDF: \`${review.source?.pdf?.path || 'unknown'}\``,
+              `- Source PDF SHA-256: \`${review.source?.pdf?.sha256 || 'unknown'}\``,
+              `- Template version: \`${review.source?.templateVersion || 'unknown'}\``,
+              `- QA JSON: [download](${artifactUrl}) (\`${review.qa?.report || 'not written'}\`)`,
+              ...((review.assets || []).map(asset => `- Thumbnail ${asset.id}: [download](${artifactUrl}) (\`${asset.archivePath}\`); ${asset.width}x${asset.height}; SHA-256=\`${asset.sha256 || 'missing'}\`; QA=${asset.qa ? 'passed' : 'failed'}`)),
+              ...((review.errors || []).map(error => `- Evidence blocker: ${error}`)),
               result.failureReason ? `- Failure reason: ${result.failureReason}` : '',
               '',
               'Human QA is required before publication. This workflow never publishes automatically.'
