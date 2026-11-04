@@ -29,6 +29,7 @@
     "package:assemble": "node scripts/assemble-monthly-package.mjs",
     "csv:validate": "node scripts/validate-monthly-csv.mjs",
     "monthly:math:validate": "node scripts/validate-monthly-math.mjs",
+    "monthly:worksheet:render": "node scripts/render-monthly-worksheet-package.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
     "tpt:assets:package": "node scripts/package-tpt-assets.mjs",
