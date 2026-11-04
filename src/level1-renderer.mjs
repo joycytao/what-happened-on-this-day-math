@@ -12,7 +12,7 @@ export const LEVEL1_TEMPLATE = {
 
 const CONTENT = {
   card: { x: 145, y: 402, width: 1265, height: 280, radius: 16 },
-  prompt: { x: 220, y: 515, maxWidth: 1140, lineHeight: 60, maxLines: 3 },
+  prompt: { x: 220, y: 500, maxWidth: 1140, lineHeight: 45, maxLines: 3 },
 };
 
 export function renderLevel1(day, options = {}) {
@@ -28,12 +28,13 @@ export function renderLevel1(day, options = {}) {
   let promptLines;
   let promptFontSize;
   let lastLayoutError;
-  for (const fontSize of [46, 44, 42]) {
+  const fontSizes = options.allowExtendedPrompt ? [46, 44, 42, 40, 38, 36, 34, 32] : [46, 44, 42];
+  for (const fontSize of fontSizes) {
     try {
       promptLines = wrapTextToWidth(day.mathLevels.level1.prompt, {
         maxWidth: CONTENT.prompt.maxWidth,
         fontSize,
-        maxLines: CONTENT.prompt.maxLines,
+        maxLines: options.allowExtendedPrompt ? 4 : CONTENT.prompt.maxLines,
         label: "level1 prompt",
       });
       promptFontSize = fontSize;
