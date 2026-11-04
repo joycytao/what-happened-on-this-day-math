@@ -64,6 +64,7 @@
     "github:issues:inventory": "node scripts/inventory-github-issues.mjs",
     "monthly:context:validate": "node --test tests/monthly-context-input.test.mjs",
     "agent:handoff:validate": "node scripts/validate-agent-handoff.mjs",
+    "governance:validate": "node scripts/validate-issue-governance.mjs",
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:prepare:november": "node scripts/prepare-november-cover.mjs",

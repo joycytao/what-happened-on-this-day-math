@@ -1,0 +1,22 @@
+name: Governance invariants
+
+on:
+  push:
+    paths: ['src/issue-governance.mjs', 'scripts/validate-issue-governance.mjs', 'tests/issue-governance.test.mjs', 'tests/fixtures/issue-governance-fixtures.json', '.github/workflows/**', 'package.json']
+  pull_request:
+    paths: ['src/issue-governance.mjs', 'scripts/validate-issue-governance.mjs', 'tests/issue-governance.test.mjs', 'tests/fixtures/issue-governance-fixtures.json', '.github/workflows/**', 'package.json']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run governance:validate
+      - run: node --test tests/issue-governance.test.mjs tests/monthly-production-orchestration.test.mjs

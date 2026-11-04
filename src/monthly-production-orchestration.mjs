@@ -35,8 +35,14 @@ function normaliseProject(project) {
 
 function issueBody({ month, inputIssue, inputArtifact, runUrl, project, key, title, blockedBy }) {
   const dependencyText = blockedBy.length ? blockedBy.map((dependency) => `- ${dependency}`).join("\n") : "- none";
+  const parentKey = `monthly-production:${month}:parent`;
   return [
     `<!-- monthly-production:${month}:${key} -->`,
+    "CODEX_WORK_ITEM_KIND: implementation",
+    `CODEX_PARENT_KEY: ${parentKey}`,
+    ...blockedBy.map((dependency) => `CODEX_DEPENDS_ON_KEY: ${dependency}`),
+    "CODEX_INPUTS_VALIDATED: true",
+    "CODEX_RECONCILE_TO: developer",
     `# ${title}: ${month}`,
     "",
     `- Month: \`${month}\``,
@@ -50,6 +56,9 @@ function issueBody({ month, inputIssue, inputArtifact, runUrl, project, key, tit
     "",
     "## Completion evidence",
     "Record artifact paths, validation reports, and any blocker reason here. Downstream Issues must not be marked ready until the listed dependencies are complete.",
+    "",
+    "## Acceptance Criteria",
+    "- Preserve the source mapping and record deterministic artifact and validation evidence.",
   ].join("\n");
 }
 
@@ -76,6 +85,7 @@ export function buildMonthlyProductionPlan(input = {}) {
     title: `[Monthly production] ${input.month}`,
     body: [
       `<!-- monthly-production:${input.month}:parent -->`,
+      "CODEX_WORK_ITEM_KIND: parent",
       `# Monthly production: ${input.month}`,
       "",
       `- Context input Issue: #${input.inputIssue}`,

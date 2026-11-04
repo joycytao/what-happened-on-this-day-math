@@ -1,0 +1,30 @@
+[
+  {
+    "number": 1,
+    "state": "open",
+    "body": "<!-- monthly-production:2027-01:parent -->\nCODEX_WORK_ITEM_KIND: parent\n# Monthly production: 2027-01\n## Acceptance Criteria\n- route children",
+    "labels": ["type: feature", "content:monthly", "status: pending review", "agent: pm-triage"],
+    "expectedValid": true
+  },
+  {
+    "number": 10,
+    "state": "closed",
+    "body": "<!-- monthly-production:2027-01:context-source -->\nCODEX_WORK_ITEM_KIND: implementation\n# Context source: 2027-01",
+    "labels": ["type: feature", "content:monthly", "status: done", "agent: developer"],
+    "expectedValid": true
+  },
+  {
+    "number": 2,
+    "state": "open",
+    "body": "<!-- monthly-production:2027-01:content-conversion -->\nCODEX_WORK_ITEM_KIND: implementation\nCODEX_PARENT_KEY: monthly-production:2027-01:parent\nCODEX_DEPENDS_ON: owner/repo#10\nCODEX_INPUTS_VALIDATED: true\nCODEX_RECONCILE_TO: developer\n# Content conversion: 2027-01\n## Acceptance Criteria\n- convert source content to English",
+    "labels": ["type: feature", "content:monthly", "status: ready to pickup", "agent: developer"],
+    "expectedValid": true
+  },
+  {
+    "number": 3,
+    "state": "open",
+    "body": "<!-- monthly-production:2027-01:math-validation -->\nCODEX_WORK_ITEM_KIND: implementation\nCODEX_DEPENDS_ON: owner/repo#2\n# Math validation: 2027-01\n## Acceptance Criteria\n- recompute answers",
+    "labels": ["type: feature", "content:monthly", "status: blocked", "agent: pm-triage"],
+    "expectedValid": true
+  }
+]
