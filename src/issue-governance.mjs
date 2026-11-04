@@ -101,13 +101,23 @@ export function validateGovernanceIssue(issue, allIssues = []) {
   return { valid: errors.length === 0, errors, contract, dependencies };
 }
 
+export function isRoleRemediationCandidate(issue) {
+  const contract = parseIssueContract(issue);
+  return (issue?.state === undefined || issue?.state === "open")
+    && !issue.pull_request
+    && contract.status === "status: pending review"
+    && contract.kind !== "parent"
+    && contract.readable
+    && (contract.owners.length === 0 || contract.owners[0] === "agent: pm-triage");
+}
+
 export function selectVerifiedQueue(issues = []) {
   const open = issues.filter((issue) => issue.state === "open" && !issue.pull_request);
   const pmIntake = [];
   const developerPickup = [];
   for (const issue of open) {
     const contract = parseIssueContract(issue);
-    if (contract.status === "status: pending review" && contract.kind !== "parent" && contract.readable && (contract.owners.length === 0 || contract.owners[0] === "agent: pm-triage")) pmIntake.push(issue);
+    if (isRoleRemediationCandidate(issue)) pmIntake.push(issue);
     const validation = validateGovernanceIssue(issue, issues);
     if (validation.valid && contract.status === "status: ready to pickup" && contract.owners[0] === "agent: developer" && contract.kind !== "parent") developerPickup.push(issue);
   }

@@ -17,6 +17,12 @@ Governance work-item metadata and queue eligibility are defined in
 those sources aligned instead of adding new labels for parent/implementation
 relationships.
 
+When a role can resolve a scope, acceptance-criteria, or routing gap from
+repository evidence, keep the Issue in `status: pending review` and dispatch
+that role. Reserve `status: blocked` and `ready-for-human` for named external
+inputs, permissions, dependencies, or explicit human-only decisions. See
+`docs/agent-governance.md` for the complete rule and transition evidence.
+
 ## GitHub App connectivity gate
 
 Repeated automation runs showed that direct App-wrapper calls can collapse to

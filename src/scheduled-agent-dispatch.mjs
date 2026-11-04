@@ -1,3 +1,5 @@
+import { isRoleRemediationCandidate } from "./issue-governance.mjs";
+
 export const DISPATCH_ROLES = Object.freeze([
   "pm-triage",
   "product-manager",
@@ -25,6 +27,15 @@ export const NEXT_ROLES = Object.freeze({
   "quality-engineer": "developer"
 });
 
+export const ROLE_ACTIONS = Object.freeze({
+  "pm-triage": "Resolve scope, acceptance criteria, dependency classification, and routing gaps owned by PM triage; do not wait for a Human Owner for routine completeness work.",
+  "product-manager": "Resolve the assigned product decision and record its conclusion and evidence.",
+  architect: "Resolve the assigned architecture decision and record its conclusion and evidence.",
+  "social-expert": "Resolve the assigned channel or social-format decision and record its conclusion and evidence.",
+  developer: "Implement the accepted Issue within scope, then hand off concrete verification evidence to QA.",
+  "quality-engineer": "Verify the implementation against acceptance criteria and return either concrete defects or a pass handoff."
+});
+
 function labelsFor(issue) {
   return new Set((issue?.labels ?? []).map((label) => typeof label === "string" ? label : label?.name).filter(Boolean));
 }
@@ -32,7 +43,9 @@ function labelsFor(issue) {
 export function isScheduledEligible(issue, role) {
   const labels = labelsFor(issue);
   if (!issue || issue.pullRequest || issue.pull_request) return false;
-  if ([...labels].filter((label) => label.startsWith("agent: ")).length !== 1) return false;
+  const owners = [...labels].filter((label) => label.startsWith("agent: "));
+  const pmBootstrap = role === "pm-triage" && isRoleRemediationCandidate(issue) && owners.length === 0;
+  if (owners.length !== 1 && !pmBootstrap) return false;
   if (labels.has("state: paused") || labels.has("state: blocked") || labels.has("status: blocked")) return false;
   if (labels.has("state: claimed") || labels.has("state: implementation")) return false;
   if (labels.has("state: changes-requested") && role !== "developer") return false;
@@ -43,7 +56,7 @@ export function isScheduledEligible(issue, role) {
   }
   if (role === "quality-engineer") return labels.has("agent: quality-engineer") && labels.has("state: qa");
   if (role === "pm-triage") {
-    return labels.has("agent: pm-triage") && (labels.has("needs-triage") || labels.has("state: decision-complete"));
+    return isRoleRemediationCandidate(issue);
   }
   return false;
 }
@@ -77,13 +90,15 @@ export function buildScheduledDispatchPlan(issues, { generatedAt = new Date().to
         `- Role: \`${role}\``,
         `- Skill: \`${ROLE_SKILLS[role]}\``,
         `- Next handoff: \`${NEXT_ROLES[role]}\``,
+        `- Why this role now: ${ROLE_ACTIONS[role]}`,
+        "- Human decision needed: no by default; create a HUMAN_DECISION_REQUEST:v1 only for one explicit human-only gate.",
         "- Execution: queue notification only; this workflow does not call a model.",
         "",
         "Required actions:",
         `1. Read Issue #${number} in full, including recent handoffs and dependencies.`,
         `2. Read \`${ROLE_SKILLS[role]}\` and \`docs/agent-governance.md\`.`,
         "3. Do only the work owned by this role and record evidence.",
-        `4. Return a versioned \`CODEX_HANDOFF:v1\` to \`${NEXT_ROLES[role]}\`, or return a blocked handoff to \`pm-triage\`.`,
+        `4. Return a versioned \`CODEX_HANDOFF:v1\` to \`${NEXT_ROLES[role]}\`, or return a blocked handoff to \`pm-triage\` only for a named external dependency, missing required input, or explicit human-only gate.`,
         "",
         `Generated at: \`${generatedAt}\``,
         ""
