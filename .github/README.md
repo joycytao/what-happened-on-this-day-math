@@ -5,7 +5,9 @@ This repository uses the shared governance kit from `/Users/jtao/Documents/Proje
 ## Issue lifecycle
 
 - New Feature Requests receive `type: feature` and `status: pending review`.
-- After human review, change the status to `status: ready to pickup`.
+- After PM triage confirms scope, inputs, dependencies, and acceptance criteria,
+  change the status to `status: ready to pickup` for routine implementation.
+  Use `ready-for-human` only when a specific human-only gate applies.
 - Agent pickup excludes `status: blocked`; the agent determines execution order from the full Issue context and project dependencies.
 - Issue number and title prefixes such as `[NN/Total]` are informational only.
 

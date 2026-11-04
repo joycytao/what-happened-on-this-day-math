@@ -1,5 +1,14 @@
 # AGENTS.md
 
+## Agent skills
+
+Use the following skills when the task matches their purpose:
+
+- `triage`: classify GitHub Issues, answer open questions, identify the Decision Owner, and decide whether an issue is ready for pickup.
+- `ask-matt`: use a question-driven process to clarify repository process and agent workflow decisions.
+- `code-review`: review changes against repository standards and requirements.
+- `pr`: prepare pull request descriptions and review context.
+
 ## Project purpose
 
 This project creates one monthly elementary-school learning packet based on
@@ -218,11 +227,28 @@ does not prove that the historical claims or answers are correct.
 Before changing the Issue workflow, assigning work, or deciding whether an
 Issue is ready for pickup, read `docs/agent-governance.md`.
 
+When a human decision is required, use the `HUMAN_DECISION_REQUEST:v1`
+template in `docs/agent-governance.md`: state one concrete decision, list the
+options and evidence, name the exact blocked actions, and describe the result
+of approval, revision, or rejection. When a task changes state or owner, use
+the `CODEX_HANDOFF:v1` transition template from the same document. A label
+without that explanation is incomplete and must not be treated as a usable
+handoff.
+
 The `pm-triage` agent owns question routing and Issue completeness. Every open
 question must have exactly one Decision Owner; consulted agents provide input
-but do not compete with that owner. Only the Human Accountable Owner may
-approve `status: ready to pickup`. Unresolved blocking questions or
-dependencies keep the Issue blocked.
+but do not compete with that owner. A readable `status: pending review` Issue
+is a PM intake candidate even before it has an `agent:*` label. PM triage may
+assign exactly one owner and record a `CODEX_HANDOFF:v1` comment; implementation
+still requires `status: ready to pickup`, complete declared inputs, and resolved
+dependencies.
+
+UI/UX previews require Human Accountable Owner review before adoption. New or
+elevated key/token/account access also requires that review; existing approved
+secrets may be used only through the runtime interface and must never be read
+or exported. Missing monthly content, final PDFs, canonical references, source
+data, or approved brand assets are named blockers. Public publication and
+downstream dispatch remain human-approved gates.
 
 Before modifying the issue workflow, recalculate the dependency graph from the
 current open Issues and update the documented order when a new Issue, scope

@@ -40,5 +40,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: Number(issueRef[2]),
-              body: `Dependency #${context.payload.issue.number} was closed. Removed \`status: blocked\` from this Issue and PR #${prRef[2]}. Human review is required before this Issue is marked \`status: ready to pickup\`.`
+              body: `Dependency #${context.payload.issue.number} was closed. Removed \`status: blocked\` from this Issue and PR #${prRef[2]}. PM triage must re-check inputs, dependencies, and any human-only gate before marking this Issue \`status: ready to pickup\`.`
             });
