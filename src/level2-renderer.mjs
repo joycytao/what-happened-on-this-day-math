@@ -7,7 +7,7 @@ export const LEVEL2_TEMPLATE = { version: "1.0.0", filename: "level-2.png", widt
 
 const CONTENT = {
   card: { x: 145, y: 402, width: 1265, height: 410, radius: 16 },
-  prompt: { x: 220, y: 500, maxWidth: 1140, lineHeight: 48, maxLines: 4 },
+  prompt: { x: 220, y: 541, maxWidth: 1140, lineHeight: 60, maxLines: 4 },
 };
 
 export function renderLevel2(day, options = {}) {
@@ -19,13 +19,14 @@ export function renderLevel2(day, options = {}) {
   let promptLines;
   let promptFontSize;
   let lastLayoutError;
+  const promptLayout = options.allowExtendedPrompt ? { ...CONTENT.prompt, y: 500, lineHeight: 48, maxLines: 6 } : CONTENT.prompt;
   const fontSizes = options.allowExtendedPrompt ? [46, 44, 42, 40, 38, 36, 34, 32] : [46, 44, 42];
   for (const fontSize of fontSizes) {
     try {
       promptLines = wrapTextToWidth(day.mathLevels.level2.prompt, {
         maxWidth: CONTENT.prompt.maxWidth,
         fontSize,
-        maxLines: options.allowExtendedPrompt ? 6 : CONTENT.prompt.maxLines,
+        maxLines: promptLayout.maxLines,
         label: "level2 prompt",
       });
       promptFontSize = fontSize;
@@ -35,7 +36,7 @@ export function renderLevel2(day, options = {}) {
     }
   }
   if (!promptLines) throw lastLayoutError;
-  const prompt = promptLines.map((line, index) => `<text data-content="prompt" x="${CONTENT.prompt.x}" y="${CONTENT.prompt.y + index * CONTENT.prompt.lineHeight}" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="${promptFontSize}">${escapeXml(line)}</text>`).join("\n");
+  const prompt = promptLines.map((line, index) => `<text data-content="prompt" x="${promptLayout.x}" y="${promptLayout.y + index * promptLayout.lineHeight}" fill="#153657" font-family="Arial, Helvetica, sans-serif" font-size="${promptFontSize}">${escapeXml(line)}</text>`).join("\n");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="level2" data-template-version="1.0.0" data-date="${day.date}">
   <rect width="1545" height="2000" fill="#faf8f8"/>
   <g fill="#111" font-family="Arial, Helvetica, sans-serif">
