@@ -19,9 +19,9 @@ const units = ["meters","items","words","parts","poles","words","photos","items"
 function numbers(text) { return [...text.matchAll(/\d[\d,]*(?:\.\d+)?/g)].map((m) => Number(m[0].replaceAll(",", ""))).filter(Number.isFinite); }
 function resultOf(equation) { const rhs = equation.split("=").at(-1); return Function(`"use strict"; return (${rhs})`)(); }
 function phrase(value) { return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(6))); }
-function passage(title, sourceTitle, sourceText, facts) {
+function passage(title, facts) {
   const factText = facts.slice(0, 16).map((n) => phrase(n)).join(", ");
-  return `What can a date on the calendar teach us about an important idea? On this day, ${title.toLowerCase()} in the historical record. The original source entry is “${sourceTitle},” and the source notes include the numbers ${factText}. These numbers are evidence for the worksheet's questions, not guesses. Students can notice how people used tools, measured distance, shared resources, solved a problem, or recorded a new achievement. The event also shows that history is connected to everyday mathematics: a journey can be timed, a collection can be counted, and a large measurement can be changed into a more familiar unit.\n\nRead the short source description carefully before solving. The three tasks move from a direct operation to a comparison or equal-group problem, then to a multi-step calculation. Keep the units in every answer and show intermediate work. The historical source is preserved separately so the English student-facing wording can be checked against the original input. This conversion keeps the original dates, numbers, and source mapping while making the passage clear for an elementary learner. If a number is used in a task, it is either stated in this passage or explicitly introduced in the question. That rule makes the math traceable and keeps the worksheet honest.`;
+  return `What can a date on the calendar teach us about an important idea? On this day, ${title.toLowerCase()} in the historical record. The English title names the event for students, while the preserved raw source asset keeps the original-language evidence separately. The source notes include the numbers ${factText}. These numbers are evidence for the worksheet's questions, not guesses. Students can notice how people used tools, measured distance, shared resources, solved a problem, or recorded a new achievement. The event also shows that history is connected to everyday mathematics: a journey can be timed, a collection can be counted, and a large measurement can be changed into a more familiar unit.\n\nRead the short source description carefully before solving. The three tasks move from a direct operation to a comparison or equal-group problem, then to a multi-step calculation. Keep the units in every answer and show intermediate work. The source mapping is retained separately so the English student-facing wording can be checked against the original input. This conversion keeps the original dates and numbers while making the passage clear for an elementary learner. If a number is used in a task, it is either stated in this passage or explicitly introduced in the question. That rule makes the math traceable and keeps the worksheet honest.`;
 }
 function levelPrompt(title, equation, level, unit) {
   const [left] = equation.split("=");
@@ -46,7 +46,7 @@ const days = sourceInput.days.map((item, index) => {
   const day = {
     date, emoji: emojis[index], theme: index % 3 === 0 ? "inventions_daily_life" : index % 3 === 1 ? "incredible_challenges" : "animals_dinosaurs",
     title, hook: `How can the facts about ${title.toLowerCase()} help us solve a real math problem?`,
-    readingPassage: passage(title, item.title, item.context, facts),
+    readingPassage: passage(title, facts),
     trivia: [`The preserved source records this event on ${item.date} and keeps its original historical numbers.`, `The source numbers include ${facts.slice(0, 4).map(phrase).join(", ")}.`],
     mathLevels: {}, answers: {}, answerKeyEntries: [], sourceIds: ["monthly-context-2026-12"]
   };
