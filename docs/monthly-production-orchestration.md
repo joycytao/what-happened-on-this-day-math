@@ -23,6 +23,12 @@ Production Project:
 
 ```text
 context-source -> content-conversion -> math-validation
+
+Generated Issues carry machine-readable `CODEX_*` dependency markers in their
+bodies. The parent is explicitly `CODEX_WORK_ITEM_KIND: parent`; child Issues
+are `implementation` work items and identify their parent and dependency keys.
+The reconciliation workflow uses those markers rather than inferring a
+dependency from a human-readable bullet or a status label.
                                       ├-> worksheet-answer-key ─┐
                                       ├-> cover                  ├-> release-qa
                                       └-> follow-up-pages       ┘

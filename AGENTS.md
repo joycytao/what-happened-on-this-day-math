@@ -12,6 +12,11 @@ Use the following skills when the task matches their purpose:
 - `quality-engineer`: verify an implementation or PR against acceptance criteria.
 - `social-expert`: answer social-format and channel-specific domain questions.
 
+Governance work-item metadata and queue eligibility are defined in
+`docs/agent-governance.md` and implemented in `src/issue-governance.mjs`; keep
+those sources aligned instead of adding new labels for parent/implementation
+relationships.
+
 ## GitHub App connectivity gate
 
 Repeated automation runs showed that direct App-wrapper calls can collapse to

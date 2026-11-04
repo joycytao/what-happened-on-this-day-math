@@ -218,6 +218,45 @@ to `pm-triage` with an explicit blocker; an invalid transition fails closed.
 recorded complete inputs, dependencies, and acceptance criteria. A
 `ready-for-human` label is reserved for a specific human-only decision.
 
+## Machine-readable work-item contract
+
+Generated parent and implementation Issues declare their relationship in the
+body; labels remain limited to owner, workflow status, type, and content. The
+contract is:
+
+```text
+CODEX_WORK_ITEM_KIND: parent|implementation
+CODEX_PARENT_KEY: monthly-production:YYYY-MM:parent
+CODEX_DEPENDS_ON: owner/repository#123
+CODEX_DEPENDS_ON_KEY: context-source
+CODEX_INPUTS_VALIDATED: true
+CODEX_RECONCILE_TO: developer
+```
+
+`CODEX_DEPENDS_ON` is preferred when the Issue number exists. A key dependency
+resolves to the sibling Issue with the same monthly-production marker. An
+implementation Issue is a verified developer pickup candidate only when its
+dependencies are closed, inputs and acceptance criteria are declared, it has
+exactly `agent: developer` and `status: ready to pickup`, and it is not a
+parent. The implementation is in `src/issue-governance.mjs` and is tested by
+`tests/issue-governance.test.mjs`.
+
+## Automatic reconciliation and queue behavior
+
+`.github/workflows/reconcile-issue-governance.yml` rechecks dependency closure
+after Issue changes and on a scheduled sweep. It promotes a blocked child only
+when the body explicitly opts into reconciliation with
+`CODEX_RECONCILE_TO: developer` and `CODEX_INPUTS_VALIDATED: true`; otherwise
+it leaves the Issue blocked for PM triage. This prevents a closed dependency
+from silently bypassing missing inputs or acceptance criteria.
+
+`.github/workflows/agent-pickup-queue.yml` announces only candidates returned
+by the same validator. It separates PM triage intake from verified developer
+pickup and never treats a label by itself as proof that work is ready.
+
+The governance invariant suite runs locally with
+`npm run governance:validate` and in `.github/workflows/governance-invariants.yml`.
+
 ## Recovery rules
 
 - A blocked handoff returns to `pm-triage` with the blocker and evidence.
