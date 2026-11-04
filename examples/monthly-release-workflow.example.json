@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "workflowId": "morning-work-math-monthly-release-v1",
+  "monthlyUnit": "one independently releasable month",
+  "stages": [
+    {"id":"source-content","order":1,"inputs":["month","calendar","historicalSources"],"outputs":["monthlyContent"],"gate":"content_and_source"},
+    {"id":"mathematics-answer-keys","order":2,"inputs":["monthlyContent"],"outputs":["validatedAnswers","answerKeySource"],"gate":"mathematics"},
+    {"id":"daily-worksheets","order":3,"inputs":["monthlyContent","templateManifest"],"outputs":["dailyWorksheetPages"],"gate":"layout"},
+    {"id":"answer-key-pages","order":4,"inputs":["answerKeySource","templateManifest"],"outputs":["answerKeyPages"],"gate":"layout_and_answer_coverage"},
+    {"id":"worksheet-coversheet","order":5,"inputs":["coverConfig","coverReference","officialLogo"],"outputs":["coverPng","coverPdfPage","coverApproval"],"gate":"cover_approval_and_visual_qa"},
+    {"id":"final-pdf-qa","order":6,"inputs":["dailyWorksheetPages","answerKeyPages","coverPdfPage","releaseConfig"],"outputs":["finalPdf","pageMappings","pdfQaReport"],"gate":"content_math_source_layout_pdf_visual"},
+    {"id":"derived-assets","order":7,"inputs":["finalPdf","pageMappings"],"outputs":["thumbnails","thumbnailQa"],"gate":"thumbnail_visual_qa"},
+    {"id":"listing-handoff","order":8,"inputs":["finalPdf","coverPng","thumbnails","metadataTaxonomy"],"outputs":["tptHandoff","landingPageHandoff"],"gate":"handoff_completeness"},
+    {"id":"release-record","order":9,"inputs":["allApprovedArtifacts","allQaReports"],"outputs":["releaseManifest","humanReport"],"gate":"release_record_completeness"}
+  ],
+  "invalidationRules": [
+    {"change":"finalPdf|coverPdfPage|pageMappings|sourcePdf","invalidates":["thumbnails","thumbnailQa","tptHandoff","landingPageHandoff","releaseManifest"]},
+    {"change":"monthlyContent|validatedAnswers|templateManifest","invalidates":["dailyWorksheetPages","answerKeyPages","finalPdf","thumbnails","releaseManifest"]}
+  ],
+  "monthRules": {
+    "supportedModes":["30-day","31-day","future-bundle"],
+    "calendarDayCount":"derive from the requested calendar month",
+    "bundleRule":"reference only monthly records whose release status is released"
+  },
+  "referenceRelease": {
+    "month":"October",
+    "status":"released",
+    "trace":["finalPdf","pageMappings","thumbnails","thumbnailQa","releaseManifest","tptHandoff"]
+  },
+  "failureHandling":"A failed gate blocks release, records the exact evidence, and requires downstream regeneration and revalidation after the responsible input is corrected."
+}

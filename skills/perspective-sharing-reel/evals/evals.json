@@ -1,0 +1,8 @@
+{
+  "skill_name": "perspective-sharing-reel",
+  "evals": [
+    { "id": 1, "prompt": "Create a perspective-sharing Reel about children needing more independent thinking time during math practice. Use a warm homeschool scene, five connected cards, and the default music.", "expected_output": "Five-card connected narrative with readable copy, calm background, default Chilly Kitty music, caption, and verification." },
+    { "id": 2, "prompt": "Create a perspective Reel where the third card contains two full sentences. Keep the copy readable.", "expected_output": "Card duration is extended instead of shrinking or deleting copy." },
+    { "id": 3, "prompt": "Create a perspective-sharing Reel, but do not place HOOK, PROBLEM, PERSPECTIVE, SOLUTION, or CTA labels on the cards.", "expected_output": "Labels are omitted; sequence is communicated through copy and order." }
+  ]
+}

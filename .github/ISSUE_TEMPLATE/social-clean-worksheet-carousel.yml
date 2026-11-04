@@ -1,0 +1,38 @@
+name: Social — Clean Worksheet Carousel
+description: Create a clean-worksheet Carousel from the registered template.
+title: "[Social Carousel][Clean Worksheet]: "
+labels:
+  - "social:carousel"
+  - "content:monthly"
+  - "status: pending review"
+body:
+  - type: input
+    id: month_cycle
+    attributes: { label: Month or cycle, description: Use the content cycle and released package when applicable. }
+    validations: { required: true }
+  - type: textarea
+    id: asset_resources
+    attributes: { label: Asset resources, description: List source worksheet, cleaned page, cover, and template assets by usable path or attachment. }
+    validations: { required: true }
+  - type: dropdown
+    id: asset_source
+    attributes:
+      label: Asset source
+      options: [Internal repository/template assets, External, student, customer, or third-party assets]
+    validations: { required: true }
+  - type: textarea
+    id: asset_usage_notes
+    attributes: { label: Asset usage notes, description: Required for external, student, customer, personal, or third-party assets; record permission, privacy, attribution, and redaction. Write “not applicable” for internal-only assets. }
+    validations: { required: true }
+  - type: textarea
+    id: cleanup_requirements
+    attributes: { label: Cleanup requirements, description: State what must be removed, redacted, preserved, and visually verified. }
+    validations: { required: true }
+  - type: textarea
+    id: expected_output
+    attributes: { label: Expected output, description: State slide count, dimensions, filenames, copy, and QA evidence. }
+    validations: { required: true }
+  - type: input
+    id: cta_destination
+    attributes: { label: CTA or destination, description: CTA text and destination URL or description. }
+    validations: { required: true }

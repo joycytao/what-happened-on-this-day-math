@@ -1,0 +1,24 @@
+{
+  "format": "perspective-sharing-reel",
+  "accountHandle": "@engineermom.afterhours",
+  "profileImage": "assets/profile-avatar.png",
+  "backgroundImage": "assets/free-scene.png",
+  "cards": [
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "..." },
+    { "headline": "...", "body": "...", "bodyHtml": "...", "footer": "...", "cta": "SAVE · SHARE · FOLLOW" }
+  ],
+  "cardDuration": 3.833333333,
+  "targetDuration": 23,
+  "transitionDuration": 0.48,
+  "musicFile": null,
+  "musicCredit": null,
+  "caption": {
+    "hook": "...",
+    "body": "...",
+    "cta": "...",
+    "hashtags": []
+  }
+}

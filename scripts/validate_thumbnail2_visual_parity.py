@@ -28,6 +28,21 @@ VARIABLE_CARDS = {
 }
 
 
+def changed_pixels_outside_variable_regions(reference: Image.Image, generated: Image.Image):
+    reference_pixels = np.asarray(reference)
+    generated_pixels = np.asarray(generated)
+    changed = np.any(reference_pixels != generated_pixels, axis=2)
+    variable = np.zeros(changed.shape, dtype=bool)
+    for x0, y0, x1, y1 in VARIABLE_CARDS.values():
+        variable[y0:y1, x0:x1] = True
+    outside = changed & ~variable
+    return {
+        "compared_pixel_count": int(outside.size),
+        "changed_pixel_count": int(outside.sum()),
+        "changed_pixel_ratio": float(outside.mean()),
+    }
+
+
 def load(path: Path) -> Image.Image:
     image = Image.open(path).convert("RGB")
     if image.size != SIZE:
@@ -88,6 +103,7 @@ def main():
 
     fixed = {name: compare(reference, generated, box) for name, box in FIXED_REGIONS.items()}
     variable = {name: compare(reference, generated, box) for name, box in VARIABLE_CARDS.items()}
+    outside_variable = changed_pixels_outside_variable_regions(reference, generated)
     # The official PDF logo is a variable raster asset; geometry is checked
     # separately while the headline/labels remain the fixed-region gate.
     fixed_ssim = min(metric["ssim"] for name, metric in fixed.items() if name != "footer_logo")
@@ -97,13 +113,16 @@ def main():
         "normalized": {"size": list(SIZE), "mode": "RGB"},
         "fixedRegions": fixed,
         "variableCards": variable,
-        "visualAcceptance": {"fixedRegionMinSsim": fixed_ssim, "fixedRegionThreshold": 0.50, "footerLogoSsim": fixed["footer_logo"]["ssim"], "passed": fixed_ssim >= 0.50},
+        "outsideVariableRegions": outside_variable,
+        "visualAcceptance": {"fixedRegionMinSsim": fixed_ssim, "fixedRegionThreshold": 0.50, "footerLogoSsim": fixed["footer_logo"]["ssim"], "outsideVariableChangedPixelCount": outside_variable["changed_pixel_count"], "passed": fixed_ssim >= 0.50 and outside_variable["changed_pixel_count"] == 0},
         "artifacts": ["thumbnail-2-side-by-side.png", "thumbnail-2-overlay.png", "thumbnail-2-pixel-diff.png"],
         "visualReview": "human inspection required; fixed-region and variable-card metrics are recorded",
     }
     (args.output_dir / "thumbnail-2-visual-qa.json").write_text(json.dumps(report, indent=2) + "\n")
     if fixed_ssim < 0.50:
         raise SystemExit(f"Thumbnail 2 fixed-region SSIM below threshold: {fixed_ssim:.3f}")
+    if outside_variable["changed_pixel_count"]:
+        raise SystemExit("Thumbnail 2 changed pixels escaped the variable screenshot regions")
 
 
 if __name__ == "__main__":

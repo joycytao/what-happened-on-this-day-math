@@ -1,0 +1,88 @@
+{
+  "id": "perspective-learning-system",
+  "title": "Why I Started Building a Learning System",
+  "audience": "Parents supporting a child through a difficult learning transition",
+  "sourcePerspective": "I started building a reusable learning system after my child began struggling to keep up with math at a new school.",
+  "reel": {
+    "handle": "@engineermom.afterhours",
+    "studio": "by 6pm studio",
+    "backgroundImage": "assets/learning-system-scene.png",
+    "cards": [
+      {
+        "headline": "I started building a learning system.",
+        "body": "It began when my child started struggling to keep up with math at a new school."
+      },
+      {
+        "headline": "The hardest part?",
+        "body": "My child still loved math—but keeping up with the pace became a real struggle."
+      },
+      {
+        "headline": "As an engineer, I started with the root cause.",
+        "body": "I approached the problem the way I approach any difficult problem: find what is really getting in the way."
+      },
+      {
+        "headline": "Then I broke it down.",
+        "body": "We identify the gaps and work through one piece at a time instead of treating everything as one big problem."
+      },
+      {
+        "headline": "The system also had to be reusable.",
+        "body": "Time is limited, so I wanted a process we could return to—not something we had to rebuild every day."
+      },
+      {
+        "headline": "Stay with us as we build, learn, and grow.",
+        "body": "This is the beginning of the system—and I’m looking forward to sharing what we learn along the way."
+      }
+    ],
+    "cardDuration": 4.2,
+    "musicFile": "assets/perspective-music.mp3",
+    "musicCredit": "Chilly Kitty - captain fluff [Thematic]"
+  },
+  "carousel": {
+    "slides": [
+      {
+        "role": "cover",
+        "title": "WHY I STARTED BUILDING A LEARNING SYSTEM",
+        "body": "A personal perspective from an engineer mom"
+      },
+      {
+        "role": "context",
+        "title": "WHEN SCHOOL CHANGED, MATH CHANGED TOO.",
+        "body": "After my child started at a new school, keeping up with the pace became noticeably harder."
+      },
+      {
+        "role": "problem",
+        "title": "THEY STILL LOVED MATH.",
+        "body": "But loving a subject does not always make it easy to keep up with a new pace, new expectations, and new gaps."
+      },
+      {
+        "role": "perspective",
+        "title": "I STARTED WITH THE ROOT CAUSE.",
+        "body": "As an engineer, I approached the struggle like any difficult problem: find what is really getting in the way."
+      },
+      {
+        "role": "method",
+        "title": "BREAK IT DOWN.",
+        "body": "Identify the gaps, then work through one piece at a time instead of treating everything as one big problem."
+      },
+      {
+        "role": "design-principle",
+        "title": "MAKE IT REUSABLE.",
+        "body": "Time is limited. The system needed to be something we could return to—not something we rebuild every day."
+      },
+      {
+        "role": "closing",
+        "title": "STAY WITH US AS WE BUILD, LEARN, AND GROW.",
+        "body": "This is the beginning of the system. I’m looking forward to sharing what we learn along the way."
+      }
+    ],
+    "caption": "I started building a learning system when my child began struggling to keep up with math at a new school.\n\nThey still loved math. The challenge was finding the root cause, breaking it down, and creating a process we could actually reuse.\n\nThis is the beginning. Stay with us as we build, learn, and grow.",
+    "hashtags": [
+      "#homeschooling",
+      "#mathlearning",
+      "#learningathome",
+      "#engineermom",
+      "#homeschoolmom",
+      "#learningjourney"
+    ]
+  }
+}

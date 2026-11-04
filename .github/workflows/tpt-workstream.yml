@@ -1,0 +1,367 @@
+name: Generate monthly TPT workstream
+
+on:
+  workflow_call:
+    inputs:
+      month:
+        required: true
+        type: string
+      year:
+        required: true
+        type: string
+      package_id:
+        required: true
+        type: string
+      manifest_path:
+        required: true
+        type: string
+      content_path:
+        required: true
+        type: string
+      thumbnail_manifest_path:
+        required: true
+        type: string
+      project_owner:
+        required: false
+        default: ""
+        type: string
+      project_number:
+        required: false
+        default: ""
+        type: string
+  workflow_dispatch:
+    inputs:
+      month:
+        description: English month name or month number
+        required: true
+        type: string
+      year:
+        description: Four-digit release year
+        required: true
+        type: string
+      package_id:
+        description: Stable monthly package identifier
+        required: true
+        type: string
+      manifest_path:
+        description: Repository-relative release manifest path
+        required: true
+        type: string
+      content_path:
+        description: Repository-relative monthly content path
+        required: true
+        type: string
+      thumbnail_manifest_path:
+        description: Repository-relative thumbnail input manifest for the released final PDF
+        required: true
+        type: string
+      project_owner:
+        description: GitHub Project owner login; falls back to repository variable TPT_PROJECT_OWNER
+        required: false
+        type: string
+      project_number:
+        description: GitHub Project number; falls back to repository variable TPT_PROJECT_NUMBER
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+  actions: read
+  repository-projects: write
+
+concurrency:
+  group: tpt-workstream-${{ inputs.package_id }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the released source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Verify release identity and gates
+        env:
+          MANIFEST_PATH: ${{ inputs.manifest_path }}
+          EXPECTED_MONTH: ${{ inputs.month }}
+          EXPECTED_YEAR: ${{ inputs.year }}
+          EXPECTED_PACKAGE_ID: ${{ inputs.package_id }}
+        run: >-
+          node --input-type=module -e 'import fs from "node:fs"; import { validateMonthlyReleaseManifest } from "./src/monthly-release-manifest.mjs"; const path=process.env.MANIFEST_PATH; if (!fs.existsSync(path)) throw new Error(`Release manifest missing: ${path}`); const manifest=JSON.parse(fs.readFileSync(path,"utf8")); const result=validateMonthlyReleaseManifest(manifest,{month:process.env.EXPECTED_MONTH,year:Number(process.env.EXPECTED_YEAR)}); if (manifest.packageId !== process.env.EXPECTED_PACKAGE_ID) result.errors.push(`packageId mismatch: expected ${process.env.EXPECTED_PACKAGE_ID}, got ${manifest.packageId}`); if (!result.valid) throw new Error(result.errors.join("; ")); console.log(`Verified released package ${manifest.packageId}`);'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Generate TPT thumbnails and landing-page handoff
+        id: visual-assets
+        continue-on-error: true
+        run: >-
+          node scripts/generate-tpt-visual-assets.mjs
+          --manifest "${{ inputs.thumbnail_manifest_path }}"
+          --package-id "${{ inputs.package_id }}"
+          --output-dir "output/tpt/${{ inputs.package_id }}/visual-assets"
+
+      - name: Block workstream when visual assets are incomplete
+        if: steps.visual-assets.outcome != 'success'
+        run: exit 1
+
+      - name: Build reviewable visual evidence index
+        id: visual-review
+        if: steps.visual-assets.outcome == 'success'
+        continue-on-error: true
+        env:
+          ARTIFACT_NAME: tpt-${{ inputs.package_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: >-
+          node scripts/write-tpt-visual-review-summary.mjs
+          "output/tpt/${{ inputs.package_id }}/visual-assets"
+          "output/tpt/${{ inputs.package_id }}/visual-review-summary.json"
+
+      - name: Block ready-for-approval when visual evidence is incomplete
+        if: steps.visual-assets.outcome != 'success' || steps.visual-review.outcome != 'success'
+        run: exit 1
+
+      - name: Validate release and generate TPT outputs
+        id: workstream
+        continue-on-error: true
+        run: >-
+          node scripts/run-tpt-workstream.mjs
+          --month "${{ inputs.month }}"
+          --year "${{ inputs.year }}"
+          --package-id "${{ inputs.package_id }}"
+          --manifest "${{ inputs.manifest_path }}"
+          --content "${{ inputs.content_path }}"
+          --output-dir "output/tpt/${{ inputs.package_id }}"
+
+      - name: Upload TPT workstream artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tpt-${{ inputs.package_id }}
+          path: |
+            output/tpt/${{ inputs.package_id }}/
+            reports/
+          if-no-files-found: warn
+
+      - name: Create or update the monthly TPT Issue
+        id: issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          WORKSTREAM_OUTPUT: output/tpt/${{ inputs.package_id }}/workstream.json
+          VISUAL_REVIEW_SUMMARY: output/tpt/${{ inputs.package_id }}/visual-review-summary.json
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ARTIFACT_NAME: tpt-${{ inputs.package_id }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const outputPath = process.env.WORKSTREAM_OUTPUT;
+            const result = fs.existsSync(outputPath)
+              ? JSON.parse(fs.readFileSync(outputPath, 'utf8'))
+              : { status: 'blocked', packageId: process.env.PACKAGE_ID, failureReason: 'workstream did not write a result report' };
+            const reviewPath = process.env.VISUAL_REVIEW_SUMMARY;
+            const review = fs.existsSync(reviewPath)
+              ? JSON.parse(fs.readFileSync(reviewPath, 'utf8'))
+              : { valid: false, errors: ['visual-review-summary.json was not written'], assets: [], qa: {} };
+            const marker = `<!-- tpt-package-id:${process.env.PACKAGE_ID} -->`;
+            const status = result.status === 'qa' && review.valid ? 'QA' : 'Blocked';
+            const artifactUrl = `${process.env.RUN_URL}/artifacts`;
+            const body = [
+              marker,
+              `# TPT package: ${process.env.PACKAGE_ID}`,
+              '',
+              `- Status: **${status}**`,
+              `- Package version: \`${result.packageVersion || 'unknown'}\``,
+              `- Month: ${result.month || 'unknown'}`,
+              `- Source commit: \`${result.sourceCommit || 'unknown'}\``,
+              `- Idempotency key: \`${result.idempotencyKey || process.env.PACKAGE_ID}\``,
+              `- Workflow run: ${process.env.RUN_URL}`,
+              `- Workflow artifact: [${process.env.ARTIFACT_NAME}](${artifactUrl})`,
+              `- Source PDF: \`${review.source?.pdf?.path || 'unknown'}\``,
+              `- Source PDF SHA-256: \`${review.source?.pdf?.sha256 || 'unknown'}\``,
+              `- Template version: \`${review.source?.templateVersion || 'unknown'}\``,
+              `- QA JSON: [download](${artifactUrl}) (\`${review.qa?.report || 'not written'}\`)`,
+              ...((review.assets || []).map(asset => `- Thumbnail ${asset.id}: [download](${artifactUrl}) (\`${asset.archivePath}\`); ${asset.width}x${asset.height}; SHA-256=\`${asset.sha256 || 'missing'}\`; QA=${asset.qa ? 'passed' : 'failed'}`)),
+              ...((review.errors || []).map(error => `- Evidence blocker: ${error}`)),
+              result.failureReason ? `- Failure reason: ${result.failureReason}` : '',
+              '',
+              'Human QA is required before publication. This workflow never publishes automatically.'
+            ].filter(Boolean).join('\n');
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100
+            });
+            const existing = issues.find(issue => !issue.pull_request && (issue.body || '').includes(marker));
+            const labels = ['type: feature', status === 'QA' ? 'status: pending review' : 'status: blocked'];
+            if (existing) {
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title: `TPT package: ${process.env.PACKAGE_ID}`, body, state: 'open', labels });
+              core.info(`Updated TPT Issue #${existing.number} for ${process.env.PACKAGE_ID}.`);
+              core.setOutput('issue_number', String(existing.number));
+              core.setOutput('issue_node_id', existing.node_id);
+            } else {
+              const created = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: `TPT package: ${process.env.PACKAGE_ID}`, body, labels });
+              core.info(`Created TPT Issue #${created.data.number} for ${process.env.PACKAGE_ID}.`);
+              core.setOutput('issue_number', String(created.data.number));
+              core.setOutput('issue_node_id', created.data.node_id);
+            }
+
+      - name: Build deterministic Project sync plan
+        id: project-plan
+        if: always()
+        env:
+          PROJECT_OWNER: ${{ inputs.project_owner || vars.TPT_PROJECT_OWNER }}
+          PROJECT_NUMBER: ${{ inputs.project_number || vars.TPT_PROJECT_NUMBER }}
+          RESULT_PATH: output/tpt/${{ inputs.package_id }}/workstream.json
+          PLAN_PATH: output/tpt/${{ inputs.package_id }}/project-sync.json
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ARTIFACT_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts
+        run: >-
+          node scripts/write-tpt-project-plan.mjs
+          --result "$RESULT_PATH"
+          --issue-number "${{ steps.issue.outputs.issue_number }}"
+          --issue-node-id "${{ steps.issue.outputs.issue_node_id }}"
+          --project-owner "$PROJECT_OWNER"
+          --project-number "$PROJECT_NUMBER"
+          --run-url "$RUN_URL"
+          --manifest "${{ inputs.manifest_path }}"
+          --artifact-url "$ARTIFACT_URL"
+          --output "$PLAN_PATH"
+
+      - name: Sync TPT Issue to GitHub Project
+        if: steps.project-plan.outcome == 'success'
+        uses: actions/github-script@v7
+        env:
+          PROJECT_PLAN: output/tpt/${{ inputs.package_id }}/project-sync.json
+        with:
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
+          script: |
+            const fs = require('node:fs');
+            const plan = JSON.parse(fs.readFileSync(process.env.PROJECT_PLAN, 'utf8')).plan;
+            const query = `
+              query($login: String!, $number: Int!) {
+                user(login: $login) {
+                  projectV2(number: $number) {
+                    id
+                    title
+                    fields(first: 100) {
+                      nodes {
+                        __typename
+                        id
+                        name
+                        ... on ProjectV2SingleSelectField { options { id name } }
+                      }
+                    }
+                    items(first: 100) {
+                      nodes {
+                        id
+                        content {
+                          ... on Issue { id number repository { nameWithOwner } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }`;
+            const data = await github.graphql(query, {
+              login: plan.project.owner,
+              number: plan.project.number
+            });
+            const project = data.user?.projectV2;
+            if (!project) core.setFailed('Configured GitHub Project was not found for the requested owner and number.');
+            if (!project) return;
+            const repoName = context.repo.owner + '/' + context.repo.repo;
+            let item = project.items.nodes.find(entry =>
+              entry.content?.id === plan.issue.nodeId ||
+              (entry.content?.number === plan.issue.number && entry.content?.repository?.nameWithOwner === repoName)
+            );
+            if (!item) {
+              const added = await github.graphql(`
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(input: { projectId: $projectId, contentId: $contentId }) {
+                    item { id }
+                  }
+                }`, { projectId: project.id, contentId: plan.issue.nodeId });
+              item = added.addProjectV2ItemById.item;
+            }
+            const fields = project.fields.nodes;
+            for (const [name, value] of Object.entries(plan.fields)) {
+              if (value === '') continue;
+              const field = fields.find(candidate => candidate.name === name);
+              if (!field) core.setFailed('Missing Project field: ' + name);
+              if (!field) continue;
+              const input = { projectId: project.id, itemId: item.id, fieldId: field.id, value: {} };
+              if (Array.isArray(field.options)) {
+                const option = field.options.find(candidate => candidate.name === value);
+                if (!option) core.setFailed('Missing single-select option ' + value + ' for Project field ' + name);
+                if (!option) continue;
+                input.value.singleSelectOptionId = option.id;
+              } else {
+                input.value.text = value;
+              }
+              await github.graphql(`
+                mutation($input: UpdateProjectV2ItemFieldValueInput!) {
+                  updateProjectV2ItemFieldValue(input: $input) { projectV2Item { id } }
+                }`, { input });
+            }
+            core.info('Synchronized TPT Issue #' + plan.issue.number + ' to Project ' + project.title + '.');
+
+      - name: Commit complete TPT package to main
+        if: success()
+        env:
+          PACKAGE_DIR: output/tpt/${{ inputs.package_id }}
+          PACKAGE_ID: ${{ inputs.package_id }}
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" || {
+            echo "The checked-out commit is not the current main tip; refusing to push generated assets to main." >&2
+            exit 1
+          }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$PACKAGE_DIR"
+          if git diff --cached --quiet; then
+            echo "No new TPT package outputs to commit."
+            exit 0
+          fi
+          git commit -m "Publish TPT package for ${PACKAGE_ID}"
+          git push origin HEAD:main
+
+      - name: Dispatch landing-page thumbnail handoff
+        if: success()
+        env:
+          DISPATCH_TOKEN: ${{ secrets.BLUE_SKY_BASIN_DISPATCH_TOKEN }}
+          HANDOFF_PATH: output/tpt/${{ inputs.package_id }}/visual-assets/landing-page-handoff.json
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.BLUE_SKY_BASIN_DISPATCH_TOKEN }}
+          script: |
+            const fs = require('node:fs');
+            const crypto = require('node:crypto');
+            const handoffPath = process.env.HANDOFF_PATH;
+            if (!process.env.DISPATCH_TOKEN) core.setFailed('BLUE_SKY_BASIN_DISPATCH_TOKEN is not configured.');
+            if (!fs.existsSync(handoffPath)) core.setFailed(`Missing landing-page handoff: ${handoffPath}`);
+            if (!process.env.DISPATCH_TOKEN || !fs.existsSync(handoffPath)) return;
+            const handoff = JSON.parse(fs.readFileSync(handoffPath, 'utf8'));
+            const sourceSha256 = crypto.createHash('sha256').update(fs.readFileSync(handoffPath)).digest('hex');
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'joycytao',
+              repo: 'blue-sky-basin',
+              workflow_id: 'receive-landing-page-thumbnail-handoff.yml',
+              ref: 'main',
+              inputs: {
+                manifest_path: handoffPath,
+                source_sha256: sourceSha256,
+                release_version: handoff.packageVersion,
+              },
+            });
+            core.info(`Dispatched landing-page handoff for ${handoff.packageId} (${sourceSha256}).`);

@@ -1,0 +1,42 @@
+name: Social — Product Carousel
+description: Create a product Carousel from a released monthly package.
+title: "[Social Carousel][Product]: "
+labels:
+  - "social:carousel"
+  - "content:monthly"
+  - "status: pending review"
+body:
+  - type: input
+    id: month_cycle
+    attributes: { label: Month or cycle, description: Include the released month and stable package_id. }
+    validations: { required: true }
+  - type: input
+    id: package_id
+    attributes: { label: Released package_id, description: Must match a successful monthly release. }
+    validations: { required: true }
+  - type: textarea
+    id: asset_resources
+    attributes: { label: Asset resources, description: List released PDF, thumbnails, product imagery, and template assets by usable path or attachment. }
+    validations: { required: true }
+  - type: dropdown
+    id: asset_source
+    attributes:
+      label: Asset source
+      options: [Internal repository/template assets, External, student, customer, or third-party assets]
+    validations: { required: true }
+  - type: textarea
+    id: asset_usage_notes
+    attributes: { label: Asset usage notes, description: Required for external, student, customer, personal, or third-party assets; record permission, privacy, attribution, and redaction. Write “not applicable” for internal-only assets. }
+    validations: { required: true }
+  - type: textarea
+    id: product_highlights
+    attributes: { label: Product highlights, description: List product promise, grade/topic, feature proof, and slide-by-slide copy direction. }
+    validations: { required: true }
+  - type: textarea
+    id: expected_output
+    attributes: { label: Expected output, description: State slide count, dimensions, filenames, copy, and QA evidence. }
+    validations: { required: true }
+  - type: input
+    id: cta_destination
+    attributes: { label: CTA or destination, description: CTA text and destination URL or description. }
+    validations: { required: true }

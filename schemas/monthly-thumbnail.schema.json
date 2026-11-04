@@ -28,12 +28,13 @@
     },
     "templates": {
       "type": "object",
-      "required": ["cover", "whats_included", "different_math", "daily_practice"],
+      "required": ["cover", "whats_included", "different_math", "daily_practice", "landing_page"],
       "properties": {
         "cover": { "$ref": "#/$defs/template" },
         "whats_included": { "$ref": "#/$defs/templateWithPages" },
         "different_math": { "$ref": "#/$defs/templateWithPages" },
-        "daily_practice": { "$ref": "#/$defs/templateWithPages" }
+        "daily_practice": { "$ref": "#/$defs/templateWithPages" },
+        "landing_page": { "$ref": "#/$defs/templateWithPages" }
       },
       "additionalProperties": false
     }

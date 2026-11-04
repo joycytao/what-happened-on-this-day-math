@@ -19,13 +19,11 @@ replacement for the repository's content, layout, or release requirements.
    Decision Owners.
 4. `pm-triage` owns routing, completeness, and follow-up; it must not guess
    answers outside its authority.
-5. `pm-triage` may bootstrap a readable `status: pending review` Issue, assign exactly one `agent:*` owner, and set the next legal state without answering another role's domain question.
+5. `pm-triage` may route routine work directly to `status: ready to pickup` when its inputs, dependencies, and acceptance criteria are complete.
 6. An Issue remains blocked when a blocking question, dependency, or required
    acceptance criterion is unresolved.
 7. A decision must include its conclusion and the evidence or reasoning that
    supports it.
-8. Human Accountable Owner review is required after a UI/UX or visual preview is complete and before adoption, for new or elevated key/token/account access, and before public publication or downstream dispatch.
-9. Required inputs are hard gates. Missing monthly content, final PDF, canonical reference, source data, approved brand asset, or another declared input must produce a named blocked reason.
 
 ## Roles and decision boundaries
 
@@ -38,9 +36,7 @@ replacement for the repository's content, layout, or release requirements.
 - Assigns one Decision Owner and identifies consulted agents.
 - Marks questions as blocking or non-blocking.
 - Updates the Issue with the decision register and triage summary.
-- Recommends `ready to pickup` only after all blocking questions are resolved.
-- May add or correct one `agent:*` owner label during bootstrap routing.
-- May move `status: pending review` to `state: decision-requested`, `status: blocked`, `status: ready to pickup`, or `ready-for-human` when the evidence supports that transition.
+- Routes `ready to pickup` only after all blocking questions and required inputs are resolved.
 
 `pm-triage` does not make architecture, product, domain, or release decisions
 on behalf of the designated owner.
@@ -72,7 +68,7 @@ answering every question. This person:
 - Reviews high-risk or cross-domain triage summaries.
 - Resolves escalations when the designated owners cannot reach a decision.
 - Audits a sample of routine triage decisions.
-- Reviews UI/UX and visual previews before adoption, approves new or elevated key/token/account access, and approves public publication or downstream dispatch.
+- Reviews only explicit human-only gates: UI/UX adoption, credential/account changes, publication, downstream dispatch, and final merge/release approval.
 - Updates the governance rules when repeated failures show that a boundary is
   unclear.
 
@@ -146,89 +142,6 @@ The triage summary should state:
 - Reason: ...
 ```
 
-## Execution authority and gates
-
-Agents may act autonomously when an Issue has one owner, complete declared inputs, resolved dependencies, and work within the role boundary.
-
-- **UI/UX gate:** an agent may implement and render previews, but the Human Accountable Owner reviews the preview and evidence before adoption.
-- **Credential gate:** agents may use an existing authorized secret through the approved runtime interface without reading or exporting its value. New credentials, account access, permission elevation, rotation, or external login require Human Accountable Owner approval.
-- **Input gate:** monthly content, final PDF, canonical references, source data, brand assets, and other declared inputs must exist and pass validation before generation or dispatch.
-- **Release gate:** QA may mark work ready for human review, but only the Human Accountable Owner may approve public publication, downstream dispatch, or merge.
-
-## Bootstrap and handoff rule
-
-An Issue with `status: pending review` and a readable scope enters `pm-triage` bootstrap even when it does not yet have an `agent:*` label. `pm-triage` assigns exactly one owner, records a `CODEX_HANDOFF:v1` comment, and sets one outcome: `state: decision-requested`, `status: blocked` with a named dependency or missing input, `status: ready to pickup` with the assigned implementation owner, or `ready-for-human` for a human approval gate.
-
-No agent may claim an Issue with multiple `agent:*` labels, an unresolved dependency, a missing required input, or an unapproved high-risk gate.
-
-## Human decision request contract
-
-Whenever work cannot proceed because a Human Accountable Owner must decide,
-the Issue comment must begin with `HUMAN_DECISION_REQUEST:v1` and answer every
-field below. A label such as `ready-for-human` or `state: human-review` is not
-enough on its own.
-
-```markdown
-HUMAN_DECISION_REQUEST:v1
-
-- Issue: #<number>
-- Decision needed: <one concrete question>
-- Why now: <what work is waiting and why this decision is the gate>
-- Options:
-  - A: <option and consequence>
-  - B: <option and consequence>
-- Recommendation: <one option, or `none` when the agent cannot recommend>
-- Evidence: <links, files, tests, previews, or prior decisions>
-- Blocked until decided: <exact actions that must not start>
-- Decision owner: Human Accountable Owner
-- After approval: <exact next label/state and next role>
-- After revision: <where the revised input returns>
-- After rejection: <close, defer, or alternate route>
-```
-
-The comment must contain one decision only. If several decisions are needed,
-create one numbered request per decision and name the dependency between them.
-The requester must not silently convert a human decision into an agent answer.
-
-## Transition record contract
-
-Every state or owner transition must include one `CODEX_HANDOFF:v1` comment
-using this structure. This is the human-readable audit trail for why a task
-changed hands.
-
-```markdown
-CODEX_HANDOFF:v1
-
-- Issue: #<number>
-- From: <current state / owner>
-- To: <next state / owner>
-- Transition reason: <one sentence>
-- Evidence: <specific comment, dependency, file, check, or URL>
-- Preconditions satisfied: <list, or `none`>
-- Preconditions still missing: <list, or `none`>
-- Human decision needed: <yes/no>
-- Next action: <the next actor's concrete action>
-- Return path: <where the task goes if rejected or blocked>
-```
-
-Use these meanings consistently:
-
-| Current state | Next state | Meaning | Next actor |
-|---|---|---|---|
-| `status: pending review` | `state: decision-requested` | A named domain decision is still open | named Decision Owner |
-| `status: pending review` | `status: blocked` | A dependency or required input prevents progress | named dependency owner or Human Accountable Owner |
-| `status: pending review` | `ready-for-human` | Agent analysis is complete; human approval is the gate | Human Accountable Owner |
-| `ready-for-human` | `status: ready to pickup` | The named human approval is recorded and implementation may begin | Developer or named implementation owner |
-| `status: ready to pickup` | `state: implementation` | The assigned developer has started work | Developer |
-| `state: implementation` | `status: qa` | Implementation is complete and verification is requested | Quality Engineer |
-| `status: qa` | `state: changes-requested` | QA found a concrete defect or missing evidence | Developer |
-| `status: qa` | `ready-for-human` | QA passed and a human-only gate remains | Human Accountable Owner |
-| any blocked state | prior legal state | The named dependency or decision is resolved | PM triage recalculates routing |
-
-Do not use a transition label without the matching handoff comment. A handoff
-is complete only when the comment names the current state, next state, next
-actor, evidence, and concrete next action.
-
 ## Readiness rule
 
 `pm-triage` may set `status: ready to pickup` for routine implementation when:
@@ -241,7 +154,77 @@ actor, evidence, and concrete next action.
 - required inputs exist and the work is not behind a human-only gate.
 
 Human review is not a blanket precondition for ordinary implementation. It is
-required only for the explicit gates: UI/UX or visual adoption, new or
-elevated credentials/accounts, public publication, downstream dispatch, and
-final merge/release approval. Those gates must use `ready-for-human` plus a
-single `HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
+required only for explicit human-only gates. Use `ready-for-human` plus one
+`HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
+
+The reusable project skill for applying this process is
+`skills/pm-triage/SKILL.md`.
+
+## Label-to-agent queue
+
+The `Queue agent handoff` workflow creates one idempotent queue comment when an
+Issue receives one of these labels:
+
+- `status: pending review` routes to `agent: pm-triage`.
+- `status: ready to pickup`
+
+Routine pickup requires exactly one supported `agent:` label:
+`pm-triage`, `architect`, `product-manager`, `social-expert`, `developer`, or
+`quality-engineer`. Missing or conflicting routing records a blocked handoff
+instead of choosing a role.
+
+This is a queue producer, not a model runner. GitHub Actions does not call
+OpenAI or another external model. Codex pickup uses the versioned
+`CODEX_HANDOFF:v1` runner described below; after an agent responds,
+`pm-triage` records the decision and evidence.
+
+## Versioned agent handoff protocol
+
+Agents communicate through an Issue or Pull Request comment containing one
+machine-readable `<!-- CODEX_HANDOFF:v1 ... -->` marker. The contract is
+validated by `src/agent-handoff.mjs`; `handoffId` is the idempotency key, so a
+router must not apply labels or create a second routing comment for an ID
+already seen on the work item.
+
+The normal role chain is:
+
+```text
+pm-triage
+  → product-manager / architect / social-expert
+  → pm-triage
+  → developer
+  → quality-engineer
+  → specialist review
+  → Human merge
+```
+
+## Scheduled role eligibility
+
+The scheduled dispatcher must allow `pm-triage` to pick up a readable
+`status: pending review` Issue, or an explicit PM follow-up with
+`status: blocked`. Paused, claimed, implementation, or dependency-blocked
+Issues remain ineligible; the dispatcher must never treat a blocked Issue as a
+reason to bypass the normal triage gate.
+
+`.github/workflows/handoff-router.yml` performs coordination only: it validates
+the marker, checks duplicates, derives `agent:*` and `state:*` labels, and
+records the next handoff. It never calls an LLM. The Codex pickup runner reads
+eligible work through `scripts/github-app-command.mjs`, claims at most one
+item, starts from the latest remote `main` in a dedicated worktree, performs
+the role's work, and writes the next handoff comment. A blocked handoff returns
+to `pm-triage` with an explicit blocker; an invalid transition fails closed.
+
+`status: ready to pickup` is the routine implementation gate once PM triage has
+recorded complete inputs, dependencies, and acceptance criteria. A
+`ready-for-human` label is reserved for a specific human-only decision.
+
+## Recovery rules
+
+- A blocked handoff returns to `pm-triage` with the blocker and evidence.
+- A duplicate `handoffId` is ignored without a second comment or label change.
+- A stale claim is not silently released; a human or `pm-triage` must verify it
+  before using the guarded `release` command.
+- A GitHub connectivity failure is a blocker, never an empty queue and never a
+  reason to claim work from local assumptions.
+- The offline route proof is in
+  `tests/agent-workflow-integration.test.mjs` and uses no token or network.

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1545" height="2000" viewBox="0 0 1545 2000" data-template-variant="reading-passage" data-template-version="1.0.0">
+  <rect width="1545" height="2000" fill="#faf8f8"/>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <text x="155" y="205" font-size="50" font-weight="700">Name:</text>
+    <line x1="350" y1="210" x2="815" y2="210" stroke="#111" stroke-width="5"/>
+    <text x="985" y="205" font-size="50" font-weight="700">Date:</text>
+    <line x1="1155" y1="210" x2="1390" y2="210" stroke="#111" stroke-width="5"/>
+  </g>
+  <g stroke="#111" fill="none" stroke-width="4">
+    <rect x="690" y="305" width="165" height="82"/>
+    <rect x="690" y="387" width="165" height="145"/>
+  </g>
+  <g fill="#111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
+    <text x="772" y="365" font-size="47" font-weight="700">NOV</text>
+    <text x="772" y="482" font-size="66" font-weight="700">21</text>
+  </g>
+  <g fill="#111" font-family="Arial, Helvetica, sans-serif">
+    <g data-content="article" data-x="155" data-width="1235" data-max-characters="72">
+      <text data-content="article" x="155" y="670" font-size="34" font-weight="700">World Television Day</text><text data-content="article" x="155" y="744" font-size="34" font-weight="600">What detail would you check first on November 21?</text><text data-content="body" x="155" y="864" font-size="34">Have you ever wondered how one idea can change an ordinary day? On</text>
+<text data-content="body" x="155" y="906" font-size="34">November 21, World Television Day recognizes how television shares</text>
+<text data-content="body" x="155" y="948" font-size="34">information, stories, and ideas. World Television Day is observed on</text>
+<text data-content="body" x="155" y="990" font-size="34">November 21. Picture the people who first noticed this possibility. They</text>
+<text data-content="body" x="155" y="1032" font-size="34">needed patience: a useful idea often begins with an observation, a</text>
+<text data-content="body" x="155" y="1074" font-size="34">question, or a problem that will not go away. This story is about an</text>
+<text data-content="body" x="155" y="1116" font-size="34">invention or everyday idea, but it is also about paying attention. The title,</text>
+<text data-content="body" x="155" y="1158" font-size="34">World Television Day, is a signpost for our reading, not the whole story.</text>
+<text data-content="body" x="155" y="1200" font-size="34">Look for the people, place, and action hidden behind it. The math</text>
+<text data-content="body" x="155" y="1242" font-size="34">questions use simple classroom situations connected to the topic. Some</text>
+<text data-content="body" x="155" y="1284" font-size="34">numbers are historical; others are clearly marked examples for practice.</text>
+<text data-content="body" x="155" y="1326" font-size="34">Read the passage once to find the main event. Read it again to find</text>
+<text data-content="body" x="155" y="1368" font-size="34">details that help you decide which operation to use. Then explain the</text>
+<text data-content="body" x="155" y="1410" font-size="34">event in your own words. The United Nations source is the research</text>
+<text data-content="body" x="155" y="1452" font-size="34">starting point. A good historian does not guess when a source can be</text>
+<text data-content="body" x="155" y="1494" font-size="34">checked, and a good mathematician does not skip the work.</text>
+    </g>
+  </g>
+  <g transform="translate(1495 1876) scale(0.5) translate(-1495 -1876)">
+    <g transform="translate(1305 1710)" fill="none" stroke="#f18a5b" stroke-width="6">
+      <path d="M100 8 190 62v112l-90 54-90-54V62Z"/>
+      <path d="M45 139h110"/>
+      <circle cx="153" cy="139" r="4" fill="#f18a5b"/>
+    </g>
+    <text x="1405" y="1825" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">6</text>
+    <text x="1458" y="1827" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28">pm</text>
+    <text x="1405" y="1870" fill="#f18a5b" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25">studio</text>
+  </g>
+</svg>

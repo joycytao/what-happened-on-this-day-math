@@ -32,11 +32,11 @@ test("renders only the unique source pages declared by the October manifest", as
 
   const report = JSON.parse(await readFile(join(outputDir, "source-pages.json"), "utf8"));
   assert.deepEqual(report.pages.map(({ page, types }) => [page, types]), [
-    [1, ["different_math.story", "whats_included.story"]],
-    [2, ["daily_practice.worksheet", "different_math.level1", "whats_included.level1"]],
-    [3, ["different_math.level2", "whats_included.level2"]],
-    [4, ["different_math.level3", "whats_included.level3"]],
-    [125, ["whats_included.answer_key"]],
+    [1, ["different_math.story", "landing_page.reading_passage", "whats_included.story"]],
+    [2, ["daily_practice.worksheet", "different_math.level1", "landing_page.level1", "whats_included.level1"]],
+    [3, ["different_math.level2", "landing_page.level2", "whats_included.level2"]],
+    [4, ["different_math.level3", "landing_page.level3", "whats_included.level3"]],
+    [125, ["landing_page.answer_key", "whats_included.answer_key"]],
   ]);
 });
 
@@ -44,7 +44,7 @@ function pngDimensions(buffer) {
   return [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
 }
 
-test("generates the four requested 1260px monthly thumbnail concepts", async () => {
+test("generates the five requested 1260px monthly thumbnail concepts", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-"));
   const result = spawnSync(PYTHON, [
     "scripts/generate_monthly_thumbnails.py",
@@ -53,7 +53,7 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
   ], { encoding: "utf8" });
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  const names = ["cover", "whats-included", "different-math", "daily-practice"];
+  const names = ["cover", "whats-included", "different-math", "daily-practice", "landing-page"];
   for (const name of names) {
     const image = await readFile(join(outputDir, `october-v1.0-${name}.png`));
     assert.deepEqual(pngDimensions(image), [1260, 1260], name);
@@ -65,7 +65,33 @@ test("generates the four requested 1260px monthly thumbnail concepts", async () 
     whats_included: { headline: "WHAT’S INCLUDED", sourceLayout: "story, level 1, level 2 / level 3, answer key", headlineEmphasis: "three orange rays on each side", labelStyle: "orange pills narrower than cards", footer: "centered logo without divider lines", parityFixture: "references /thumbnail-assets/thumbnail-2-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
     different_math: { headline: ["October", "Morning Work Math"], supportingText: "31 Daily Word Problems · 3 Levels", sourceLayout: "three subtly tilted worksheet cards in one row", headlineSideLines: "short orange horizontal rules around the month", labelStyle: "large uppercase navy labels", parityFixture: "references /thumbnail-assets/thumbnail-3-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
     daily_practice: { headline: ["READY FOR", "DAILY PRACTICE"], useCases: ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], headlineEmphasis: "three orange rays on each side", useCaseSeparators: "vertical orange lines", sourceLayout: "one centered upright real worksheet preview", parityFixture: "references /thumbnail-assets/thumbnail-4-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
+    landing_page: { headline: ["October", "Morning Work Math"], supportingText: "31 Daily Word Problems · 3 Levels", sourceLayout: "five subtly tilted worksheet cards in one row", labels: ["READING PASSAGE", "LEVEL 1", "LEVEL 2", "LEVEL 3", "ANSWER KEY"], parityFixture: "references /thumbnail-assets/thumbnail-5-reference.png", failureLoop: "rerun prompt/compositor optimization until fixed-region visual QA passes" },
   });
+});
+
+test("reports fixed and variable composition layers from the versioned contract", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnail-layers-"));
+  const result = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
+  for (const name of ["cover", "whats_included", "different_math", "daily_practice", "landing_page"]) {
+    const layers = report.compositionLayers[name];
+    assert.ok(layers, name);
+    assert.deepEqual(layers.canvas, [1260, 1260], name);
+    assert.ok(Object.keys(layers.fixed_regions).length > 0, `${name} fixed regions`);
+    assert.ok(Object.keys(layers.variable_regions).length > 0, `${name} variable regions`);
+    for (const region of Object.values(layers.variable_regions)) {
+      assert.ok(region.x >= 0 && region.y >= 0, `${name} variable origin`);
+      assert.ok(region.x + region.width <= 1260, `${name} variable width`);
+      assert.ok(region.y + region.height <= 1260, `${name} variable height`);
+    }
+  }
+  assert.match(report.templateContract, /thumbnail-template-contract\.example\.json$/);
 });
 
 test("Thumbnail 2 visual QA records fixed-region and variable-card parity artifacts", async () => {
@@ -92,6 +118,32 @@ test("Thumbnail 2 visual QA records fixed-region and variable-card parity artifa
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
+test("November what's-included changes only the five worksheet screenshot regions", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "november-thumbnail-2-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "november-thumbnail-2-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail2_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-2-reference.png",
+    "--generated", join(generatedDir, "november-v1.0-whats-included.png"),
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-2-visual-qa.json"), "utf8"));
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.equal(report.outsideVariableRegions.changed_pixel_count, 0);
+  assert.equal(report.normalized.size[0], 1260);
+  assert.equal(report.normalized.size[1], 1260);
+  assert.deepEqual(Object.keys(report.variableCards), ["story", "level1", "level2", "level3", "answer_key"]);
+  for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
+});
+
 test("Thumbnail 3 visual QA records fixed-region and variable-card parity artifacts", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "thumbnail-3-qa-"));
   const generatedDir = await mkdtemp(join(tmpdir(), "thumbnail-3-generated-"));
@@ -111,8 +163,33 @@ test("Thumbnail 3 visual QA records fixed-region and variable-card parity artifa
   assert.equal(qa.status, 0, qa.stderr || qa.stdout);
   const report = JSON.parse(await readFile(join(outputDir, "thumbnail-3-visual-qa.json"), "utf8"));
   assert.equal(report.visualAcceptance.passed, true);
-  assert.deepEqual(Object.keys(report.fixedRegions), ["month_and_rules", "headline", "subtitle", "labels", "footer"]);
+  assert.deepEqual(Object.keys(report.fixedRegions), ["headline", "labels", "footer", "top_frame", "left_frame", "right_frame", "bottom_frame", "left_month_rule", "right_month_rule"]);
   assert.deepEqual(Object.keys(report.variableCards), ["level1", "level2", "level3"]);
+  for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
+});
+
+test("November different-math preserves the October frame and replaces only copy/screenshots", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "november-thumbnail-3-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "november-thumbnail-3-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail3_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-3-reference.png",
+    "--generated", join(generatedDir, "november-v1.0-different-math.png"),
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-3-visual-qa.json"), "utf8"));
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.equal(report.normalized.size[0], 1260);
+  assert.equal(report.normalized.size[1], 1260);
+  assert.deepEqual(Object.keys(report.variableCopy), ["month", "day_count"]);
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
@@ -140,6 +217,38 @@ test("Thumbnail 4 visual QA records fixed-region and variable-preview parity art
   for (const artifact of report.artifacts) assert.ok(existsSync(join(outputDir, artifact)), artifact);
 });
 
+test("November daily-practice uses the October frame and decorative rays", async () => {
+  const outputDir = await mkdtemp(join(tmpdir(), "november-thumbnail-4-qa-"));
+  const generatedDir = await mkdtemp(join(tmpdir(), "november-thumbnail-4-generated-"));
+  const generated = spawnSync(PYTHON, [
+    "scripts/generate_monthly_thumbnails.py",
+    "--manifest", "examples/november-thumbnail-manifest.json",
+    "--output-dir", generatedDir,
+  ], { encoding: "utf8" });
+  assert.equal(generated.status, 0, generated.stderr || generated.stdout);
+
+  const qa = spawnSync(PYTHON, [
+    "scripts/validate_thumbnail4_visual_parity.py",
+    "--reference", "references /thumbnail-assets/thumbnail-4-reference.png",
+    "--generated", join(generatedDir, "november-v1.0-daily-practice.png"),
+    "--output-dir", outputDir,
+  ], { encoding: "utf8" });
+  assert.equal(qa.status, 0, qa.stderr || qa.stdout);
+  const report = JSON.parse(await readFile(join(outputDir, "thumbnail-4-visual-qa.json"), "utf8"));
+  assert.equal(report.visualAcceptance.passed, true);
+  assert.equal(report.normalized.size[0], 1260);
+  assert.equal(report.normalized.size[1], 1260);
+  assert.deepEqual(Object.keys(report.fixedRegions), [
+    "header_and_rays",
+    "preview_shadow_top",
+    "preview_shadow_left",
+    "preview_shadow_right",
+    "preview_shadow_bottom",
+    "use_case_row",
+    "footer",
+  ]);
+});
+
 test("report records the prompt-specific treatments instead of only generic copy", async () => {
   const outputDir = await mkdtemp(join(tmpdir(), "monthly-thumbnails-contract-"));
   const result = spawnSync(PYTHON, [
@@ -152,6 +261,7 @@ test("report records the prompt-specific treatments instead of only generic copy
   const report = JSON.parse(await readFile(join(outputDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.equal(report.copyConcepts.different_math.labelStyle, "large uppercase navy labels");
   assert.equal(report.copyConcepts.daily_practice.useCaseSeparators, "vertical orange lines");
+  assert.equal(report.copyConcepts.daily_practice.headlineEmphasis, "three orange rays on each side");
   assert.equal(report.copyConcepts.whats_included.headlineEmphasis, "three orange rays on each side");
 });
 
@@ -191,6 +301,102 @@ test("repeated generation preserves identical layout and style checksums", async
   const second = JSON.parse(await readFile(join(secondDir, "monthly-thumbnail-report.json"), "utf8"));
   assert.deepEqual(second.style, first.style);
   assert.deepEqual(second.checksums, first.checksums);
+});
+
+test("landing worksheet fitting preserves source aspect ratio while filling the card window", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (400, 800), 'white')",
+      "fitted = module.fit_page_preserving_aspect(source, (220, 420))",
+      "assert fitted.size == (220, 420), fitted.size",
+      "assert fitted.getpixel((0, 0)) == (255, 255, 255)",
+    ].join(";"),
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test("landing worksheet fitting keeps the left edge when horizontal cropping is required", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (800, 400), (0, 0, 255))",
+      "source.paste((255, 0, 0), (0, 0, 250, 400))",
+      "fitted = module.fit_page_preserving_aspect(source, (220, 420))",
+      "assert fitted.getpixel((0, 210)) == (255, 0, 0), fitted.getpixel((0, 210))",
+    ].join(";"),
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test("landing cover cards do not add an artificial white border around worksheet screenshots", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "import tempfile",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (100, 200), (250, 248, 248))",
+      "page = tempfile.NamedTemporaryFile(suffix='.png')",
+      "source.save(page.name)",
+      "canvas = Image.new('RGBA', (40, 60), (0, 0, 0, 0))",
+      "module.card(canvas, page.name, (0, 0, 20, 40), '', label_style='none', outline=False, fit_mode='cover')",
+      "assert canvas.getpixel((0, 0))[:3] == (250, 248, 248), canvas.getpixel((0, 0))",
+      "page.close()",
+    ].join(";")
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test("contain cards use the canonical ivory fill for worksheet padding", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "from PIL import Image",
+      "import importlib.util",
+      "import tempfile",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "source = Image.new('RGB', (100, 200), (250, 248, 248))",
+      "page = tempfile.NamedTemporaryFile(suffix='.png')",
+      "source.save(page.name)",
+      "canvas = Image.new('RGBA', (40, 60), (0, 0, 0, 0))",
+      "module.card(canvas, page.name, (0, 0, 20, 40), '', label_style='none', outline=False, fit_mode='contain')",
+      "assert canvas.getpixel((0, 0))[:3] == (254, 255, 239), canvas.getpixel((0, 0))",
+      "assert canvas.getpixel((10, 12))[:3] == (250, 248, 248), canvas.getpixel((10, 12))",
+      "page.close()",
+    ].join(";")
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test("landing typography keeps the reference month band and multiline label scale", () => {
+  const result = spawnSync(PYTHON, [
+    "-c",
+    [
+      "import importlib.util",
+      "spec = importlib.util.spec_from_file_location('thumbnail', 'scripts/generate_monthly_thumbnails.py')",
+      "module = importlib.util.module_from_spec(spec)",
+      "spec.loader.exec_module(module)",
+      "assert module.landing_month_font_size('November') == 150",
+      "assert module.landing_label_font(['READING', 'PASSAGE']).size >= 38",
+    ].join(";")
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
 });
 
 test("stops before writing thumbnails when the PDF checksum is stale", async () => {

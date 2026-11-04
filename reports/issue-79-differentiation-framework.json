@@ -1,0 +1,13 @@
+{
+  "issue": 79,
+  "input": "examples/differentiation-framework.example.json",
+  "checkedAt": "2026-09-23T00:59:53.165Z",
+  "valid": true,
+  "errors": [],
+  "exampleCount": 3,
+  "gates": {
+    "content": true,
+    "mathematics": true,
+    "layout": "not_applicable_documentation_only"
+  }
+}

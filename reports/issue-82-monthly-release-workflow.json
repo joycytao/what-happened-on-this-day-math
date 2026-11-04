@@ -1,0 +1,11 @@
+{
+  "issue": 82,
+  "input": "examples/monthly-release-workflow.example.json",
+  "valid": true,
+  "errors": [],
+  "gates": {
+    "content": true,
+    "mathematics": "not_applicable_workflow_contract",
+    "layout": "not_applicable_documentation_contract"
+  }
+}

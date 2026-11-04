@@ -1,0 +1,109 @@
+{
+  "adapterSchemaVersion": "1.0.0",
+  "idempotencyKey": "october-morning-work-math@v1.0.0",
+  "package": {
+    "id": "october-morning-work-math",
+    "version": "v1.0.0",
+    "month": "October",
+    "year": 2026,
+    "sourceCommit": "6adca38",
+    "releaseStatus": "released"
+  },
+  "listing": {
+    "title": "October Morning Work Math",
+    "subjectArea": "Math",
+    "supportingAreas": [
+      "Reading",
+      "History"
+    ],
+    "resourceType": "Worksheets",
+    "gradeBand": "Grades 1-5",
+    "format": "Printable PDF",
+    "productRelationship": "monthly standalone",
+    "description": "A 31-day October packet with daily historical mini-stories and three leveled math word problems. It includes a worksheet coversheet, printable practice pages, and separate answer keys for teacher use.",
+    "contents": {
+      "dailyModules": 31,
+      "levels": [
+        "Level 1",
+        "Level 2",
+        "Level 3"
+      ],
+      "answerKeys": 3,
+      "cover": "output/worksheet-cover/november-cover.pdf",
+      "finalPdf": "output/pdf/october-worksheet-packet.pdf"
+    },
+    "keywords": [
+      "math word problems",
+      "morning work",
+      "daily math practice",
+      "historical mini-stories",
+      "history integration",
+      "real-world math",
+      "three levels",
+      "leveled math",
+      "mixed-level learners",
+      "october math worksheets"
+    ],
+    "tags": [
+      "math word problems",
+      "morning work",
+      "daily math practice",
+      "historical mini-stories",
+      "history integration",
+      "real-world math",
+      "three levels",
+      "leveled math",
+      "mixed-level learners",
+      "october math worksheets"
+    ],
+    "sourceReferences": {
+      "pageMappings": "reports/october-worksheet-pages/manifest.json",
+      "thumbnailQa": "output/thumbnails/monthly-thumbnail-report.json",
+      "releaseManifest": "examples/monthly-release-manifest.example.json",
+      "monthlyContent": "content/monthly/month-10.json"
+    }
+  },
+  "provenance": {
+    "package": {
+      "source": "examples/monthly-release-manifest.example.json",
+      "fields": [
+        "packageId",
+        "packageVersion",
+        "month",
+        "year",
+        "sourceCommit",
+        "releaseStatus"
+      ]
+    },
+    "contents": {
+      "source": "content/monthly/month-10.json",
+      "fields": [
+        "days.length",
+        "mathLevels",
+        "answerKey"
+      ]
+    },
+    "assets": {
+      "source": "examples/monthly-release-manifest.example.json",
+      "fields": [
+        "artifacts.finalPdf",
+        "artifacts.coverPdfPage",
+        "artifacts.pageMappings",
+        "artifacts.thumbnailQa"
+      ]
+    },
+    "taxonomy": {
+      "source": "examples/tpt-metadata-taxonomy.example.json",
+      "fields": [
+        "titleRules",
+        "keywordGroups",
+        "relationshipRules"
+      ]
+    }
+  },
+  "claims": {
+    "unsupported": [],
+    "humanQaRequired": true,
+    "publicationStatus": "review"
+  }
+}

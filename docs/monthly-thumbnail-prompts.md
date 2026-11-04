@@ -210,6 +210,114 @@ worksheet. No overlapping labels. No oversized logo. No changed color palette.
 No footer overlap.
 ```
 
+## Thumbnail 5 — Landing Page Product Preview
+
+```text
+Use the supplied canonical landing-page reference image as the exact visual
+source of truth. Create a square 1260×1260 product-preview thumbnail for the
+monthly printable math worksheet packet.
+
+Preserve the fixed reference geometry exactly:
+- warm ivory background, orange rounded frame, and bottom divider lines;
+- deep-navy geometric sans-serif typography and its hierarchy;
+- large month title, large MORNING WORK MATH title, and smaller day-count line;
+- five white worksheet cards with soft shadows in a visible shallow fan: the
+  outside cards sit lower and rotate outward, the middle card sits highest,
+  and adjacent cards overlap in z-order; never render them as a flat row or
+  uniform grid;
+- card order: READING PASSAGE, LEVEL 1, LEVEL 2, LEVEL 3, ANSWER KEY;
+- label positions, card proportions, overlap order, footer spacing, and the
+  outlined 6 pm studio logo.
+
+For the compositor, preserve the reference's fixed bands: the month/title
+header occupies the upper 430 px, the card strip begins at approximately y=455
+and uses the reference's outer 260×490 px cards and inner 225×490 px cards
+with the reference centers and rotations, the
+uppercase labels sit immediately below the cards, and the footer rules remain
+at y=1140 with the centered logo between them. The day-count line uses the
+same bold hierarchy as the reference; only its month-specific number changes.
+
+### Strict November-to-October alignment checklist
+
+Treat `references /thumbnail-assets/thumbnail-5-reference.png` as a layout
+fixture, not as a loose style inspiration. The November compositor must keep
+these fixed regions aligned to the October reference:
+
+- Canvas and frame: 1260×1260 px; warm ivory background; rounded orange frame
+  and its inset, stroke, and corner radius unchanged.
+- Month band: centered title in the same upper band as `October`; preserve the
+  side rules at y≈154 (x≈70–269 and x≈991–1190). A longer month may use a
+  smaller fitted font, but it must remain vertically centered in the same band
+  and must not move the title, subtitle, or card row.
+- Main title: `Morning Work Math` must occupy the same x/y band, width, weight,
+  and line-height as the reference. Do not lower it to compensate for the
+  longer month name.
+- Subtitle: keep the reference's bold navy hierarchy, baseline, tracking, and
+  centered placement. Only the day count changes from 31 to 30.
+- Worksheet strip: preserve the five-card order and the reference card
+  rectangles, aspect ratio, rotations, z-order, overlap, top/bottom bounds,
+  and soft shadow offsets. The silhouette must visibly fan: use approximately
+  approximately +3°, +1°, 0°, -1°, -3° rotations with the outer cards lower
+  than the middle card. Preserve the fixture's proportions: wide outer cards
+  and narrower inner cards (about 260×490 for the outer cards and 225×490 for
+  the inner cards). The cards must not become a uniform flat grid.
+- Card previews: use the real November PDF pages, scaled into the fixed
+  reference card windows without changing the card geometry. The landing
+  compositor must fill each portrait window with the complete rendered page
+  (including its real logo) instead of using `contain`, which creates false
+  top/bottom white bars. Do not let page content determine card size or push
+  cards vertically, and do not crop away the page's bottom logo.
+- Labels: preserve the reference uppercase navy labels, font weight, size,
+  baseline, and the two-line `READING / PASSAGE` wrap. Labels must remain
+  below the cards and above the footer region.
+- Footer: preserve both orange rules, their y-position and endpoints, and the
+  complete outlined `6 pm studio` logo at the reference center. Do not replace
+  it with a simplified solid hexagon or a logo with a white rectangular crop.
+- Typography: use the same heavy geometric display treatment as the reference
+  for the month, product title, subtitle, and labels. On the production host,
+  lock the verified `Futura ExtraBold` reference asset for the bold display
+  hierarchy (font index 4 in the production host's `Futura.ttc`, with the
+  exact fixture-matching font file recorded in QA). Do not silently substitute
+  Arial Black, Arial Rounded, or a light sans-serif; verify the headline
+  silhouette and bounding box against the fixture.
+
+The visual QA must compare fixed regions independently: frame/background,
+month/title bands, subtitle, card silhouettes/shadows/overlap, labels, and
+footer/logo. A single aggregate `passed=true` with a permissive global
+threshold is insufficient. Record each region's bounding box, clipping or
+overflow result, pixel-match ratio, SSIM/MAE, and an overlay/difference image;
+variable November worksheet copy may be excluded only inside the card content
+windows; QA must still measure each card's normalized ink bounds, top/bottom
+whitespace ratios, and full-page coverage so a contain-like preview cannot
+pass as a reference-aligned card.
+
+Replace only month-specific content:
+- month name;
+- day count in the subtitle;
+- the five worksheet previews, which must be cropped or scaled from the final
+  verified monthly PDF and never invented or rewritten.
+
+The November output must read (using the reference's centered dot separator):
+November
+Morning Work Math
+30 Daily Word Problems · 3 Levels
+
+Keep the reference's canvas size, card geometry, rotations, shadows, logo,
+spacing, border, colors, and typography hierarchy unchanged. This is a
+deterministic compositor specification, not permission to redesign the image.
+```
+
+Negative prompt:
+
+```text
+Do not change the canvas size or frame. Do not simplify or redraw the logo.
+Do not use a different card ratio, grid, rotation, shadow, overlap, label
+position, font hierarchy, palette, or footer treatment. Do not generate fake
+worksheet text, questions, answer keys, or page previews. Do not use an
+October page in the November output. Do not add extra text, decorations,
+gradients, people, classroom scenes, or photographic backgrounds.
+```
+
 For the October example, use `[MONTH] = October`, `[WORKSHEET PAGE NUMBER] = 2`,
 `[LEVEL] = Level 1`, and `[MONTH DOODLE] = a small hand-drawn orange pumpkin
 accent`.

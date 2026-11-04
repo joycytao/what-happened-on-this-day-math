@@ -19,37 +19,12 @@ comment is the human-readable explanation.
 - `status: done`: work is complete.
 - `ready-for-human`: one specific human decision or approval is required.
 - `state: decision-requested`, `state: implementation`, and
-  `state: changes-requested`: active decision, implementation, or QA feedback
-  states.
-
-## Labels removed from the routing vocabulary
+  `state: changes-requested`: active decision, implementation, or QA feedback.
 
 Do not use `needs-triage`, `needs-info`, `ready-for-agent`, `agent-requested`,
 `decision-owner:*`, `state: decision-complete`, `state: ready-to-pickup`,
-`state: blocked`, `state: qa`, or `state: human-review`. They duplicate a
-canonical status, owner, or explicit comment.
+`state: blocked`, `state: qa`, `state: human-review`, or `state: done`.
+They duplicate a canonical status, owner, or explicit comment.
 
-## Bootstrap and handoff
-
-`status: pending review` is an intake state for `pm-triage`, not a dead end.
-PM triage may bootstrap a readable Issue, assign exactly one `agent:*` owner,
-and record a `CODEX_HANDOFF:v1` comment. The handoff must end in one legal
-outcome:
-
-- `state: decision-requested` for a domain decision;
-- `status: blocked` for a named dependency or missing required input;
-- `status: ready to pickup` for routine implementation when the inputs and
-  dependencies are complete; or
-- `ready-for-human` for UI/UX, credential/account, publication, or another
-  human approval gate.
-
-Required inputs include monthly content, final PDF, canonical references,
-source data, and approved brand assets when the Issue declares them. Missing
-inputs are blockers, not permission to invent substitutes.
-
-UI/UX previews, new or elevated key/token/account access, and public or
-downstream dispatch require Human Accountable Owner review.
-
-Type labels (`type: feature`, `type: bug`, and `type: documentation`) and the
-monthly content label remain descriptive filters. They never make an Issue
-eligible by themselves.
+Type labels and the monthly content label remain descriptive filters. They
+never make an Issue eligible by themselves.

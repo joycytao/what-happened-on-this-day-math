@@ -1,0 +1,6 @@
+{
+  "fixtures": [
+    { "month": "2026-04", "dayCount": 30 },
+    { "month": "2026-12", "dayCount": 31 }
+  ]
+}

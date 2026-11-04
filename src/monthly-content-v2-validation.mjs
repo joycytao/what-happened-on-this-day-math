@@ -3,13 +3,15 @@ import { calculateEquation } from "./content-validation.mjs";
 const THEMES = new Set(["inventions_daily_life", "animals_dinosaurs", "incredible_challenges"]);
 const LEVELS = ["level1", "level2", "level3"];
 
-export function validateMonthlyContentV2(content) {
+export function validateMonthlyContentV2(content, options = {}) {
+  const expectedMonth = options.month ?? 10;
+  const expectedDayCount = options.dayCount ?? (expectedMonth === 2 ? 28 : [4, 6, 9, 11].includes(expectedMonth) ? 30 : 31);
   const errors = [];
   if (!content || typeof content !== "object" || Array.isArray(content)) return { valid: false, errors: ["content must be an object"] };
   if (content.schemaVersion !== "2.0.0") errors.push("schemaVersion must be 2.0.0");
   if (!Number.isInteger(content.month) || content.month < 1 || content.month > 12) errors.push("month must be an integer from 1 to 12");
-  if (content.month !== 10) errors.push("October artifact must use month 10");
-  if (!Array.isArray(content.days) || content.days.length !== 31) errors.push("days must contain exactly 31 October records");
+  if (content.month !== expectedMonth) errors.push(`artifact must use month ${expectedMonth}`);
+  if (!Array.isArray(content.days) || content.days.length !== expectedDayCount) errors.push(`days must contain exactly ${expectedDayCount} records`);
   if (!Array.isArray(content.sources) || content.sources.length === 0) errors.push("sources must be a non-empty array");
   const sourceIds = new Set((content.sources || []).map((source) => source?.id));
   const seen = new Set();
@@ -46,7 +48,7 @@ export function validateMonthlyContentV2(content) {
       if (!Array.isArray(day.answerKeyEntries) || !day.answerKeyEntries.includes(`${String(day.month).padStart(2, "0")}-${String(day.day).padStart(2, "0")}:${level}`)) errors.push(`${path}.answerKeyEntries is missing ${level}`);
     }
   }
-  const expectedDays = Array.from({ length: 31 }, (_, index) => index + 1);
-  if (JSON.stringify([...seen].sort((a, b) => a - b)) !== JSON.stringify(expectedDays)) errors.push("days must cover October 1..31 exactly once");
+  const expectedDays = Array.from({ length: expectedDayCount }, (_, index) => index + 1);
+  if (JSON.stringify([...seen].sort((a, b) => a - b)) !== JSON.stringify(expectedDays)) errors.push(`days must cover ${expectedMonth} 1..${expectedDayCount} exactly once`);
   return { valid: errors.length === 0, errors };
 }

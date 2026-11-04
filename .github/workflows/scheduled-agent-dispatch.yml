@@ -1,0 +1,57 @@
+name: Scheduled agent dispatch
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out dispatch contract
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Read open Issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue list --repo "${{ github.repository }}" --state open --limit 100 --json number,title,url,createdAt,labels > /tmp/open-issues.json
+
+      - name: Build deterministic role dispatch plan
+        run: node scripts/build-scheduled-agent-dispatch-plan.mjs --input /tmp/open-issues.json --output /tmp/scheduled-agent-dispatch-plan.json
+
+      - name: Notify each assigned role
+        uses: actions/github-script@v7
+        env:
+          PLAN_PATH: /tmp/scheduled-agent-dispatch-plan.json
+        with:
+          script: |
+            const fs = require('node:fs');
+            const { assignments } = JSON.parse(fs.readFileSync(process.env.PLAN_PATH, 'utf8'));
+            for (const assignment of assignments) {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: assignment.issueNumber,
+                per_page: 100,
+              });
+              if (comments.some((comment) => (comment.body || '').includes(assignment.marker))) {
+                core.info(`Dispatch already exists for ${assignment.marker}`);
+                continue;
+              }
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: assignment.issueNumber,
+                body: assignment.body,
+              });
+            }
