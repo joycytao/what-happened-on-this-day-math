@@ -19,7 +19,7 @@ replacement for the repository's content, layout, or release requirements.
    Decision Owners.
 4. `pm-triage` owns routing, completeness, and follow-up; it must not guess
    answers outside its authority.
-5. Only the Human Accountable Owner may approve `status: ready to pickup`.
+5. `pm-triage` may route routine work directly to `status: ready to pickup` when its inputs, dependencies, and acceptance criteria are complete.
 6. An Issue remains blocked when a blocking question, dependency, or required
    acceptance criterion is unresolved.
 7. A decision must include its conclusion and the evidence or reasoning that
@@ -36,7 +36,7 @@ replacement for the repository's content, layout, or release requirements.
 - Assigns one Decision Owner and identifies consulted agents.
 - Marks questions as blocking or non-blocking.
 - Updates the Issue with the decision register and triage summary.
-- Recommends `ready to pickup` only after all blocking questions are resolved.
+- Routes `ready to pickup` only after all blocking questions and required inputs are resolved.
 
 `pm-triage` does not make architecture, product, domain, or release decisions
 on behalf of the designated owner.
@@ -68,7 +68,7 @@ answering every question. This person:
 - Reviews high-risk or cross-domain triage summaries.
 - Resolves escalations when the designated owners cannot reach a decision.
 - Audits a sample of routine triage decisions.
-- Gives the final approval for `status: ready to pickup`.
+- Reviews only explicit human-only gates: UI/UX adoption, credential/account changes, publication, downstream dispatch, and final merge/release approval.
 - Updates the governance rules when repeated failures show that a boundary is
   unclear.
 
@@ -97,13 +97,8 @@ flowchart TD
 
     L -- Yes --> M[Mark blocked or needs clarification]
     M --> B
-    L -- No --> N[pm-triage recommends ready to pickup]
-    N --> O[Human Accountable Owner reviews]
-
-    O -- Return --> P[Add evidence, scope, or decision]
-    P --> B
-    O -- Approve --> Q[Set status: ready to pickup]
-    Q --> R[Developer implements]
+    L -- No --> N[pm-triage sets ready to pickup for routine work]
+    N --> R[Developer implements]
     R --> S[Open pull request]
 
     S --> T{Specialist review needed?}
@@ -149,18 +144,18 @@ The triage summary should state:
 
 ## Readiness rule
 
-`pm-triage` may recommend `status: ready to pickup` only when:
+`pm-triage` may set `status: ready to pickup` for routine implementation when:
 
 - the Issue scope is understandable;
 - acceptance criteria are testable;
 - every open question has an owner and a recorded conclusion, or is explicitly
   marked non-blocking;
 - dependencies are identified and not blocking execution; and
-- the required human review has occurred.
+- required inputs exist and the work is not behind a human-only gate.
 
-The existing repository governance remains authoritative: human review is
-required before an Issue receives `status: ready to pickup`, and blocked work
-must not be picked up.
+Human review is not a blanket precondition for ordinary implementation. It is
+required only for explicit human-only gates. Use `ready-for-human` plus one
+`HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
 
 The reusable project skill for applying this process is
 `skills/pm-triage/SKILL.md`.
@@ -170,16 +165,13 @@ The reusable project skill for applying this process is
 The `Queue agent handoff` workflow creates one idempotent queue comment when an
 Issue receives one of these labels:
 
-- `needs-triage` routes to `agent: pm-triage`.
-- `decision-owner: architect`
-- `decision-owner: product-manager`
-- `ready-for-agent`
+- `status: pending review` routes to `agent: pm-triage`.
 - `status: ready to pickup`
 
-The two ready-for-agent labels require exactly one supported `agent:` label:
+Routine pickup requires exactly one supported `agent:` label:
 `pm-triage`, `architect`, `product-manager`, `social-expert`, `developer`, or
-`quality-engineer`. Missing or conflicting routing adds `needs-info` and records
-a blocked handoff instead of choosing a role.
+`quality-engineer`. Missing or conflicting routing records a blocked handoff
+instead of choosing a role.
 
 This is a queue producer, not a model runner. GitHub Actions does not call
 OpenAI or another external model. Codex pickup uses the versioned
@@ -200,7 +192,6 @@ The normal role chain is:
 pm-triage
   → product-manager / architect / social-expert
   → pm-triage
-  → Human approval
   → developer
   → quality-engineer
   → specialist review
@@ -209,13 +200,11 @@ pm-triage
 
 ## Scheduled role eligibility
 
-The scheduled dispatcher must allow `pm-triage` to pick up an Issue that has
-exactly one `agent: pm-triage` owner label and the `needs-triage` label. This is
-the initial routing state described by the queue labels above. A
-`state: decision-complete` label is also eligible for a follow-up PM triage
-pass. Paused, blocked, claimed, implementation, or dependency-blocked Issues
-remain ineligible; the dispatcher must never treat a blocked Issue as a reason
-to bypass the normal triage gate.
+The scheduled dispatcher must allow `pm-triage` to pick up a readable
+`status: pending review` Issue, or an explicit PM follow-up with
+`status: blocked`. Paused, claimed, implementation, or dependency-blocked
+Issues remain ineligible; the dispatcher must never treat a blocked Issue as a
+reason to bypass the normal triage gate.
 
 `.github/workflows/handoff-router.yml` performs coordination only: it validates
 the marker, checks duplicates, derives `agent:*` and `state:*` labels, and
@@ -225,9 +214,9 @@ item, starts from the latest remote `main` in a dedicated worktree, performs
 the role's work, and writes the next handoff comment. A blocked handoff returns
 to `pm-triage` with an explicit blocker; an invalid transition fails closed.
 
-`status: ready to pickup` is the human approval gate. The derived
-`state: ready-to-pickup` label is only a routing state and never grants
-permission to implement.
+`status: ready to pickup` is the routine implementation gate once PM triage has
+recorded complete inputs, dependencies, and acceptance criteria. A
+`ready-for-human` label is reserved for a specific human-only decision.
 
 ## Recovery rules
 

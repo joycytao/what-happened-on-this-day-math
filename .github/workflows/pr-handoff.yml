@@ -56,7 +56,7 @@ jobs:
               const qaId = `issue:${workItemNumber}:pr:${number}:developer:quality-engineer:${sha}`;
               if (!already(qaId)) {
                 await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: body(qaId, 'developer', 'quality-engineer', 'completed', `review PR #${number} against the Issue acceptance criteria`, `PR ${sha}: https://github.com/${owner}/${repo}/pull/${number}`) });
-                await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: ['agent: quality-engineer', 'state: qa'] });
+                await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: ['agent: quality-engineer', 'status: qa'] });
               }
               if (hasArchitectPath) {
                 const id = `issue:${workItemNumber}:pr:${number}:architect:consult:${sha}`;
@@ -76,4 +76,4 @@ jobs:
             const next = failed ? 'developer' : 'human-review';
             const state = failed ? 'changes-requested' : 'human-review';
             await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: body(id, 'quality-engineer', next, failed ? 'rejected' : 'completed', failed ? `address QA evidence and update PR #${number}` : `human maintainer reviews PR #${number} and decides whether to merge`, review.html_url || `review on PR #${number}`) });
-            await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: failed ? ['agent: developer', 'state: changes-requested'] : ['state: human-review'] });
+            await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: failed ? ['agent: developer', 'state: changes-requested'] : ['ready-for-human'] });

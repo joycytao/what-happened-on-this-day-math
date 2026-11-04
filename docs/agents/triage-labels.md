@@ -1,16 +1,30 @@
 # Triage Labels
 
-The repository uses the following labels for the Matt-style triage workflow:
+Use a small canonical label set. A label is a routing signal; the matching
+comment is the human-readable explanation.
 
-- `needs-triage`: the issue has not completed initial triage.
-- `needs-info`: the issue cannot proceed until an open question is answered.
-- `ready-for-agent`: the issue has sufficient context and exactly one `agent:` label.
-- `ready-for-human`: the issue requires human judgment, approval, or action.
-- `wontfix`: the issue will not be addressed.
+## Labels that affect routing
 
-These labels are additive to the repository's existing labels. Existing labels
-such as `status: pending review` and `status: ready to pickup` remain available
-for the repository's current workflow.
+- `agent: pm-triage`, `agent: product-manager`, `agent: architect`,
+  `agent: social-expert`, `agent: developer`, `agent: quality-engineer`: the
+  single current owner. Never apply more than one `agent:*` label.
+- `status: pending review`: readable intake waiting for PM triage.
+- `status: blocked`: a named dependency or required input prevents progress.
+- `status: ready to pickup`: routine implementation may begin; it does not
+  mean the Human Accountable Owner must review every ordinary task.
+- `status: qa`: implementation is complete and QA evidence is requested.
+- `status: paused`: intentionally deferred by an explicit priority decision.
+- `status: ready to dispatch`: QA passed, but public or downstream dispatch
+  still needs Human Accountable Owner approval.
+- `status: done`: work is complete.
+- `ready-for-human`: one specific human decision or approval is required.
+- `state: decision-requested`, `state: implementation`, and
+  `state: changes-requested`: active decision, implementation, or QA feedback.
 
-The `Queue agent handoff` workflow produces a queue comment for Codex pickup;
-it does not call a model directly.
+Do not use `needs-triage`, `needs-info`, `ready-for-agent`, `agent-requested`,
+`decision-owner:*`, `state: decision-complete`, `state: ready-to-pickup`,
+`state: blocked`, `state: qa`, `state: human-review`, or `state: done`.
+They duplicate a canonical status, owner, or explicit comment.
+
+Type labels and the monthly content label remain descriptive filters. They
+never make an Issue eligible by themselves.
