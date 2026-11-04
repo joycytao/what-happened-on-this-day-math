@@ -24,7 +24,7 @@ jobs:
       - name: Read open Issues
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh issue list --repo "${{ github.repository }}" --state open --limit 100 --json number,title,url,createdAt,labels > /tmp/open-issues.json
+        run: gh issue list --repo "${{ github.repository }}" --state open --limit 100 --json number,title,url,createdAt,state,body,labels > /tmp/open-issues.json
 
       - name: Build deterministic role dispatch plan
         run: node scripts/build-scheduled-agent-dispatch-plan.mjs --input /tmp/open-issues.json --output /tmp/scheduled-agent-dispatch-plan.json

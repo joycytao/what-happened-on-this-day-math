@@ -20,8 +20,11 @@ replacement for the repository's content, layout, or release requirements.
 4. `pm-triage` owns routing, completeness, and follow-up; it must not guess
    answers outside its authority.
 5. `pm-triage` may route routine work directly to `status: ready to pickup` when its inputs, dependencies, and acceptance criteria are complete.
-6. An Issue remains blocked when a blocking question, dependency, or required
-   acceptance criterion is unresolved.
+6. An Issue remains blocked only when a named external dependency, required
+   input, unavailable permission, or explicit human-only gate is unresolved.
+   Missing acceptance criteria, unclear routing, and ordinary dependency
+   classification are role-owned remediation work: keep the Issue in
+   `status: pending review` and dispatch the role that can resolve it.
 7. A decision must include its conclusion and the evidence or reasoning that
    supports it.
 
@@ -37,6 +40,10 @@ replacement for the repository's content, layout, or release requirements.
 - Marks questions as blocking or non-blocking.
 - Updates the Issue with the decision register and triage summary.
 - Routes `ready to pickup` only after all blocking questions and required inputs are resolved.
+- Owns ordinary completeness repair. If acceptance criteria, scope wording, or
+  dependency classification is incomplete but can be resolved from the Issue
+  and repository evidence, PM triage must repair it and keep the Issue in
+  `status: pending review`; it must not create a Human Accountable Owner gate.
 
 `pm-triage` does not make architecture, product, domain, or release decisions
 on behalf of the designated owner.
@@ -95,8 +102,10 @@ flowchart TD
     D --> L{Any blocking item unresolved?}
     K --> L
 
-    L -- Yes --> M[Mark blocked or needs clarification]
+    L -- External / human-only --> M[Mark blocked with named reason]
     M --> B
+    L -- Role-owned gap --> M2[Keep pending review and dispatch owning role]
+    M2 --> B
     L -- No --> N[pm-triage sets ready to pickup for routine work]
     N --> R[Developer implements]
     R --> S[Open pull request]
@@ -201,10 +210,12 @@ pm-triage
 ## Scheduled role eligibility
 
 The scheduled dispatcher must allow `pm-triage` to pick up a readable
-`status: pending review` Issue, or an explicit PM follow-up with
-`status: blocked`. Paused, claimed, implementation, or dependency-blocked
-Issues remain ineligible; the dispatcher must never treat a blocked Issue as a
-reason to bypass the normal triage gate.
+`status: pending review` Issue, including the ownerless bootstrap case. This is
+the queue path for role-owned remediation such as missing acceptance criteria.
+Legacy labels such as `needs-triage` and `state: decision-complete` are not
+eligibility signals. `status: blocked` is reserved for a named external
+dependency, missing required input, unavailable permission, or explicit
+human-only gate and is not dispatched as routine PM work.
 
 `.github/workflows/handoff-router.yml` performs coordination only: it validates
 the marker, checks duplicates, derives `agent:*` and `state:*` labels, and
@@ -217,6 +228,23 @@ to `pm-triage` with an explicit blocker; an invalid transition fails closed.
 `status: ready to pickup` is the routine implementation gate once PM triage has
 recorded complete inputs, dependencies, and acceptance criteria. A
 `ready-for-human` label is reserved for a specific human-only decision.
+
+### Role-owned remediation versus true blockers
+
+The distinction is operational, not cosmetic:
+
+| Evidence | Queue state | Next actor | Human decision |
+|---|---|---|---|
+| Acceptance criteria or routing wording is incomplete but repository evidence is sufficient | `status: pending review` | PM triage or the named domain role | No |
+| A domain decision is genuinely open | `state: decision-requested` | Named Decision Owner | No, unless the decision is explicitly human-only |
+| Required monthly content, source data, permission, or an external dependency is absent | `status: blocked` | Named dependency owner or PM triage for routing | No |
+| UI/UX adoption, credential/account change, publication, downstream dispatch, or final release approval | `ready-for-human` | Human Accountable Owner | Yes |
+
+The Issue must say which evidence applies. A role must return a completed
+handoff or a named true blocker; it must not leave a routine completeness gap
+idle or convert it into a blanket Human Owner request. This rule was triggered
+by Issue #216: its missing testable acceptance criteria were PM-owned
+remediation, not a human decision or an external input blocker.
 
 ## Machine-readable work-item contract
 

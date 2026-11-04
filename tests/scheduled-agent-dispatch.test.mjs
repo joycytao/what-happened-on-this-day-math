@@ -34,8 +34,22 @@ test("requires a decision state for decision-owner roles", () => {
 });
 
 test("dispatches pm-triage for explicitly untriaged Issues", () => {
-  assert.equal(isScheduledEligible(issue(11, ["agent: pm-triage", "needs-triage"]), "pm-triage"), true);
-  assert.equal(isScheduledEligible(issue(12, ["agent: pm-triage", "state: decision-complete"]), "pm-triage"), true);
-  assert.equal(isScheduledEligible(issue(13, ["agent: pm-triage"]), "pm-triage"), false);
-  assert.equal(isScheduledEligible(issue(14, ["agent: pm-triage", "needs-triage", "status: blocked"]), "pm-triage"), false);
+  const body = "# Intake\n\nScope is understandable but acceptance criteria need PM completion.";
+  assert.equal(isScheduledEligible(issue(11, ["agent: pm-triage", "status: pending review"], { body }), "pm-triage"), true);
+  assert.equal(isScheduledEligible(issue(12, ["status: pending review"], { body }), "pm-triage"), true);
+  assert.equal(isScheduledEligible(issue(13, ["agent: pm-triage"] , { body }), "pm-triage"), false);
+  assert.equal(isScheduledEligible(issue(14, ["agent: pm-triage", "status: blocked"], { body }), "pm-triage"), false);
+  assert.equal(isScheduledEligible(issue(15, ["agent: pm-triage", "needs-triage"], { body }), "pm-triage"), false);
+  assert.equal(isScheduledEligible(issue(16, ["agent: pm-triage", "state: decision-complete"], { body }), "pm-triage"), false);
+});
+
+test("treats missing acceptance criteria as PM remediation, not a human blocker", () => {
+  const plan = buildScheduledDispatchPlan([
+    issue(216, ["status: pending review", "agent: pm-triage"], {
+      body: "# December context conversion\n\nThe source context exists; PM must make the acceptance criteria testable."
+    })
+  ]);
+  assert.deepEqual(plan.assignments.map((item) => [item.role, item.issueNumber]), [["pm-triage", 216]]);
+  assert.match(plan.assignments[0].body, /routine completeness work/);
+  assert.match(plan.assignments[0].body, /Human decision needed: no by default/);
 });
