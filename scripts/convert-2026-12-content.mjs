@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import { readFile, writeFile } from "node:fs/promises";
-import { upsertMonthlyCsv } from "../src/monthly-csv.mjs";
 
 const [sourcePath = "data/monthly/2026-12-source.json", contentPath = "data/monthly/2026-12-content.json", csvPath = "history_today_2026-12.csv"] = process.argv.slice(2);
 const source = JSON.parse(await readFile(sourcePath, "utf8"));
@@ -39,29 +38,28 @@ function answer(equation, unit) {
 
 const days = sourceInput.days.map((item, index) => {
   const yearMonth = sourceInput.month;
-  const date = `${yearMonth}-${item.date.slice(3).padStart(2, "0")}`;
+  const dayNumber = index + 1;
   const facts = numbers(JSON.stringify(item));
   const title = titles[index];
   const eq = equations[index];
   const day = {
-    date, emoji: emojis[index], theme: index % 3 === 0 ? "inventions_daily_life" : index % 3 === 1 ? "incredible_challenges" : "animals_dinosaurs",
+    month: 12, day: dayNumber, eventYear: null, eventYearNote: `The preserved source records this event on December ${dayNumber}.`, emoji: emojis[index], theme: index % 3 === 0 ? "inventions_daily_life" : index % 3 === 1 ? "incredible_challenges" : "animals_dinosaurs",
     title, hook: `How can the facts about ${title.toLowerCase()} help us solve a real math problem?`,
     readingPassage: passage(title, facts),
     trivia: [`The preserved source records this event on ${item.date} and keeps its original historical numbers.`, `The source numbers include ${facts.slice(0, 4).map(phrase).join(", ")}.`],
     mathLevels: {}, answers: {}, answerKeyEntries: [], sourceIds: ["monthly-context-2026-12"]
   };
   for (const [i, level] of ["level1", "level2", "level3"].entries()) {
-    day.mathLevels[level] = { pageType: level, skill: i === 0 ? "addition and subtraction" : i === 1 ? "multiplication and division" : "multi-step arithmetic", prompt: levelPrompt(title, eq[i], i + 1, units[index]), numbersUsed: numbers(JSON.stringify(item.questions[level])).filter((value) => i !== 0 || value <= 50).slice(0, 4).map((value) => ({ value, unit: units[index], source: "explicit task fact from validated #210 source payload" })) };
     day.answers[level] = answer(eq[i], units[index]);
-    day.answerKeyEntries.push(`${date}:${level}`);
+    day.mathLevels[level] = { pageType: level, skill: i === 0 ? "addition_and_subtraction" : i === 1 ? "multiplication_and_division" : "multi_step_reasoning", prompt: levelPrompt(title, eq[i], i + 1, units[index]), numbersUsed: numbers(JSON.stringify(item.questions[level])).filter((value) => i !== 0 || value <= 50).slice(0, 4).map((value) => ({ value, unit: units[index], source: "explicit task fact from validated #210 source payload" })), ...day.answers[level] };
+    day.answerKeyEntries.push(`12-${String(dayNumber).padStart(2, "0")}:${level}`);
   }
   return day;
 });
 const content = {
-  schemaVersion: "1.0.0", contentProfile: "oct-content-example", month: sourceInput.month, days,
+  schemaVersion: "2.0.0", contentProfile: "december-content-v2", month: 12, days,
   sources: [{ id: "monthly-context-2026-12", title: "Validated December 2026 monthly context payload", publisher: "what-happened-on-this-day-math Issue #210", url: "https://github.com/joycytao/what-happened-on-this-day-math/issues/210#issuecomment-6474858797", accessedDate: "2026-11-04" }],
   answerKey: Object.fromEntries(["level1", "level2", "level3"].map((level) => [level, days.map((day) => ({ entryId: `${day.date}:${level}`, date: day.date, level, equation: day.answers[level].equation, work: day.answers[level].work, finalAnswer: day.answers[level].finalAnswer }))]))
 };
 await writeFile(contentPath, `${JSON.stringify(content, null, 2)}\n`, "utf8");
-await upsertMonthlyCsv(content, csvPath);
-console.log(`converted ${days.length} days from #210 into ${contentPath} and ${csvPath}`);
+console.log(`converted ${days.length} days from #210 into ${contentPath}; source CSV remains ${csvPath}`);

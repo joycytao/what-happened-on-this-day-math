@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "december-morning-work-math",
+  "packageVersion": "v1.0.0",
+  "month": "December",
+  "sourceCommit": "6369faa",
+  "answerKeyPolicy": "excluded-by-default",
+  "assets": [
+    {
+      "id": "coverPdfPage",
+      "kind": "png",
+      "source": "output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png",
+      "target": "assets/coverPdfPage",
+      "bytes": 119455,
+      "sha256": "604dae23072f9a0852338a480b4a07c2c88db37d5a88ddc32a55a9a416167d83"
+    },
+    {
+      "id": "pageMappings",
+      "kind": "json",
+      "source": "reports/december-tpt/page-mappings.json",
+      "target": "assets/pageMappings",
+      "bytes": 4646,
+      "sha256": "8f70696d1459ed222c7acb708a13dee5663efe77509e14907986a5663b2ffaf8"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/2026-12-cover.png",
+      "bytes": 119455,
+      "sha256": "604dae23072f9a0852338a480b4a07c2c88db37d5a88ddc32a55a9a416167d83"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/monthly-cover-report.json",
+      "bytes": 535,
+      "sha256": "4c8f206b9cd4946cb37d293d2212433ef39b67bc34c4a4c600134cb6a0de9550"
+    },
+    {
+      "id": "thumbnailQa",
+      "kind": "json",
+      "source": "reports/december-tpt/thumbnail-qa.json",
+      "target": "assets/thumbnailQa",
+      "bytes": 831,
+      "sha256": "0a4679b809956d352e5813f8e4960284e6e99b3a0f076d0209fce52e8855b068"
+    }
+  ],
+  "deterministic": true,
+  "archiveIntegrity": true
+}

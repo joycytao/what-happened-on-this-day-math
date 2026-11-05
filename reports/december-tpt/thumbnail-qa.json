@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "december-tpt-thumbnail-qa/v1",
+  "month": "2026-12",
+  "sourcePdf": {
+    "path": "output/pdf/december-2026-final.pdf",
+    "sha256": "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf",
+    "pageCount": 128
+  },
+  "cover": {
+    "path": "output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png",
+    "sha256": "604dae23072f9a0852338a480b4a07c2c88db37d5a88ddc32a55a9a416167d83",
+    "width": 1260,
+    "height": 1260,
+    "copy": ["DECEMBER", "MORNING WORK MATH", "31 DAILY WORD PROBLEMS", "3 LEVELS"]
+  },
+  "pageMappings": {
+    "daily": [1, 124],
+    "answerKey": [125, 127],
+    "followUp": [128]
+  },
+  "checks": {
+    "sourceChecksum": true,
+    "pageOrder": true,
+    "dimensions": true,
+    "copy": true,
+    "deterministic": true,
+    "publicationStatus": "review"
+  }
+}
