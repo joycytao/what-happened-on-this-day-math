@@ -11,7 +11,7 @@
   },
   "sourcePdf": {
     "path": "output/pdf/december-2026-final.pdf",
-    "sha256": "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf",
+    "sha256": "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d",
     "pageCount": 128
   },
   "doodle": null,
@@ -29,32 +29,32 @@
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-whats-included.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 800333,
-      "sha256": "073881422f5d6ec7b5a9db54852dfbb15ae5c13addd9466dc3600f8417d767ea"
+      "bytes": 797872,
+      "sha256": "a6a62a121ce72764f838bcc64b507b35551aa58d7cce4138505c2d0ee94d3b4e"
     },
     {
       "id": "different-math",
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-different-math.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 755083,
-      "sha256": "0db726ba24b0eeab4fce823961098d48270999aedd505879172cfe5824e9df74"
+      "bytes": 741938,
+      "sha256": "0fe6de7bce9309970e6970699e9896a8c898298becb36133134267b2d8708289"
     },
     {
       "id": "daily-practice",
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-daily-practice.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 785271,
-      "sha256": "161a7bd97ef6213423b86c7201e2eed9bef09f8291dc36a3aa2cdab38a0fc62f"
+      "bytes": 759829,
+      "sha256": "e8213ac4ffaf9f5f9448aaf40e9ee34b7ebdb0e69a2e94956a9b2a9ff3ecd0c0"
     },
     {
       "id": "landing-page",
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 476976,
-      "sha256": "e107213b80e004d61a050efffe4504384c220c7fd0a4d9d31d605605e87dee71"
+      "bytes": 463696,
+      "sha256": "484a051db6946838e224e3c02395122dafb09cdb90c77a2023dcd7b832bac5b4"
     }
   ],
   "landingPageImage": {
@@ -62,8 +62,8 @@
     "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
     "width": 1260,
     "height": 1260,
-    "bytes": 476976,
-    "sha256": "e107213b80e004d61a050efffe4504384c220c7fd0a4d9d31d605605e87dee71"
+    "bytes": 463696,
+    "sha256": "484a051db6946838e224e3c02395122dafb09cdb90c77a2023dcd7b832bac5b4"
   },
   "sourcePages": {
     "cover": {

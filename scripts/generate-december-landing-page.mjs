@@ -22,7 +22,7 @@ const handoff = JSON.parse(fs.readFileSync(handoffPath, "utf8"));
 if (handoff.month !== "december" || handoff.landingPage?.monthSlug !== "december") {
   throw new Error("December landing-page handoff has the wrong month");
 }
-if (handoff.sourcePdf?.sha256 !== "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf") {
+if (handoff.sourcePdf?.sha256 !== "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d") {
   throw new Error("December landing-page handoff is not tied to the QA-approved PDF");
 }
 if (handoff.landingPageImage?.width !== 1260 || handoff.landingPageImage?.height !== 1260) {

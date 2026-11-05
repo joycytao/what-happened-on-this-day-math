@@ -67,8 +67,8 @@
               305,
               970
             ],
-            "silhouette_iou": 0.531616,
-            "silhouette_matching_ratio": 0.560475,
+            "silhouette_iou": 0.533226,
+            "silhouette_matching_ratio": 0.562055,
             "passed": true
           },
           "level1": {
@@ -78,8 +78,8 @@
               535,
               970
             ],
-            "silhouette_iou": 0.772304,
-            "silhouette_matching_ratio": 0.789406,
+            "silhouette_iou": 0.78583,
+            "silhouette_matching_ratio": 0.801775,
             "passed": true
           },
           "level2": {
@@ -89,8 +89,8 @@
               765,
               970
             ],
-            "silhouette_iou": 0.800225,
-            "silhouette_matching_ratio": 0.816129,
+            "silhouette_iou": 0.802373,
+            "silhouette_matching_ratio": 0.817973,
             "passed": true
           },
           "level3": {
@@ -100,8 +100,8 @@
               995,
               970
             ],
-            "silhouette_iou": 0.604561,
-            "silhouette_matching_ratio": 0.635304,
+            "silhouette_iou": 0.604419,
+            "silhouette_matching_ratio": 0.635059,
             "passed": true
           },
           "answer_key": {

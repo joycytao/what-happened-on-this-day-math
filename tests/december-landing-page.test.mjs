@@ -15,7 +15,7 @@ test("December landing-page handoff is tied to the approved release PDF", () => 
   assert.equal(handoff.landingPage.description, "31 daily word problems across 3 levels, with separate answer keys.");
   assert.equal(handoff.landingPage.productUrl, "https://6pm-studio.com/go/december");
   assert.equal(handoff.sourcePdf.pageCount, 128);
-  assert.equal(handoff.sourcePdf.sha256, "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf");
+  assert.equal(handoff.sourcePdf.sha256, "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d");
   assert.deepEqual(handoff.sourcePages.landing_page.source_pages, {
     reading_passage: 2,
     level1: 3,
