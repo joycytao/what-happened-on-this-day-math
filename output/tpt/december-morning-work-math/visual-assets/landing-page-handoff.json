@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "december-morning-work-math",
+  "packageVersion": "v1.0",
+  "month": "december",
+  "landingPage": {
+    "monthSlug": "december",
+    "title": "December Morning Work Math",
+    "description": "31 daily word problems across 3 levels, with separate answer keys.",
+    "productUrl": "https://6pm-studio.com/go/december"
+  },
+  "sourcePdf": {
+    "path": "output/pdf/december-2026-final.pdf",
+    "sha256": "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf",
+    "pageCount": 128
+  },
+  "doodle": null,
+  "assets": [
+    {
+      "id": "cover",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-cover.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 119455,
+      "sha256": "604dae23072f9a0852338a480b4a07c2c88db37d5a88ddc32a55a9a416167d83"
+    },
+    {
+      "id": "whats-included",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-whats-included.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 800333,
+      "sha256": "073881422f5d6ec7b5a9db54852dfbb15ae5c13addd9466dc3600f8417d767ea"
+    },
+    {
+      "id": "different-math",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-different-math.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 755083,
+      "sha256": "0db726ba24b0eeab4fce823961098d48270999aedd505879172cfe5824e9df74"
+    },
+    {
+      "id": "daily-practice",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-daily-practice.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 785271,
+      "sha256": "161a7bd97ef6213423b86c7201e2eed9bef09f8291dc36a3aa2cdab38a0fc62f"
+    },
+    {
+      "id": "landing-page",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 476976,
+      "sha256": "e107213b80e004d61a050efffe4504384c220c7fd0a4d9d31d605605e87dee71"
+    }
+  ],
+  "landingPageImage": {
+    "id": "landing-page",
+    "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
+    "width": 1260,
+    "height": 1260,
+    "bytes": 476976,
+    "sha256": "e107213b80e004d61a050efffe4504384c220c7fd0a4d9d31d605605e87dee71"
+  },
+  "sourcePages": {
+    "cover": {
+      "output": "output/thumbnails/december-v1.0-cover.png"
+    },
+    "whats_included": {
+      "output": "output/thumbnails/december-v1.0-whats-included.png",
+      "source_pages": {
+        "story": 2,
+        "level1": 3,
+        "level2": 4,
+        "level3": 5,
+        "answer_key": 125
+      }
+    },
+    "different_math": {
+      "output": "output/thumbnails/december-v1.0-different-math.png",
+      "source_pages": {
+        "story": 2,
+        "level1": 3,
+        "level2": 4,
+        "level3": 5
+      }
+    },
+    "daily_practice": {
+      "output": "output/thumbnails/december-v1.0-daily-practice.png",
+      "source_pages": {
+        "worksheet": 3
+      }
+    },
+    "landing_page": {
+      "output": "output/thumbnails/december-v1.0-landing-page.png",
+      "source_pages": {
+        "reading_passage": 2,
+        "level1": 3,
+        "level2": 4,
+        "level3": 5,
+        "answer_key": 125
+      }
+    }
+  },
+  "qa": {
+    "status": "review",
+    "deterministic": true,
+    "dimensions": true,
+    "clipping": "manual-review-required",
+    "visualComparison": "fixed-region-structural-ssim-with-variable-copy-exclusions",
+    "structuralReport": "output/tpt/december-morning-work-math/visual-assets/visual-structure-qa.json",
+    "report": "output/tpt/december-morning-work-math/visual-assets/monthly-thumbnail-report.json"
+  }
+}

@@ -1,0 +1,326 @@
+{
+  "design": "october-production-v2",
+  "style": {
+    "canvas": [
+      1260,
+      1260
+    ],
+    "background": "#FEFFEF",
+    "ink": "#2B313F",
+    "accent": "#FF8A00",
+    "border": {
+      "margin": 30,
+      "radius": 26,
+      "width": 8
+    },
+    "deterministic": true
+  },
+  "templates": [
+    "cover",
+    "whats-included",
+    "different-math",
+    "daily-practice",
+    "landing-page"
+  ],
+  "compositionLayers": {
+    "cover": {
+      "version": "v1.0.0",
+      "canvas": [
+        1260,
+        1260
+      ],
+      "fixed_regions": {
+        "frame": {
+          "x": 30,
+          "y": 30,
+          "width": 1200,
+          "height": 1200
+        },
+        "footer": {
+          "x": 45,
+          "y": 1130,
+          "width": 1170,
+          "height": 80
+        }
+      },
+      "variable_regions": {
+        "month_title": {
+          "x": 250,
+          "y": 120,
+          "width": 760,
+          "height": 190
+        },
+        "doodle": {
+          "x": 430,
+          "y": 600,
+          "width": 400,
+          "height": 360
+        }
+      }
+    },
+    "whats_included": {
+      "version": "v1.0.0",
+      "canvas": [
+        1260,
+        1260
+      ],
+      "fixed_regions": {
+        "frame": {
+          "x": 30,
+          "y": 30,
+          "width": 1200,
+          "height": 1200
+        },
+        "footer": {
+          "x": 45,
+          "y": 1130,
+          "width": 1170,
+          "height": 80
+        }
+      },
+      "variable_regions": {
+        "worksheet_cards": {
+          "x": 100,
+          "y": 260,
+          "width": 1060,
+          "height": 760
+        },
+        "headline": {
+          "x": 180,
+          "y": 90,
+          "width": 900,
+          "height": 140
+        }
+      }
+    },
+    "different_math": {
+      "version": "v1.0.0",
+      "canvas": [
+        1260,
+        1260
+      ],
+      "fixed_regions": {
+        "frame": {
+          "x": 30,
+          "y": 30,
+          "width": 1200,
+          "height": 1200
+        },
+        "footer": {
+          "x": 45,
+          "y": 1130,
+          "width": 1170,
+          "height": 80
+        }
+      },
+      "variable_regions": {
+        "worksheet_cards": {
+          "x": 90,
+          "y": 250,
+          "width": 1080,
+          "height": 760
+        },
+        "month_title": {
+          "x": 210,
+          "y": 80,
+          "width": 840,
+          "height": 180
+        },
+        "day_count": {
+          "x": 80,
+          "y": 330,
+          "width": 1100,
+          "height": 110
+        }
+      }
+    },
+    "daily_practice": {
+      "version": "v1.0.0",
+      "canvas": [
+        1260,
+        1260
+      ],
+      "fixed_regions": {
+        "frame": {
+          "x": 30,
+          "y": 30,
+          "width": 1200,
+          "height": 1200
+        },
+        "footer": {
+          "x": 45,
+          "y": 1130,
+          "width": 1170,
+          "height": 80
+        }
+      },
+      "variable_regions": {
+        "worksheet": {
+          "x": 250,
+          "y": 300,
+          "width": 760,
+          "height": 650
+        },
+        "headline": {
+          "x": 110,
+          "y": 80,
+          "width": 1040,
+          "height": 190
+        }
+      }
+    },
+    "landing_page": {
+      "version": "v1.0.0",
+      "canvas": [
+        1260,
+        1260
+      ],
+      "fixed_regions": {
+        "frame": {
+          "x": 30,
+          "y": 30,
+          "width": 1200,
+          "height": 1200
+        },
+        "footer": {
+          "x": 45,
+          "y": 1130,
+          "width": 1170,
+          "height": 80
+        }
+      },
+      "variable_regions": {
+        "worksheet_cards": {
+          "x": 70,
+          "y": 280,
+          "width": 1120,
+          "height": 700
+        },
+        "headline": {
+          "x": 180,
+          "y": 80,
+          "width": 900,
+          "height": 180
+        }
+      }
+    }
+  },
+  "templateContract": "/private/tmp/math-222/examples/thumbnail-template-contract.example.json",
+  "labels": {
+    "cover": [
+      "December",
+      "Morning Work Math",
+      "31 Daily Word Problems",
+      "3 Levels"
+    ],
+    "whats_included": [
+      "WHAT\u2019S INCLUDED",
+      "STORY",
+      "LEVEL 1",
+      "LEVEL 2",
+      "LEVEL 3",
+      "ANSWER KEY"
+    ],
+    "different_math": [
+      "December",
+      "Morning Work Math",
+      "31 Daily Word Problems \u00b7 3 Levels",
+      "Level 1",
+      "Level 2",
+      "Level 3"
+    ],
+    "daily_practice": [
+      "Ready for",
+      "Daily Practice",
+      "Morning Work",
+      "Bell Ringers",
+      "Homeschool"
+    ],
+    "landing_page": [
+      "December",
+      "Morning Work Math",
+      "31 Daily Word Problems \u00b7 3 Levels",
+      "Reading Passage",
+      "Level 1",
+      "Level 2",
+      "Level 3",
+      "Answer Key"
+    ]
+  },
+  "checksums": {
+    "cover": "604dae23072f9a0852338a480b4a07c2c88db37d5a88ddc32a55a9a416167d83",
+    "whats-included": "073881422f5d6ec7b5a9db54852dfbb15ae5c13addd9466dc3600f8417d767ea",
+    "different-math": "0db726ba24b0eeab4fce823961098d48270999aedd505879172cfe5824e9df74",
+    "daily-practice": "161a7bd97ef6213423b86c7201e2eed9bef09f8291dc36a3aa2cdab38a0fc62f",
+    "landing-page": "e107213b80e004d61a050efffe4504384c220c7fd0a4d9d31d605605e87dee71"
+  },
+  "pdf": "output/pdf/december-2026-final.pdf",
+  "pdf_sha256": "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf",
+  "doodle_sha256": null,
+  "copyConcepts": {
+    "cover": {
+      "headline": "December",
+      "productTitle": "MORNING WORK MATH",
+      "supportingText": [
+        "31 DAILY WORD PROBLEMS"
+      ],
+      "levelsBlock": "3 LEVELS with orange side lines",
+      "doodle": "orange line-art pumpkin",
+      "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading"
+    },
+    "whats_included": {
+      "headline": "WHAT\u2019S INCLUDED",
+      "sourceLayout": "story, level 1, level 2 / level 3, answer key",
+      "headlineEmphasis": "three orange rays on each side",
+      "labelStyle": "orange pills narrower than cards",
+      "footer": "centered logo without divider lines",
+      "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
+    },
+    "different_math": {
+      "headline": [
+        "December",
+        "Morning Work Math"
+      ],
+      "supportingText": "31 Daily Word Problems \u00b7 3 Levels",
+      "sourceLayout": "October reference frame with three fixed-geometry real worksheet replacements",
+      "headlineSideLines": "short orange horizontal rules around the month",
+      "labelStyle": "large uppercase navy labels",
+      "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region pixel QA passes"
+    },
+    "daily_practice": {
+      "headline": [
+        "READY FOR",
+        "DAILY PRACTICE"
+      ],
+      "useCases": [
+        "MORNING WORK",
+        "BELL RINGERS",
+        "HOMESCHOOL"
+      ],
+      "headlineEmphasis": "three orange rays on each side",
+      "useCaseSeparators": "vertical orange lines",
+      "sourceLayout": "one centered borderless real worksheet preview with October-matched shadow and crop",
+      "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
+    },
+    "landing_page": {
+      "headline": [
+        "December",
+        "Morning Work Math"
+      ],
+      "supportingText": "31 Daily Word Problems \u00b7 3 Levels",
+      "sourceLayout": "five subtly tilted worksheet cards in one row",
+      "labels": [
+        "READING PASSAGE",
+        "LEVEL 1",
+        "LEVEL 2",
+        "LEVEL 3",
+        "ANSWER KEY"
+      ],
+      "parityFixture": "references /thumbnail-assets/thumbnail-5-reference.png",
+      "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"
+    }
+  }
+}
