@@ -8,10 +8,11 @@
   },
   "cover": {
     "path": "output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png",
-    "sha256": "604dae23072f9a0852338a480b4a07c2c88db37d5a88ddc32a55a9a416167d83",
+    "sha256": "757f9ee685336ddd80f78ad564796a18f3b120704d884a8e04d1b2f492eb4d6a",
     "width": 1260,
     "height": 1260,
-    "copy": ["DECEMBER", "MORNING WORK MATH", "31 DAILY WORD PROBLEMS", "3 LEVELS"]
+    "copy": ["DECEMBER", "MORNING WORK MATH", "31 DAILY WORD PROBLEMS", "3 LEVELS"],
+    "doodle": "outline-only December evergreen with star and unfilled ornaments"
   },
   "pageMappings": {
     "daily": [1, 124],
