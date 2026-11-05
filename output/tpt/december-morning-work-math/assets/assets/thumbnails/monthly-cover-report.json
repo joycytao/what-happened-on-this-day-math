@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "monthly-cover/v1",
+  "month": "2026-12",
+  "output": "/private/tmp/math-223/output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png",
+  "dimensions": {
+    "width": 1260,
+    "height": 1260
+  },
+  "copy": [
+    "DECEMBER",
+    "MORNING WORK MATH",
+    "31 DAILY WORD PROBLEMS",
+    "3 LEVELS"
+  ],
+  "palette": {
+    "background": "#FEFFEF",
+    "ink": "#2B313F",
+    "accent": "#FF8A00"
+  },
+  "sha256": "757f9ee685336ddd80f78ad564796a18f3b120704d884a8e04d1b2f492eb4d6a",
+  "deterministic": true
+}

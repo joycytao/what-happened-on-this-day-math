@@ -53,6 +53,7 @@
     "social:before-after-reel:build": "node scripts/build-before-after-worksheet-reel.mjs",
     "social:perspective-reel:build": "node scripts/build-perspective-sharing-reel.mjs",
     "tpt:workstream:run": "node scripts/run-tpt-workstream.mjs",
+    "tpt:package:december": "node scripts/run-tpt-workstream.mjs --month 12 --year 2026 --package-id december-morning-work-math --manifest releases/december-2026.manifest.json --content data/monthly/2026-12-content-v2.json --output-dir output/tpt/december-morning-work-math --report reports/december-tpt/workstream.json",
     "tpt:project:plan": "node scripts/write-tpt-project-plan.mjs",
     "differentiation:validate": "node scripts/validate-differentiation-framework.mjs",
     "portfolio:validate": "node scripts/validate-portfolio-architecture.mjs",
