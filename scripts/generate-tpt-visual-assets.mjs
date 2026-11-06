@@ -21,9 +21,9 @@ const validation = validateMonthlyThumbnailManifest(manifest);
 if (!validation.valid) throw new Error(`thumbnail manifest invalid: ${validation.errors.join("; ")}`);
 
 const pdfPath = path.resolve(root, manifest.pdf.path);
-const doodlePath = path.resolve(root, manifest.doodle.path);
+const doodlePath = manifest.doodle?.path ? path.resolve(root, manifest.doodle.path) : null;
 if (!fs.existsSync(pdfPath)) throw new Error(`final PDF does not exist: ${manifest.pdf.path}`);
-if (!fs.existsSync(doodlePath)) throw new Error(`month-specific doodle does not exist: ${manifest.doodle.path}`);
+if (doodlePath && !fs.existsSync(doodlePath)) throw new Error(`month-specific doodle does not exist: ${manifest.doodle.path}`);
 const actualPdfSha256 = crypto.createHash("sha256").update(fs.readFileSync(pdfPath)).digest("hex");
 if (actualPdfSha256 !== manifest.pdf.sha256) throw new Error(`stale final PDF: expected ${manifest.pdf.sha256}, got ${actualPdfSha256}`);
 
@@ -63,7 +63,7 @@ const handoff = {
   month: manifest.product.month,
   landingPage: buildLandingPageMetadata(manifest.product),
   sourcePdf: { path: path.relative(root, pdfPath), sha256: actualPdfSha256, pageCount: manifest.pdf.page_count },
-  doodle: { path: path.relative(root, doodlePath), sha256: report.doodle_sha256 },
+  doodle: doodlePath ? { path: path.relative(root, doodlePath), sha256: report.doodle_sha256 } : null,
   assets,
   landingPageImage: assets.find((asset) => asset.id === "landing-page"),
   sourcePages: manifest.templates,

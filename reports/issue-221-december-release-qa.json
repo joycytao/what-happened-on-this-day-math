@@ -68,7 +68,7 @@
     "version": "1.0.0",
     "asset": "references /worksheet-assets/follow-up-page-reference.png",
     "sha256": "47a58a4831063ae84d99ccecc77efe9dbf7b9084154decd328bab20233e3e83e",
-    "path": "/private/tmp/math-221/references /worksheet-assets/follow-up-page-reference.png",
+    "path": "/private/tmp/math-222/references /worksheet-assets/follow-up-page-reference.png",
     "valid": true,
     "actualSha256": "47a58a4831063ae84d99ccecc77efe9dbf7b9084154decd328bab20233e3e83e"
   },
@@ -77,12 +77,12 @@
     "promptVersion": "1.0.0",
     "iteration": 1,
     "reference": {
-      "path": "/private/tmp/math-221/references /worksheet-assets/follow-up-page-reference.png",
+      "path": "/private/tmp/math-222/references /worksheet-assets/follow-up-page-reference.png",
       "width": 1024,
       "height": 1536
     },
     "candidate": {
-      "path": "/private/tmp/math-221/references /worksheet-assets/follow-up-page-reference.png",
+      "path": "/private/tmp/math-222/references /worksheet-assets/follow-up-page-reference.png",
       "width": 1024,
       "height": 1536
     },
@@ -185,7 +185,7 @@
   ],
   "samples": "/private/tmp/issue-221-december-release/samples",
   "finalPdf": "/private/tmp/issue-221-december-release/december-2026-final.pdf",
-  "finalSha256": "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf",
+  "finalSha256": "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d",
   "reproduction": "npm run release:qa:december",
   "errors": []
 }
