@@ -151,6 +151,22 @@ def pumpkin_doodle(canvas):
     draw.arc((680, 625, 775, 700), 195, 300, fill=ORANGE, width=stroke)
 
 
+def december_doodle(canvas):
+    """Draw a December-specific outline-only Christmas tree and star."""
+    draw = ImageDraw.Draw(canvas)
+    stroke = 8
+    star = [(630, 635), (646, 675), (688, 675), (654, 700),
+            (667, 742), (630, 716), (593, 742), (606, 700),
+            (572, 675), (614, 675)]
+    draw.line(star + [star[0]], fill=ORANGE, width=stroke, joint="curve")
+    draw.line([(630, 705), (505, 825), (755, 825), (630, 705)], fill=ORANGE, width=stroke, joint="curve")
+    draw.line([(630, 770), (455, 925), (805, 925), (630, 770)], fill=ORANGE, width=stroke, joint="curve")
+    draw.line([(630, 850), (405, 1010), (855, 1010), (630, 850)], fill=ORANGE, width=stroke, joint="curve")
+    draw.rectangle((602, 1010, 658, 1070), outline=ORANGE, width=stroke)
+    for x, y in [(560, 840), (700, 840), (520, 945), (630, 900), (740, 945)]:
+        draw.ellipse((x - 14, y - 14, x + 14, y + 14), outline=ORANGE, width=stroke)
+
+
 def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
     draw.text((630, y), text, anchor="ma", fill=fill, font=fitted(text, max_width, size, bold))
 
@@ -317,12 +333,15 @@ def logo(canvas, page):
     return None
 
 
-def draw_monthly_doodle(canvas, doodle_path=None):
+def draw_monthly_doodle(canvas, month=None, doodle_path=None):
     """Place the approved month-specific transparent doodle in the fixed art box."""
     if doodle_path and Path(doodle_path).exists():
         source = Image.open(doodle_path).convert("RGBA")
         source.thumbnail((360, 330), Image.Resampling.LANCZOS)
         canvas.alpha_composite(source, ((SIZE - source.width) // 2, 620))
+        return
+    if month and month.lower() == "december":
+        december_doodle(canvas)
         return
     pumpkin_doodle(canvas)
 
@@ -341,7 +360,7 @@ def compose_cover(month, day_count, out, source_page, doodle_path=None):
     cover_text_box(canvas, "MORNING WORK MATH", (100, 350, 1152, 429))
     cover_text_box(canvas, f"{day_count} DAILY WORD PROBLEMS", (169, 485, 1085, 540), bold=False)
     stroke = 8
-    draw_monthly_doodle(canvas, doodle_path)
+    draw_monthly_doodle(canvas, month, doodle_path)
     cover_text_box(canvas, "3 LEVELS", (445, 967, 815, 1021))
     draw.line((206, 995, 410, 995), fill=ORANGE, width=8)
     draw.line((850, 995, 1054, 995), fill=ORANGE, width=8)
@@ -643,7 +662,7 @@ def main():
         "pdf_sha256": actual_pdf_sha256,
         "doodle_sha256": hashlib.sha256(doodle_path.read_bytes()).hexdigest() if doodle_path else None,
         "copyConcepts": {
-            "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "orange line-art pumpkin" if doodle_path is None else manifest["doodle"]["path"], "doodlePrompt": "recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading"},
+            "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "December Christmas tree and star" if manifest["product"]["month"].lower() == "december" and doodle_path is None else ("orange line-art pumpkin" if doodle_path is None else manifest["doodle"]["path"]), "doodlePrompt": "outline-only December Christmas tree with star and unfilled ornaments; orange stroke; fixed art box; no fill or shading" if manifest["product"]["month"].lower() == "december" and doodle_path is None else ("recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading")},
             "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "October reference frame with three fixed-geometry real worksheet replacements", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region pixel QA passes"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered borderless real worksheet preview with October-matched shadow and crop", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
