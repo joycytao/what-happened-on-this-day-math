@@ -154,17 +154,31 @@ def pumpkin_doodle(canvas):
 def december_doodle(canvas):
     """Draw a December-specific outline-only Christmas tree and star."""
     draw = ImageDraw.Draw(canvas)
-    stroke = 8
+    stroke = 7
     star = [(630, 600), (646, 635), (684, 635), (654, 658),
             (666, 695), (630, 673), (594, 695), (606, 658),
             (576, 635), (614, 635)]
     draw.line(star + [star[0]], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 660), (520, 760), (740, 760), (630, 660)], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 720), (475, 830), (785, 830), (630, 720)], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 790), (430, 900), (830, 900), (630, 790)], fill=ORANGE, width=stroke, joint="curve")
-    draw.rectangle((602, 900, 658, 940), outline=ORANGE, width=stroke)
-    for x, y in [(575, 770), (685, 770), (535, 840), (630, 815), (725, 840)]:
-        draw.ellipse((x - 14, y - 14, x + 14, y + 14), outline=ORANGE, width=stroke)
+    tiers = [
+        [(630, 662), (520, 758), (740, 758)],
+        [(630, 720), (470, 838), (790, 838)],
+        [(630, 790), (430, 908), (830, 908)],
+    ]
+    for apex, left, right in tiers:
+        draw.line([apex, left, right, apex], fill=ORANGE, width=stroke, joint="curve")
+
+    garlands = [
+        [(555, 742), (580, 731), (605, 742), (630, 731), (655, 742), (680, 731), (705, 742)],
+        [(500, 822), (535, 808), (570, 822), (605, 808), (640, 822), (675, 808), (710, 822), (760, 808)],
+        [(455, 892), (500, 878), (545, 892), (590, 878), (635, 892), (680, 878), (725, 892), (805, 875)],
+    ]
+    for garland in garlands:
+        draw.line(garland, fill=ORANGE, width=5, joint="curve")
+
+    draw.line((630, 908, 630, 940), fill=ORANGE, width=stroke)
+    draw.line((602, 940, 658, 940), fill=ORANGE, width=stroke)
+    for x, y in [(575, 760), (685, 760), (535, 835), (630, 815), (725, 835), (500, 895), (760, 895)]:
+        draw.ellipse((x - 13, y - 13, x + 13, y + 13), outline=ORANGE, width=stroke)
 
 
 def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
