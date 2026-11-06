@@ -155,15 +155,15 @@ def december_doodle(canvas):
     """Draw a December-specific outline-only Christmas tree and star."""
     draw = ImageDraw.Draw(canvas)
     stroke = 8
-    star = [(630, 635), (646, 675), (688, 675), (654, 700),
-            (667, 742), (630, 716), (593, 742), (606, 700),
-            (572, 675), (614, 675)]
+    star = [(630, 600), (646, 635), (684, 635), (654, 658),
+            (666, 695), (630, 673), (594, 695), (606, 658),
+            (576, 635), (614, 635)]
     draw.line(star + [star[0]], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 705), (505, 825), (755, 825), (630, 705)], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 770), (455, 925), (805, 925), (630, 770)], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 850), (405, 1010), (855, 1010), (630, 850)], fill=ORANGE, width=stroke, joint="curve")
-    draw.rectangle((602, 1010, 658, 1070), outline=ORANGE, width=stroke)
-    for x, y in [(560, 840), (700, 840), (520, 945), (630, 900), (740, 945)]:
+    draw.line([(630, 660), (520, 760), (740, 760), (630, 660)], fill=ORANGE, width=stroke, joint="curve")
+    draw.line([(630, 720), (475, 830), (785, 830), (630, 720)], fill=ORANGE, width=stroke, joint="curve")
+    draw.line([(630, 790), (430, 900), (830, 900), (630, 790)], fill=ORANGE, width=stroke, joint="curve")
+    draw.rectangle((602, 900, 658, 940), outline=ORANGE, width=stroke)
+    for x, y in [(575, 770), (685, 770), (535, 840), (630, 815), (725, 840)]:
         draw.ellipse((x - 14, y - 14, x + 14, y + 14), outline=ORANGE, width=stroke)
 
 
