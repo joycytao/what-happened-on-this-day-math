@@ -351,8 +351,11 @@ def draw_monthly_doodle(canvas, month=None, doodle_path=None):
     """Place the approved month-specific transparent doodle in the fixed art box."""
     if doodle_path and Path(doodle_path).exists():
         source = Image.open(doodle_path).convert("RGBA")
-        source.thumbnail((360, 330), Image.Resampling.LANCZOS)
-        canvas.alpha_composite(source, ((SIZE - source.width) // 2, 620))
+        alpha_bbox = source.getchannel("A").getbbox()
+        if alpha_bbox:
+            source = source.crop(alpha_bbox)
+        source.thumbnail((460, 350), Image.Resampling.LANCZOS)
+        canvas.alpha_composite(source, ((SIZE - source.width) // 2, 600))
         return
     if month and month.lower() == "december":
         december_doodle(canvas)

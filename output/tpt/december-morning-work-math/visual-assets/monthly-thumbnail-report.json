@@ -248,7 +248,7 @@
     ]
   },
   "checksums": {
-    "cover": "f84646fef8c9388f4c213d8f3fc9df9d1ec3760d4c2f7dad5b0382fddeb5fb2c",
+    "cover": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe",
     "whats-included": "a6a62a121ce72764f838bcc64b507b35551aa58d7cce4138505c2d0ee94d3b4e",
     "different-math": "0fe6de7bce9309970e6970699e9896a8c898298becb36133134267b2d8708289",
     "daily-practice": "e8213ac4ffaf9f5f9448aaf40e9ee34b7ebdb0e69a2e94956a9b2a9ff3ecd0c0",
@@ -256,7 +256,7 @@
   },
   "pdf": "output/pdf/december-2026-final.pdf",
   "pdf_sha256": "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d",
-  "doodle_sha256": null,
+  "doodle_sha256": "b54cd8ab73753f4786f9fd19a46667329b101c43c1c9fee43e9a7b19b9c38bae",
   "copyConcepts": {
     "cover": {
       "headline": "December",
@@ -265,8 +265,8 @@
         "31 DAILY WORD PROBLEMS"
       ],
       "levelsBlock": "3 LEVELS with orange side lines",
-      "doodle": "December Christmas tree and star",
-      "doodlePrompt": "outline-only December Christmas tree with star and unfilled ornaments; orange stroke; fixed art box; no fill or shading"
+      "doodle": "hand-drawn orange Christmas tree with star, garlands, and ornaments",
+      "doodlePrompt": "loose hand-drawn pencil/ink Christmas tree line art based on the approved reference image; irregular organic strokes; star, baubles, and garlands; warm orange stroke; transparent background; fixed art box; no fill or shading"
     },
     "whats_included": {
       "headline": "WHAT\u2019S INCLUDED",

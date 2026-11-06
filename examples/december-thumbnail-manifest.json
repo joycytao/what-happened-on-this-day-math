@@ -11,6 +11,9 @@
     "sha256": "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d",
     "page_count": 128
   },
+  "doodle": {
+    "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-doodle.png"
+  },
   "templates": {
     "cover": { "output": "output/thumbnails/december-v1.0-cover.png" },
     "whats_included": {
