@@ -9,10 +9,10 @@
   "stale": false,
   "artifacts": [
     {"id":"finalPdf","kind":"pdf","path":"output/pdf/december-2026-final.pdf","sha256":"dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d","required":true},
-    {"id":"coverPdfPage","kind":"png","path":"output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png","sha256":"757f9ee685336ddd80f78ad564796a18f3b120704d884a8e04d1b2f492eb4d6a","required":true},
+    {"id":"coverPdfPage","kind":"png","path":"output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png","sha256":"451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe","required":true},
     {"id":"pageMappings","kind":"json","path":"reports/december-tpt/page-mappings.json","sha256":"8f70696d1459ed222c7acb708a13dee5663efe77509e14907986a5663b2ffaf8","required":true},
     {"id":"thumbnails","kind":"directory","path":"output/tpt/december-morning-work-math/visual-assets","sha256":"0000000000000000000000000000000000000000000000000000000000000000","required":true},
-    {"id":"thumbnailQa","kind":"json","path":"reports/december-tpt/thumbnail-qa.json","sha256":"a1d171bc2f1927102eac67b41c93614c9189da8dba87dabcf1f09febfafb8d92","required":true}
+    {"id":"thumbnailQa","kind":"json","path":"reports/december-tpt/thumbnail-qa.json","sha256":"4cd6f4d96e54431fe7ac9e6cc07c24407146adb7ae1de950bf51966e2bdb1b88","required":true}
   ],
   "gates": {
     "content": true,

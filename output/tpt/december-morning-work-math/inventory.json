@@ -11,8 +11,8 @@
       "kind": "png",
       "source": "output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png",
       "target": "assets/coverPdfPage",
-      "bytes": 120340,
-      "sha256": "757f9ee685336ddd80f78ad564796a18f3b120704d884a8e04d1b2f492eb4d6a"
+      "bytes": 161119,
+      "sha256": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe"
     },
     {
       "id": "pageMappings",
@@ -27,8 +27,8 @@
       "kind": "directory",
       "source": "output/tpt/december-morning-work-math/visual-assets",
       "target": "assets/thumbnails/2026-12-cover.png",
-      "bytes": 120340,
-      "sha256": "757f9ee685336ddd80f78ad564796a18f3b120704d884a8e04d1b2f492eb4d6a"
+      "bytes": 161119,
+      "sha256": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe"
     },
     {
       "id": "thumbnails",
@@ -43,8 +43,8 @@
       "kind": "json",
       "source": "reports/december-tpt/thumbnail-qa.json",
       "target": "assets/thumbnailQa",
-      "bytes": 913,
-      "sha256": "a1d171bc2f1927102eac67b41c93614c9189da8dba87dabcf1f09febfafb8d92"
+      "bytes": 831,
+      "sha256": "442785d4c2cebefd0a7987bf76c4b2f643dee0c293ffb528f8868a980f4c36ab"
     }
   ],
   "deterministic": true,
