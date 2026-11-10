@@ -8,7 +8,7 @@
   "releaseStatus": "released",
   "stale": false,
   "artifacts": [
-    {"id":"finalPdf","kind":"pdf","path":"output/pdf/december-2026-final.pdf","sha256":"d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf","required":true},
+    {"id":"finalPdf","kind":"pdf","path":"output/pdf/december-2026-final.pdf","sha256":"dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d","required":true},
     {"id":"coverPdfPage","kind":"png","path":"output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png","sha256":"757f9ee685336ddd80f78ad564796a18f3b120704d884a8e04d1b2f492eb4d6a","required":true},
     {"id":"pageMappings","kind":"json","path":"reports/december-tpt/page-mappings.json","sha256":"8f70696d1459ed222c7acb708a13dee5663efe77509e14907986a5663b2ffaf8","required":true},
     {"id":"thumbnails","kind":"directory","path":"output/tpt/december-morning-work-math/visual-assets","sha256":"0000000000000000000000000000000000000000000000000000000000000000","required":true},
