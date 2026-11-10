@@ -1,0 +1,405 @@
+{
+  "method": "fixed structural regions; variable month/content regions excluded",
+  "results": [
+    {
+      "asset": "cover",
+      "stable_region_ssim": 0.499512,
+      "pixel_comparison": {
+        "mean_absolute_error": 13.594928,
+        "matching_pixel_ratio_at_16": 0.867025,
+        "compared_pixels": 397384
+      },
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "whats-included",
+      "stable_region_ssim": 0.988353,
+      "pixel_comparison": {
+        "mean_absolute_error": 0.914507,
+        "matching_pixel_ratio_at_16": 0.991636,
+        "compared_pixels": 533820
+      },
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "different-math",
+      "stable_region_ssim": 0.985555,
+      "pixel_comparison": {
+        "mean_absolute_error": 2.210717,
+        "matching_pixel_ratio_at_16": 0.964835,
+        "compared_pixels": 440728
+      },
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "daily-practice",
+      "stable_region_ssim": 0.999917,
+      "pixel_comparison": {
+        "mean_absolute_error": 0.10714,
+        "matching_pixel_ratio_at_16": 0.999928,
+        "compared_pixels": 390340
+      },
+      "threshold": 0.1,
+      "passed": true
+    },
+    {
+      "asset": "landing-page",
+      "stable_region_ssim": 0.58578,
+      "pixel_comparison": {
+        "mean_absolute_error": 27.628456,
+        "matching_pixel_ratio_at_16": 0.841247,
+        "compared_pixels": 915960,
+        "diff_artifact": "/private/tmp/math-222/output/tpt/december-morning-work-math/visual-assets/landing-page-pixel-diff.png",
+        "overlay_artifact": "/private/tmp/math-222/output/tpt/december-morning-work-math/visual-assets/landing-page-overlay.png"
+      },
+      "threshold": 0.1,
+      "passed": true,
+      "card_layout": {
+        "method": "white-sheet silhouette IoU per fixed card region; worksheet copy excluded",
+        "regions": {
+          "reading_passage": {
+            "region": [
+              35,
+              440,
+              305,
+              970
+            ],
+            "silhouette_iou": 0.533226,
+            "silhouette_matching_ratio": 0.562055,
+            "passed": true
+          },
+          "level1": {
+            "region": [
+              265,
+              440,
+              535,
+              970
+            ],
+            "silhouette_iou": 0.78583,
+            "silhouette_matching_ratio": 0.801775,
+            "passed": true
+          },
+          "level2": {
+            "region": [
+              495,
+              440,
+              765,
+              970
+            ],
+            "silhouette_iou": 0.802373,
+            "silhouette_matching_ratio": 0.817973,
+            "passed": true
+          },
+          "level3": {
+            "region": [
+              725,
+              440,
+              995,
+              970
+            ],
+            "silhouette_iou": 0.604419,
+            "silhouette_matching_ratio": 0.635059,
+            "passed": true
+          },
+          "answer_key": {
+            "region": [
+              950,
+              440,
+              1225,
+              970
+            ],
+            "silhouette_iou": 0.543932,
+            "silhouette_matching_ratio": 0.608858,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      "card_content": {
+        "method": "normalized worksheet ink bounds; copy pixels excluded",
+        "regions": {
+          "reading_passage": {
+            "region": [
+              35,
+              440,
+              305,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                47,
+                455,
+                293,
+                958
+              ],
+              "top_margin_ratio": 0.028302,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.949057
+            },
+            "actual": {
+              "bbox": [
+                70,
+                494,
+                293,
+                958
+              ],
+              "top_margin_ratio": 0.101887,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.875472
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.073585,
+              "bottom_margin_ratio": 0.0,
+              "ink_span_ratio": 0.073585
+            },
+            "passed": true
+          },
+          "level1": {
+            "region": [
+              265,
+              440,
+              535,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                277,
+                452,
+                523,
+                954
+              ],
+              "top_margin_ratio": 0.022642,
+              "bottom_margin_ratio": 0.030189,
+              "ink_span_ratio": 0.94717
+            },
+            "actual": {
+              "bbox": [
+                277,
+                494,
+                523,
+                958
+              ],
+              "top_margin_ratio": 0.101887,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.875472
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.079245,
+              "bottom_margin_ratio": 0.007547,
+              "ink_span_ratio": 0.071698
+            },
+            "passed": true
+          },
+          "level2": {
+            "region": [
+              495,
+              440,
+              765,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                507,
+                452,
+                753,
+                953
+              ],
+              "top_margin_ratio": 0.022642,
+              "bottom_margin_ratio": 0.032075,
+              "ink_span_ratio": 0.945283
+            },
+            "actual": {
+              "bbox": [
+                507,
+                496,
+                753,
+                958
+              ],
+              "top_margin_ratio": 0.10566,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.871698
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.083018,
+              "bottom_margin_ratio": 0.009433,
+              "ink_span_ratio": 0.073585
+            },
+            "passed": true
+          },
+          "level3": {
+            "region": [
+              725,
+              440,
+              995,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                737,
+                454,
+                983,
+                956
+              ],
+              "top_margin_ratio": 0.026415,
+              "bottom_margin_ratio": 0.026415,
+              "ink_span_ratio": 0.94717
+            },
+            "actual": {
+              "bbox": [
+                737,
+                471,
+                983,
+                958
+              ],
+              "top_margin_ratio": 0.058491,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.918868
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.032076,
+              "bottom_margin_ratio": 0.003773,
+              "ink_span_ratio": 0.028302
+            },
+            "passed": true
+          },
+          "answer_key": {
+            "region": [
+              950,
+              440,
+              1225,
+              970
+            ],
+            "reference": {
+              "bbox": [
+                962,
+                456,
+                1213,
+                958
+              ],
+              "top_margin_ratio": 0.030189,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.94717
+            },
+            "actual": {
+              "bbox": [
+                962,
+                471,
+                1213,
+                958
+              ],
+              "top_margin_ratio": 0.058491,
+              "bottom_margin_ratio": 0.022642,
+              "ink_span_ratio": 0.918868
+            },
+            "crop_mode": "cover",
+            "deltas": {
+              "top_margin_ratio": 0.028302,
+              "bottom_margin_ratio": 0.0,
+              "ink_span_ratio": 0.028302
+            },
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      "typography_layout": {
+        "method": "dark-ink bounding boxes in fixed title and label regions",
+        "regions": {
+          "month": {
+            "reference_bbox": [
+              310,
+              63,
+              952,
+              190
+            ],
+            "actual_bbox": [
+              311,
+              63,
+              955,
+              189
+            ],
+            "edge_deltas": [
+              1,
+              0,
+              3,
+              -1
+            ],
+            "passed": true
+          },
+          "title": {
+            "reference_bbox": [
+              71,
+              200,
+              1189,
+              339
+            ],
+            "actual_bbox": [
+              79,
+              200,
+              1179,
+              325
+            ],
+            "edge_deltas": [
+              8,
+              0,
+              -10,
+              -14
+            ],
+            "passed": true
+          },
+          "subtitle": {
+            "reference_bbox": [
+              127,
+              349,
+              1130,
+              418
+            ],
+            "actual_bbox": [
+              133,
+              350,
+              1130,
+              419
+            ],
+            "edge_deltas": [
+              6,
+              1,
+              0,
+              1
+            ],
+            "passed": true
+          },
+          "labels": {
+            "reference_bbox": [
+              98,
+              977,
+              1198,
+              1041
+            ],
+            "actual_bbox": [
+              102,
+              979,
+              1192,
+              1045
+            ],
+            "edge_deltas": [
+              4,
+              2,
+              -6,
+              4
+            ],
+            "passed": true
+          }
+        },
+        "passed": true
+      }
+    }
+  ],
+  "passed": true
+}

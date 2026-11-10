@@ -32,6 +32,7 @@
     "monthly:follow-up:prepare": "node scripts/prepare-monthly-follow-up.mjs",
     "monthly:worksheet:render": "node scripts/render-monthly-worksheet-package.mjs",
     "release:qa:december": "node scripts/generate-december-release-qa.mjs",
+    "landing:generate:december": "node scripts/generate-december-landing-page.mjs",
     "templates:validate": "node scripts/validate-template-assets.mjs",
     "tpt:metadata:validate": "node scripts/validate-tpt-metadata-taxonomy.mjs",
     "tpt:assets:package": "node scripts/package-tpt-assets.mjs",

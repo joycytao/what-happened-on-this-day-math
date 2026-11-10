@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "product": {
+    "id": "december-morning-work-math",
+    "month": "december",
+    "version": "v1.0",
+    "day_count": 31
+  },
+  "pdf": {
+    "path": "output/pdf/december-2026-final.pdf",
+    "sha256": "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d",
+    "page_count": 128
+  },
+  "doodle": {
+    "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-doodle.png"
+  },
+  "templates": {
+    "cover": { "output": "output/thumbnails/december-v1.0-cover.png" },
+    "whats_included": {
+      "output": "output/thumbnails/december-v1.0-whats-included.png",
+      "source_pages": { "story": 2, "level1": 3, "level2": 4, "level3": 5, "answer_key": 125 }
+    },
+    "different_math": {
+      "output": "output/thumbnails/december-v1.0-different-math.png",
+      "source_pages": { "story": 2, "level1": 3, "level2": 4, "level3": 5 }
+    },
+    "daily_practice": {
+      "output": "output/thumbnails/december-v1.0-daily-practice.png",
+      "source_pages": { "worksheet": 3 }
+    },
+    "landing_page": {
+      "output": "output/thumbnails/december-v1.0-landing-page.png",
+      "source_pages": { "reading_passage": 2, "level1": 3, "level2": 4, "level3": 5, "answer_key": 125 }
+    }
+  }
+}

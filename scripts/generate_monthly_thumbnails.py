@@ -152,27 +152,33 @@ def pumpkin_doodle(canvas):
 
 
 def december_doodle(canvas):
-    """Draw a December-specific outline-only evergreen and star.
-
-    December must not inherit the generic pumpkin fallback.  This keeps the
-    canonical art-box geometry and orange stroke while making the seasonal
-    variable unmistakable at thumbnail size.
-    """
+    """Draw a December-specific outline-only Christmas tree and star."""
     draw = ImageDraw.Draw(canvas)
-    stroke = 8
-    # Star topper.
-    star = [(630, 635), (646, 675), (688, 675), (654, 700),
-            (667, 742), (630, 716), (593, 742), (606, 700),
-            (572, 675), (614, 675)]
+    stroke = 7
+    star = [(630, 600), (646, 635), (684, 635), (654, 658),
+            (666, 695), (630, 673), (594, 695), (606, 658),
+            (576, 635), (614, 635)]
     draw.line(star + [star[0]], fill=ORANGE, width=stroke, joint="curve")
-    # Three open evergreen tiers.
-    draw.line([(630, 705), (505, 825), (755, 825), (630, 705)], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 770), (455, 925), (805, 925), (630, 770)], fill=ORANGE, width=stroke, joint="curve")
-    draw.line([(630, 850), (405, 1010), (855, 1010), (630, 850)], fill=ORANGE, width=stroke, joint="curve")
-    # Trunk and simple ornaments, all unfilled.
-    draw.rectangle((602, 1010, 658, 1070), outline=ORANGE, width=stroke)
-    for x, y in [(560, 840), (700, 840), (520, 945), (630, 900), (740, 945)]:
-        draw.ellipse((x - 14, y - 14, x + 14, y + 14), outline=ORANGE, width=stroke)
+    tiers = [
+        [(630, 662), (520, 758), (740, 758)],
+        [(630, 720), (470, 838), (790, 838)],
+        [(630, 790), (430, 908), (830, 908)],
+    ]
+    for apex, left, right in tiers:
+        draw.line([apex, left, right, apex], fill=ORANGE, width=stroke, joint="curve")
+
+    garlands = [
+        [(555, 742), (580, 731), (605, 742), (630, 731), (655, 742), (680, 731), (705, 742)],
+        [(500, 822), (535, 808), (570, 822), (605, 808), (640, 822), (675, 808), (710, 822), (760, 808)],
+        [(455, 892), (500, 878), (545, 892), (590, 878), (635, 892), (680, 878), (725, 892), (805, 875)],
+    ]
+    for garland in garlands:
+        draw.line(garland, fill=ORANGE, width=5, joint="curve")
+
+    draw.line((630, 908, 630, 940), fill=ORANGE, width=stroke)
+    draw.line((602, 940, 658, 940), fill=ORANGE, width=stroke)
+    for x, y in [(575, 760), (685, 760), (535, 835), (630, 815), (725, 835), (500, 895), (760, 895)]:
+        draw.ellipse((x - 13, y - 13, x + 13, y + 13), outline=ORANGE, width=stroke)
 
 
 def centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
@@ -345,8 +351,11 @@ def draw_monthly_doodle(canvas, month=None, doodle_path=None):
     """Place the approved month-specific transparent doodle in the fixed art box."""
     if doodle_path and Path(doodle_path).exists():
         source = Image.open(doodle_path).convert("RGBA")
-        source.thumbnail((360, 330), Image.Resampling.LANCZOS)
-        canvas.alpha_composite(source, ((SIZE - source.width) // 2, 620))
+        alpha_bbox = source.getchannel("A").getbbox()
+        if alpha_bbox:
+            source = source.crop(alpha_bbox)
+        source.thumbnail((460, 350), Image.Resampling.LANCZOS)
+        canvas.alpha_composite(source, ((SIZE - source.width) // 2, 600))
         return
     if month and month.lower() == "december":
         december_doodle(canvas)
@@ -670,7 +679,7 @@ def main():
         "pdf_sha256": actual_pdf_sha256,
         "doodle_sha256": hashlib.sha256(doodle_path.read_bytes()).hexdigest() if doodle_path else None,
         "copyConcepts": {
-            "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "December evergreen and star" if manifest["product"]["month"].lower() == "december" and doodle_path is None else ("orange line-art pumpkin" if doodle_path is None else manifest["doodle"]["path"]), "doodlePrompt": "outline-only December evergreen with star and unfilled ornaments; orange stroke; fixed art box; no fill or shading" if manifest["product"]["month"].lower() == "december" and doodle_path is None else ("recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading")},
+            "cover": {"headline": manifest["product"]["month"].title(), "productTitle": "MORNING WORK MATH", "supportingText": [f"{day_count} DAILY WORD PROBLEMS"], "levelsBlock": "3 LEVELS with orange side lines", "doodle": "December Christmas tree and star" if manifest["product"]["month"].lower() == "december" and doodle_path is None else ("orange line-art pumpkin" if doodle_path is None else manifest["doodle"]["path"]), "doodlePrompt": "outline-only December Christmas tree with star and unfilled ornaments; orange stroke; fixed art box; no fill or shading" if manifest["product"]["month"].lower() == "december" and doodle_path is None else ("recognizable pumpkin silhouette with five ribbed lobes, curved stem, outlined leaf, and flattened base; orange outline only; no fill or shading" if doodle_path is None else "month-specific approved transparent orange line-art doodle; fixed art box; no fill or shading")},
             "whats_included": {"headline": "WHAT’S INCLUDED", "sourceLayout": "story, level 1, level 2 / level 3, answer key", "headlineEmphasis": "three orange rays on each side", "labelStyle": "orange pills narrower than cards", "footer": "centered logo without divider lines", "parityFixture": "references /thumbnail-assets/thumbnail-2-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
             "different_math": {"headline": [manifest["product"]["month"].title(), "Morning Work Math"], "supportingText": f"{day_count} Daily Word Problems · 3 Levels", "sourceLayout": "October reference frame with three fixed-geometry real worksheet replacements", "headlineSideLines": "short orange horizontal rules around the month", "labelStyle": "large uppercase navy labels", "parityFixture": "references /thumbnail-assets/thumbnail-3-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region pixel QA passes"},
             "daily_practice": {"headline": ["READY FOR", "DAILY PRACTICE"], "useCases": ["MORNING WORK", "BELL RINGERS", "HOMESCHOOL"], "headlineEmphasis": "three orange rays on each side", "useCaseSeparators": "vertical orange lines", "sourceLayout": "one centered borderless real worksheet preview with October-matched shadow and crop", "parityFixture": "references /thumbnail-assets/thumbnail-4-reference.png", "failureLoop": "rerun prompt/compositor optimization until fixed-region visual QA passes"},
