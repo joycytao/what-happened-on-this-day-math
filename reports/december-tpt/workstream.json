@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "qa",
+  "packageId": "december-morning-work-math",
+  "packageVersion": "v1.0.0",
+  "month": "December",
+  "year": 2026,
+  "sourceCommit": "6369faa",
+  "idempotencyKey": "december-morning-work-math@v1.0.0",
+  "outputDir": "output/tpt/december-morning-work-math",
+  "reportPath": "reports/december-tpt/workstream.json",
+  "failureReason": null,
+  "generatedAt": "deterministic"
+}

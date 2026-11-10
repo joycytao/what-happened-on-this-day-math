@@ -1,0 +1,124 @@
+{
+  "adapterSchemaVersion": "1.0.0",
+  "idempotencyKey": "december-morning-work-math@v1.0.0",
+  "package": {
+    "id": "december-morning-work-math",
+    "version": "v1.0.0",
+    "month": "December",
+    "year": 2026,
+    "sourceCommit": "6369faa",
+    "releaseStatus": "released"
+  },
+  "listing": {
+    "title": "December Morning Work Math",
+    "subjectArea": "Math",
+    "supportingAreas": [
+      "Reading",
+      "History"
+    ],
+    "resourceType": "Worksheets",
+    "gradeBand": "Grades 1-5",
+    "format": "Printable PDF",
+    "productRelationship": "monthly standalone",
+    "description": "Make daily math practice more memorable with 31 December morning work worksheets built around historical mini-stories and focused math word problems. This no-prep packet includes three levels of challenge in one product, making it easy to support different learners in the same classroom or homeschool setting.",
+    "contents": {
+      "dailyModules": 31,
+      "levels": [
+        "Level 1",
+        "Level 2",
+        "Level 3"
+      ],
+      "answerKeys": 3,
+      "cover": "output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png",
+      "finalPdf": "output/pdf/december-2026-final.pdf"
+    },
+    "keywords": [
+      "math word problems",
+      "morning work",
+      "daily math practice",
+      "historical mini-stories",
+      "history integration",
+      "real-world math",
+      "three levels",
+      "leveled math",
+      "mixed-level learners",
+      "december math worksheets"
+    ],
+    "tags": [
+      "math word problems",
+      "morning work",
+      "daily math practice",
+      "historical mini-stories",
+      "history integration",
+      "real-world math",
+      "three levels",
+      "leveled math",
+      "mixed-level learners",
+      "december math worksheets"
+    ],
+    "sourceReferences": {
+      "pageMappings": "reports/december-tpt/page-mappings.json",
+      "thumbnailQa": "reports/december-tpt/thumbnail-qa.json",
+      "releaseManifest": "releases/december-2026.manifest.json",
+      "monthlyContent": "data/monthly/2026-12-content-v2.json",
+      "positioningBrief": "examples/tpt-positioning-brief.example.json"
+    }
+  },
+  "provenance": {
+    "package": {
+      "source": "releases/december-2026.manifest.json",
+      "fields": [
+        "packageId",
+        "packageVersion",
+        "month",
+        "year",
+        "sourceCommit",
+        "releaseStatus"
+      ]
+    },
+    "contents": {
+      "source": "data/monthly/2026-12-content-v2.json",
+      "fields": [
+        "days.length",
+        "mathLevels",
+        "answerKey"
+      ]
+    },
+    "assets": {
+      "source": "releases/december-2026.manifest.json",
+      "fields": [
+        "artifacts.finalPdf",
+        "artifacts.coverPdfPage",
+        "artifacts.pageMappings",
+        "artifacts.thumbnailQa"
+      ]
+    },
+    "taxonomy": {
+      "source": "examples/tpt-metadata-taxonomy.example.json",
+      "fields": [
+        "titleRules",
+        "keywordGroups",
+        "relationshipRules"
+      ]
+    },
+    "positioning": {
+      "source": "examples/tpt-positioning-brief.example.json",
+      "fields": [
+        "corePromise",
+        "targetBuyers",
+        "evidence",
+        "claimsBoundaries",
+        "copyReference"
+      ]
+    }
+  },
+  "claims": {
+    "unsupported": [],
+    "boundaries": [
+      "Do not claim a fixed mathematics skill progression.",
+      "Do not position the product as a complete reading-comprehension curriculum."
+    ],
+    "humanQaRequired": true,
+    "publicationStatus": "review"
+  }
+}
