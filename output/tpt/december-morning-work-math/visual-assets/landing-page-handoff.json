@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "december-morning-work-math",
+  "packageVersion": "v1.0",
+  "month": "december",
+  "landingPage": {
+    "monthSlug": "december",
+    "title": "December Morning Work Math",
+    "description": "31 daily word problems across 3 levels, with separate answer keys.",
+    "productUrl": "https://6pm-studio.com/go/december"
+  },
+  "sourcePdf": {
+    "path": "output/pdf/december-2026-final.pdf",
+    "sha256": "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d",
+    "pageCount": 128
+  },
+  "doodle": {
+    "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-doodle.png",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 434971,
+    "sha256": "b54cd8ab73753f4786f9fd19a46667329b101c43c1c9fee43e9a7b19b9c38bae"
+  },
+  "assets": [
+    {
+      "id": "cover",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-cover.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 161119,
+      "sha256": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe"
+    },
+    {
+      "id": "doodle",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-doodle.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 434971,
+      "sha256": "b54cd8ab73753f4786f9fd19a46667329b101c43c1c9fee43e9a7b19b9c38bae"
+    },
+    {
+      "id": "whats-included",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-whats-included.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 797872,
+      "sha256": "a6a62a121ce72764f838bcc64b507b35551aa58d7cce4138505c2d0ee94d3b4e"
+    },
+    {
+      "id": "different-math",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-different-math.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 741938,
+      "sha256": "0fe6de7bce9309970e6970699e9896a8c898298becb36133134267b2d8708289"
+    },
+    {
+      "id": "daily-practice",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-daily-practice.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 759829,
+      "sha256": "e8213ac4ffaf9f5f9448aaf40e9ee34b7ebdb0e69a2e94956a9b2a9ff3ecd0c0"
+    },
+    {
+      "id": "landing-page",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
+      "width": 1260,
+      "height": 1260,
+      "bytes": 463696,
+      "sha256": "484a051db6946838e224e3c02395122dafb09cdb90c77a2023dcd7b832bac5b4"
+    }
+  ],
+  "landingPageImage": {
+    "id": "landing-page",
+    "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
+    "width": 1260,
+    "height": 1260,
+    "bytes": 463696,
+    "sha256": "484a051db6946838e224e3c02395122dafb09cdb90c77a2023dcd7b832bac5b4"
+  },
+  "sourcePages": {
+    "cover": {
+      "output": "output/thumbnails/december-v1.0-cover.png"
+    },
+    "whats_included": {
+      "output": "output/thumbnails/december-v1.0-whats-included.png",
+      "source_pages": {
+        "story": 2,
+        "level1": 3,
+        "level2": 4,
+        "level3": 5,
+        "answer_key": 125
+      }
+    },
+    "different_math": {
+      "output": "output/thumbnails/december-v1.0-different-math.png",
+      "source_pages": {
+        "story": 2,
+        "level1": 3,
+        "level2": 4,
+        "level3": 5
+      }
+    },
+    "daily_practice": {
+      "output": "output/thumbnails/december-v1.0-daily-practice.png",
+      "source_pages": {
+        "worksheet": 3
+      }
+    },
+    "landing_page": {
+      "output": "output/thumbnails/december-v1.0-landing-page.png",
+      "source_pages": {
+        "reading_passage": 2,
+        "level1": 3,
+        "level2": 4,
+        "level3": 5,
+        "answer_key": 125
+      }
+    }
+  },
+  "qa": {
+    "status": "review",
+    "deterministic": true,
+    "dimensions": true,
+    "clipping": "manual-review-required",
+    "visualComparison": "fixed-region-structural-ssim-with-variable-copy-exclusions",
+    "structuralReport": "output/tpt/december-morning-work-math/visual-assets/visual-structure-qa.json",
+    "report": "output/tpt/december-morning-work-math/visual-assets/monthly-thumbnail-report.json"
+  }
+}
