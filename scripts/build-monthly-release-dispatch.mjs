@@ -47,7 +47,7 @@ export function buildMonthlyReleaseDispatch({ manifest, manifestPath, contentPat
   return {
     valid: errors.length === 0,
     errors,
-    month: monthSlug,
+    month,
     year,
     packageId: manifest?.packageId,
     manifestPath,
