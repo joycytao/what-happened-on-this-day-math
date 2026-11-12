@@ -276,9 +276,8 @@ jobs:
                     fields(first: 100) {
                       nodes {
                         __typename
-                        id
-                        name
-                        ... on ProjectV2SingleSelectField { options { id name } }
+                        ... on ProjectV2Field { id name }
+                        ... on ProjectV2SingleSelectField { id name options { id name } }
                       }
                     }
                     items(first: 100) {
