@@ -13,11 +13,9 @@ test("TPT workflow exposes Project configuration and persists a sync plan", () =
   assert.match(workflow, /updateProjectV2ItemFieldValue/);
 });
 
-test("release trigger starts TPT only after a successful monthly release", () => {
-  assert.match(triggerWorkflow, /workflow_run:/);
-  assert.match(triggerWorkflow, /workflows: \[Monthly package release\]/);
-  assert.match(triggerWorkflow, /types: \[completed\]/);
-  assert.match(triggerWorkflow, /conclusion == 'success'/);
+test("release router is the single explicit TPT dispatcher", () => {
+  assert.doesNotMatch(triggerWorkflow, /workflow_run:/);
+  assert.match(triggerWorkflow, /workflow_dispatch:/);
   assert.match(triggerWorkflow, /uses: \.\/\.github\/workflows\/tpt-workstream\.yml/);
   assert.match(triggerWorkflow, /thumbnail_manifest_path:/);
 });

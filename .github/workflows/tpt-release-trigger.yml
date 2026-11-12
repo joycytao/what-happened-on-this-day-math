@@ -1,9 +1,6 @@
 name: Start TPT from released monthly package
 
 on:
-  workflow_run:
-    workflows: [Monthly package release]
-    types: [completed]
   workflow_dispatch:
     inputs:
       month:
@@ -39,7 +36,7 @@ permissions:
 
 jobs:
   tpt:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_dispatch'
     uses: ./.github/workflows/tpt-workstream.yml
     with:
       month: ${{ inputs.month || vars.TPT_RELEASE_MONTH }}
