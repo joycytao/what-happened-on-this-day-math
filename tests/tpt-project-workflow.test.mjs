@@ -24,6 +24,14 @@ test("TPT visual generation has portable fonts and does not continue after a fai
   assert.match(workflow, /name: Dispatch landing-page thumbnail handoff[\s\S]*if: steps\.project-plan\.outcome == 'success'/);
 });
 
+test("landing-page copy is rendered into canonical typography boxes", () => {
+  const generator = fs.readFileSync("scripts/generate_monthly_thumbnails.py", "utf8");
+  assert.match(generator, /def landing_text_box\(canvas, text, box, bold=True\)/);
+  assert.match(generator, /landing_text_box\(canvas, month\.title\(\), \(310, 63, 952, 190\)\)/);
+  assert.match(generator, /landing_text_box\(canvas, "Morning Work Math", \(71, 200, 1189, 339\)\)/);
+  assert.match(generator, /landing_text_box\(canvas, f"\{day_count\} Daily Word Problems · 3 Levels", \(127, 349, 1130, 418\),?\)/);
+});
+
 test("release router is the single explicit TPT dispatcher", () => {
   assert.doesNotMatch(triggerWorkflow, /workflow_run:/);
   assert.match(triggerWorkflow, /workflow_dispatch:/);
