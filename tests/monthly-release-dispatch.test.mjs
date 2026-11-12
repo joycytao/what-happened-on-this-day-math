@@ -24,7 +24,7 @@ const validManifest = {
 test("maps a released manifest to both downstream workflows", () => {
   const result = buildMonthlyReleaseDispatch({ manifest: validManifest, manifestPath: "releases/december-2026.manifest.json" });
   assert.equal(result.valid, true);
-  assert.equal(result.month, "december");
+  assert.equal(result.month, "December");
   assert.equal(result.contentPath, "data/monthly/2026-12-content-v2.json");
   assert.equal(result.thumbnailManifestPath, "examples/december-thumbnail-manifest.json");
   assert.deepEqual(result.workflows, ["Queue monthly social workstreams", "Start TPT from released monthly package"]);
