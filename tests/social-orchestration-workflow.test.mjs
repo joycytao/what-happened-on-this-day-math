@@ -8,8 +8,7 @@ const unblock = fs.readFileSync(".github/workflows/social-dependency-unblock.yml
 const docs = fs.readFileSync("docs/social-orchestration.md", "utf8");
 
 test("monthly queue is release-driven and manually dispatchable, not a production cron", () => {
-  assert.match(monthly, /workflow_run:/);
-  assert.match(monthly, /workflows: \[Monthly package release\]/);
+  assert.doesNotMatch(monthly, /workflow_run:/);
   assert.match(monthly, /workflow_dispatch:/);
   assert.match(monthly, /build-social-issue-plan\.mjs/);
   assert.match(monthly, /addProjectV2ItemById/);
