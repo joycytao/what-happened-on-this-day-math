@@ -73,11 +73,13 @@ def font(size: int, bold: bool = True):
     candidates = [
         ("/System/Library/Fonts/Supplemental/Arial Black.ttf", 0) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
         ("/System/Library/Fonts/Arial.ttf", 0),
+        ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 0) if bold else ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 0),
+        ("/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf", 0) if bold else ("/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf", 0),
     ]
     for candidate, index in candidates:
         if Path(candidate).exists():
             return ImageFont.truetype(candidate, size, index=index)
-    return ImageFont.load_default()
+    raise RuntimeError("No supported production font found; install fonts-dejavu or provide the approved macOS font files")
 
 
 def fitted(text: str, width: int, size: int, bold: bool = True):

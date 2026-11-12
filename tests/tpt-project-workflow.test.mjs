@@ -13,6 +13,17 @@ test("TPT workflow exposes Project configuration and persists a sync plan", () =
   assert.match(workflow, /updateProjectV2ItemFieldValue/);
 });
 
+test("TPT visual generation has portable fonts and does not continue after a failed workstream", () => {
+  const generator = fs.readFileSync("scripts/generate_monthly_thumbnails.py", "utf8");
+  assert.match(workflow, /fonts-dejavu/);
+  assert.match(workflow, /test -f \/usr\/share\/fonts\/truetype\/dejavu\/DejaVuSans-Bold\.ttf/);
+  assert.match(generator, /DejaVuSans-Bold\.ttf/);
+  assert.match(generator, /No supported production font found/);
+  assert.match(workflow, /name: Block incomplete TPT workstream[\s\S]*if: steps\.workstream\.outcome != 'success'/);
+  assert.match(workflow, /name: Build deterministic Project sync plan[\s\S]*if: steps\.visual-assets\.outcome == 'success' && steps\.visual-review\.outcome == 'success' && steps\.workstream\.outcome == 'success'/);
+  assert.match(workflow, /name: Dispatch landing-page thumbnail handoff[\s\S]*if: steps\.project-plan\.outcome == 'success'/);
+});
+
 test("release router is the single explicit TPT dispatcher", () => {
   assert.doesNotMatch(triggerWorkflow, /workflow_run:/);
   assert.match(triggerWorkflow, /workflow_dispatch:/);

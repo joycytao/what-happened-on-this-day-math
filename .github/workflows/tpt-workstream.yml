@@ -108,8 +108,9 @@ jobs:
       - name: Install PDF rendering tools
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y poppler-utils
+          sudo apt-get install --no-install-recommends -y poppler-utils fonts-dejavu
           pdftoppm -v
+          test -f /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
 
       - name: Install visual-generation dependencies
         run: python -m pip install --requirement requirements-tpt-visual.txt
@@ -230,9 +231,13 @@ jobs:
               core.setOutput('issue_node_id', created.data.node_id);
             }
 
+      - name: Block incomplete TPT workstream
+        if: steps.workstream.outcome != 'success'
+        run: exit 1
+
       - name: Build deterministic Project sync plan
         id: project-plan
-        if: always()
+        if: steps.visual-assets.outcome == 'success' && steps.visual-review.outcome == 'success' && steps.workstream.outcome == 'success'
         env:
           PROJECT_OWNER: ${{ inputs.project_owner || vars.TPT_PROJECT_OWNER }}
           PROJECT_NUMBER: ${{ inputs.project_number || vars.TPT_PROJECT_NUMBER }}
@@ -331,7 +336,7 @@ jobs:
             core.info('Synchronized TPT Issue #' + plan.issue.number + ' to Project ' + project.title + '.');
 
       - name: Commit complete TPT package to main
-        if: success()
+        if: steps.project-plan.outcome == 'success'
         env:
           PACKAGE_DIR: output/tpt/${{ inputs.package_id }}
           PACKAGE_ID: ${{ inputs.package_id }}
@@ -353,7 +358,7 @@ jobs:
           git push origin HEAD:main
 
       - name: Dispatch landing-page thumbnail handoff
-        if: success()
+        if: steps.project-plan.outcome == 'success'
         env:
           DISPATCH_TOKEN: ${{ secrets.BLUE_SKY_BASIN_DISPATCH_TOKEN }}
           HANDOFF_PATH: output/tpt/${{ inputs.package_id }}/visual-assets/landing-page-handoff.json
