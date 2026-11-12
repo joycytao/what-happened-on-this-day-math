@@ -224,6 +224,19 @@ def landing_centered(draw, text, y, size, max_width=1120, fill=NAVY, bold=True):
     draw.text((630, y), text, anchor="ma", fill=fill, font=f)
 
 
+def landing_text_box(canvas, text, box, bold=True):
+    """Render variable landing-page copy into a canonical reference ink box."""
+    x0, y0, x1, y1 = box
+    scratch = Image.new("RGBA", (5000, 600), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(scratch)
+    draw.text((24, 24), text, font=landing_font(240, bold), fill=NAVY)
+    ink = scratch.getbbox()
+    if ink is None:
+        raise RuntimeError(f"Landing-page text produced no ink: {text!r}")
+    cropped = scratch.crop(ink).resize((x1 - x0, y1 - y0), Image.Resampling.LANCZOS)
+    canvas.alpha_composite(cropped, (x0, y0))
+
+
 def cover_font(size: int, bold: bool = True):
     candidates = [
         ("/System/Library/Fonts/Supplemental/Arial Black.ttf", 0) if bold else ("/System/Library/Fonts/Supplemental/Arial.ttf", 0),
@@ -534,15 +547,13 @@ def compose_landing_page(month, day_count, pages, out):
     # month name replaces October.
     # The reference month sits in the upper title band; longer month names
     # are fitted without changing that band's vertical center.
-    month_size = landing_month_font_size(month)
-    # November is longer than October, so keep its ink center in the same
-    # upper-band vertical center instead of letting the font ascent pull it
-    # toward the frame.
-    landing_centered(draw, month.title(), 36, month_size, 820)
+    # These boxes are measured from thumbnail-5-reference.png. Resizing the
+    # glyph layer into them keeps layout deterministic across font engines.
+    landing_text_box(canvas, month.title(), (310, 63, 952, 190))
     draw.line((70, 154, 269, 154), fill=ORANGE, width=7)
     draw.line((991, 154, 1190, 154), fill=ORANGE, width=7)
-    landing_centered(draw, "Morning Work Math", 172, 122, 1160)
-    landing_centered(draw, f"{day_count} Daily Word Problems · 3 Levels", 338, 65, 1100, bold=True)
+    landing_text_box(canvas, "Morning Work Math", (71, 200, 1189, 339))
+    landing_text_box(canvas, f"{day_count} Daily Word Problems · 3 Levels", (127, 349, 1130, 418))
 
     # Keep the complete header unobstructed: the canonical reference reserves
     # the upper third for the month/title/subtitle and starts the five-card
