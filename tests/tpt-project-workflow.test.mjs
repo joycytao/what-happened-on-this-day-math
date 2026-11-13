@@ -11,8 +11,8 @@ test("TPT workflow exposes Project configuration and persists a sync plan", () =
   assert.match(workflow, /repository-projects: write/);
   assert.match(workflow, /write-tpt-project-plan\.mjs/);
   assert.match(workflow, /updateProjectV2ItemFieldValue/);
-  assert.match(workflow, /\.\.\. on ProjectV2Field \{ id name \}/);
-  assert.match(workflow, /\.\.\. on ProjectV2SingleSelectField \{ id name options \{ id name \} \}/);
+  assert.match(workflow, /\.\.\. on ProjectV2FieldCommon \{ id name \}/);
+  assert.match(workflow, /\.\.\. on ProjectV2SingleSelectField \{ options \{ id name \} \}/);
   assert.doesNotMatch(workflow, /nodes \{\s+__typename\s+id\s+name/);
 });
 
