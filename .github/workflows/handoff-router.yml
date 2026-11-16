@@ -105,9 +105,9 @@ jobs:
               owner, repo, issue_number: issueNumber,
               body: [
                 `<!-- CODEX_HANDOFF_ROUTED:v1 -->`,
-                `Handoff `${handoff.handoffId}` routed successfully.`,
-                handoff.nextRole ? `Next role: `${handoff.nextRole}`` : 'Next role: human review',
-                handoff.nextState ? `State: `${handoff.nextState}`` : null,
+                `Handoff ${handoff.handoffId} routed successfully.`,
+                handoff.nextRole ? `Next role: ${handoff.nextRole}` : 'Next role: human review',
+                handoff.nextState ? `State: ${handoff.nextState}` : null,
                 'GitHub Actions coordinated this handoff; no model or API token was invoked.'
               ].filter(Boolean).join('\n')
             });
