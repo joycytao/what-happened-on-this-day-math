@@ -124,7 +124,7 @@
       "source": "output/tpt/december-morning-work-math/visual-assets",
       "target": "assets/thumbnails/visual-structure-qa.json",
       "bytes": 10320,
-      "sha256": "9e888212189268a478ae1afe17924d80ba8fd5724a49f043dc763062f98ea356"
+      "sha256": "619da0cde3e1c6ebd8f5d0e06c8bde8d3eef23e604be57190b3a748502497b23"
     },
     {
       "id": "thumbnailQa",

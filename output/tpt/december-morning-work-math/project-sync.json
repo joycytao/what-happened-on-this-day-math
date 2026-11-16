@@ -31,8 +31,8 @@
       "Source Release": "6369faa",
       "Target Date": "",
       "QA Status": "QA",
-      "Artifact URL": "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/43456992778/artifacts",
-      "Workflow Run": "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/43456992778",
+      "Artifact URL": "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/43962274826/artifacts",
+      "Workflow Run": "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/43962274826",
       "Manifest": "releases/december-2026.manifest.json"
     },
     "expectedProjectItemAction": "find-or-add-then-update",

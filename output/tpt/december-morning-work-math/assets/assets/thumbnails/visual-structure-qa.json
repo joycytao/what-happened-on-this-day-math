@@ -3,10 +3,10 @@
   "results": [
     {
       "asset": "cover",
-      "stable_region_ssim": 0.530202,
+      "stable_region_ssim": 0.499512,
       "pixel_comparison": {
-        "mean_absolute_error": 12.961015,
-        "matching_pixel_ratio_at_16": 0.870251,
+        "mean_absolute_error": 13.594928,
+        "matching_pixel_ratio_at_16": 0.867025,
         "compared_pixels": 397384
       },
       "threshold": 0.1,
