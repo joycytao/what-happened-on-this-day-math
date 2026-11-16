@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "tpt-visual-review-summary/v1",
+  "valid": true,
+  "errors": [],
+  "source": {
+    "pdf": {
+      "path": "output/pdf/december-2026-final.pdf",
+      "sha256": "dcf77438c586212eab7e6e09c118a011dba9ac48dbc770086b078b5b02ea472d",
+      "pageCount": 128
+    },
+    "templateVersion": "october-production-v2",
+    "sourcePages": {
+      "cover": {
+        "output": "output/thumbnails/december-v1.0-cover.png"
+      },
+      "whats_included": {
+        "output": "output/thumbnails/december-v1.0-whats-included.png",
+        "source_pages": {
+          "story": 2,
+          "level1": 3,
+          "level2": 4,
+          "level3": 5,
+          "answer_key": 125
+        }
+      },
+      "different_math": {
+        "output": "output/thumbnails/december-v1.0-different-math.png",
+        "source_pages": {
+          "story": 2,
+          "level1": 3,
+          "level2": 4,
+          "level3": 5
+        }
+      },
+      "daily_practice": {
+        "output": "output/thumbnails/december-v1.0-daily-practice.png",
+        "source_pages": {
+          "worksheet": 3
+        }
+      },
+      "landing_page": {
+        "output": "output/thumbnails/december-v1.0-landing-page.png",
+        "source_pages": {
+          "reading_passage": 2,
+          "level1": 3,
+          "level2": 4,
+          "level3": 5,
+          "answer_key": 125
+        }
+      }
+    }
+  },
+  "assets": [
+    {
+      "id": "cover",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-cover.png",
+      "archivePath": "visual-assets/december-v1.0-cover.png",
+      "sha256": "a0516e14546d8f3ed7ff0e5523101621eaa5a92e75880da2cdd8db34542bdc39",
+      "width": 1260,
+      "height": 1260,
+      "qa": true
+    },
+    {
+      "id": "whats-included",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-whats-included.png",
+      "archivePath": "visual-assets/december-v1.0-whats-included.png",
+      "sha256": "e56f52d41cbc54499d5f6027407bc460c5faaffdb4f0bbd83e8d8f8b87d4c3de",
+      "width": 1260,
+      "height": 1260,
+      "qa": true
+    },
+    {
+      "id": "different-math",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-different-math.png",
+      "archivePath": "visual-assets/december-v1.0-different-math.png",
+      "sha256": "9e0c6dda41d0b0b54126a1087ab8366281d0d057fde6639b105a9c3ca7c59c41",
+      "width": 1260,
+      "height": 1260,
+      "qa": true
+    },
+    {
+      "id": "daily-practice",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-daily-practice.png",
+      "archivePath": "visual-assets/december-v1.0-daily-practice.png",
+      "sha256": "42d06e7848ffcbe435393211ef122273e76422fadfe5d0b8f7b0819281f9196b",
+      "width": 1260,
+      "height": 1260,
+      "qa": true
+    },
+    {
+      "id": "landing-page",
+      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
+      "archivePath": "visual-assets/december-v1.0-landing-page.png",
+      "sha256": "4cac518cff175a56c10eaaa4aecdada06e8d96c7d49745cdec6efe2fea7fcc33",
+      "width": 1260,
+      "height": 1260,
+      "qa": true
+    }
+  ],
+  "qa": {
+    "report": "output/tpt/december-morning-work-math/visual-assets/visual-structure-qa.json",
+    "deterministic": true,
+    "dimensions": true
+  },
+  "artifact": {
+    "name": "tpt-december-morning-work-math",
+    "runUrl": "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/43456992778"
+  }
+}

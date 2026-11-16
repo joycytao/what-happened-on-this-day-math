@@ -16,9 +16,6 @@
   },
   "doodle": {
     "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-doodle.png",
-    "width": 1254,
-    "height": 1254,
-    "bytes": 434971,
     "sha256": "b54cd8ab73753f4786f9fd19a46667329b101c43c1c9fee43e9a7b19b9c38bae"
   },
   "assets": [
@@ -27,48 +24,40 @@
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-cover.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 161119,
-      "sha256": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe"
-    },
-    {
-      "id": "doodle",
-      "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-doodle.png",
-      "width": 1254,
-      "height": 1254,
-      "bytes": 434971,
-      "sha256": "b54cd8ab73753f4786f9fd19a46667329b101c43c1c9fee43e9a7b19b9c38bae"
+      "bytes": 160878,
+      "sha256": "a0516e14546d8f3ed7ff0e5523101621eaa5a92e75880da2cdd8db34542bdc39"
     },
     {
       "id": "whats-included",
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-whats-included.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 797872,
-      "sha256": "a6a62a121ce72764f838bcc64b507b35551aa58d7cce4138505c2d0ee94d3b4e"
+      "bytes": 802964,
+      "sha256": "e56f52d41cbc54499d5f6027407bc460c5faaffdb4f0bbd83e8d8f8b87d4c3de"
     },
     {
       "id": "different-math",
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-different-math.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 741938,
-      "sha256": "0fe6de7bce9309970e6970699e9896a8c898298becb36133134267b2d8708289"
+      "bytes": 749001,
+      "sha256": "9e0c6dda41d0b0b54126a1087ab8366281d0d057fde6639b105a9c3ca7c59c41"
     },
     {
       "id": "daily-practice",
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-daily-practice.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 759829,
-      "sha256": "e8213ac4ffaf9f5f9448aaf40e9ee34b7ebdb0e69a2e94956a9b2a9ff3ecd0c0"
+      "bytes": 769734,
+      "sha256": "42d06e7848ffcbe435393211ef122273e76422fadfe5d0b8f7b0819281f9196b"
     },
     {
       "id": "landing-page",
       "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
       "width": 1260,
       "height": 1260,
-      "bytes": 463696,
-      "sha256": "484a051db6946838e224e3c02395122dafb09cdb90c77a2023dcd7b832bac5b4"
+      "bytes": 529006,
+      "sha256": "4cac518cff175a56c10eaaa4aecdada06e8d96c7d49745cdec6efe2fea7fcc33"
     }
   ],
   "landingPageImage": {
@@ -76,8 +65,8 @@
     "path": "output/tpt/december-morning-work-math/visual-assets/december-v1.0-landing-page.png",
     "width": 1260,
     "height": 1260,
-    "bytes": 463696,
-    "sha256": "484a051db6946838e224e3c02395122dafb09cdb90c77a2023dcd7b832bac5b4"
+    "bytes": 529006,
+    "sha256": "4cac518cff175a56c10eaaa4aecdada06e8d96c7d49745cdec6efe2fea7fcc33"
   },
   "sourcePages": {
     "cover": {

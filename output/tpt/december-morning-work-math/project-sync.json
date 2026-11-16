@@ -1,0 +1,50 @@
+{
+  "valid": true,
+  "errors": [],
+  "plan": {
+    "schemaVersion": "1.0.0",
+    "idempotencyKey": "december-morning-work-math@v1.0.0",
+    "publicationStatus": "review",
+    "project": {
+      "owner": "joycytao",
+      "number": 2,
+      "fieldNames": {
+        "workstream": "Workstream",
+        "contentType": "Content Type",
+        "month": "Month",
+        "sourceRelease": "Source Release",
+        "targetDate": "Target Date",
+        "qaStatus": "QA Status",
+        "artifactUrl": "Artifact URL",
+        "workflowRun": "Workflow Run",
+        "manifest": "Manifest"
+      }
+    },
+    "issue": {
+      "number": 247,
+      "nodeId": "I_kwDOUFLdJ88AAAABecnMkA"
+    },
+    "fields": {
+      "Workstream": "TPT",
+      "Content Type": "Monthly Package",
+      "Month": "December",
+      "Source Release": "6369faa",
+      "Target Date": "",
+      "QA Status": "QA",
+      "Artifact URL": "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/43456992778/artifacts",
+      "Workflow Run": "https://github.com/joycytao/what-happened-on-this-day-math/actions/runs/43456992778",
+      "Manifest": "releases/december-2026.manifest.json"
+    },
+    "expectedProjectItemAction": "find-or-add-then-update",
+    "status": "QA",
+    "package": {
+      "id": "december-morning-work-math",
+      "version": "v1.0.0",
+      "month": "December",
+      "year": 2026,
+      "manifestPath": "releases/december-2026.manifest.json",
+      "reportPath": "output/tpt/december-morning-work-math/workstream.json",
+      "outputDir": "output/tpt/december-morning-work-math"
+    }
+  }
+}

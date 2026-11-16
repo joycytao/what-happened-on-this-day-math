@@ -3,10 +3,10 @@
   "results": [
     {
       "asset": "cover",
-      "stable_region_ssim": 0.499512,
+      "stable_region_ssim": 0.530202,
       "pixel_comparison": {
-        "mean_absolute_error": 13.594928,
-        "matching_pixel_ratio_at_16": 0.867025,
+        "mean_absolute_error": 12.961015,
+        "matching_pixel_ratio_at_16": 0.870251,
         "compared_pixels": 397384
       },
       "threshold": 0.1,
@@ -47,13 +47,13 @@
     },
     {
       "asset": "landing-page",
-      "stable_region_ssim": 0.58578,
+      "stable_region_ssim": 0.534185,
       "pixel_comparison": {
-        "mean_absolute_error": 27.628456,
-        "matching_pixel_ratio_at_16": 0.841247,
+        "mean_absolute_error": 29.995596,
+        "matching_pixel_ratio_at_16": 0.8256,
         "compared_pixels": 915960,
-        "diff_artifact": "/private/tmp/math-222/output/tpt/december-morning-work-math/visual-assets/landing-page-pixel-diff.png",
-        "overlay_artifact": "/private/tmp/math-222/output/tpt/december-morning-work-math/visual-assets/landing-page-overlay.png"
+        "diff_artifact": "/home/runner/work/what-happened-on-this-day-math/what-happened-on-this-day-math/output/tpt/december-morning-work-math/visual-assets/landing-page-pixel-diff.png",
+        "overlay_artifact": "/home/runner/work/what-happened-on-this-day-math/what-happened-on-this-day-math/output/tpt/december-morning-work-math/visual-assets/landing-page-overlay.png"
       },
       "threshold": 0.1,
       "passed": true,
@@ -320,16 +320,16 @@
               190
             ],
             "actual_bbox": [
-              311,
+              310,
               63,
-              955,
-              189
+              952,
+              190
             ],
             "edge_deltas": [
-              1,
               0,
-              3,
-              -1
+              0,
+              0,
+              0
             ],
             "passed": true
           },
@@ -341,16 +341,16 @@
               339
             ],
             "actual_bbox": [
-              79,
+              71,
               200,
-              1179,
-              325
+              1188,
+              339
             ],
             "edge_deltas": [
-              8,
               0,
-              -10,
-              -14
+              0,
+              -1,
+              0
             ],
             "passed": true
           },
@@ -362,16 +362,16 @@
               418
             ],
             "actual_bbox": [
-              133,
-              350,
+              127,
+              349,
               1130,
-              419
+              418
             ],
             "edge_deltas": [
-              6,
-              1,
               0,
-              1
+              0,
+              0,
+              0
             ],
             "passed": true
           },
@@ -383,15 +383,15 @@
               1041
             ],
             "actual_bbox": [
-              102,
-              979,
-              1192,
+              78,
+              977,
+              1198,
               1045
             ],
             "edge_deltas": [
-              4,
-              2,
-              -6,
+              -20,
+              0,
+              0,
               4
             ],
             "passed": true

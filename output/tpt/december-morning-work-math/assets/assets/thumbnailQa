@@ -11,7 +11,8 @@
     "sha256": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe",
     "width": 1260,
     "height": 1260,
-    "copy": ["DECEMBER", "MORNING WORK MATH", "31 DAILY WORD PROBLEMS", "3 LEVELS"]
+    "copy": ["DECEMBER", "MORNING WORK MATH", "31 DAILY WORD PROBLEMS", "3 LEVELS"],
+    "doodle": "outline-only December evergreen with star and unfilled ornaments"
   },
   "pageMappings": {
     "daily": [1, 124],
