@@ -31,6 +31,12 @@ that role. Reserve `status: blocked` and `ready-for-human` for named external
 inputs, permissions, dependencies, or explicit human-only decisions. See
 `docs/agent-governance.md` for the complete rule and transition evidence.
 
+The quality-engineer is the independent verification owner: it keeps content,
+mathematics, source, layout/PDF, visual, workflow, and deterministic checks
+separate, records reproducible evidence, and returns rejected work to the
+developer or blocked work to pm-triage. It must not merge, publish, dispatch,
+weaken acceptance criteria, or silently repair implementation defects.
+
 ## GitHub App connectivity gate
 
 Repeated automation runs showed that direct App-wrapper calls can collapse to

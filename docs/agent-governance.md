@@ -57,6 +57,18 @@ Routine review policy:
 `pm-triage` does not make architecture, product, domain, or release decisions
 on behalf of the designated owner.
 
+### `quality-engineer`
+
+The quality engineer owns independent verification after implementation. QE
+maps each acceptance criterion to reproducible commands, workflow evidence, and
+artifacts, keeping content, mathematics, source, layout/PDF, visual, workflow,
+and deterministic checks separate. QE returns concrete defects or missing
+implementation evidence to `developer` with a rejected handoff, and returns
+external dependencies, missing inputs, permissions, or ambiguous human-only
+decisions to `pm-triage` as blocked. A passing routine QA may move to
+`ready-for-human`; QE never merges, publishes, dispatches, or silently changes
+the accepted scope.
+
 ### Decision Owner
 
 The Decision Owner gives the authoritative answer to one open question,
