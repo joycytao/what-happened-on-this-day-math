@@ -59,6 +59,25 @@ competing next states or multiple owners.
 8. Post one compact handoff with the required fields below. Continue only through
    the named next role when its preconditions are satisfied.
 
+### Proactive queue audit
+
+At every scheduled PM cycle, inspect every open Issue and the open-PR list even
+when no Issue is currently eligible for pickup. Classify each item as eligible,
+blocked, paused, human-gated, in-progress, represented by an open PR,
+owner/status conflict, missing input, unresolved dependency, or missing
+canonical workflow state. Record a `CODEX_TRIAGE_AUDIT:v1` diagnosis with the
+category, evidence, and one next action. An empty pickup set is an outcome that
+requires this diagnosis; it is not permission to stop without inspection.
+
+PM triage may proactively repair only routine metadata that is unambiguous from
+the Issue, handoff, dependency, and PR evidence: normalize known status-label
+aliases, remove stale derived labels when a terminal handoff proves the next
+state, and restore one canonical owner/status pair when the evidence names it.
+Every repair must be idempotent, comment its before/after labels, and preserve
+the Issue's product, architecture, domain, implementation, quality, and release
+decisions. If more than one owner/status is plausible, do not guess; keep the
+Issue blocked or pending review and name the exact reconciliation needed.
+
 ## Decision Register
 
 Use this exact machine-readable table under `### Decision Register`:

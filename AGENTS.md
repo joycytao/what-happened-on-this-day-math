@@ -31,6 +31,11 @@ that role. Reserve `status: blocked` and `ready-for-human` for named external
 inputs, permissions, dependencies, or explicit human-only decisions. See
 `docs/agent-governance.md` for the complete rule and transition evidence.
 
+PM triage also performs a scheduled proactive queue audit. It must diagnose an
+empty pickup queue, identify malformed or conflicting owner/status labels, and
+repair only unambiguous routine metadata with idempotent evidence. It must not
+guess when more than one state or owner is plausible.
+
 The quality-engineer is the independent verification owner: it keeps content,
 mathematics, source, layout/PDF, visual, workflow, and deterministic checks
 separate, records reproducible evidence, and returns rejected work to the
