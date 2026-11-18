@@ -70,7 +70,7 @@
     "github:issues:inventory": "node scripts/inventory-github-issues.mjs",
     "monthly:context:validate": "node --test tests/monthly-context-input.test.mjs",
     "agent:handoff:validate": "node scripts/validate-agent-handoff.mjs",
-    "governance:validate": "node scripts/validate-issue-governance.mjs && node scripts/validate-github-scripts.mjs && node scripts/validate-pm-triage.mjs && node scripts/validate-human-review-policy.mjs && node scripts/validate-developer.mjs && node scripts/validate-quality-engineer.mjs",
+    "governance:validate": "node scripts/validate-issue-governance.mjs && node scripts/validate-github-scripts.mjs && node scripts/validate-pm-triage.mjs && node scripts/validate-pm-triage-audit.mjs && node scripts/validate-human-review-policy.mjs && node scripts/validate-developer.mjs && node scripts/validate-quality-engineer.mjs",
     "cover:generate": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:merge": "node scripts/worksheet-cover-pipeline.mjs",
     "cover:prepare:november": "node scripts/prepare-november-cover.mjs",
