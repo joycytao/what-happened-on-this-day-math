@@ -1,5 +1,6 @@
 const OWNER_PREFIX = "agent: ";
 const STATUS_PREFIX = "status: ";
+import { classifyHumanReview } from "./human-review-policy.mjs";
 
 export const GOVERNANCE_OWNERS = new Set([
   "agent: pm-triage",
@@ -60,9 +61,19 @@ function firstValue(body, name) {
   return match?.[1]?.trim() || null;
 }
 
+function reviewPolicy(body) {
+  const reviewGate = firstValue(body, "Review gate") || "routine";
+  try {
+    return { ...classifyHumanReview({ reviewGate }), errors: [] };
+  } catch (error) {
+    return { reviewGate, humanDecisionRequired: false, humanActionRequired: false, errors: [error.message] };
+  }
+}
+
 export function parseIssueContract(issue = {}) {
   const body = String(issue.body || "");
   const labels = labelNames(issue.labels);
+  const review = reviewPolicy(body);
   const marker = body.match(/<!--\s*monthly-production:([^:]+):([^\s]+)\s*-->/i);
   const exactDependencies = [...body.matchAll(/^CODEX_DEPENDS_ON:\s*([^\s]+#\d+)\s*$/gim)].map((match) => match[1]);
   const keyDependencies = [...body.matchAll(/^CODEX_DEPENDS_ON_KEY:\s*([^\s]+)\s*$/gim)].map((match) => match[1]);
@@ -89,6 +100,10 @@ export function parseIssueContract(issue = {}) {
     reconcileTo: firstValue(body, "CODEX_RECONCILE_TO"),
     hasAcceptanceCriteria: /(^|\n)##?\s+(acceptance criteria|completion evidence)\b/i.test(body),
     readable: body.trim().length > 0 && /(^|\n)#\s+|(^|\n)##?\s+/m.test(body),
+    reviewGate: review.reviewGate,
+    humanDecisionRequired: review.humanDecisionRequired,
+    humanActionRequired: review.humanActionRequired,
+    reviewErrors: review.errors,
   };
 }
 
@@ -127,6 +142,11 @@ export function validateGovernanceIssue(issue, allIssues = []) {
   if (contract.status === "status: ready to pickup" && !dependencies.satisfied) errors.push(`open dependencies: ${dependencies.open.join(", ")}`);
   if (contract.status === "status: ready to pickup" && !contract.inputsValidated) errors.push("required inputs are not marked validated");
   if (contract.status === "status: ready to pickup" && !contract.hasAcceptanceCriteria) errors.push("acceptance criteria are missing");
+  errors.push(...contract.reviewErrors);
+  const humanGate = contract.labels.includes("ready-for-human");
+  if (humanGate && contract.reviewGate === "routine") errors.push("ready-for-human requires an explicit review gate");
+  if (contract.status === "status: ready to pickup" && contract.reviewGate !== "routine") errors.push("human review gates cannot be routed to routine pickup");
+  if (contract.humanDecisionRequired && !humanGate) errors.push("explicit human review gate requires ready-for-human");
   return { valid: errors.length === 0, errors, contract, dependencies };
 }
 

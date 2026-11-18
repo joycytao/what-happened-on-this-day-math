@@ -101,7 +101,14 @@ input; do not create a new owner label.
   gate applies.
 - `ready-for-human`: one explicit human decision is required for UI/UX or visual
   adoption, new or elevated credential/account/key/token access, public
-  publication/downstream dispatch, or final merge/release.
+  publication/downstream dispatch, or final product adoption; it may also mark
+  the explicit `final-merge` operational action.
+
+Declare `Review gate: routine` for ordinary work. Use `Review gate:` with one
+explicit decision gate (`ui-design`, `final-copy`, `final-product`,
+`credentials`, or `public-dispatch`) only when that decision is genuinely
+required. `final-merge` is an operational human action, not a content review.
+Routine work must not be routed to human review merely because it is important.
 
 ## Completion criteria
 

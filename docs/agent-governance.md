@@ -28,6 +28,15 @@ replacement for the repository's content, layout, or release requirements.
 7. A decision must include its conclusion and the evidence or reasoning that
    supports it.
 
+Routine review policy:
+
+- `Review gate: routine` means deterministic validation and QA are sufficient;
+  no human content review is requested.
+- Human decisions are reserved for `ui-design`, `final-copy`, `final-product`,
+  `credentials`, or `public-dispatch`.
+- Final merge remains an operational human gate under the current automation
+  contract, not a request for ordinary code or content review.
+
 ## Roles and decision boundaries
 
 ### `pm-triage`
@@ -280,7 +289,7 @@ The distinction is operational, not cosmetic:
 | Acceptance criteria or routing wording is incomplete but repository evidence is sufficient | `status: pending review` | PM triage or the named domain role | No |
 | A domain decision is genuinely open | `state: decision-requested` | Named Decision Owner | No, unless the decision is explicitly human-only |
 | Required monthly content, source data, permission, or an external dependency is absent | `status: blocked` | Named dependency owner or PM triage for routing | No |
-| UI/UX adoption, credential/account change, publication, downstream dispatch, or final release approval | `ready-for-human` | Human Accountable Owner | Yes |
+| UI/UX adoption, final copy, final product adoption, credential/account change, publication, downstream dispatch, or final release approval | `ready-for-human` | Human Accountable Owner | Yes |
 
 The Issue must say which evidence applies. A role must return a completed
 handoff or a named true blocker; it must not leave a routine completeness gap

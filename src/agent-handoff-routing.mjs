@@ -1,4 +1,5 @@
 import { AGENT_ROLES, validateHandoff } from "./agent-handoff.mjs";
+import { classifyHumanReview } from "./human-review-policy.mjs";
 
 const DECISION_ROLES = new Set(["architect", "product-manager", "social-expert"]);
 
@@ -76,10 +77,18 @@ export function routeHandoff(handoff, context = {}) {
 
   if (handoff.from === "quality-engineer" && handoff.status === "completed") {
     if (!context.isPullRequest) return invalid(["pull_request_required"]);
+    let review;
+    try {
+      review = classifyHumanReview({ reviewGate: context.reviewGate || "final-merge" });
+    } catch (error) {
+      return invalid([error.message]);
+    }
     return result({
       addLabels: ["ready-for-human"],
       nextRole: null,
       nextState: "ready-for-human",
+      humanDecisionRequired: review.humanDecisionRequired,
+      reviewGate: review.reviewGate,
     });
   }
 

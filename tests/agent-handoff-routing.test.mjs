@@ -61,6 +61,22 @@ test("routes a completed developer PR to quality-engineer", () => {
   assert.equal(result.nextState, "qa");
 });
 
+test("marks routine PR completion as an operational merge gate, not content review", () => {
+  const result = routeHandoff(handoff({ from: "quality-engineer", to: "pm-triage" }), context({ isPullRequest: true, reviewGate: "final-merge" }));
+
+  assert.equal(result.valid, true, result.errors.join("\n"));
+  assert.equal(result.reviewGate, "final-merge");
+  assert.equal(result.humanDecisionRequired, false);
+});
+
+test("marks explicit final-copy completion as requiring human judgment", () => {
+  const result = routeHandoff(handoff({ from: "quality-engineer", to: "pm-triage" }), context({ isPullRequest: true, reviewGate: "final-copy" }));
+
+  assert.equal(result.valid, true, result.errors.join("\n"));
+  assert.equal(result.reviewGate, "final-copy");
+  assert.equal(result.humanDecisionRequired, true);
+});
+
 test("routes a rejected QA handoff back to developer", () => {
   const result = routeHandoff(handoff({
     from: "quality-engineer",
