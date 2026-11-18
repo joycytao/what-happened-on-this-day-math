@@ -79,6 +79,15 @@ test("rejects malformed work items and empty next actions", () => {
   assert.ok(result.errors.includes("required_next_action_empty"));
 });
 
+test("accepts ready-for-human as the terminal handoff target", () => {
+  const result = parseHandoff(validMarkdown
+    .replace("`developer`", "`ready-for-human`")
+    .replace("`architect`", "`quality-engineer`"));
+
+  assert.equal(result.valid, true, result.errors.join("\n"));
+  assert.equal(result.handoff.to, "ready-for-human");
+});
+
 test("validates handoff objects and detects duplicate IDs", () => {
   const parsed = parseHandoff(validMarkdown);
   assert.equal(validateHandoff(parsed.handoff).valid, true);
