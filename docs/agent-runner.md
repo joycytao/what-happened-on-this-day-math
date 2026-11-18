@@ -27,7 +27,7 @@ Implementation PRs are routed by `.github/workflows/pr-handoff.yml`. A
 developer PR creates one QA handoff. Governance/schema/orchestration changes
 request architect consultation, and social-format changes request
 social-expert consultation. QA rejection returns the PR to developer with the
-review URL as evidence; QA completion creates a human-review handoff and never
+review URL as evidence; QA completion creates a `ready-for-human` handoff and never
 merges automatically.
 
 ## Quiet heartbeat behavior

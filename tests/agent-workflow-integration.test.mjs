@@ -20,7 +20,7 @@ test("offline fixture proves the complete handoff route", () => {
 
   const decision = routeHandoff(handoff(), { labels: fixture.issue.labels });
   assert.equal(decision.nextRole, "pm-triage");
-  assert.equal(decision.nextState, "decision-complete");
+  assert.equal(decision.nextState, "pending review");
 
   const withoutApproval = routeHandoff(handoff({ from: "pm-triage", to: "developer" }), { labels: [] });
   assert.equal(withoutApproval.valid, false);
@@ -38,7 +38,7 @@ test("offline fixture proves the complete handoff route", () => {
 
   const passed = routeHandoff(handoff({ from: "quality-engineer", to: "developer", status: "completed" }), { isPullRequest: true });
   assert.equal(passed.nextRole, null);
-  assert.equal(passed.nextState, "human-review");
+  assert.equal(passed.nextState, "ready-for-human");
 });
 
 test("offline recovery rules do not claim unsafe work", () => {

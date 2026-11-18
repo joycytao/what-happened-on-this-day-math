@@ -27,7 +27,29 @@ test("maps a released manifest to both downstream workflows", () => {
   assert.equal(result.month, "December");
   assert.equal(result.contentPath, "data/monthly/2026-12-content-v2.json");
   assert.equal(result.thumbnailManifestPath, "examples/december-thumbnail-manifest.json");
+  assert.match(result.releaseIdentity, /^[a-f0-9]{64}$/);
   assert.deepEqual(result.workflows, ["Queue monthly social workstreams", "Start TPT from released monthly package"]);
+});
+
+test("keeps release identity stable when only non-release metadata changes", () => {
+  const first = buildMonthlyReleaseDispatch({ manifest: validManifest, manifestPath: "releases/december-2026.manifest.json" });
+  const second = buildMonthlyReleaseDispatch({
+    manifest: { ...validManifest, workflowRun: 43962274826, generatedAt: "2026-11-18T00:00:00Z" },
+    manifestPath: "releases/december-2026.manifest.json",
+  });
+  assert.equal(second.releaseIdentity, first.releaseIdentity);
+});
+
+test("changes release identity when a publishable artifact changes", () => {
+  const first = buildMonthlyReleaseDispatch({ manifest: validManifest, manifestPath: "releases/december-2026.manifest.json" });
+  const second = buildMonthlyReleaseDispatch({
+    manifest: {
+      ...validManifest,
+      artifacts: validManifest.artifacts.map((artifact) => artifact.id === "finalPdf" ? { ...artifact, sha256: "f".repeat(64) } : artifact),
+    },
+    manifestPath: "releases/december-2026.manifest.json",
+  });
+  assert.notEqual(second.releaseIdentity, first.releaseIdentity);
 });
 
 test("rejects an unreleased manifest", () => {

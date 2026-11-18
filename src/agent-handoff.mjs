@@ -128,3 +128,27 @@ export function renderHandoff(handoff) {
   lines.push(...renderList("Expected output", handoff.expectedOutput));
   return `${lines.join("\n")}\n`;
 }
+
+export function renderCompactHandoff(handoff) {
+  const validation = validateHandoff(handoff);
+  if (!validation.valid) throw new Error(`Cannot render invalid handoff: ${validation.errors.join(", ")}`);
+  const lines = [
+    HANDOFF_MARKER,
+    "",
+    "## Handoff",
+    "",
+    `- Handoff ID: \`${handoff.handoffId}\``,
+    `- From: \`${handoff.from}\``,
+    `- To: \`${handoff.to}\``,
+    `- Work item: \`${handoff.workItem}\``,
+    `- Status: \`${handoff.status}\``,
+    `- Reason: ${handoff.reason || handoff.requiredNextAction?.[0] || "role transition"}`,
+    `- Preconditions: ${handoff.preconditions || handoff.constraints?.join("; ") || "declared inputs and dependencies are present"}`,
+    `- Human decision: ${handoff.humanDecision || "no"}`,
+    `- Next action: ${(handoff.requiredNextAction || []).join(" ")}`,
+    `- Evidence: ${(handoff.evidence || []).join("; ")}`,
+    `- Blockers: ${(handoff.blockers || []).join("; ")}`,
+    `- Return path: ${(handoff.constraints || []).join("; ") || "pm-triage if blocked"}`,
+  ];
+  return `${lines.join("\n")}\n`;
+}

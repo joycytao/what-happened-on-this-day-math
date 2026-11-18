@@ -57,7 +57,7 @@
   description: "Intentionally deferred by an explicit priority decision"
 - name: "status: ready to dispatch"
   color: "0e8a16"
-  description: "QA passed; downstream dispatch still needs human approval"
+  description: "Exact release approval complete; downstream dispatch is queued"
 - name: "status: done"
   color: "0e8a16"
   description: "Work is complete"

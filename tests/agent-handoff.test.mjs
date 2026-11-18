@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   findDuplicateHandoffIds,
   parseHandoff,
+  renderCompactHandoff,
   renderHandoff,
   validateHandoff,
 } from "../src/agent-handoff.mjs";
@@ -89,4 +90,16 @@ test("renders a stable v1 handoff comment", () => {
   const rendered = renderHandoff(parsed.handoff);
 
   assert.equal(rendered, validMarkdown);
+});
+
+test("renders a compact handoff with one next action and no repeated lists", () => {
+  const parsed = parseHandoff(validMarkdown);
+  const compact = renderCompactHandoff(parsed.handoff);
+  assert.match(compact, /- Next action: implement the loader/);
+  assert.match(compact, /- Reason: implement the loader/);
+  assert.match(compact, /- Preconditions: do not create a committed CSV export/);
+  assert.match(compact, /- Human decision: no/);
+  assert.match(compact, /- Evidence: #187 decision comment/);
+  assert.doesNotMatch(compact, /- Completed:/);
+  assert.doesNotMatch(compact, /- Expected output:/);
 });

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { validateMonthlyReleaseManifest } from "../src/monthly-release-manifest.mjs";
+import { buildMonthlyReleaseIdentity } from "../src/monthly-release-identity.mjs";
 
 const MONTHS = Object.freeze({
   january: "01", february: "02", march: "03", april: "04", may: "05", june: "06",
@@ -53,6 +54,7 @@ export function buildMonthlyReleaseDispatch({ manifest, manifestPath, contentPat
     manifestPath,
     contentPath: resolvedContentPath,
     thumbnailManifestPath: resolvedThumbnailManifestPath,
+    releaseIdentity: buildMonthlyReleaseIdentity(manifest),
     workflows: ["Queue monthly social workstreams", "Start TPT from released monthly package"],
   };
 }

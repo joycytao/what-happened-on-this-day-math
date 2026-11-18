@@ -63,10 +63,10 @@ jobs:
             if (!roles.has(handoff.from) || !roles.has(handoff.to)) errors.push('role_invalid');
             if (handoff.status === 'blocked') {
               handoff.nextRole = 'pm-triage';
-              handoff.nextState = 'blocked';
+              handoff.nextState = 'status: blocked';
             } else if (decisionRoles.has(handoff.from) && handoff.status === 'completed' && handoff.to === 'pm-triage') {
               handoff.nextRole = 'pm-triage';
-              handoff.nextState = 'decision-complete';
+              handoff.nextState = 'status: pending review';
             } else if (handoff.from === 'pm-triage' && handoff.to === 'developer' && ['accepted', 'completed'].includes(handoff.status)) {
               if (!issue.data.labels.some(label => label.name === 'status: ready to pickup')) errors.push('developer_gate_missing');
               handoff.nextRole = 'developer';
@@ -81,7 +81,7 @@ jobs:
               handoff.nextState = 'changes-requested';
             } else if (handoff.from === 'quality-engineer' && handoff.status === 'completed') {
               if (!context.payload.pull_request) errors.push('pull_request_required');
-              handoff.nextState = 'human-review';
+              handoff.nextState = 'ready-for-human';
             } else {
               errors.push('unsupported_transition');
             }
@@ -97,7 +97,9 @@ jobs:
             }
             const labels = [];
             if (handoff.nextRole) labels.push(`agent: ${handoff.nextRole}`);
-            if (handoff.nextState) labels.push(`state: ${handoff.nextState}`);
+            if (handoff.nextState === 'ready-for-human') labels.push('ready-for-human');
+            else if (handoff.nextState?.startsWith('status: ')) labels.push(handoff.nextState);
+            else if (handoff.nextState) labels.push(`state: ${handoff.nextState}`);
             if (labels.length) {
               await github.rest.issues.addLabels({ owner, repo, issue_number: issueNumber, labels });
             }

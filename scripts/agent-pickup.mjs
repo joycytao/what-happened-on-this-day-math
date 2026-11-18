@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawn } from "node:child_process";
-import { renderHandoff } from "../src/agent-handoff.mjs";
+import { renderCompactHandoff } from "../src/agent-handoff.mjs";
 import { buildClaimHandoff, formatQueueResult, listEligibleWork } from "../src/agent-pickup.mjs";
 
 const root = new URL("..", import.meta.url).pathname;
@@ -77,7 +77,7 @@ async function claim(options) {
   if (!result.valid || result.items.length === 0) throw new Error(`Issue #${options.issue} is not eligible for role ${options.role}`);
   const handoff = buildClaimHandoff(issue, options.role);
   if (options.dryRun) return print({ dryRun: true, handoff });
-  await runGithub(["issue", "comment", String(options.issue), "--repo", repo, "--body", renderHandoff(handoff)]);
+  await runGithub(["issue", "comment", String(options.issue), "--repo", repo, "--body", renderCompactHandoff(handoff)]);
   print({ claimed: true, handoffId: handoff.handoffId, issue: Number(options.issue) });
 }
 
@@ -97,7 +97,7 @@ async function release(options) {
   handoff.requiredNextAction = [options.status === "blocked" ? "pm-triage records the blocker" : "pm-triage records the rejection reason"];
   handoff.blockers = options.status === "blocked" ? ["claim released for triage"] : ["claim rejected for triage"];
   if (options.dryRun) return print({ dryRun: true, handoff });
-  await runGithub(["issue", "comment", String(options.issue), "--repo", repo, "--body", renderHandoff(handoff)]);
+  await runGithub(["issue", "comment", String(options.issue), "--repo", repo, "--body", renderCompactHandoff(handoff)]);
   print({ released: true, handoffId: handoff.handoffId, issue: Number(options.issue) });
 }
 

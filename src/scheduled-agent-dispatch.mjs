@@ -46,7 +46,7 @@ export function isScheduledEligible(issue, role) {
   const owners = [...labels].filter((label) => label.startsWith("agent: "));
   const pmBootstrap = role === "pm-triage" && isRoleRemediationCandidate(issue) && owners.length === 0;
   if (owners.length !== 1 && !pmBootstrap) return false;
-  if (labels.has("state: paused") || labels.has("state: blocked") || labels.has("status: blocked")) return false;
+  if (labels.has("state: paused") || labels.has("status: blocked")) return false;
   if (labels.has("state: claimed") || labels.has("state: implementation")) return false;
   if (labels.has("state: changes-requested") && role !== "developer") return false;
   if (labels.has("state: qa") && role !== "quality-engineer") return false;

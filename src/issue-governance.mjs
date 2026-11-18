@@ -20,6 +20,35 @@ export const GOVERNANCE_STATUSES = new Set([
   "status: done",
 ]);
 
+export const GOVERNANCE_TRANSITIONS = new Map([
+  ["status: pending review", new Set([
+    "state: decision-requested",
+    "status: blocked",
+    "status: ready to pickup",
+    "ready-for-human",
+  ])],
+  ["ready-for-human", new Set([
+    "status: ready to pickup",
+    "status: ready to dispatch",
+  ])],
+  ["status: ready to pickup", new Set(["state: implementation"])],
+  ["state: implementation", new Set(["status: qa"])],
+  ["status: qa", new Set(["state: changes-requested", "ready-for-human"])],
+  ["state: changes-requested", new Set(["state: implementation"])],
+  ["status: blocked", new Set(["status: pending review"])],
+  ["status: ready to dispatch", new Set(["status: done"])],
+]);
+
+export function validateGovernanceTransition(from, to) {
+  const allowed = GOVERNANCE_TRANSITIONS.get(from);
+  return {
+    valid: Boolean(allowed?.has(to)),
+    from,
+    to,
+    errors: allowed?.has(to) ? [] : [`unsupported transition: ${from} -> ${to}`],
+  };
+}
+
 const VALUE = (name) => new RegExp(`^${name}:\\s*(.+)$`, "im");
 
 function labelNames(labels = []) {

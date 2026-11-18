@@ -30,8 +30,8 @@ test("routes a completed architect decision to pm-triage", () => {
 
   assert.equal(result.valid, true, result.errors.join("\n"));
   assert.equal(result.nextRole, "pm-triage");
-  assert.equal(result.nextState, "decision-complete");
-  assert.deepEqual(result.addLabels, ["agent: pm-triage", "state: decision-complete"]);
+  assert.equal(result.nextState, "pending review");
+  assert.deepEqual(result.addLabels, ["agent: pm-triage", "status: pending review"]);
 });
 
 test("routes a human-approved ready Issue to developer", () => {

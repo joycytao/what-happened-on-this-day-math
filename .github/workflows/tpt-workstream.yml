@@ -83,6 +83,13 @@ jobs:
         with:
           ref: ${{ github.sha }}
 
+      - name: Compute immutable release identity
+        id: release-identity
+        env:
+          MANIFEST_PATH: ${{ inputs.manifest_path }}
+        run: >-
+          node --input-type=module -e 'import fs from "node:fs"; import { buildMonthlyReleaseIdentity } from "./src/monthly-release-identity.mjs"; const manifest=JSON.parse(fs.readFileSync(process.env.MANIFEST_PATH,"utf8")); fs.appendFileSync(process.env.GITHUB_OUTPUT, `release_identity=${buildMonthlyReleaseIdentity(manifest)}\n`);'
+
       - name: Verify release identity and gates
         env:
           MANIFEST_PATH: ${{ inputs.manifest_path }}
@@ -179,6 +186,7 @@ jobs:
           VISUAL_REVIEW_SUMMARY: output/tpt/${{ inputs.package_id }}/visual-review-summary.json
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           ARTIFACT_NAME: tpt-${{ inputs.package_id }}
+          RELEASE_IDENTITY: ${{ steps.release-identity.outputs.release_identity }}
         with:
           script: |
             const fs = require('node:fs');
@@ -201,6 +209,7 @@ jobs:
               `- Package version: \`${result.packageVersion || 'unknown'}\``,
               `- Month: ${result.month || 'unknown'}`,
               `- Source commit: \`${result.sourceCommit || 'unknown'}\``,
+              `- Release identity: \`${process.env.RELEASE_IDENTITY}\``,
               `- Idempotency key: \`${result.idempotencyKey || process.env.PACKAGE_ID}\``,
               `- Workflow run: ${process.env.RUN_URL}`,
               `- Workflow artifact: [${process.env.ARTIFACT_NAME}](${artifactUrl})`,
@@ -218,7 +227,7 @@ jobs:
               owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100
             });
             const existing = issues.find(issue => !issue.pull_request && (issue.body || '').includes(marker));
-            const labels = ['type: feature', status === 'QA' ? 'status: pending review' : 'status: blocked'];
+            const labels = ['type: feature', status === 'QA' ? 'ready-for-human' : 'status: blocked'];
             if (existing) {
               await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title: `TPT package: ${process.env.PACKAGE_ID}`, body, state: 'open', labels });
               core.info(`Updated TPT Issue #${existing.number} for ${process.env.PACKAGE_ID}.`);
@@ -356,8 +365,28 @@ jobs:
           git commit -m "Publish TPT package for ${PACKAGE_ID}"
           git push origin HEAD:main
 
-      - name: Dispatch landing-page thumbnail handoff
+      - name: Check exact human approval before downstream dispatch
+        id: approval
         if: steps.project-plan.outcome == 'success'
+        env:
+          ISSUE_NUMBER: ${{ steps.issue.outputs.issue_number }}
+          RELEASE_IDENTITY: ${{ steps.release-identity.outputs.release_identity }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { findReleaseApproval } = await import(`${process.env.GITHUB_WORKSPACE}/src/monthly-release-approval.mjs`);
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.ISSUE_NUMBER),
+              per_page: 100,
+            });
+            const result = findReleaseApproval(comments, process.env.RELEASE_IDENTITY);
+            core.setOutput('approved', result.approved ? 'true' : 'false');
+            core.info(result.approved ? 'Exact release approval found.' : 'Human approval is still required; downstream dispatch will wait for the approval label.');
+
+      - name: Dispatch landing-page thumbnail handoff
+        if: steps.project-plan.outcome == 'success' && steps.approval.outputs.approved == 'true'
         env:
           DISPATCH_TOKEN: ${{ secrets.BLUE_SKY_BASIN_DISPATCH_TOKEN }}
           HANDOFF_PATH: output/tpt/${{ inputs.package_id }}/visual-assets/landing-page-handoff.json

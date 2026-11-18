@@ -42,6 +42,7 @@ jobs:
               '<!-- CODEX_HANDOFF:v1 -->', '', '## Handoff', '',
               `- Handoff ID: \`${handoffId}\``, `- From: \`${from}\``, `- To: \`${to}\``,
               `- Work item: \`${owner}/${repo}#${workItemNumber}\``, `- Status: \`${status}\``,
+                  `- Reason: ${nextAction}`, `- Preconditions: PR event and linked Issue are available`, `- Human decision: ${to === 'ready-for-human' ? 'yes' : 'no'}`,
               '- Completed:', '  - PR event recorded', '- Required next action:', `  - ${nextAction}`,
               '- Evidence:', `  - ${evidence}`, '- Constraints:', '  - do not merge automatically',
               '- Blockers:', '  - none', '- Expected output:', '  - reviewed handoff evidence',
@@ -71,9 +72,9 @@ jobs:
 
             const review = context.payload.review;
             const failed = review.state === 'changes_requested' || /fail|reject|block/i.test(review.body || '');
-            const id = failed ? `issue:${workItemNumber}:pr:${number}:quality-engineer:developer:${sha}` : `issue:${workItemNumber}:pr:${number}:quality-engineer:human-review:${sha}`;
+            const id = failed ? `issue:${workItemNumber}:pr:${number}:quality-engineer:developer:${sha}` : `issue:${workItemNumber}:pr:${number}:quality-engineer:ready-for-human:${sha}`;
             if (already(id)) return;
-            const next = failed ? 'developer' : 'human-review';
-            const state = failed ? 'changes-requested' : 'human-review';
+            const next = failed ? 'developer' : 'ready-for-human';
+            const state = failed ? 'changes-requested' : 'ready-for-human';
             await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: body(id, 'quality-engineer', next, failed ? 'rejected' : 'completed', failed ? `address QA evidence and update PR #${number}` : `human maintainer reviews PR #${number} and decides whether to merge`, review.html_url || `review on PR #${number}`) });
             await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: failed ? ['agent: developer', 'state: changes-requested'] : ['ready-for-human'] });

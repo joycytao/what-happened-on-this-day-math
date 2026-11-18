@@ -269,44 +269,15 @@ does not prove that the historical claims or answers are correct.
 
 ## Issue triage and agent governance
 
-Before changing the Issue workflow, assigning work, or deciding whether an
-Issue is ready for pickup, read `docs/agent-governance.md`.
+Before changing the Issue workflow or assigning work, read
+`docs/agent-governance.md`. It is the single source of truth for routing,
+state transitions, human gates, release identity, and handoff comments.
 
-The `pm-triage` agent owns question routing and Issue completeness. Every open
-question must have exactly one Decision Owner; consulted agents provide input
-but do not compete with that owner. Routine work may move to `status: ready to
-pickup` once scope, acceptance criteria, inputs, and dependencies are complete.
-Unresolved blocking questions or dependencies keep the Issue blocked.
-
-When performing PM triage, use `skills/pm-triage/SKILL.md` and preserve the
-required Decision Register and Triage Summary format.
-
-For a domain decision request, use `state: decision-requested` plus exactly one
-matching `agent:*` owner and a `CODEX_HANDOFF:v1` comment. Do not add a second
-owner label or a generated handoff label.
-
-Before modifying the issue workflow, recalculate the dependency graph from the
-current open Issues and update the documented order when a new Issue, scope
-change, closure, or prerequisite changes the graph. Preserve unrelated local
-changes and report any unresolved evidence gap instead of guessing.
-
-## Agent handoff runner
-
-Agent-to-agent work uses the versioned `<!-- CODEX_HANDOFF:v1 -->` comment
-contract described in `docs/agent-governance.md` and
-`docs/agent-runner.md`. GitHub Actions route handoffs and maintain derived
-labels; they never call an LLM. Codex pickup automation claims at most one
-eligible work item per cycle, uses the repository GitHub connectivity runner,
-starts from the latest remote `main` in a dedicated worktree, and writes a
-completed or blocked handoff with evidence.
-
-The existing `status: ready to pickup` label is the routine implementation
-gate after PM completeness checks. Use `ready-for-human` only for a specific
-human-only decision or approval.
-
-The Codex pickup interface is `scripts/agent-pickup.mjs`. It must use
-`list --role`, `claim --role --issue`, and `release --issue --handoff-id
---status` through `scripts/github-app-command.mjs`; never call `gh` directly.
+Use `skills/pm-triage/SKILL.md` for triage and
+`scripts/agent-pickup.mjs` for claims/releases. Keep exactly one owner label.
+Use `ready-for-human` only for a named human decision; after matching release
+approval, use `status: ready to dispatch`. Do not add a second owner or emit
+handoff comments during polling.
 
 ## Worksheet template reuse
 
