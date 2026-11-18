@@ -60,7 +60,7 @@ export function routeHandoff(handoff, context = {}) {
   if (handoff.from === "developer" && handoff.to === "quality-engineer" && handoff.status === "completed") {
     if (!context.isPullRequest) return invalid(["pull_request_required"]);
     return result({
-      addLabels: ["agent: quality-engineer", "state: qa"],
+      addLabels: ["agent: quality-engineer", "status: qa"],
       nextRole: "quality-engineer",
       nextState: "qa",
     });

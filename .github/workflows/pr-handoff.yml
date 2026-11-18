@@ -33,7 +33,7 @@ jobs:
             const linkedIssue = await github.rest.issues.get({ owner, repo, issue_number: workItemNumber });
             const reviewGate = linkedIssue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'final-merge';
             const humanDecisionRequired = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']).has(reviewGate);
-            if (!humanDecisionRequired && reviewGate !== 'final-merge') {
+            if (!humanDecisionRequired && !new Set(['routine', 'final-merge']).has(reviewGate)) {
               core.setFailed(`unsupported review gate: ${reviewGate}`);
               return;
             }

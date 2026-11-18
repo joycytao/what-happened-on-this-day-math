@@ -10,7 +10,7 @@ function issue(number, labels, overrides = {}) {
 test("dispatches at most one eligible Issue per role with the correct skill and next role", () => {
   const plan = buildScheduledDispatchPlan([
     issue(187, ["status: ready to pickup", "agent: developer"]),
-    issue(188, ["agent: quality-engineer", "state: qa"]),
+    issue(188, ["agent: quality-engineer", "status: qa"]),
     issue(189, ["agent: architect", "state: decision-requested"])
   ], { generatedAt: "2026-10-28T15:00:00Z" });
   assert.deepEqual(plan.assignments.map((item) => [item.role, item.issueNumber]), [["architect", 189], ["developer", 187], ["quality-engineer", 188]]);

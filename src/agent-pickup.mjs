@@ -20,12 +20,12 @@ function isEligible(item, role) {
   if (labels.has("status: blocked") || labels.has("state: paused")) return false;
   if (labels.has("state: implementation")) return false;
   if (labels.has("state: changes-requested") && role !== "developer") return false;
-  if (labels.has("state: qa") && role !== "quality-engineer") return false;
+  if (labels.has("status: qa") && role !== "quality-engineer") return false;
   if (labels.has("state: claimed")) return false;
 
   if (role === "developer") return labels.has("status: ready to pickup") && labels.has("agent: developer");
   if (DECISION_ROLES.has(role)) return labels.has(`agent: ${role}`) && labels.has("state: decision-requested");
-  if (role === "quality-engineer") return labels.has("agent: quality-engineer") && labels.has("state: qa");
+  if (role === "quality-engineer") return labels.has("agent: quality-engineer") && labels.has("status: qa");
   if (role === "pm-triage") return labels.has("agent: pm-triage") && labels.has("status: pending review");
   return false;
 }

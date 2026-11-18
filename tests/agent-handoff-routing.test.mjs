@@ -69,6 +69,16 @@ test("marks routine PR completion as an operational merge gate, not content revi
   assert.equal(result.humanDecisionRequired, false);
 });
 
+test("accepts an explicit routine review gate at the workflow terminal", () => {
+  const result = routeHandoff(handoff({ from: "quality-engineer", to: "developer", status: "completed" }), {
+    isPullRequest: true,
+    reviewGate: "routine",
+  });
+  assert.equal(result.valid, true);
+  assert.equal(result.humanDecisionRequired, false);
+  assert.equal(result.nextState, "ready-for-human");
+});
+
 test("marks explicit final-copy completion as requiring human judgment", () => {
   const result = routeHandoff(handoff({ from: "quality-engineer", to: "pm-triage" }), context({ isPullRequest: true, reviewGate: "final-copy" }));
 

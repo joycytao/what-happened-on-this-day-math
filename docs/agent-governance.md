@@ -202,6 +202,15 @@ OpenAI or another external model. Codex pickup uses the versioned
 `CODEX_HANDOFF:v1` runner described below; after an agent responds,
 `pm-triage` records the decision and evidence.
 
+Developer scope is fail-closed: pickup requires exactly `agent: developer` plus
+`status: ready to pickup`, validated inputs, resolved dependencies, testable
+acceptance criteria, and no explicit human decision gate. The developer may
+implement and test the accepted scope, but may not expand scope, invent missing
+inputs, merge, publish, dispatch, enable auto-merge, or alter human-gate labels.
+Completion requires reproducible evidence and one handoff to
+`quality-engineer`; missing inputs or dependencies return to `pm-triage` with a
+named blocker.
+
 ## Canonical release state machine
 
 Publication and downstream dispatch use one exclusive sequence:
