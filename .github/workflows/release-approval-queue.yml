@@ -1,0 +1,84 @@
+name: Dispatch approved release handoff
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: read
+  issues: write
+
+jobs:
+  dispatch:
+    if: github.event.issue.pull_request == null && startsWith(github.event.comment.body, 'HUMAN_APPROVAL:v1')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/github-script@v7
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          DISPATCH_TOKEN: ${{ secrets.BLUE_SKY_BASIN_DISPATCH_TOKEN }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const crypto = require('node:crypto');
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.ISSUE_NUMBER),
+            });
+            if (!issue.data.labels.some(label => label.name === 'ready-for-human')) {
+              core.info('Approval comment is not attached to a ready-for-human release gate.');
+              return;
+            }
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.ISSUE_NUMBER),
+              per_page: 100,
+            });
+            const body = issue.data.body || '';
+            const identity = body.match(/^- Release identity:\s*`?([a-f0-9]{64})`?\s*$/im)?.[1]?.toLowerCase();
+            const approved = identity && comments.some(comment => {
+              const commentBody = comment.body || '';
+              return /^HUMAN_APPROVAL:v1\b/m.test(commentBody)
+                && commentBody.match(/^- Release identity:\s*`?([a-f0-9]{64})`?\s*$/im)?.[1]?.toLowerCase() === identity;
+            });
+            if (!identity || !approved) core.setFailed('Exact release approval is missing for this dispatch event.');
+            if (!identity || !approved) return;
+
+            const labels = issue.data.labels.map(label => label.name).filter(name => name !== 'ready-for-human' && name !== 'status: pending review');
+            if (!labels.includes('status: ready to dispatch')) labels.push('status: ready to dispatch');
+            await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: Number(process.env.ISSUE_NUMBER), labels });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.ISSUE_NUMBER),
+              body: `<!-- CODEX_HANDOFF:v1 -->\nCODEX_HANDOFF:v1\n\n- Issue: #${process.env.ISSUE_NUMBER}\n- From: ready-for-human\n- To: status: ready to dispatch\n- Transition reason: Human approval matches the immutable release identity.\n- Evidence: release identity \`${identity}\`\n- Preconditions satisfied: QA passed; exact HUMAN_APPROVAL:v1 comment; matching release identity.\n- Preconditions still missing: downstream dispatch completion.\n- Human decision needed: no\n- Next action: dispatch the approved handoff exactly once.\n- Return path: reopen ready-for-human if the release identity changes.`,
+            });
+
+            const packageId = body.match(/^# TPT package: ([^\n]+)$/m)?.[1]?.trim();
+            const handoffPath = packageId
+              ? `output/tpt/${packageId}/visual-assets/landing-page-handoff.json`
+              : null;
+            if (!handoffPath || !fs.existsSync(handoffPath)) core.setFailed(`Approved landing-page handoff is missing: ${handoffPath}`);
+            if (!handoffPath || !fs.existsSync(handoffPath)) return;
+
+            const handoff = JSON.parse(fs.readFileSync(handoffPath, 'utf8'));
+            const sourceSha256 = crypto.createHash('sha256').update(fs.readFileSync(handoffPath)).digest('hex');
+            const response = await fetch('https://api.github.com/repos/joycytao/blue-sky-basin/actions/workflows/receive-landing-page-thumbnail-handoff.yml/dispatches', {
+              method: 'POST',
+              headers: {
+                accept: 'application/vnd.github+json',
+                authorization: `Bearer ${process.env.DISPATCH_TOKEN}`,
+                'content-type': 'application/json',
+                'user-agent': 'what-happened-on-this-day-math-release-approval',
+              },
+              body: JSON.stringify({
+                ref: 'main',
+                inputs: { manifest_path: handoffPath, source_sha256: sourceSha256, release_version: handoff.packageVersion },
+              }),
+            });
+            if (!response.ok) core.setFailed(`Landing-page dispatch failed: ${response.status} ${await response.text()}`);
+            else core.info(`Dispatched approved landing-page handoff for ${handoff.packageId} (${sourceSha256}).`);

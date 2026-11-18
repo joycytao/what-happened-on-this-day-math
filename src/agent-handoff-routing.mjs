@@ -32,7 +32,7 @@ export function routeHandoff(handoff, context = {}) {
 
   if (handoff.status === "blocked") {
     return result({
-      addLabels: ["state: blocked"],
+      addLabels: ["status: blocked"],
       nextRole: "pm-triage",
       nextState: "blocked",
     });
@@ -41,9 +41,9 @@ export function routeHandoff(handoff, context = {}) {
   if (DECISION_ROLES.has(handoff.from) && handoff.status === "completed") {
     if (handoff.to !== "pm-triage") return invalid(["decision_handoff_must_return_to_pm_triage"]);
     return result({
-      addLabels: ["agent: pm-triage", "state: decision-complete"],
+      addLabels: ["agent: pm-triage", "status: pending review"],
       nextRole: "pm-triage",
-      nextState: "decision-complete",
+      nextState: "pending review",
     });
   }
 
@@ -77,9 +77,9 @@ export function routeHandoff(handoff, context = {}) {
   if (handoff.from === "quality-engineer" && handoff.status === "completed") {
     if (!context.isPullRequest) return invalid(["pull_request_required"]);
     return result({
-      addLabels: ["state: human-review"],
+      addLabels: ["ready-for-human"],
       nextRole: null,
-      nextState: "human-review",
+      nextState: "ready-for-human",
     });
   }
 

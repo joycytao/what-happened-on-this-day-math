@@ -34,7 +34,7 @@ jobs:
               ['state: changes-requested', 'd93f0b', 'Quality review requested implementation changes'],
               ['status: qa', 'fbca04', 'Waiting for QA evidence'],
               ['status: paused', '6f6b66', 'Intentionally deferred by an explicit priority decision'],
-              ['status: ready to dispatch', '0e8a16', 'QA passed; downstream dispatch still needs human approval'],
+              ['status: ready to dispatch', '0e8a16', 'Exact release approval complete; downstream dispatch is queued'],
               ['status: done', '0e8a16', 'Work is complete'],
             ];
             for (const [name, color, description] of labels) {

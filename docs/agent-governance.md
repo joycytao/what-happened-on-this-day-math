@@ -166,6 +166,12 @@ Human review is not a blanket precondition for ordinary implementation. It is
 required only for explicit human-only gates. Use `ready-for-human` plus one
 `HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
 
+For a release approval, the owner replies with one `HUMAN_APPROVAL:v1`
+comment that includes the exact `Release identity` from the Issue. The
+approval is valid only when that identity matches the current release
+manifest; the approval workflow then moves the Issue to `status: ready to
+dispatch`. It must not rerun generation as part of approval.
+
 The reusable project skill for applying this process is
 `skills/pm-triage/SKILL.md`.
 
@@ -187,25 +193,61 @@ OpenAI or another external model. Codex pickup uses the versioned
 `CODEX_HANDOFF:v1` runner described below; after an agent responds,
 `pm-triage` records the decision and evidence.
 
-## Versioned agent handoff protocol
+## Canonical release state machine
 
-Agents communicate through an Issue or Pull Request comment containing one
-machine-readable `<!-- CODEX_HANDOFF:v1 ... -->` marker. The contract is
-validated by `src/agent-handoff.mjs`; `handoffId` is the idempotency key, so a
-router must not apply labels or create a second routing comment for an ID
-already seen on the work item.
-
-The normal role chain is:
+Publication and downstream dispatch use one exclusive sequence:
 
 ```text
-pm-triage
-  → product-manager / architect / social-expert
-  → pm-triage
-  → developer
-  → quality-engineer
-  → specialist review
-  → Human merge
+status: qa
+  → ready-for-human
+  → status: ready to dispatch
+  → status: done
 ```
+
+`ready-for-human` means QA is complete and one specific Human Accountable
+Owner decision is still required. `status: ready to dispatch` means the
+decision was approved for the exact immutable release identity and the
+dispatch may begin. It never means "approval still pending". A metadata-only
+workflow rerun preserves the release identity; any changed publishable
+artifact hash returns the Issue to `ready-for-human`.
+
+## Versioned agent handoff protocol
+
+Agents write one compact `CODEX_HANDOFF:v1` comment only when the current
+owner or workflow state changes. Polling, queue scans, and internal checks do
+not create handoff comments. The comment names only the current Issue, From,
+To, transition reason, evidence, satisfied or missing preconditions, human
+decision status, next action, and return path. The router must be idempotent
+for the release identity or handoff ID and must not create duplicate routing
+comments.
+
+The compact comment shape is:
+
+```markdown
+<!-- CODEX_HANDOFF:v1 -->
+- Handoff ID: `repo:123:developer:quality-engineer:1`
+- From: `developer`
+- To: `quality-engineer`
+- Work item: `owner/repo#123`
+- Status: `completed`
+- Next action: run the acceptance checks
+- Evidence: PR check link and test command
+- Blockers: none
+- Return path: developer if QA rejects
+```
+
+The older list-shaped comment remains parseable for historical records, but
+new pickup comments use this compact form.
+
+The normal implementation chain is:
+
+```text
+pm-triage → domain owner or developer → quality-engineer → ready-for-human
+```
+
+At `ready-for-human`, the workstream stops until the named decision is
+recorded. After approval it resumes at `status: ready to dispatch`; it does
+not regenerate the package.
 
 ## Scheduled role eligibility
 
@@ -218,8 +260,8 @@ dependency, missing required input, unavailable permission, or explicit
 human-only gate and is not dispatched as routine PM work.
 
 `.github/workflows/handoff-router.yml` performs coordination only: it validates
-the marker, checks duplicates, derives `agent:*` and `state:*` labels, and
-records the next handoff. It never calls an LLM. The Codex pickup runner reads
+the marker, checks duplicates, derives canonical labels, and records the next
+handoff. It never calls an LLM. The Codex pickup runner reads
 eligible work through `scripts/github-app-command.mjs`, claims at most one
 item, starts from the latest remote `main` in a dedicated worktree, performs
 the role's work, and writes the next handoff comment. A blocked handoff returns

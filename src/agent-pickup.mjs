@@ -17,7 +17,7 @@ function labelNames(item) {
 
 function isEligible(item, role) {
   const labels = labelNames(item);
-  if (labels.has("status: blocked") || labels.has("state: blocked") || labels.has("state: paused")) return false;
+  if (labels.has("status: blocked") || labels.has("state: paused")) return false;
   if (labels.has("state: implementation")) return false;
   if (labels.has("state: changes-requested") && role !== "developer") return false;
   if (labels.has("state: qa") && role !== "quality-engineer") return false;
@@ -26,7 +26,7 @@ function isEligible(item, role) {
   if (role === "developer") return labels.has("status: ready to pickup") && labels.has("agent: developer");
   if (DECISION_ROLES.has(role)) return labels.has(`agent: ${role}`) && labels.has("state: decision-requested");
   if (role === "quality-engineer") return labels.has("agent: quality-engineer") && labels.has("state: qa");
-  if (role === "pm-triage") return labels.has("agent: pm-triage") && (labels.has("state: blocked") || labels.has("state: decision-complete"));
+  if (role === "pm-triage") return labels.has("agent: pm-triage") && labels.has("status: pending review");
   return false;
 }
 
@@ -51,6 +51,9 @@ export function buildClaimHandoff(item, role) {
     to,
     workItem: `joycytao/${REPO_SLUG}#${item.number}`,
     status: "accepted",
+    reason: `claim Issue #${item.number} for ${role} work`,
+    preconditions: "Issue is eligible for this role and has no unresolved routine prerequisite",
+    humanDecision: "no",
     completed: [`claimed Issue #${item.number}`],
     requiredNextAction: [`perform the ${role} work and write a completed or blocked handoff`],
     evidence: [item.html_url || `Issue #${item.number}`],
