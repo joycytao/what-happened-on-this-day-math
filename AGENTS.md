@@ -17,6 +17,12 @@ Governance work-item metadata and queue eligibility are defined in
 those sources aligned instead of adding new labels for parent/implementation
 relationships.
 
+Routine work proceeds from deterministic validation and quality engineering
+without a human content review. Human decisions are reserved for UI/UX
+adoption, final copy, final product adoption, credential or permission changes,
+and public or downstream dispatch. The current automation contract keeps final
+merge operations human-controlled; do not enable auto-merge from this workflow.
+
 When a role can resolve a scope, acceptance-criteria, or routing gap from
 repository evidence, keep the Issue in `status: pending review` and dispatch
 that role. Reserve `status: blocked` and `ready-for-human` for named external
@@ -275,7 +281,8 @@ state transitions, human gates, release identity, and handoff comments.
 
 Use `skills/pm-triage/SKILL.md` for triage and
 `scripts/agent-pickup.mjs` for claims/releases. Keep exactly one owner label.
-Use `ready-for-human` only for a named human decision; after matching release
+Use `ready-for-human` only for a named human decision or an explicit
+`final-merge` operational gate; after matching release
 approval, use `status: ready to dispatch`. Do not add a second owner or emit
 handoff comments during polling.
 

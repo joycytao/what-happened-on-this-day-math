@@ -17,7 +17,9 @@ comment is the human-readable explanation.
 - `status: ready to dispatch`: the exact release was approved and is queued
   for public or downstream dispatch.
 - `status: done`: work is complete.
-- `ready-for-human`: one specific human decision or approval is required.
+- `ready-for-human`: one specific human decision or approval is required, such
+  as UI/UX adoption, final copy, final product adoption, credentials, or
+  public/downstream dispatch.
 - `state: decision-requested`, `state: implementation`, and
   `state: changes-requested`: active decision, implementation, or QA feedback.
 

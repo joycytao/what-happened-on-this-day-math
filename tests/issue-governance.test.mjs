@@ -49,3 +49,22 @@ test("release transitions distinguish approval from dispatch readiness", () => {
   assert.equal(validateGovernanceTransition("status: ready to dispatch", "status: done").valid, true);
   assert.equal(validateGovernanceTransition("status: qa", "status: ready to dispatch").valid, false);
 });
+
+test("routine work cannot accidentally enter the human gate", () => {
+  const routine = base({ labels: ["ready-for-human"] });
+  const result = validateGovernanceIssue(routine, [routine]);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.includes("ready-for-human requires an explicit review gate"));
+});
+
+test("explicit final-copy work must use the human gate", () => {
+  const copy = base({ body: "# Copy\n\nReview gate: final-copy\n\n## Acceptance Criteria\n- exact final copy", labels: ["status: ready to pickup", "agent: developer"] });
+  const result = validateGovernanceIssue(copy, [copy]);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.includes("human review gates cannot be routed to routine pickup"));
+});
+
+test("final merge remains an operational human action", () => {
+  const merge = base({ body: "# Merge\n\nReview gate: final-merge\n", labels: ["ready-for-human"] });
+  assert.equal(validateGovernanceIssue(merge, [merge]).valid, true);
+});

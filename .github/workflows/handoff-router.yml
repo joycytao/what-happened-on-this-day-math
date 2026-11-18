@@ -45,6 +45,9 @@ jobs:
             const issueNumber = context.payload.issue?.number ?? context.payload.pull_request?.number;
             const { owner, repo } = context.repo;
             const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
+            const reviewGate = issue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'final-merge';
+            const humanDecisionGates = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']);
+            const operationalGates = new Set(['final-merge']);
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner, repo, issue_number: issueNumber, per_page: 100
             });
@@ -54,7 +57,7 @@ jobs:
               comment.body?.includes(`handoffId: ${handoff.handoffId}`));
             if (duplicate) return;
 
-            const roles = new Set(['pm-triage', 'product-manager', 'architect', 'social-expert', 'developer', 'quality-engineer']);
+            const roles = new Set(['pm-triage', 'product-manager', 'architect', 'social-expert', 'developer', 'quality-engineer', 'ready-for-human']);
             const decisionRoles = new Set(['architect', 'product-manager', 'social-expert']);
             const errors = [];
             for (const field of ['handoffId', 'from', 'to', 'workItem', 'status']) {
@@ -81,6 +84,7 @@ jobs:
               handoff.nextState = 'changes-requested';
             } else if (handoff.from === 'quality-engineer' && handoff.status === 'completed') {
               if (!context.payload.pull_request) errors.push('pull_request_required');
+              if (!humanDecisionGates.has(reviewGate) && !operationalGates.has(reviewGate)) errors.push(`unsupported review gate: ${reviewGate}`);
               handoff.nextState = 'ready-for-human';
             } else {
               errors.push('unsupported_transition');

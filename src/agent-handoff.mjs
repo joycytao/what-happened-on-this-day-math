@@ -9,6 +9,8 @@ export const AGENT_ROLES = Object.freeze([
   "quality-engineer",
 ]);
 
+export const HANDOFF_TARGETS = Object.freeze([...AGENT_ROLES, "ready-for-human"]);
+
 export const HANDOFF_STATUSES = Object.freeze([
   "requested",
   "accepted",
@@ -75,7 +77,7 @@ export function validateHandoff(handoff) {
     else if (handoff[field].length === 0 || handoff[field].some((item) => typeof item !== "string" || !item.trim())) errors.push(`${field}_empty`);
   }
   if (handoff.from && !AGENT_ROLES.includes(handoff.from)) errors.push("from_role_invalid");
-  if (handoff.to && !AGENT_ROLES.includes(handoff.to)) errors.push("to_role_invalid");
+  if (handoff.to && !HANDOFF_TARGETS.includes(handoff.to)) errors.push("to_role_invalid");
   if (handoff.status && !HANDOFF_STATUSES.includes(handoff.status)) errors.push("status_invalid");
   if (handoff.workItem && !/^[^/\s]+\/[^#\s]+#\d+$/.test(handoff.workItem)) errors.push("work_item_invalid");
   if (handoff.requiredNextAction?.some((item) => !item.trim())) errors.push("required_next_action_empty");
