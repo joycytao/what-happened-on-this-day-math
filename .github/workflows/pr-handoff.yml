@@ -41,10 +41,6 @@ jobs:
             const comments = [...prComments, ...issueComments];
             const sha = pr.data.head.sha.slice(0, 12);
             const already = (id) => comments.some(comment => comment.body?.includes(`Handoff ID: \`${id}\``));
-            const hasDeveloperHandoff = comments.some(comment =>
-              comment.body?.includes('<!-- CODEX_HANDOFF:v1 -->') &&
-              comment.body?.includes('From: `developer`') &&
-              comment.body?.includes('To: `quality-engineer`'));
             const body = (handoffId, from, to, status, nextAction, evidence) => [
               '<!-- CODEX_HANDOFF:v1 -->', '', '## Handoff', '',
               `- Handoff ID: \`${handoffId}\``, `- From: \`${from}\``, `- To: \`${to}\``,
@@ -54,7 +50,56 @@ jobs:
               '- Evidence:', `  - ${evidence}`, '- Constraints:', '  - do not merge automatically',
               '- Blockers:', '  - none', '- Expected output:', '  - reviewed handoff evidence',
             ].join('\n');
-
+            const mergeableState = pr.data.mergeable_state || 'unknown';
+            const isConflict = mergeableState === 'dirty' || (pr.data.mergeable === false && !['blocked', 'unknown'].includes(mergeableState));
+            const isConflictResolved = pr.data.mergeable === true && !['dirty', 'unknown'].includes(mergeableState);
+            const conflictAlertId = `issue:${workItemNumber}:pr:${number}:conflict:${sha}:${mergeableState}`;
+            const conflictResolutionId = `issue:${workItemNumber}:pr:${number}:conflict-resolved:${sha}`;
+            const removeWorkflowLabels = async () => {
+              const current = linkedIssue.data.labels.map(label => label.name);
+              for (const label of current.filter(label =>
+                label.startsWith('agent: ') || label.startsWith('state: ') || label === 'ready-for-human' || label === 'status: qa'
+              )) {
+                await github.rest.issues.removeLabel({ owner, repo, issue_number: workItemNumber, name: label });
+              }
+            };
+            const conflictBody = (id, resolved = false) => [
+              '<!-- CODEX_CONFLICT_ALERT:v1 -->', '',
+              resolved ? '## PR conflict resolved' : '## PR conflict detected', '',
+              `- Alert ID: \`${id}\``,
+              `- Work item: \`${owner}/${repo}#${workItemNumber}\``,
+              `- Pull request: https://github.com/${owner}/${repo}/pull/${number}`,
+              `- Mergeable: \`${String(pr.data.mergeable)}\``,
+              `- Mergeable state: \`${mergeableState}\``,
+              `- Base: \`${pr.data.base.ref}\``,
+              `- Head: \`${pr.data.head.ref}\` @ \`${pr.data.head.sha}\``,
+              resolved
+                ? '- Evidence: GitHub reports the PR mergeable again; developer must still rerun focused verification before handoff.'
+                : '- Required action: developer fetches the latest base, resolves only in-scope conflicts in an isolated worktree, and reruns checks.',
+              resolved
+                ? '- Return path: developer → quality-engineer after the focused checks pass.'
+                : '- Return path: pm-triage for ambiguous, out-of-scope, or permission-blocked conflicts.',
+            ].join('\n');
+            if (isConflict && !comments.some(comment => comment.body?.includes(`Alert ID: \`${conflictAlertId}\``))) {
+              await removeWorkflowLabels();
+              await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: ['agent: developer', 'state: changes-requested'] });
+              await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: conflictBody(conflictAlertId) });
+              const handoffId = `issue:${workItemNumber}:pr:${number}:quality-engineer:developer:conflict:${sha}`;
+              if (!already(handoffId)) {
+                await github.rest.issues.createComment({
+                  owner, repo, issue_number: workItemNumber,
+                  body: body(handoffId, 'quality-engineer', 'developer', 'rejected', `resolve PR #${number} merge conflicts before QA`, `PR #${number} reports mergeable_state=${mergeableState}; ${pr.data.base.ref} ← ${pr.data.head.ref} @ ${pr.data.head.sha}`),
+                });
+              }
+              return;
+            }
+            if (isConflictResolved && comments.some(comment => comment.body?.includes('<!-- CODEX_CONFLICT_ALERT:v1 -->')) && !comments.some(comment => comment.body?.includes(`Alert ID: \`${conflictResolutionId}\``))) {
+              await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: conflictBody(conflictResolutionId, true) });
+            }
+            const hasDeveloperHandoff = comments.some(comment =>
+              comment.body?.includes('<!-- CODEX_HANDOFF:v1 -->') &&
+              comment.body?.includes('From: `developer`') &&
+              comment.body?.includes('To: `quality-engineer`'));
             if (context.eventName === 'pull_request') {
               if (!hasDeveloperHandoff) return;
               const files = await github.paginate(github.rest.pulls.listFiles, { owner, repo, pull_number: Number(number), per_page: 100 });

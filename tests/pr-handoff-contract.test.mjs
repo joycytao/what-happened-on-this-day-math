@@ -15,6 +15,16 @@ test("PR workflow routes developer implementation to quality-engineer", async ()
   assert.match(workflow, /CODEX_HANDOFF:v1/);
 });
 
+test("PR workflow detects conflicts and returns the work to developer", async () => {
+  const workflow = await readFile(workflowPath, "utf8");
+  assert.match(workflow, /mergeable_state/);
+  assert.match(workflow, /CODEX_CONFLICT_ALERT:v1/);
+  assert.match(workflow, /quality-engineer.*developer.*conflict|developer.*conflict/si);
+  assert.match(workflow, /state: changes-requested/);
+  assert.match(workflow, /isolated worktree/);
+  assert.match(workflow, /mergeable.*unknown|unknown.*mergeable/si);
+});
+
 test("PR workflow consults architect and social expert by changed paths", async () => {
   const workflow = await readFile(workflowPath, "utf8");
   assert.match(workflow, /docs\/|src\/|\.github\//);
@@ -31,5 +41,5 @@ test("QA failure returns to developer and success stops at human gate", async ()
   assert.match(workflow, /ready-for-human/);
   assert.match(workflow, /issue_number: workItemNumber/);
   assert.match(workflow, /merge|human/i);
-  assert.doesNotMatch(workflow, /merge.*true|auto.?merge/i);
+  assert.doesNotMatch(workflow, /github\.rest\.pulls\.merge|auto.?merge/i);
 });
