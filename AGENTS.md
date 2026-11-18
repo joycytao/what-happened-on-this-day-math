@@ -4,7 +4,7 @@
 
 Use the following skills when the task matches their purpose:
 
-- `triage`: classify GitHub Issues, answer open questions, identify the Decision Owner, and decide whether an issue is ready for pickup.
+- `pm-triage`: classify GitHub Issues, answer process questions, identify the Decision Owner, and decide whether an issue is ready for pickup.
 - `ask-matt`: use a question-driven process to clarify repository process and agent workflow decisions.
 - `code-review`: review changes against repository standards and requirements.
 - `pr`: prepare pull request descriptions and review context.

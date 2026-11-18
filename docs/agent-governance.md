@@ -60,8 +60,8 @@ Typical ownership:
 - Architecture, interfaces, storage boundaries, and system trade-offs:
   Architect.
 - Code-level implementation details: Developer.
-- TPT listing, packaging, and teacher-facing marketplace requirements:
-  TPT Expert.
+- TPT listing and teacher-facing marketplace requirements: Product Manager;
+  technical packaging and orchestration: Architect. Split mixed questions.
 - Instagram or Facebook format and channel requirements: the corresponding
   domain expert.
 - Test strategy, verification evidence, and release quality: Quality Engineer.
