@@ -47,7 +47,7 @@ jobs:
             const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
             const reviewGate = issue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'final-merge';
             const humanDecisionGates = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']);
-            const operationalGates = new Set(['final-merge']);
+            const operationalGates = new Set(['routine', 'final-merge']);
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner, repo, issue_number: issueNumber, per_page: 100
             });
@@ -77,7 +77,7 @@ jobs:
             } else if (handoff.from === 'developer' && handoff.to === 'quality-engineer' && handoff.status === 'completed') {
               if (!context.payload.pull_request) errors.push('pull_request_required');
               handoff.nextRole = 'quality-engineer';
-              handoff.nextState = 'qa';
+              handoff.nextState = 'status: qa';
             } else if (handoff.from === 'quality-engineer' && handoff.to === 'developer' && handoff.status === 'rejected') {
               if (!context.payload.pull_request) errors.push('pull_request_required');
               handoff.nextRole = 'developer';

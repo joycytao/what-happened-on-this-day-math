@@ -49,12 +49,12 @@ export function isScheduledEligible(issue, role) {
   if (labels.has("state: paused") || labels.has("status: blocked")) return false;
   if (labels.has("state: claimed") || labels.has("state: implementation")) return false;
   if (labels.has("state: changes-requested") && role !== "developer") return false;
-  if (labels.has("state: qa") && role !== "quality-engineer") return false;
+  if (labels.has("status: qa") && role !== "quality-engineer") return false;
   if (role === "developer") return labels.has("status: ready to pickup") && labels.has("agent: developer");
   if (["product-manager", "architect", "social-expert"].includes(role)) {
     return labels.has(`agent: ${role}`) && labels.has("state: decision-requested");
   }
-  if (role === "quality-engineer") return labels.has("agent: quality-engineer") && labels.has("state: qa");
+  if (role === "quality-engineer") return labels.has("agent: quality-engineer") && labels.has("status: qa");
   if (role === "pm-triage") {
     return isRoleRemediationCandidate(issue);
   }

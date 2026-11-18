@@ -38,7 +38,7 @@ test("requires a role/state handoff for decision and QA roles", () => {
   const decision = listEligibleWork([issue({ labels: ["state: decision-requested", "agent: architect"] })], {
     role: "architect", connectivityValid: true,
   });
-  const qa = listEligibleWork([issue({ labels: ["state: qa", "agent: quality-engineer"] })], {
+  const qa = listEligibleWork([issue({ labels: ["status: qa", "agent: quality-engineer"] })], {
     role: "quality-engineer", connectivityValid: true,
   });
 
