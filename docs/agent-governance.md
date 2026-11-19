@@ -28,6 +28,14 @@ replacement for the repository's content, layout, or release requirements.
 7. A decision must include its conclusion and the evidence or reasoning that
    supports it.
 
+Source and brand asset prerequisites are machine-readable dependencies. Every
+required source asset must be represented by a
+`CODEX_SOURCE_ASSET_DEPENDENCY` JSON record with an id, paths, `required: true`,
+and `status: available`, `pending`, or `missing`; unavailable records must also
+name a reason. Prose such as “asset readiness blocker” is informative only and
+cannot satisfy a dependency. A malformed or unresolved record blocks pickup,
+and PM triage must preserve that blocker rather than infer availability.
+
 Routine review policy:
 
 - `Review gate: routine` means deterministic validation and QA are sufficient;

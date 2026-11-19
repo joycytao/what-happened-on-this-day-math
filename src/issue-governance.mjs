@@ -3,6 +3,7 @@ const STATUS_PREFIX = "status: ";
 import { classifyHumanReview } from "./human-review-policy.mjs";
 import { validateReadyForHumanGate } from "./human-gate-integrity.mjs";
 import { validateDerivedLabelInvariant } from "./derived-label-reconciliation.mjs";
+import { parseSourceAssetDependencies, requiresSourceAssetDependency } from "./source-asset-dependency.mjs";
 
 export const GOVERNANCE_OWNERS = new Set([
   "agent: pm-triage",
@@ -76,6 +77,11 @@ export function parseIssueContract(issue = {}) {
   const body = String(issue.body || "");
   const labels = labelNames(issue.labels);
   const review = reviewPolicy(body);
+  const sourceAssets = parseSourceAssetDependencies(body);
+  const sourceAssetErrors = [...sourceAssets.errors];
+  if (requiresSourceAssetDependency(labels) && sourceAssets.dependencies.length === 0) {
+    sourceAssetErrors.push("social work requires a CODEX_SOURCE_ASSET_DEPENDENCY contract");
+  }
   const marker = body.match(/<!--\s*monthly-production:([^:]+):([^\s]+)\s*-->/i);
   const exactDependencies = [...body.matchAll(/^CODEX_DEPENDS_ON:\s*([^\s]+#\d+)\s*$/gim)].map((match) => match[1]);
   const keyDependencies = [...body.matchAll(/^CODEX_DEPENDS_ON_KEY:\s*([^\s]+)\s*$/gim)].map((match) => match[1]);
@@ -103,6 +109,9 @@ export function parseIssueContract(issue = {}) {
     hasAcceptanceCriteria: /(^|\n)##?\s+(acceptance criteria|completion evidence)\b/i.test(body),
     readable: body.trim().length > 0 && /(^|\n)#\s+|(^|\n)##?\s+/m.test(body),
     reviewGate: review.reviewGate,
+    sourceAssetDependencies: sourceAssets.dependencies,
+    sourceAssetErrors: [...new Set(sourceAssetErrors)],
+    sourceAssetsSatisfied: sourceAssets.satisfied && sourceAssetErrors.length === 0,
     humanDecisionRequired: review.humanDecisionRequired,
     humanActionRequired: review.humanActionRequired,
     reviewErrors: review.errors,
@@ -128,7 +137,9 @@ export function dependencyReport(issue, allIssues = []) {
     dependencies,
     missing: dependencies.filter((item) => !item.resolved).map((item) => item.dependency),
     open: dependencies.filter((item) => item.resolved && !item.satisfied).map((item) => item.dependency),
-    satisfied: dependencies.every((item) => item.satisfied),
+    sourceAssets: contract.sourceAssetDependencies,
+    sourceAssetsMissing: contract.sourceAssetDependencies.filter((item) => item.status !== "available").map((item) => item.id),
+    satisfied: dependencies.every((item) => item.satisfied) && contract.sourceAssetsSatisfied && contract.sourceAssetErrors.length === 0,
   };
 }
 
@@ -146,6 +157,10 @@ export function validateGovernanceIssue(issue, allIssues = []) {
   if (contract.status === "status: ready to pickup" && !contract.inputsValidated) errors.push("required inputs are not marked validated");
   if (contract.status === "status: ready to pickup" && !contract.hasAcceptanceCriteria) errors.push("acceptance criteria are missing");
   errors.push(...contract.reviewErrors);
+  errors.push(...contract.sourceAssetErrors);
+  if (contract.status === "status: ready to pickup" && !contract.sourceAssetsSatisfied) {
+    errors.push(`source asset dependency unresolved: ${contract.sourceAssetDependencies.filter((item) => item.status !== "available").map((item) => item.id).join(", ") || "missing contract"}`);
+  }
   const humanGate = contract.labels.includes("ready-for-human");
   errors.push(...validateReadyForHumanGate({ labels: contract.labels, body: issue.body, comments: issue.comments }).errors);
   if (contract.status === "status: ready to pickup" && contract.reviewGate !== "routine") errors.push("human review gates cannot be routed to routine pickup");

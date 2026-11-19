@@ -1,4 +1,5 @@
 import { buildAtomicReadyPickupLabels } from "./derived-label-reconciliation.mjs";
+import { renderSourceAssetDependency } from "./source-asset-dependency.mjs";
 
 export const SOCIAL_LABELS = Object.freeze({
   owner: "agent: social-expert",
@@ -40,6 +41,16 @@ function baseResult(errors, issues = []) {
   return { valid: errors.length === 0, errors, issues };
 }
 
+function sourceAssetDependencyLine(id, assetStatus) {
+  return renderSourceAssetDependency({
+    id: `${id}:source-assets`,
+    paths: assetStatus.resources,
+    required: true,
+    status: assetStatus.valid ? "available" : "missing",
+    ...(assetStatus.valid ? {} : { reason: assetStatus.errors.join("; ") }),
+  });
+}
+
 function monthlyInputs(input) {
   const errors = [];
   const month = requiredString(input.month, "month", errors);
@@ -71,6 +82,7 @@ function monthlyParent(value, assetStatus) {
     `- Asset resources: ${assetStatus.resources.length ? assetStatus.resources.map((resource) => `\`${resource}\``).join(", ") : "none supplied"}`,
     assetStatus.valid ? "- Asset readiness: complete." : `- Asset readiness: blocked (${assetStatus.errors.join("; ")}).`,
     `- Source workflow run: ${value.runUrl}`,
+    sourceAssetDependencyLine(value.packageId, assetStatus),
     "- Expected Reel artifact: `output/social/product-reels/<month>/workstream.json` and the reviewed MP4/sidecar outputs.",
     "- Expected Carousel artifact: `output/social/carousels/<month>-carousels/workstream.json`.",
     "- QA report and PR URL must be added by the Codex worker before closure.",
@@ -111,6 +123,7 @@ function monthlyChild(value, kind, week, dependency = null, assetStatus = { vali
     `- Release manifest: \`${value.manifestPath}\``,
     `- Source workflow run: ${value.runUrl}`,
     assetLine,
+    sourceAssetDependencyLine(value.packageId, assetStatus),
     dependencyLine,
     `- Production command: \`${command}\``,
     `- Expected artifact: \`output/social/${isReel ? "product-reels" : "carousels"}/${value.month.toLowerCase()}${isReel ? "" : "-carousels"}/workstream.json\``,
@@ -171,6 +184,7 @@ export function buildUtilitySocialIssuePlan(input = {}) {
       `- Cycle ID: \`${cycleId}\``,
       `- Queue workflow run: ${runUrl}`,
       assetStatus.valid ? `- Asset resources: ${assetStatus.resources.map((resource) => `\`${resource}\``).join(", ")}` : `- Asset readiness blocker: ${assetStatus.errors.join("; ")}`,
+      sourceAssetDependencyLine(cycleId, assetStatus),
       "- Original, clean review copy, and redaction report follow the 90-day retention contract.",
       "- Automatic publication is out of scope.",
     ].join("\n"),
@@ -196,6 +210,7 @@ export function buildUtilitySocialIssuePlan(input = {}) {
         `- Intake Issue: #${intakeIssueNumber}`,
         `- Cycle ID: \`${cycleId}\``,
         assetStatus.valid ? `- Asset resources: ${assetStatus.resources.map((resource) => `\`${resource}\``).join(", ")}` : `- Asset readiness blocker: ${assetStatus.errors.join("; ")}`,
+        sourceAssetDependencyLine(cycleId, assetStatus),
         dependency,
         "- Production command: `npm run social:utility-reels -- --input examples/utility-reel-intake.example.json`",
         "- Preserve checksum, privacy, clean-copy, redaction-report, mathematics, layout, and human-QA gates.",

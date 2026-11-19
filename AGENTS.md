@@ -36,6 +36,11 @@ empty pickup queue, identify malformed or conflicting owner/status labels, and
 repair only unambiguous routine metadata with idempotent evidence. It must not
 guess when more than one state or owner is plausible.
 
+Source or brand asset prerequisites must use the machine-readable
+`CODEX_SOURCE_ASSET_DEPENDENCY` contract. Free-text asset descriptions are not
+dependency evidence. An unresolved or malformed source-asset contract blocks
+pickup and must be represented in the PM audit and handoff evidence.
+
 `status: ready to pickup` is an atomic derived state: it must never exist
 without exactly one supported `agent:` owner in the same complete labels
 replacement. Implementation pickup requires `agent: developer`; social
