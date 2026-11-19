@@ -54,7 +54,7 @@ test("routine work cannot accidentally enter the human gate", () => {
   const routine = base({ labels: ["ready-for-human"] });
   const result = validateGovernanceIssue(routine, [routine]);
   assert.equal(result.valid, false);
-  assert.ok(result.errors.includes("ready-for-human requires an explicit review gate"));
+  assert.ok(result.errors.some((error) => /HUMAN_DECISION_REQUEST|final-merge/.test(error)));
 });
 
 test("explicit final-copy work must use the human gate", () => {

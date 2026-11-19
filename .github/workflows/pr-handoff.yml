@@ -31,7 +31,7 @@ jobs:
             const linkedIssueNumber = linkedIssueNumbers[0];
             const workItemNumber = linkedIssueNumber || Number(number);
             const linkedIssue = await github.rest.issues.get({ owner, repo, issue_number: workItemNumber });
-            const reviewGate = linkedIssue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'final-merge';
+            const reviewGate = linkedIssue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'routine';
             const humanDecisionRequired = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']).has(reviewGate);
             if (!humanDecisionRequired && !new Set(['routine', 'final-merge']).has(reviewGate)) {
               core.setFailed(`unsupported review gate: ${reviewGate}`);
@@ -131,6 +131,17 @@ jobs:
 
             const review = context.payload.review;
             const failed = review.state === 'changes_requested' || /fail|reject|block/i.test(review.body || '');
+            if (!failed && reviewGate === 'routine') {
+              core.setFailed('Routine work cannot enter ready-for-human; declare Review gate: final-merge for the operational merge gate.');
+              return;
+            }
+            if (!failed && humanDecisionRequired) {
+              const requestCount = issueComments.filter(comment => (comment.body || '').includes('HUMAN_DECISION_REQUEST:v1')).length;
+              if (requestCount !== 1) {
+                core.setFailed(`Human review gate requires exactly one HUMAN_DECISION_REQUEST:v1 comment; found ${requestCount}.`);
+                return;
+              }
+            }
             const id = failed ? `issue:${workItemNumber}:pr:${number}:quality-engineer:developer:${sha}` : `issue:${workItemNumber}:pr:${number}:quality-engineer:ready-for-human:${sha}`;
             if (already(id)) return;
             const next = failed ? 'developer' : 'ready-for-human';

@@ -1,6 +1,7 @@
 const OWNER_PREFIX = "agent: ";
 const STATUS_PREFIX = "status: ";
 import { classifyHumanReview } from "./human-review-policy.mjs";
+import { validateReadyForHumanGate } from "./human-gate-integrity.mjs";
 import { validateDerivedLabelInvariant } from "./derived-label-reconciliation.mjs";
 
 export const GOVERNANCE_OWNERS = new Set([
@@ -146,7 +147,7 @@ export function validateGovernanceIssue(issue, allIssues = []) {
   if (contract.status === "status: ready to pickup" && !contract.hasAcceptanceCriteria) errors.push("acceptance criteria are missing");
   errors.push(...contract.reviewErrors);
   const humanGate = contract.labels.includes("ready-for-human");
-  if (humanGate && contract.reviewGate === "routine") errors.push("ready-for-human requires an explicit review gate");
+  errors.push(...validateReadyForHumanGate({ labels: contract.labels, body: issue.body, comments: issue.comments }).errors);
   if (contract.status === "status: ready to pickup" && contract.reviewGate !== "routine") errors.push("human review gates cannot be routed to routine pickup");
   if (contract.humanDecisionRequired && !humanGate) errors.push("explicit human review gate requires ready-for-human");
   return { valid: errors.length === 0, errors, contract, dependencies };

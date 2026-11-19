@@ -45,12 +45,13 @@ jobs:
             const issueNumber = context.payload.issue?.number ?? context.payload.pull_request?.number;
             const { owner, repo } = context.repo;
             const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
-            const reviewGate = issue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'final-merge';
+            const reviewGate = issue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'routine';
             const humanDecisionGates = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']);
-            const operationalGates = new Set(['routine', 'final-merge']);
+            const operationalGates = new Set(['final-merge']);
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner, repo, issue_number: issueNumber, per_page: 100
             });
+            const humanDecisionRequestCount = comments.filter(comment => (comment.body || '').includes('HUMAN_DECISION_REQUEST:v1')).length;
             const duplicate = comments.some(comment =>
               comment.body?.includes(`"handoffId":"${handoff.handoffId}"`) ||
               comment.body?.includes(`Handoff ID: \`${handoff.handoffId}\``) ||
@@ -85,6 +86,8 @@ jobs:
             } else if (handoff.from === 'quality-engineer' && handoff.status === 'completed') {
               if (!context.payload.pull_request) errors.push('pull_request_required');
               if (!humanDecisionGates.has(reviewGate) && !operationalGates.has(reviewGate)) errors.push(`unsupported review gate: ${reviewGate}`);
+              if (reviewGate === 'routine') errors.push('routine work cannot enter ready-for-human; declare Review gate: final-merge');
+              if (humanDecisionGates.has(reviewGate) && humanDecisionRequestCount !== 1) errors.push(`human decision gate requires exactly one HUMAN_DECISION_REQUEST:v1 comment; found ${humanDecisionRequestCount}`);
               handoff.nextState = 'ready-for-human';
             } else {
               errors.push('unsupported_transition');
