@@ -124,6 +124,24 @@ It must not answer product, implementation, domain, quality, process, or release
 questions; mutate workflow labels; merge, publish, or dispatch; or invent
 performance requirements, platform limits, or product intent. Missing technical
 evidence is a named `pm-triage` blocker.
+
+### `social-expert` responsibility boundary
+
+`social-expert` is eligible only when it is the single Decision Owner on an
+explicit social row and the Issue has `agent: social-expert` plus
+`state: decision-requested`. It decides Instagram/Facebook channel constraints,
+Reel/Carousel format, cadence, social copy adaptation, CTA/hashtag requirements,
+and the social asset contract from repository evidence. It records one
+conclusion, alternatives, scope impact, channel/format and asset-contract
+verification, then hands the Issue back to `pm-triage` with `CODEX_HANDOFF:v1`.
+
+It must not answer product, architecture, implementation, domain, quality,
+process, or release questions; mutate workflow labels; merge, publish, dispatch,
+or access credentials; or invent platform limits, source availability, approved
+assets, permissions, performance claims, or final copy. Missing platform, source,
+or asset evidence is a named `pm-triage` blocker. Public publication,
+downstream dispatch, final copy, UI adoption, and final-product decisions remain
+explicit human-only gates when actually required.
 - Instagram or Facebook format and channel requirements: the corresponding
   domain expert.
 - Test strategy, verification evidence, and release quality: Quality Engineer.
