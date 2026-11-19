@@ -73,7 +73,13 @@ PM triage may proactively repair only routine metadata that is unambiguous from
 the Issue, handoff, dependency, and PR evidence: normalize known status-label
 aliases, remove stale derived labels when a terminal handoff proves the next
 state, and restore one canonical owner/status pair when the evidence names it.
-Every repair must be idempotent, comment its before/after labels, and preserve
+For an ownerless `status: ready to pickup`, add `agent: developer` only when
+`CODEX_RECONCILE_TO: developer`, validated inputs, testable acceptance criteria,
+closed dependencies, a non-parent implementation kind, and `Review gate:
+routine` are all explicit. Otherwise PM triage must atomically replace the
+invalid pickup state with `agent: pm-triage` plus `status: blocked`, naming the
+missing owner/routing evidence; it must never infer a role from a title or
+domain label. Every repair must be idempotent, comment its before/after labels, and preserve
 the Issue's product, architecture, domain, implementation, quality, and release
 decisions. If more than one owner/status is plausible, do not guess; keep the
 Issue blocked or pending review and name the exact reconciliation needed.
