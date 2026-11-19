@@ -447,8 +447,20 @@ The governance invariant suite runs locally with
 
 - A blocked handoff returns to `pm-triage` with the blocker and evidence.
 - A duplicate `handoffId` is ignored without a second comment or label change.
-- A stale claim is not silently released; a human or `pm-triage` must verify it
-  before using the guarded `release` command.
+- Queue health is audited by `src/queue-health-recovery.mjs` and
+  `.github/workflows/pm-triage-queue-audit.yml` across open and closed Issues.
+- A stale role claim is released only when `state: claimed`, the claim
+  timestamp, claim role, and canonical owner agree and the age exceeds the
+  configured threshold. Missing or conflicting claim evidence returns a named
+  PM blocker.
+- A closed Issue with active owner/status/state labels is reconciled to
+  terminal `status: done` without reopening or dispatching it.
+- An Issue linked to a merged PR is reconciled to terminal `status: done`; the
+  Issue is not closed automatically and no new agent is dispatched.
+- A failed workflow run returns to the explicitly identified role (`developer`,
+  `quality-engineer`, or `pm-triage`) and requires that role to investigate.
+  If the run has no unambiguous role, the recovery comment is diagnostic only
+  and the item remains a PM blocker.
 - A GitHub connectivity failure is a blocker, never an empty queue and never a
   reason to claim work from local assumptions.
 - The offline route proof is in

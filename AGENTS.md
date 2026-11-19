@@ -36,6 +36,14 @@ empty pickup queue, identify malformed or conflicting owner/status labels, and
 repair only unambiguous routine metadata with idempotent evidence. It must not
 guess when more than one state or owner is plausible.
 
+Queue health recovery is defined by `src/queue-health-recovery.mjs`. The audit
+must detect stale claims, closed Issues with active workflow labels, open Issues
+whose linked PR merged, and failed workflow runs. A stale claim may be released
+only with a valid claim timestamp and matching role; a closed or merged item may
+receive only terminal `status: done`; a failed run returns to an explicitly
+identified role. Missing claim age, ambiguous failure ownership, or an active
+human gate is a PM blocker, never a guessed dispatch.
+
 The quality-engineer is the independent verification owner: it keeps content,
 mathematics, source, layout/PDF, visual, workflow, and deterministic checks
 separate, records reproducible evidence, and returns rejected work to the

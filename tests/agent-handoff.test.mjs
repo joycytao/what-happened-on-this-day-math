@@ -48,6 +48,7 @@ test("parses a complete v1 handoff into a normalized object", () => {
     to: "developer",
     workItem: "joycytao/what-happened-on-this-day-math#187",
     status: "completed",
+    claimedAt: "",
     completed: ["loader boundary decided"],
     requiredNextAction: ["implement the loader"],
     evidence: ["#187 decision comment"],

@@ -52,6 +52,7 @@ export function buildClaimHandoff(item, role) {
     to,
     workItem: `joycytao/${REPO_SLUG}#${item.number}`,
     status: "accepted",
+    claimedAt: new Date().toISOString(),
     reason: `claim Issue #${item.number} for ${role} work`,
     preconditions: "Issue is eligible for this role and has no unresolved routine prerequisite",
     humanDecision: "no",
