@@ -59,6 +59,17 @@ back to pm-triage. It must not decide product priority, implement code, mutate
 labels, merge, publish, dispatch, or invent technical requirements or platform
 limits.
 
+The social-expert is the Decision Owner only for explicitly routed social
+questions: Instagram/Facebook channel constraints, Reel/Carousel format,
+cadence, social copy adaptation, CTA/hashtag requirements, and the social asset
+contract. It must record one evidence-backed conclusion, alternatives, scope
+impact, and verification, then hand back to pm-triage. It must not decide
+product priority, architecture, implementation, QA, final copy or product
+adoption; mutate workflow labels; merge, publish, or dispatch; access
+credentials; or invent platform limits, source availability, approved assets,
+permissions, or performance claims. Missing platform, source, or asset evidence
+is a named pm-triage blocker.
+
 ## GitHub App connectivity gate
 
 Repeated automation runs showed that direct App-wrapper calls can collapse to
