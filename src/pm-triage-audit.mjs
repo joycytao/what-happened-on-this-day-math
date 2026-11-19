@@ -1,4 +1,5 @@
 import { GOVERNANCE_OWNERS, GOVERNANCE_STATUSES, parseIssueContract, dependencyReport, validateGovernanceIssue } from "./issue-governance.mjs";
+import { validateReadyForHumanGate } from "./human-gate-integrity.mjs";
 import { auditQueueHealth } from "./queue-health-recovery.mjs";
 import { buildAtomicReadyPickupLabels, reconcileDerivedLabels } from "./derived-label-reconciliation.mjs";
 
@@ -30,6 +31,20 @@ function canonicalOwners(labels) {
 
 function canonicalStatuses(labels) {
   return labels.filter((label) => GOVERNANCE_STATUSES.has(label));
+}
+
+function reconcileInvalidHumanGate(issue, gate) {
+  const labels = labelsFor(issue);
+  if (!labels.includes("ready-for-human") || gate.valid) return { add: [], remove: [], changed: false };
+  const remove = labels.filter((label) =>
+    GOVERNANCE_OWNERS.has(label)
+    || GOVERNANCE_STATUSES.has(label)
+    || label.startsWith("agent: ")
+    || label.startsWith("status:")
+    || label.startsWith("state: ")
+    || label === "ready-for-human"
+  );
+  return { add: ["agent: pm-triage", "status: pending review"], remove: [...new Set(remove)], changed: true };
 }
 
 export function reconcileRoutineLabels(issue) {
@@ -82,6 +97,8 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
   const statuses = canonicalStatuses(labels);
   const routineRepair = reconcileRoutineLabels(issue);
   const health = auditQueueHealth(issue, healthOptions);
+  const humanGate = validateReadyForHumanGate({ labels, body: issue?.body, comments: issue?.comments ?? [] });
+  const humanGateRepair = reconcileInvalidHumanGate(issue, humanGate);
   const reasons = [];
   let category = "not-pickup-candidate";
   let eligible = false;
@@ -97,10 +114,16 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
   } else if (labels.some((label) => label === "status: paused" || label === "state: paused")) {
     category = "paused";
     reasons.push("Issue is intentionally paused");
+  } else if (labels.includes("ready-for-human") && !humanGate.valid) {
+    category = "invalid-human-gate";
+    eligible = true;
+    role = "pm-triage";
+    reasons.push("ready-for-human label fails gate integrity", ...humanGate.errors);
+    nextAction = "pm-triage removes the stale human-gate label and routes the Issue to pending review";
   } else if (labels.includes("ready-for-human")) {
     category = "human-gated";
     reasons.push("explicit human gate is active");
-    nextAction = "wait for the named human decision; do not relabel autonomously";
+    nextAction = "wait for the validated human decision or operational merge gate; do not relabel autonomously";
   } else if (owners.length > 1 || statuses.length > 1) {
     category = "owner-or-status-conflict";
     reasons.push(`owners=${owners.join(",") || "none"}`, `statuses=${statuses.join(",") || "none"}`);
@@ -161,7 +184,8 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
       statuses,
       reasons,
       nextAction,
-      repair: { ...routineRepair, ...(ownerRepair || {}) },
+      repair: { ...routineRepair, ...(ownerRepair || {}), ...(humanGateRepair.changed ? humanGateRepair : {}) },
+      humanGate,
       health,
     };
   } else if (issue?.state === "open") {
@@ -189,7 +213,8 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
     statuses,
     reasons,
     nextAction,
-    repair: routineRepair,
+    repair: { ...routineRepair, ...(humanGateRepair.changed ? humanGateRepair : {}) },
+    humanGate,
     health,
   };
 }
@@ -229,7 +254,7 @@ export function buildQueueExecutionPlan(entries = []) {
 }
 
 export function renderAuditComment(audit) {
-  const rows = audit.entries.map((entry) => `- #${entry.number}: ${entry.category}; health=${entry.health.category}; next=${entry.nextAction}; healthAction=${entry.health.action}; reasons=${entry.reasons.join(" | ") || "none"}`);
+  const rows = audit.entries.map((entry) => `- #${entry.number}: ${entry.category}; humanGate=${entry.humanGate.reviewGate}/${entry.humanGate.valid ? "valid" : "invalid"}; health=${entry.health.category}; next=${entry.nextAction}; healthAction=${entry.health.action}; reasons=${entry.reasons.join(" | ") || "none"}`);
   return [
     "<!-- CODEX_TRIAGE_AUDIT:v1 -->",
     "CODEX_TRIAGE_AUDIT:v1",

@@ -289,6 +289,13 @@ present is not sufficient. Any other workflow that creates or updates a
 `ready-for-human` Issue must use the same validator and decision-request
 contract.
 
+The PM queue audit is also a repair boundary: it validates every existing
+`ready-for-human` Issue before classifying it as human-gated. An invalid gate is
+stale derived metadata, not a human blocker. PM triage must atomically remove
+`ready-for-human`, clear conflicting owner/status/state labels, and route the
+Issue to exactly `agent: pm-triage` + `status: pending review`, recording the
+validator errors. A valid gate remains human-gated and is not relabeled by audit.
+
 For a release approval, the owner replies with one `HUMAN_APPROVAL:v1`
 comment that includes the exact `Release identity` from the Issue. The
 approval is valid only when that identity matches the current release
