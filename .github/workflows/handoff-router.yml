@@ -36,6 +36,8 @@ jobs:
               completed: list('Completed'), requiredNextAction: list('Required next action'),
               evidence: list('Evidence'), constraints: list('Constraints'),
               blockers: list('Blockers'), expectedOutput: list('Expected output'),
+              outputKind: field('Output kind'), returnPath: field('Return path'),
+              prerequisitesSatisfied: list('Prerequisites satisfied'), prerequisitesMissing: list('Prerequisites missing'),
             };
             if (!handoff.handoffId) {
               core.setFailed('Invalid CODEX_HANDOFF:v1 markdown: missing Handoff ID');
@@ -59,12 +61,27 @@ jobs:
             if (duplicate) return;
 
             const roles = new Set(['pm-triage', 'product-manager', 'architect', 'social-expert', 'developer', 'quality-engineer', 'ready-for-human']);
+            const outputKinds = new Map([['pm-triage', 'triage-decision'], ['product-manager', 'product-decision'], ['architect', 'architecture-decision'], ['social-expert', 'social-decision'], ['developer', 'implementation'], ['quality-engineer', 'qa-result']]);
+            const returnPaths = new Map([['pm-triage', new Set(['pm-triage'])], ['product-manager', new Set(['pm-triage'])], ['architect', new Set(['pm-triage'])], ['social-expert', new Set(['pm-triage'])], ['developer', new Set(['pm-triage'])], ['quality-engineer', new Set(['developer', 'pm-triage'])]]);
+            const legalTargets = new Map([['pm-triage', new Set(['pm-triage', 'product-manager', 'architect', 'social-expert', 'developer'])], ['product-manager', new Set(['pm-triage'])], ['architect', new Set(['pm-triage'])], ['social-expert', new Set(['pm-triage'])], ['developer', new Set(['quality-engineer', 'pm-triage'])], ['quality-engineer', new Set(['ready-for-human', 'developer', 'pm-triage'])]]);
             const decisionRoles = new Set(['architect', 'product-manager', 'social-expert']);
             const errors = [];
             for (const field of ['handoffId', 'from', 'to', 'workItem', 'status']) {
               if (typeof handoff[field] !== 'string' || handoff[field].length === 0) errors.push(`${field}_invalid`);
             }
             if (!roles.has(handoff.from) || !roles.has(handoff.to)) errors.push('role_invalid');
+            if (handoff.outputKind !== outputKinds.get(handoff.from)) errors.push('role_output_kind_invalid');
+            if (!returnPaths.get(handoff.from)?.has(handoff.returnPath)) errors.push('role_output_return_path_invalid');
+            if (!legalTargets.get(handoff.from)?.has(handoff.to)) errors.push('role_output_target_not_legal_for_role');
+            const completedEvidence = handoff.completed.filter(value => value.toLowerCase() !== 'none');
+            const blockerEvidence = handoff.blockers.filter(value => value.toLowerCase() !== 'none');
+            if (completedEvidence.length && blockerEvidence.length) errors.push('completed_and_blocked_conflict');
+            if (['completed', 'accepted'].includes(handoff.status) && !completedEvidence.length) errors.push('successful_output_requires_completed_evidence');
+            if (['blocked', 'rejected'].includes(handoff.status) && !blockerEvidence.length) errors.push('blocked_output_requires_blocker_evidence');
+            if (handoff.prerequisitesMissing.length && handoff.status !== 'blocked') errors.push('unsatisfied_prerequisite_cannot_be_crossed');
+            if (handoff.prerequisitesMissing.length && (handoff.to !== 'pm-triage' || handoff.returnPath !== 'pm-triage')) errors.push('unsatisfied_prerequisite_must_return_to_pm_triage');
+            if (handoff.status === 'blocked' && handoff.to !== 'pm-triage') errors.push('blocked_output_must_target_pm_triage');
+            if (handoff.status === 'rejected' && !(handoff.from === 'quality-engineer' && handoff.to === 'developer')) errors.push('rejected_output_must_return_to_developer_from_quality_engineer');
             if (handoff.status === 'blocked') {
               handoff.nextRole = 'pm-triage';
               handoff.nextState = 'status: blocked';

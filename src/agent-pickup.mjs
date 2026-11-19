@@ -1,4 +1,5 @@
 import { AGENT_ROLES, validateHandoff } from "./agent-handoff.mjs";
+import { ROLE_OUTPUT_KINDS, validateRoleOutput } from "./role-output-contract.mjs";
 
 const REPO_SLUG = "what-happened-on-this-day-math";
 const DECISION_ROLES = new Set(["product-manager", "architect", "social-expert"]);
@@ -60,9 +61,15 @@ export function buildClaimHandoff(item, role) {
     constraints: ["claim at most one work item per cycle", "do not change status: ready to pickup"],
     blockers: ["none"],
     expectedOutput: ["versioned CODEX_HANDOFF:v1 comment"],
+    outputKind: ROLE_OUTPUT_KINDS[role],
+    returnPath: role === "quality-engineer" ? "developer" : "pm-triage",
+    prerequisitesSatisfied: ["role/state eligibility validated", "no unresolved prerequisite detected"],
+    prerequisitesMissing: [],
   };
   const validation = validateHandoff(handoff);
   if (!validation.valid) throw new Error(`Invalid claim handoff: ${validation.errors.join(", ")}`);
+  const outputValidation = validateRoleOutput(handoff);
+  if (!outputValidation.valid) throw new Error(`Invalid role output: ${outputValidation.errors.join(", ")}`);
   return handoff;
 }
 

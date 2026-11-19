@@ -31,9 +31,13 @@ const FIELD_DEFINITIONS = Object.freeze([
   ["constraints", "Constraints"],
   ["blockers", "Blockers"],
   ["expectedOutput", "Expected output"],
+  ["outputKind", "Output kind"],
+  ["returnPath", "Return path"],
+  ["prerequisitesSatisfied", "Prerequisites satisfied"],
+  ["prerequisitesMissing", "Prerequisites missing"],
 ]);
 
-const LIST_FIELDS = new Set(FIELD_DEFINITIONS.filter(([, label]) => !["Handoff ID", "From", "To", "Work item", "Status"].includes(label)).map(([key]) => key));
+const LIST_FIELDS = new Set(FIELD_DEFINITIONS.filter(([, label]) => !["Handoff ID", "From", "To", "Work item", "Status", "Output kind", "Return path"].includes(label)).map(([key]) => key));
 const SCALAR_FIELDS = new Set(FIELD_DEFINITIONS.filter(([key]) => !LIST_FIELDS.has(key)).map(([key]) => key));
 
 function emptyResult(errors = []) {
@@ -74,7 +78,7 @@ export function validateHandoff(handoff) {
   }
   for (const field of LIST_FIELDS) {
     if (!Array.isArray(handoff[field])) errors.push(`${field}_invalid`);
-    else if (handoff[field].length === 0 || handoff[field].some((item) => typeof item !== "string" || !item.trim())) errors.push(`${field}_empty`);
+    else if (field !== "prerequisitesMissing" && !(field === "completed" && ["blocked", "rejected"].includes(handoff.status)) && (handoff[field].length === 0 || handoff[field].some((item) => typeof item !== "string" || !item.trim()))) errors.push(`${field}_empty`);
   }
   if (handoff.from && !AGENT_ROLES.includes(handoff.from)) errors.push("from_role_invalid");
   if (handoff.to && !HANDOFF_TARGETS.includes(handoff.to)) errors.push("to_role_invalid");
@@ -128,6 +132,10 @@ export function renderHandoff(handoff) {
   lines.push(...renderList("Constraints", handoff.constraints));
   lines.push(...renderList("Blockers", handoff.blockers));
   lines.push(...renderList("Expected output", handoff.expectedOutput));
+  lines.push(`- Output kind: \`${handoff.outputKind}\``);
+  lines.push(`- Return path: \`${handoff.returnPath}\``);
+  lines.push(...renderList("Prerequisites satisfied", handoff.prerequisitesSatisfied));
+  lines.push(...renderList("Prerequisites missing", handoff.prerequisitesMissing));
   return `${lines.join("\n")}\n`;
 }
 
@@ -150,7 +158,10 @@ export function renderCompactHandoff(handoff) {
     `- Next action: ${(handoff.requiredNextAction || []).join(" ")}`,
     `- Evidence: ${(handoff.evidence || []).join("; ")}`,
     `- Blockers: ${(handoff.blockers || []).join("; ")}`,
-    `- Return path: ${(handoff.constraints || []).join("; ") || "pm-triage if blocked"}`,
+    `- Return path: ${handoff.returnPath || (handoff.constraints || []).join("; ") || "pm-triage if blocked"}`,
+    `- Output kind: ${handoff.outputKind || "legacy"}`,
+    `- Prerequisites satisfied: ${(handoff.prerequisitesSatisfied || []).join("; ") || "legacy evidence"}`,
+    `- Prerequisites missing: ${(handoff.prerequisitesMissing || []).join("; ") || "none"}`,
   ];
   return `${lines.join("\n")}\n`;
 }
