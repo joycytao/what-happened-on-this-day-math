@@ -280,7 +280,11 @@ operational merge action, or one of the explicit human decision gates
 `public-dispatch`) and has exactly one `HUMAN_DECISION_REQUEST:v1` comment.
 Routine work must fail closed and remain outside the human gate until its
 operational `final-merge` gate is explicitly declared. Handoff and PR routers
-must verify this invariant before adding `ready-for-human`.
+must call `src/human-gate-integrity.mjs` and verify the prospective label set
+before adding `ready-for-human`; checking only whether the label is already
+present is not sufficient. Any other workflow that creates or updates a
+`ready-for-human` Issue must use the same validator and decision-request
+contract.
 
 For a release approval, the owner replies with one `HUMAN_APPROVAL:v1`
 comment that includes the exact `Release identity` from the Issue. The

@@ -7,6 +7,7 @@ on:
     types: [submitted]
 
 permissions:
+  contents: read
   issues: write
   pull-requests: write
 
@@ -17,6 +18,8 @@ jobs:
       (github.event_name == 'pull_request_review' && github.event.review.body != '')
     runs-on: ubuntu-latest
     steps:
+      - name: Check out governance validators
+        uses: actions/checkout@v4
       - name: Validate and route the handoff marker
         uses: actions/github-script@v7
         with:
@@ -47,13 +50,11 @@ jobs:
             const issueNumber = context.payload.issue?.number ?? context.payload.pull_request?.number;
             const { owner, repo } = context.repo;
             const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
-            const reviewGate = issue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'routine';
-            const humanDecisionGates = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']);
-            const operationalGates = new Set(['final-merge']);
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner, repo, issue_number: issueNumber, per_page: 100
             });
-            const humanDecisionRequestCount = comments.filter(comment => (comment.body || '').includes('HUMAN_DECISION_REQUEST:v1')).length;
+            const { pathToFileURL } = require('node:url');
+            const { validateReadyForHumanGate } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/human-gate-integrity.mjs`).href);
             const duplicate = comments.some(comment =>
               comment.body?.includes(`"handoffId":"${handoff.handoffId}"`) ||
               comment.body?.includes(`Handoff ID: \`${handoff.handoffId}\``) ||
@@ -102,9 +103,12 @@ jobs:
               handoff.nextState = 'changes-requested';
             } else if (handoff.from === 'quality-engineer' && handoff.status === 'completed') {
               if (!context.payload.pull_request) errors.push('pull_request_required');
-              if (!humanDecisionGates.has(reviewGate) && !operationalGates.has(reviewGate)) errors.push(`unsupported review gate: ${reviewGate}`);
-              if (reviewGate === 'routine') errors.push('routine work cannot enter ready-for-human; declare Review gate: final-merge');
-              if (humanDecisionGates.has(reviewGate) && humanDecisionRequestCount !== 1) errors.push(`human decision gate requires exactly one HUMAN_DECISION_REQUEST:v1 comment; found ${humanDecisionRequestCount}`);
+              const gateValidation = validateReadyForHumanGate({
+                labels: [...issue.data.labels.map(label => label.name), 'ready-for-human'],
+                body: issue.data.body || '',
+                comments,
+              });
+              if (!gateValidation.valid) errors.push(...gateValidation.errors);
               handoff.nextState = 'ready-for-human';
             } else {
               errors.push('unsupported_transition');
