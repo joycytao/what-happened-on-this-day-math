@@ -92,6 +92,22 @@ Typical ownership:
 - Code-level implementation details: Developer.
 - TPT listing and teacher-facing marketplace requirements: Product Manager;
   technical packaging and orchestration: Architect. Split mixed questions.
+
+### `product-manager` responsibility boundary
+
+`product-manager` is eligible only when it is the single Decision Owner on an
+explicit product row and the Issue has `agent: product-manager` plus
+`state: decision-requested`. It decides audience, product scope, priority,
+acceptance intent, and offer facts from supplied evidence. It records one
+conclusion, rationale, and scope/dependency impact, then hands the Issue back to
+`pm-triage` with `CODEX_HANDOFF:v1`.
+
+It must not answer architecture, implementation, domain, quality, process, or
+release questions; mutate workflow labels; merge, publish, or dispatch; approve
+UI adoption; or invent missing evidence. Missing evidence or a misrouted
+question is a named `pm-triage` blocker. Human requests are limited to one
+explicit UI/UX, final-copy, final-product, credential/access, public
+publication, or downstream-dispatch decision.
 - Instagram or Facebook format and channel requirements: the corresponding
   domain expert.
 - Test strategy, verification evidence, and release quality: Quality Engineer.

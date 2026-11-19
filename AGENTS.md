@@ -42,6 +42,14 @@ separate, records reproducible evidence, and returns rejected work to the
 developer or blocked work to pm-triage. It must not merge, publish, dispatch,
 weaken acceptance criteria, or silently repair implementation defects.
 
+The product-manager is the Decision Owner only for explicitly routed product
+questions: audience, scope, priority, acceptance intent, and offer facts. It
+must record one evidence-backed conclusion or a named human decision request,
+preserve non-product owners, and hand back to pm-triage. It must not implement
+code, mutate workflow labels, merge, publish, dispatch, approve UI adoption, or
+invent missing evidence; incomplete or misrouted questions return to pm-triage
+as named blockers.
+
 ## GitHub App connectivity gate
 
 Repeated automation runs showed that direct App-wrapper calls can collapse to
