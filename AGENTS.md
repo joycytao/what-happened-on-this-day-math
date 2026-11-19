@@ -36,11 +36,47 @@ empty pickup queue, identify malformed or conflicting owner/status labels, and
 repair only unambiguous routine metadata with idempotent evidence. It must not
 guess when more than one state or owner is plausible.
 
+Queue health recovery is defined by `src/queue-health-recovery.mjs`. The audit
+must detect stale claims, closed Issues with active workflow labels, open Issues
+whose linked PR merged, and failed workflow runs. A stale claim may be released
+only with a valid claim timestamp and matching role; a closed or merged item may
+receive only terminal `status: done`; a failed run returns to an explicitly
+identified role. Missing claim age, ambiguous failure ownership, or an active
+human gate is a PM blocker, never a guessed dispatch.
+
 The quality-engineer is the independent verification owner: it keeps content,
 mathematics, source, layout/PDF, visual, workflow, and deterministic checks
 separate, records reproducible evidence, and returns rejected work to the
 developer or blocked work to pm-triage. It must not merge, publish, dispatch,
 weaken acceptance criteria, or silently repair implementation defects.
+
+The product-manager is the Decision Owner only for explicitly routed product
+questions: audience, scope, priority, acceptance intent, and offer facts. It
+must record one evidence-backed conclusion or a named human decision request,
+preserve non-product owners, and hand back to pm-triage. It must not implement
+code, mutate workflow labels, merge, publish, dispatch, approve UI adoption, or
+invent missing evidence; incomplete or misrouted questions return to pm-triage
+as named blockers.
+
+The architect is the Decision Owner only for explicitly routed technical
+questions: system boundaries, schemas, interfaces, storage/artifact boundaries,
+orchestration and failure policy, dependency direction, technical trade-offs,
+and technical acceptance criteria. It must record one evidence-backed technical
+decision with interface, migration, failure, and verification impact, then hand
+back to pm-triage. It must not decide product priority, implement code, mutate
+labels, merge, publish, dispatch, or invent technical requirements or platform
+limits.
+
+The social-expert is the Decision Owner only for explicitly routed social
+questions: Instagram/Facebook channel constraints, Reel/Carousel format,
+cadence, social copy adaptation, CTA/hashtag requirements, and the social asset
+contract. It must record one evidence-backed conclusion, alternatives, scope
+impact, and verification, then hand back to pm-triage. It must not decide
+product priority, architecture, implementation, QA, final copy or product
+adoption; mutate workflow labels; merge, publish, or dispatch; access
+credentials; or invent platform limits, source availability, approved assets,
+permissions, or performance claims. Missing platform, source, or asset evidence
+is a named pm-triage blocker.
 
 ## GitHub App connectivity gate
 
@@ -298,6 +334,13 @@ Use `ready-for-human` only for a named human decision or an explicit
 `final-merge` operational gate; after matching release
 approval, use `status: ready to dispatch`. Do not add a second owner or emit
 handoff comments during polling.
+
+Every role result must use the unified output schema in
+`src/role-output-contract.mjs`. Before accepting a handoff, validate its one
+role-specific `Output kind`, legal target and return path, mutually exclusive
+completed/blocked evidence, and explicit prerequisite lists. An unsatisfied
+prerequisite can only produce a blocked return to `pm-triage`; it cannot be
+crossed by a completed handoff.
 
 ## Worksheet template reuse
 

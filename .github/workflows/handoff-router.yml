@@ -36,6 +36,8 @@ jobs:
               completed: list('Completed'), requiredNextAction: list('Required next action'),
               evidence: list('Evidence'), constraints: list('Constraints'),
               blockers: list('Blockers'), expectedOutput: list('Expected output'),
+              outputKind: field('Output kind'), returnPath: field('Return path'),
+              prerequisitesSatisfied: list('Prerequisites satisfied'), prerequisitesMissing: list('Prerequisites missing'),
             };
             if (!handoff.handoffId) {
               core.setFailed('Invalid CODEX_HANDOFF:v1 markdown: missing Handoff ID');
@@ -45,12 +47,13 @@ jobs:
             const issueNumber = context.payload.issue?.number ?? context.payload.pull_request?.number;
             const { owner, repo } = context.repo;
             const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
-            const reviewGate = issue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'final-merge';
+            const reviewGate = issue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'routine';
             const humanDecisionGates = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']);
-            const operationalGates = new Set(['routine', 'final-merge']);
+            const operationalGates = new Set(['final-merge']);
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner, repo, issue_number: issueNumber, per_page: 100
             });
+            const humanDecisionRequestCount = comments.filter(comment => (comment.body || '').includes('HUMAN_DECISION_REQUEST:v1')).length;
             const duplicate = comments.some(comment =>
               comment.body?.includes(`"handoffId":"${handoff.handoffId}"`) ||
               comment.body?.includes(`Handoff ID: \`${handoff.handoffId}\``) ||
@@ -58,12 +61,27 @@ jobs:
             if (duplicate) return;
 
             const roles = new Set(['pm-triage', 'product-manager', 'architect', 'social-expert', 'developer', 'quality-engineer', 'ready-for-human']);
+            const outputKinds = new Map([['pm-triage', 'triage-decision'], ['product-manager', 'product-decision'], ['architect', 'architecture-decision'], ['social-expert', 'social-decision'], ['developer', 'implementation'], ['quality-engineer', 'qa-result']]);
+            const returnPaths = new Map([['pm-triage', new Set(['pm-triage'])], ['product-manager', new Set(['pm-triage'])], ['architect', new Set(['pm-triage'])], ['social-expert', new Set(['pm-triage'])], ['developer', new Set(['pm-triage'])], ['quality-engineer', new Set(['developer', 'pm-triage'])]]);
+            const legalTargets = new Map([['pm-triage', new Set(['pm-triage', 'product-manager', 'architect', 'social-expert', 'developer'])], ['product-manager', new Set(['pm-triage'])], ['architect', new Set(['pm-triage'])], ['social-expert', new Set(['pm-triage'])], ['developer', new Set(['quality-engineer', 'pm-triage'])], ['quality-engineer', new Set(['ready-for-human', 'developer', 'pm-triage'])]]);
             const decisionRoles = new Set(['architect', 'product-manager', 'social-expert']);
             const errors = [];
             for (const field of ['handoffId', 'from', 'to', 'workItem', 'status']) {
               if (typeof handoff[field] !== 'string' || handoff[field].length === 0) errors.push(`${field}_invalid`);
             }
             if (!roles.has(handoff.from) || !roles.has(handoff.to)) errors.push('role_invalid');
+            if (handoff.outputKind !== outputKinds.get(handoff.from)) errors.push('role_output_kind_invalid');
+            if (!returnPaths.get(handoff.from)?.has(handoff.returnPath)) errors.push('role_output_return_path_invalid');
+            if (!legalTargets.get(handoff.from)?.has(handoff.to)) errors.push('role_output_target_not_legal_for_role');
+            const completedEvidence = handoff.completed.filter(value => value.toLowerCase() !== 'none');
+            const blockerEvidence = handoff.blockers.filter(value => value.toLowerCase() !== 'none');
+            if (completedEvidence.length && blockerEvidence.length) errors.push('completed_and_blocked_conflict');
+            if (['completed', 'accepted'].includes(handoff.status) && !completedEvidence.length) errors.push('successful_output_requires_completed_evidence');
+            if (['blocked', 'rejected'].includes(handoff.status) && !blockerEvidence.length) errors.push('blocked_output_requires_blocker_evidence');
+            if (handoff.prerequisitesMissing.length && handoff.status !== 'blocked') errors.push('unsatisfied_prerequisite_cannot_be_crossed');
+            if (handoff.prerequisitesMissing.length && (handoff.to !== 'pm-triage' || handoff.returnPath !== 'pm-triage')) errors.push('unsatisfied_prerequisite_must_return_to_pm_triage');
+            if (handoff.status === 'blocked' && handoff.to !== 'pm-triage') errors.push('blocked_output_must_target_pm_triage');
+            if (handoff.status === 'rejected' && !(handoff.from === 'quality-engineer' && handoff.to === 'developer')) errors.push('rejected_output_must_return_to_developer_from_quality_engineer');
             if (handoff.status === 'blocked') {
               handoff.nextRole = 'pm-triage';
               handoff.nextState = 'status: blocked';
@@ -85,6 +103,8 @@ jobs:
             } else if (handoff.from === 'quality-engineer' && handoff.status === 'completed') {
               if (!context.payload.pull_request) errors.push('pull_request_required');
               if (!humanDecisionGates.has(reviewGate) && !operationalGates.has(reviewGate)) errors.push(`unsupported review gate: ${reviewGate}`);
+              if (reviewGate === 'routine') errors.push('routine work cannot enter ready-for-human; declare Review gate: final-merge');
+              if (humanDecisionGates.has(reviewGate) && humanDecisionRequestCount !== 1) errors.push(`human decision gate requires exactly one HUMAN_DECISION_REQUEST:v1 comment; found ${humanDecisionRequestCount}`);
               handoff.nextState = 'ready-for-human';
             } else {
               errors.push('unsupported_transition');
@@ -95,11 +115,19 @@ jobs:
             }
 
             const current = issue.data.labels.map(label => label.name);
-            const remove = current.filter(label => label.startsWith('agent: ') || label.startsWith('state: '));
+            const deprecated = new Set([
+              'agent-requested', 'needs-info', 'needs-triage', 'ready-for-agent',
+              'state: decision-complete', 'state: ready-to-pickup', 'state: blocked',
+              'state: qa', 'state: human-review', 'state: done',
+              'status:pending review', 'status:blocked', 'status:ready to pickup',
+              'status:qa', 'status:paused', 'status:ready to dispatch', 'status:done',
+            ]);
+            const derived = (label) => label.startsWith('agent: ') || label.startsWith('state: ') || label.startsWith('status:') || label === 'ready-for-human' || deprecated.has(label);
+            const remove = current.filter(derived);
             for (const name of remove) {
               await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name });
             }
-            const labels = [];
+            const labels = current.filter((label) => !derived(label));
             if (handoff.nextRole) labels.push(`agent: ${handoff.nextRole}`);
             if (handoff.nextState === 'ready-for-human') labels.push('ready-for-human');
             else if (handoff.nextState?.startsWith('status: ')) labels.push(handoff.nextState);

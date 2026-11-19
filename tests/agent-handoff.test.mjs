@@ -31,6 +31,11 @@ const validMarkdown = [
   "  - none",
   "- Expected output:",
   "  - implementation PR",
+  "- Output kind: `architecture-decision`",
+  "- Return path: `pm-triage`",
+  "- Prerequisites satisfied:",
+  "  - decision scope is recorded",
+  "- Prerequisites missing:",
   ""].join("\n");
 
 test("parses a complete v1 handoff into a normalized object", () => {
@@ -43,12 +48,17 @@ test("parses a complete v1 handoff into a normalized object", () => {
     to: "developer",
     workItem: "joycytao/what-happened-on-this-day-math#187",
     status: "completed",
+    claimedAt: "",
     completed: ["loader boundary decided"],
     requiredNextAction: ["implement the loader"],
     evidence: ["#187 decision comment"],
     constraints: ["do not create a committed CSV export"],
     blockers: ["none"],
     expectedOutput: ["implementation PR"],
+    outputKind: "architecture-decision",
+    returnPath: "pm-triage",
+    prerequisitesSatisfied: ["decision scope is recorded"],
+    prerequisitesMissing: [],
   });
 });
 

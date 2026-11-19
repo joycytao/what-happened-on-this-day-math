@@ -31,7 +31,7 @@ jobs:
             const linkedIssueNumber = linkedIssueNumbers[0];
             const workItemNumber = linkedIssueNumber || Number(number);
             const linkedIssue = await github.rest.issues.get({ owner, repo, issue_number: workItemNumber });
-            const reviewGate = linkedIssue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'final-merge';
+            const reviewGate = linkedIssue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'routine';
             const humanDecisionRequired = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']).has(reviewGate);
             if (!humanDecisionRequired && !new Set(['routine', 'final-merge']).has(reviewGate)) {
               core.setFailed(`unsupported review gate: ${reviewGate}`);
@@ -41,14 +41,17 @@ jobs:
             const comments = [...prComments, ...issueComments];
             const sha = pr.data.head.sha.slice(0, 12);
             const already = (id) => comments.some(comment => comment.body?.includes(`Handoff ID: \`${id}\``));
+            const outputKinds = { 'pm-triage': 'triage-decision', 'product-manager': 'product-decision', architect: 'architecture-decision', 'social-expert': 'social-decision', developer: 'implementation', 'quality-engineer': 'qa-result' };
             const body = (handoffId, from, to, status, nextAction, evidence) => [
               '<!-- CODEX_HANDOFF:v1 -->', '', '## Handoff', '',
               `- Handoff ID: \`${handoffId}\``, `- From: \`${from}\``, `- To: \`${to}\``,
               `- Work item: \`${owner}/${repo}#${workItemNumber}\``, `- Status: \`${status}\``,
                   `- Reason: ${nextAction}`, `- Preconditions: PR event and linked Issue are available`, `- Review gate: ${reviewGate}`, `- Human decision: ${to === 'ready-for-human' && humanDecisionRequired ? 'yes' : 'no; operational merge only'}`,
-              '- Completed:', '  - PR event recorded', '- Required next action:', `  - ${nextAction}`,
+              '- Completed:', ...(status === 'blocked' || status === 'rejected' ? [] : ['  - PR event recorded']), '- Required next action:', `  - ${nextAction}`,
               '- Evidence:', `  - ${evidence}`, '- Constraints:', '  - do not merge automatically',
-              '- Blockers:', '  - none', '- Expected output:', '  - reviewed handoff evidence',
+              '- Blockers:', ...(status === 'blocked' || status === 'rejected' ? [`  - ${nextAction}`] : ['  - none']), '- Expected output:', '  - reviewed handoff evidence',
+              `- Output kind: ${outputKinds[from]}`, `- Return path: ${from === 'quality-engineer' && to === 'ready-for-human' ? 'developer' : 'pm-triage'}`,
+              '- Prerequisites satisfied:', '  - PR event and linked Issue are available', '- Prerequisites missing:',
             ].join('\n');
             const mergeableState = pr.data.mergeable_state || 'unknown';
             const isConflict = mergeableState === 'dirty' || (pr.data.mergeable === false && !['blocked', 'unknown'].includes(mergeableState));
@@ -57,8 +60,15 @@ jobs:
             const conflictResolutionId = `issue:${workItemNumber}:pr:${number}:conflict-resolved:${sha}`;
             const removeWorkflowLabels = async () => {
               const current = linkedIssue.data.labels.map(label => label.name);
+              const deprecated = new Set([
+                'agent-requested', 'needs-info', 'needs-triage', 'ready-for-agent',
+                'state: decision-complete', 'state: ready-to-pickup', 'state: blocked',
+                'state: qa', 'state: human-review', 'state: done',
+                'status:pending review', 'status:blocked', 'status:ready to pickup',
+                'status:qa', 'status:paused', 'status:ready to dispatch', 'status:done',
+              ]);
               for (const label of current.filter(label =>
-                label.startsWith('agent: ') || label.startsWith('state: ') || label === 'ready-for-human' || label === 'status: qa'
+                label.startsWith('agent: ') || label.startsWith('state: ') || label.startsWith('status:') || label === 'ready-for-human' || deprecated.has(label)
               )) {
                 await github.rest.issues.removeLabel({ owner, repo, issue_number: workItemNumber, name: label });
               }
@@ -124,6 +134,17 @@ jobs:
 
             const review = context.payload.review;
             const failed = review.state === 'changes_requested' || /fail|reject|block/i.test(review.body || '');
+            if (!failed && reviewGate === 'routine') {
+              core.setFailed('Routine work cannot enter ready-for-human; declare Review gate: final-merge for the operational merge gate.');
+              return;
+            }
+            if (!failed && humanDecisionRequired) {
+              const requestCount = issueComments.filter(comment => (comment.body || '').includes('HUMAN_DECISION_REQUEST:v1')).length;
+              if (requestCount !== 1) {
+                core.setFailed(`Human review gate requires exactly one HUMAN_DECISION_REQUEST:v1 comment; found ${requestCount}.`);
+                return;
+              }
+            }
             const id = failed ? `issue:${workItemNumber}:pr:${number}:quality-engineer:developer:${sha}` : `issue:${workItemNumber}:pr:${number}:quality-engineer:ready-for-human:${sha}`;
             if (already(id)) return;
             const next = failed ? 'developer' : 'ready-for-human';

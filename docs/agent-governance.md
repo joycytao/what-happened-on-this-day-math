@@ -92,6 +92,56 @@ Typical ownership:
 - Code-level implementation details: Developer.
 - TPT listing and teacher-facing marketplace requirements: Product Manager;
   technical packaging and orchestration: Architect. Split mixed questions.
+
+### `product-manager` responsibility boundary
+
+`product-manager` is eligible only when it is the single Decision Owner on an
+explicit product row and the Issue has `agent: product-manager` plus
+`state: decision-requested`. It decides audience, product scope, priority,
+acceptance intent, and offer facts from supplied evidence. It records one
+conclusion, rationale, and scope/dependency impact, then hands the Issue back to
+`pm-triage` with `CODEX_HANDOFF:v1`.
+
+It must not answer architecture, implementation, domain, quality, process, or
+release questions; mutate workflow labels; merge, publish, or dispatch; approve
+UI adoption; or invent missing evidence. Missing evidence or a misrouted
+question is a named `pm-triage` blocker. Human requests are limited to one
+explicit UI/UX, final-copy, final-product, credential/access, public
+publication, or downstream-dispatch decision.
+
+### `architect` responsibility boundary
+
+`architect` is eligible only when it is the single Decision Owner on an
+explicit technical row and the Issue has `agent: architect` plus
+`state: decision-requested`. It decides system boundaries, schemas, interfaces,
+storage/artifact boundaries, orchestration and failure policy, dependency
+direction, technical trade-offs, and technical acceptance criteria from
+repository evidence. It records one conclusion, alternatives, interface or
+behavior impact, migration/failure impact, and verification implications, then
+hands the Issue back to `pm-triage` with `CODEX_HANDOFF:v1`.
+
+It must not answer product, implementation, domain, quality, process, or release
+questions; mutate workflow labels; merge, publish, or dispatch; or invent
+performance requirements, platform limits, or product intent. Missing technical
+evidence is a named `pm-triage` blocker.
+
+### `social-expert` responsibility boundary
+
+`social-expert` is eligible only when it is the single Decision Owner on an
+explicit social row and the Issue has `agent: social-expert` plus
+`state: decision-requested`. It decides Instagram/Facebook channel constraints,
+Reel/Carousel format, cadence, social copy adaptation, CTA/hashtag requirements,
+and the social asset contract from repository evidence. It records one
+conclusion, alternatives, scope impact, channel/format and asset-contract
+verification, then hands the Issue back to `pm-triage` with `CODEX_HANDOFF:v1`.
+
+It must not answer product, architecture, implementation, domain, quality,
+process, or release questions; mutate workflow labels; merge, publish, dispatch,
+or access credentials; or invent platform limits, source availability, approved
+assets, permissions, performance claims, or final copy. Missing platform, source,
+or asset evidence is a named `pm-triage` blocker. Public publication,
+downstream dispatch, final copy, UI adoption, and final-product decisions remain
+explicit human-only gates when actually required.
 - Instagram or Facebook format and channel requirements: the corresponding
   domain expert.
 - Test strategy, verification evidence, and release quality: Quality Engineer.
@@ -196,6 +246,17 @@ Human review is not a blanket precondition for ordinary implementation. It is
 required only for explicit human-only gates. Use `ready-for-human` plus one
 `HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
 
+### `ready-for-human` integrity invariant
+
+The `ready-for-human` label is derived state, not evidence by itself. It is
+valid only when the Issue declares either `Review gate: final-merge` for the
+operational merge action, or one of the explicit human decision gates
+(`ui-design`, `final-copy`, `final-product`, `credentials`, or
+`public-dispatch`) and has exactly one `HUMAN_DECISION_REQUEST:v1` comment.
+Routine work must fail closed and remain outside the human gate until its
+operational `final-merge` gate is explicitly declared. Handoff and PR routers
+must verify this invariant before adding `ready-for-human`.
+
 For a release approval, the owner replies with one `HUMAN_APPROVAL:v1`
 comment that includes the exact `Release identity` from the Issue. The
 approval is valid only when that identity matches the current release
@@ -284,6 +345,22 @@ The normal implementation chain is:
 pm-triage → domain owner or developer → quality-engineer → ready-for-human
 ```
 
+### Unified role-output contract
+
+Every new `CODEX_HANDOFF:v1` result carries one `outputKind`, one legal `To`,
+one legal `Return path`, and explicit `Prerequisites satisfied` and
+`Prerequisites missing` lists. The machine contract in
+`src/role-output-contract.mjs` assigns exactly one output kind to each role:
+triage decision, product decision, architecture decision, social decision,
+implementation, or QA result.
+
+The validator rejects mixed completed/blocked evidence, rejects completed or
+accepted outputs with missing prerequisites, and permits an unsatisfied
+prerequisite only on a `blocked` handoff returning to `pm-triage`. It also
+enforces the role transition graph: domain decisions return to PM triage,
+developer work goes to QE, QE rejection returns to developer, and successful
+QE goes to `ready-for-human`.
+
 At `ready-for-human`, the workstream stops until the named decision is
 recorded. After approval it resumes at `status: ready to dispatch`; it does
 not regenerate the package.
@@ -370,8 +447,20 @@ The governance invariant suite runs locally with
 
 - A blocked handoff returns to `pm-triage` with the blocker and evidence.
 - A duplicate `handoffId` is ignored without a second comment or label change.
-- A stale claim is not silently released; a human or `pm-triage` must verify it
-  before using the guarded `release` command.
+- Queue health is audited by `src/queue-health-recovery.mjs` and
+  `.github/workflows/pm-triage-queue-audit.yml` across open and closed Issues.
+- A stale role claim is released only when `state: claimed`, the claim
+  timestamp, claim role, and canonical owner agree and the age exceeds the
+  configured threshold. Missing or conflicting claim evidence returns a named
+  PM blocker.
+- A closed Issue with active owner/status/state labels is reconciled to
+  terminal `status: done` without reopening or dispatching it.
+- An Issue linked to a merged PR is reconciled to terminal `status: done`; the
+  Issue is not closed automatically and no new agent is dispatched.
+- A failed workflow run returns to the explicitly identified role (`developer`,
+  `quality-engineer`, or `pm-triage`) and requires that role to investigate.
+  If the run has no unambiguous role, the recovery comment is diagnostic only
+  and the item remains a PM blocker.
 - A GitHub connectivity failure is a blocker, never an empty queue and never a
   reason to claim work from local assumptions.
 - The offline route proof is in

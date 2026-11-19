@@ -26,5 +26,6 @@ jobs:
             const dependent = issues.find(issue => !issue.pull_request && (issue.body || '').includes(marker));
             if (!dependent) { core.info(`No open dependent Issue found for ${marker}.`); return; }
             await github.rest.issues.removeLabel({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, name: 'status:blocked' }).catch(error => { if (error.status !== 404) throw error; });
-            await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, labels: ['status:ready to pickup'] });
+            await github.rest.issues.removeLabel({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, name: 'status: blocked' }).catch(error => { if (error.status !== 404) throw error; });
+            await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, labels: ['status: ready to pickup'] });
             await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, body: `Dependency #${context.payload.issue.number} closed. This social workstream Issue is now ready for Codex pickup after the normal PR and QA gates.` });

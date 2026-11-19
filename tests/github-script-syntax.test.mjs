@@ -28,4 +28,6 @@ test("handoff router accepts ready-for-human as the QE terminal state", async ()
 test("PR handoff workflow accepts routine review gates", async () => {
   const workflow = await readFile(".github/workflows/pr-handoff.yml", "utf8");
   assert.match(workflow, /new Set\(\['routine', 'final-merge'\]\)/);
+  assert.match(workflow, /\|\| 'routine'/);
+  assert.doesNotMatch(workflow, /\|\| 'final-merge'/);
 });

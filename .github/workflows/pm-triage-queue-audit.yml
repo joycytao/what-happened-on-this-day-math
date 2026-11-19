@@ -23,26 +23,48 @@ jobs:
             const audit = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/pm-triage-audit.mjs`).href);
             const { owner, repo } = context.repo;
             const all = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100, sort: 'created', direction: 'asc' });
-            const openIssues = all.filter((item) => item.state === 'open' && !item.pull_request);
-            const openPullRequests = await github.paginate(github.rest.pulls.list, { owner, repo, state: 'open', per_page: 100 });
-            const result = audit.auditQueue(openIssues, openPullRequests);
-            const fingerprint = JSON.stringify({ categories: result.byCategory, eligible: result.eligible.map((entry) => entry.number), repairs: result.repairable.map((entry) => [entry.number, entry.repair.add, entry.repair.remove]) });
+            const allPullRequests = await github.paginate(github.rest.pulls.list, { owner, repo, state: 'all', per_page: 100, sort: 'created', direction: 'asc' });
+            const linkPattern = (number) => new RegExp(`(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\\s+(?:(?:[^\\s/]+)\\/[^\\s#]+)?#${number}\\b`, 'i');
+            const issues = all.filter((item) => !item.pull_request).map((item) => ({
+              ...item,
+              pullRequests: allPullRequests.filter((pr) => linkPattern(item.number).test(pr.body || '') || (item.body || '').includes(`pull/${pr.number}`)),
+            }));
+            for (const item of issues.filter((candidate) => candidate.labels.some((label) => label.name === 'state: claimed'))) {
+              const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: item.number, per_page: 100 });
+              const claim = [...comments].reverse().map((comment) => comment.body || '').find((body) => /Claimed at:\s*`[^`]+`/i.test(body));
+              if (!claim) continue;
+              item.claim = {
+                role: claim.match(/- From:\s*`([^`]+)`/i)?.[1] || null,
+                claimedAt: claim.match(/Claimed at:\s*`([^`]+)`/i)?.[1] || null,
+                handoffId: claim.match(/Handoff ID:\s*`([^`]+)`/i)?.[1] || null,
+              };
+            }
+            const openIssues = issues.filter((item) => item.state === 'open');
+            const openPullRequests = allPullRequests.filter((pr) => pr.state === 'open');
+            const result = audit.auditQueue(issues, openPullRequests);
+            const repairs = result.repairable.map((entry) => ({
+              number: entry.number,
+              add: [...new Set([...(entry.repair.add || []), ...(entry.health?.repair?.add || [])])],
+              remove: [...new Set([...(entry.repair.remove || []), ...(entry.health?.repair?.remove || [])])],
+              category: entry.health?.category || entry.category,
+            }));
+            const fingerprint = JSON.stringify({ categories: result.byCategory, eligible: result.eligible.map((entry) => entry.number), repairs });
 
-            for (const entry of result.repairable) {
-              const item = openIssues.find((candidate) => Number(candidate.number) === Number(entry.number));
+            for (const entry of repairs) {
+              const item = issues.find((candidate) => Number(candidate.number) === Number(entry.number));
               if (!item) continue;
               const current = item.labels.map((label) => label.name);
-              const next = current.filter((label) => !entry.repair.remove.includes(label));
-              for (const label of entry.repair.add) if (!next.includes(label)) next.push(label);
+              const next = current.filter((label) => !entry.remove.includes(label));
+              for (const label of entry.add) if (!next.includes(label)) next.push(label);
               await github.rest.issues.update({ owner, repo, issue_number: item.number, labels: next });
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: item.number, per_page: 100 });
-              const marker = `<!-- CODEX_TRIAGE_REPAIR:${item.number}:${Buffer.from(JSON.stringify(entry.repair)).toString('base64url')} -->`;
+              const marker = `<!-- CODEX_TRIAGE_REPAIR:${item.number}:${Buffer.from(JSON.stringify(entry)).toString('base64url')} -->`;
               if (!comments.some((comment) => (comment.body || '').includes(marker))) {
-                await github.rest.issues.createComment({ owner, repo, issue_number: item.number, body: `${marker}\nCODEX_TRIAGE_REPAIR:v1\n\n- Before: ${current.join(', ') || 'none'}\n- After: ${next.join(', ') || 'none'}\n- Reason: normalize unambiguous status-label aliases only.\n- Evidence: ${entry.reasons.join('; ') || 'routine metadata normalization'}\n- Authority boundary: no product, architecture, domain, implementation, quality, or release decision was changed.` });
+                await github.rest.issues.createComment({ owner, repo, issue_number: item.number, body: `${marker}\nCODEX_TRIAGE_REPAIR:v1\n\n- Before: ${current.join(', ') || 'none'}\n- After: ${next.join(', ') || 'none'}\n- Category: ${entry.category}\n- Reason: apply only an evidence-backed queue-health reconciliation.\n- Authority boundary: no product, architecture, domain, implementation, quality, or release decision was changed.` });
               }
             }
 
-            const anchor = openIssues[0];
+            const anchor = openIssues[0] || issues[0];
             if (anchor) {
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: anchor.number, per_page: 100 });
               const marker = `<!-- CODEX_TRIAGE_AUDIT:${Buffer.from(fingerprint).toString('base64url')} -->`;
