@@ -18,3 +18,11 @@ test("workflow-run reconciliation excludes its own successful completion and ser
   assert.match(workflow, /github\.event_name != 'workflow_run'/);
   assert.match(workflow, /cancel-in-progress: false/);
 });
+
+test("workflow-run reconciliation still audits failed completion of this workflow", () => {
+  assert.match(
+    workflow,
+    /github\.event\.workflow_run\.conclusion == 'failure'/,
+    "failed workflow completion must remain eligible even when the failed run is this workflow",
+  );
+});
