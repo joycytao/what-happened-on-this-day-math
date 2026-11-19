@@ -44,6 +44,11 @@ PM triage also performs a scheduled proactive queue audit. It must diagnose an
 empty pickup queue, identify malformed or conflicting owner/status labels, and
 repair only unambiguous routine metadata with idempotent evidence. It must not
 guess when more than one state or owner is plausible.
+The schedule is only a safety net: `.github/workflows/pm-triage-queue-audit.yml`
+must also reconcile Issue edits/labels, human decision comments, PR lifecycle
+and review events, failed workflow completions, source/dependency dispatches,
+and pushes to source/content/asset paths. Its own successful completion must
+not recursively trigger another audit.
 The same audit must run immediately after a pull request merges, before any
 post-merge queue report is emitted, so merged-PR label drift and ownerless
 ready-to-pickup metadata cannot be reported as a clean empty queue.
