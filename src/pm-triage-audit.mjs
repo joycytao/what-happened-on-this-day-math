@@ -1,4 +1,5 @@
 import { GOVERNANCE_OWNERS, GOVERNANCE_STATUSES, parseIssueContract, dependencyReport } from "./issue-governance.mjs";
+import { auditQueueHealth } from "./queue-health-recovery.mjs";
 
 const STATUS_ALIASES = Object.freeze({
   "status:pending review": "status: pending review",
@@ -44,12 +45,13 @@ export function reconcileRoutineLabels(issue) {
   return { add: [...new Set(add)], remove: [...new Set(remove)], changed: add.length > 0 || remove.length > 0 };
 }
 
-export function auditIssue(issue, allIssues = [], openPullRequests = []) {
+export function auditIssue(issue, allIssues = [], openPullRequests = [], healthOptions = {}) {
   const labels = labelsFor(issue);
   const contract = parseIssueContract(issue);
   const owners = canonicalOwners(labels);
   const statuses = canonicalStatuses(labels);
   const repair = reconcileRoutineLabels(issue);
+  const health = auditQueueHealth(issue, healthOptions);
   const reasons = [];
   let category = "not-pickup-candidate";
   let eligible = false;
@@ -118,13 +120,14 @@ export function auditIssue(issue, allIssues = [], openPullRequests = []) {
     reasons,
     nextAction,
     repair,
+    health,
   };
 }
 
-export function auditQueue(issues = [], openPullRequests = []) {
-  const entries = issues.filter((issue) => issue?.state === "open" && !issue.pull_request).map((issue) => auditIssue(issue, issues, openPullRequests));
+export function auditQueue(issues = [], openPullRequests = [], healthOptions = {}) {
+  const entries = issues.filter((issue) => !issue?.pull_request).map((issue) => auditIssue(issue, issues, openPullRequests, healthOptions));
   const eligible = entries.filter((entry) => entry.eligible);
-  const repairable = entries.filter((entry) => entry.repair.changed);
+  const repairable = entries.filter((entry) => entry.repair.changed || entry.health.repair.add.length || entry.health.repair.remove.length);
   const byCategory = Object.fromEntries([...new Set(entries.map((entry) => entry.category))].sort().map((category) => [category, entries.filter((entry) => entry.category === category).length]));
   return {
     entries,
@@ -137,7 +140,7 @@ export function auditQueue(issues = [], openPullRequests = []) {
 }
 
 export function renderAuditComment(audit) {
-  const rows = audit.entries.map((entry) => `- #${entry.number}: ${entry.category}; next=${entry.nextAction}; reasons=${entry.reasons.join(" | ") || "none"}`);
+  const rows = audit.entries.map((entry) => `- #${entry.number}: ${entry.category}; health=${entry.health.category}; next=${entry.nextAction}; healthAction=${entry.health.action}; reasons=${entry.reasons.join(" | ") || "none"}`);
   return [
     "<!-- CODEX_TRIAGE_AUDIT:v1 -->",
     "CODEX_TRIAGE_AUDIT:v1",
