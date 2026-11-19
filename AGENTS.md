@@ -24,6 +24,9 @@ without a human content review. Human decisions are reserved for UI/UX
 adoption, final copy, final product adoption, credential or permission changes,
 and public or downstream dispatch. The current automation contract keeps final
 merge operations human-controlled; do not enable auto-merge from this workflow.
+Every workflow that writes `ready-for-human` must call the shared gate integrity
+validator against the prospective label set; the label alone is never evidence
+of a valid human gate.
 
 When a role can resolve a scope, acceptance-criteria, or routing gap from
 repository evidence, keep the Issue in `status: pending review` and dispatch

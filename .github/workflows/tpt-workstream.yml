@@ -204,6 +204,7 @@ jobs:
             const body = [
               marker,
               `# TPT package: ${process.env.PACKAGE_ID}`,
+              'Review gate: final-product',
               '',
               `- Status: **${status}**`,
               `- Package version: \`${result.packageVersion || 'unknown'}\``,
@@ -228,13 +229,45 @@ jobs:
             });
             const existing = issues.find(issue => !issue.pull_request && (issue.body || '').includes(marker));
             const labels = ['type: feature', status === 'QA' ? 'ready-for-human' : 'status: blocked'];
+            const humanGateRequest = [
+              '<!-- tpt-human-gate-request:v1 -->',
+              'HUMAN_DECISION_REQUEST:v1',
+              '',
+              'Why now: the deterministic TPT package passed the automated workstream and visual QA checks.',
+              'Decision: approve the final product package for the human publication gate.',
+              'Options and consequences: approve to continue to the release approval queue; reject or request changes to keep the package out of publication.',
+              'Blocked actions: publication and downstream dispatch.',
+              'Decision owner: Human Accountable Owner.',
+              'Next state/role after approval: status: ready to dispatch.',
+            ].join('\n');
+            const existingComments = existing
+              ? await github.paginate(github.rest.issues.listComments, { owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, per_page: 100 })
+              : [];
+            if (status === 'QA') {
+              const gateComments = existingComments.some(comment => (comment.body || '').includes('<!-- tpt-human-gate-request:v1 -->'))
+                ? existingComments
+                : [...existingComments, { body: humanGateRequest }];
+              const { pathToFileURL } = require('node:url');
+              const { validateReadyForHumanGate } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/human-gate-integrity.mjs`).href);
+              const gateValidation = validateReadyForHumanGate({ labels, body, comments: gateComments });
+              if (!gateValidation.valid) {
+                core.setFailed(`ready-for-human validator rejected TPT gate: ${gateValidation.errors.join('; ')}`);
+                return;
+              }
+            }
             if (existing) {
               await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title: `TPT package: ${process.env.PACKAGE_ID}`, body, state: 'open', labels });
+              if (status === 'QA' && !existingComments.some(comment => (comment.body || '').includes('<!-- tpt-human-gate-request:v1 -->'))) {
+                await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body: humanGateRequest });
+              }
               core.info(`Updated TPT Issue #${existing.number} for ${process.env.PACKAGE_ID}.`);
               core.setOutput('issue_number', String(existing.number));
               core.setOutput('issue_node_id', existing.node_id);
             } else {
               const created = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: `TPT package: ${process.env.PACKAGE_ID}`, body, labels });
+              if (status === 'QA') {
+                await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: created.data.number, body: humanGateRequest });
+              }
               core.info(`Created TPT Issue #${created.data.number} for ${process.env.PACKAGE_ID}.`);
               core.setOutput('issue_number', String(created.data.number));
               core.setOutput('issue_node_id', created.data.node_id);
