@@ -123,13 +123,25 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
     nextAction = eligible ? "pm-triage records the decision register and routes one next role" : "named owner resolves the pending question";
   } else if (labels.includes("status: ready to pickup")) {
     const dependencies = dependencyReport(issue, allIssues);
-    const ownerRepair = reconcileOwnerlessReadyPickup(issue, contract, dependencies);
+    const sourceAssetBlocked = contract.sourceAssetErrors.length > 0 || !contract.sourceAssetsSatisfied;
+    const ownerRepair = sourceAssetBlocked
+      ? {
+        ...reconcileDerivedLabels(labels, ["agent: pm-triage", "status: blocked"]),
+        changed: true,
+        reason: `machine-readable source asset dependency is unresolved: ${dependencies.sourceAssetsMissing.join(", ") || contract.sourceAssetErrors.join("; ")}`,
+        transition: "atomic-source-asset-block",
+      }
+      : reconcileOwnerlessReadyPickup(issue, contract, dependencies);
     if (ownerRepair) {
-      category = contract.owners.length === 0 && ownerRepair.transition === "atomic-ready-pickup"
+      category = ownerRepair.transition === "atomic-ready-pickup"
         ? "routine-metadata-repair"
-        : "metadata-repair-required";
+        : ownerRepair.transition === "atomic-source-asset-block"
+          ? "source-asset-blocked"
+          : "metadata-repair-required";
       reasons.push(ownerRepair.reason);
-      nextAction = "pm-triage applies one atomic full-label update for the missing owner/status, records evidence, then re-audits the Issue";
+      nextAction = ownerRepair.transition === "atomic-source-asset-block"
+        ? "pm-triage applies one atomic blocked-state update, records the source asset dependency evidence, then re-audits"
+        : "pm-triage applies one atomic full-label update for the missing owner/status, records evidence, then re-audits the Issue";
     } else {
       category = "developer-ready";
       reasons.push("developer pickup status is active");

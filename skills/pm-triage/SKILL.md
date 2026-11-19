@@ -22,6 +22,11 @@ Read all of these before claiming the Issue:
 3. The dependency graph and the current checks for every linked work item.
 4. Existing decision records; preserve prior questions and conclusions.
 
+For source or brand assets, read the machine-readable
+`CODEX_SOURCE_ASSET_DEPENDENCY` contract. Free-text statements such as an asset
+blocker are evidence for a human reader only and cannot satisfy or clear a
+dependency.
+
 Do not infer a decision from a title, partial excerpt, label, or consulted
 opinion.
 

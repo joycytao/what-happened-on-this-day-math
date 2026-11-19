@@ -25,6 +25,11 @@ Read all of these before claiming a social decision row:
 5. Relevant social workflow documents, templates, source content, release
    manifests, and referenced image/video assets.
 
+Source assets must be declared with one or more machine-readable
+`CODEX_SOURCE_ASSET_DEPENDENCY` records containing an id, paths, required flag,
+status, and blocker reason when unavailable. A prose asset list is not a
+dependency contract and cannot authorize pickup.
+
 The decision row must name `social-expert` as the sole Decision Owner. If the
 platform constraint, source content, approved asset, or product intent needed
 for the question is missing, do not guess: return a named blocker to
