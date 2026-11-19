@@ -2,7 +2,9 @@
 
 ## Authoritative Issue state transitions
 
-Workflow state transitions are single-writer operations. State-mutating workflows must call `src/issue-state-writer.mjs` and must not call the GitHub Issues label/comment mutation APIs directly. The writer validates the complete next label set, canonical/deprecated-label invariants, human-gate integrity, comment fingerprints, and the read snapshot. Its label write uses the Issue ETag as a compare-and-swap guard; a stale write fails closed. Transition workflows must also declare `concurrency` with `cancel-in-progress: false`. Content producers may create Issues, but must not overwrite an active workflow owner/status state.
+Workflow state transitions are single-writer operations. State-mutating workflows must call `src/issue-state-writer.mjs` and must not call the GitHub Issues label/comment mutation APIs directly. The writer validates the complete next label set, canonical/deprecated-label invariants, human-gate integrity, comment fingerprints, and the read snapshot. Its compare-and-swap guard is the exact label snapshot combined with serialized workflow concurrency; unsupported conditional headers must not be sent to GitHub's Issues PATCH endpoint. Transition workflows must also declare `concurrency` with `cancel-in-progress: false`. Content producers may create Issues, but must not overwrite an active workflow owner/status state.
+
+Queue audit and execution share one result. `src/pm-triage-audit.mjs` is the authoritative eligibility calculator and emits `executionPlan`, per-Issue diagnostics, and a plan fingerprint. Queue executors must consume that plan directly; they must not call a second selector or infer ownership from labels. A zero-eligible report must include every Issue's category, reasons, and next action.
 
 ## Agent skills
 

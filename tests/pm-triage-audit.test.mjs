@@ -44,6 +44,17 @@ test("open PR representation blocks duplicate pickup", () => {
   assert.equal(result.eligible, false);
 });
 
+test("audit and executor share one role-aware execution plan", () => {
+  const result = auditQueue([
+    issue(10, ["status: ready to pickup", "agent: developer"], "# Work\n\n## Acceptance Criteria\n- test\nCODEX_INPUTS_VALIDATED: true"),
+    issue(11, ["status: ready to pickup", "agent: developer"], "# Work\n\n## Acceptance Criteria\n- test\nCODEX_INPUTS_VALIDATED: true"),
+    issue(12, ["status: pending review"]),
+  ]);
+  assert.deepEqual(result.executionPlan.developerPickup.map((entry) => entry.number), [10]);
+  assert.deepEqual(result.executionPlan.pmIntake.map((entry) => entry.number), [12]);
+  assert.equal(result.executionPlan.diagnostics.length, 3);
+});
+
 test("PM triage atomically assigns developer only with explicit routing evidence", () => {
   const body = [
     "# Work",

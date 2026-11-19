@@ -48,7 +48,7 @@ test("state writer performs one label update and idempotent comment write", asyn
   });
   assert.equal(result.commentCreated, true);
   assert.deepEqual(calls.map(([kind]) => kind), ["update", "comment"]);
-  assert.equal(calls[0][1].headers["if-match"], '"state-v1"');
+  assert.equal(calls[0][1].headers, undefined);
 });
 
 test("state writer skips a duplicate fingerprint comment", async () => {

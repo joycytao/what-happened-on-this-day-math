@@ -24,14 +24,20 @@ jobs:
           github-token: ${{ secrets.PROJECTS_TOKEN || github.token }}
           script: |
             const { pathToFileURL } = require('node:url');
-            const governance = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-governance.mjs`).href);
+            const audit = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/pm-triage-audit.mjs`).href);
             const intake = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/agent-intake-comment.mjs`).href);
             const candidates = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100, sort: 'created', direction: 'asc' });
-            const queue = governance.selectVerifiedQueue(candidates);
+            const pullRequests = await github.paginate(github.rest.pulls.list, { owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100, sort: 'created', direction: 'asc' });
+            const queueIssues = candidates.filter((item) => !item.pull_request).map((item) => ({
+              ...item,
+              pullRequests: pullRequests.filter((pr) => (pr.body || '').includes(`#${item.number}`) || (item.body || '').includes(`pull/${pr.number}`)),
+            }));
+            const auditResult = audit.auditQueue(queueIssues, pullRequests.filter((pr) => pr.state === 'open'));
+            const queue = auditResult.executionPlan;
 
             const existing = await github.paginate(github.rest.issues.listComments, { owner: context.repo.owner, repo: context.repo.repo, issue_number: context.payload.issue.number, per_page: 100 });
-            const format = (items, label) => items.length ? `### ${label}\n${items.map(item => `- #${item.number} ${item.title} — ${item.html_url}`).join('\n')}` : `### ${label}\n- None`;
-            const body = `CODEX_AGENT_INTAKE\n\nVerified governance queue after Issue #${context.payload.issue.number} changed:\n\n${format(queue.pmIntake, 'PM triage intake')}\n\n${format(queue.developerPickup, 'Developer pickup (all checks passed)')}\n\nOnly Issues that pass owner, status, parent/implementation, acceptance, input, and dependency checks appear here. A missing candidate is intentionally omitted, not an invitation to infer ownership.`;
+            const format = (items, label) => items.length ? `### ${label}\n${items.map(item => `- #${item.number} (${item.role}) — ${item.nextAction}`).join('\n')}` : `### ${label}\n- None`;
+            const body = `CODEX_AGENT_INTAKE\n\nAuthoritative queue audit consumed by executor after Issue #${context.payload.issue.number} changed:\n\n${format(queue.pmIntake, 'PM triage intake')}\n\n${format(queue.developerPickup, 'Developer pickup (all checks passed)')}\n\nPlan fingerprint: ${queue.fingerprint}\n\n${audit.renderAuditComment(auditResult)}\n\nEvery open Issue is represented in the audit diagnostics above. No candidate is inferred outside this result.`;
             const plan = intake.intakeCommentPlan(existing, context.payload.issue.number, body);
             if (plan.action === 'noop') return core.info(`Governance intake fingerprint ${intake.agentIntakeFingerprint(context.payload.issue.number)} is unchanged.`);
             if (plan.action === 'update') {
