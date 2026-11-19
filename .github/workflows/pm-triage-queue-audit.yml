@@ -44,9 +44,11 @@ jobs:
             const result = audit.auditQueue(issues, openPullRequests);
             const repairs = result.repairable.map((entry) => ({
               number: entry.number,
+              labels: entry.repair.labels || null,
               add: [...new Set([...(entry.repair.add || []), ...(entry.health?.repair?.add || [])])],
               remove: [...new Set([...(entry.repair.remove || []), ...(entry.health?.repair?.remove || [])])],
-              category: entry.health?.category || entry.category,
+              category: entry.category,
+              reason: entry.repair.reason || entry.health?.action || "routine metadata reconciliation",
             }));
             const fingerprint = JSON.stringify({ categories: result.byCategory, eligible: result.eligible.map((entry) => entry.number), repairs });
 
@@ -54,13 +56,15 @@ jobs:
               const item = issues.find((candidate) => Number(candidate.number) === Number(entry.number));
               if (!item) continue;
               const current = item.labels.map((label) => label.name);
-              const next = current.filter((label) => !entry.remove.includes(label));
+              const next = entry.labels
+                ? [...entry.labels]
+                : current.filter((label) => !entry.remove.includes(label));
               for (const label of entry.add) if (!next.includes(label)) next.push(label);
               await github.rest.issues.update({ owner, repo, issue_number: item.number, labels: next });
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: item.number, per_page: 100 });
               const marker = `<!-- CODEX_TRIAGE_REPAIR:${item.number}:${Buffer.from(JSON.stringify(entry)).toString('base64url')} -->`;
               if (!comments.some((comment) => (comment.body || '').includes(marker))) {
-                await github.rest.issues.createComment({ owner, repo, issue_number: item.number, body: `${marker}\nCODEX_TRIAGE_REPAIR:v1\n\n- Before: ${current.join(', ') || 'none'}\n- After: ${next.join(', ') || 'none'}\n- Category: ${entry.category}\n- Reason: apply only an evidence-backed queue-health reconciliation.\n- Authority boundary: no product, architecture, domain, implementation, quality, or release decision was changed.` });
+                await github.rest.issues.createComment({ owner, repo, issue_number: item.number, body: `${marker}\nCODEX_TRIAGE_REPAIR:v1\n\n- Before: ${current.join(', ') || 'none'}\n- After: ${next.join(', ') || 'none'}\n- Category: ${entry.category}\n- Reason: ${entry.reason}\n- Authority boundary: no product, architecture, domain, implementation, quality, or release decision was changed.` });
               }
             }
 

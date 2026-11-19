@@ -43,3 +43,55 @@ test("open PR representation blocks duplicate pickup", () => {
   assert.equal(result.category, "represented-by-open-pr");
   assert.equal(result.eligible, false);
 });
+
+test("PM triage atomically assigns developer only with explicit routing evidence", () => {
+  const body = [
+    "# Work",
+    "CODEX_WORK_ITEM_KIND: implementation",
+    "CODEX_RECONCILE_TO: developer",
+    "CODEX_INPUTS_VALIDATED: true",
+    "",
+    "## Acceptance Criteria",
+    "- test",
+  ].join("\n");
+  const result = auditIssue(issue(8, ["status: ready to pickup"], body));
+  assert.equal(result.category, "routine-metadata-repair");
+  assert.equal(result.eligible, false);
+  assert.deepEqual(result.repair.labels, ["agent: developer", "status: ready to pickup"]);
+  assert.deepEqual(result.repair.add, ["agent: developer"]);
+  assert.match(result.nextAction, /atomic/i);
+});
+
+test("ownerless ready pickup fails closed into PM triage blocked state", () => {
+  const result = auditIssue(issue(9, ["status: ready to pickup"], "# Work\n\n## Acceptance Criteria\n- test"));
+  assert.equal(result.category, "metadata-repair-required");
+  assert.equal(result.eligible, false);
+  assert.deepEqual(result.repair.labels, ["agent: pm-triage", "status: blocked"]);
+  assert.deepEqual(result.repair.add, ["agent: pm-triage", "status: blocked"]);
+  assert.match(result.nextAction, /missing owner/i);
+});
+
+test("audit queue exposes ownerless ready metadata as repairable instead of empty work", () => {
+  const result = auditQueue([issue(10, ["status: ready to pickup"], "# Work\n\n## Acceptance Criteria\n- test")]);
+  assert.equal(result.noPickup, true);
+  assert.equal(result.repairable.length, 1);
+  assert.match(result.nextAction, /repair/i);
+  assert.match(renderAuditComment(result), /metadata-repair-required/);
+});
+
+test("owner repair is idempotent after the canonical label replacement", () => {
+  const body = [
+    "# Work",
+    "CODEX_WORK_ITEM_KIND: implementation",
+    "CODEX_RECONCILE_TO: developer",
+    "CODEX_INPUTS_VALIDATED: true",
+    "",
+    "## Acceptance Criteria",
+    "- test",
+  ].join("\n");
+  const first = auditIssue(issue(11, ["status: ready to pickup"], body));
+  const second = auditIssue(issue(11, first.repair.labels, body));
+  assert.equal(first.repair.changed, true);
+  assert.equal(second.category, "developer-ready");
+  assert.equal(second.repair.changed, false);
+});

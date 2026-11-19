@@ -66,6 +66,15 @@ unresolved and be returned as a named reconciliation blocker; PM triage must not
 guess or change product, architecture, domain, implementation, quality, or
 release decisions.
 
+An ownerless `status: ready to pickup` is a repairable metadata defect, not a
+reason to stop at “no eligible Issue”. PM triage may add `agent: developer` only
+when the Issue explicitly declares `CODEX_RECONCILE_TO: developer`, validated
+inputs, testable acceptance criteria, closed dependencies, a non-parent
+implementation kind, and `Review gate: routine`. If any evidence is missing,
+PM triage must atomically replace the invalid pickup state with
+`agent: pm-triage` and `status: blocked`, record the missing owner/routing
+evidence, and re-audit. No role may be inferred from a title or content label.
+
 ### `quality-engineer`
 
 The quality engineer owns independent verification after implementation. QE

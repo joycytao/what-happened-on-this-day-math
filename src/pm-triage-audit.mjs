@@ -1,5 +1,6 @@
 import { GOVERNANCE_OWNERS, GOVERNANCE_STATUSES, parseIssueContract, dependencyReport } from "./issue-governance.mjs";
 import { auditQueueHealth } from "./queue-health-recovery.mjs";
+import { buildAtomicReadyPickupLabels, reconcileDerivedLabels } from "./derived-label-reconciliation.mjs";
 
 const STATUS_ALIASES = Object.freeze({
   "status:pending review": "status: pending review",
@@ -45,12 +46,41 @@ export function reconcileRoutineLabels(issue) {
   return { add: [...new Set(add)], remove: [...new Set(remove)], changed: add.length > 0 || remove.length > 0 };
 }
 
+function reconcileOwnerlessReadyPickup(issue, contract, dependencies) {
+  const labels = labelsFor(issue);
+  if (contract.status !== "status: ready to pickup" || contract.owners.length !== 0) return null;
+
+  const explicitDeveloperRoute = contract.reconcileTo === "developer"
+    && contract.kind !== "parent"
+    && contract.inputsValidated
+    && contract.hasAcceptanceCriteria
+    && dependencies.satisfied
+    && contract.reviewGate === "routine";
+  if (explicitDeveloperRoute) {
+    const result = buildAtomicReadyPickupLabels(labels, "agent: developer");
+    return {
+      ...result,
+      changed: result.add.length > 0 || result.remove.length > 0,
+      reason: "explicit CODEX_RECONCILE_TO: developer with validated inputs, acceptance criteria, closed dependencies, and routine review gate",
+      transition: "atomic-ready-pickup",
+    };
+  }
+
+  const result = reconcileDerivedLabels(labels, ["agent: pm-triage", "status: blocked"]);
+  return {
+    ...result,
+    changed: result.add.length > 0 || result.remove.length > 0,
+    reason: "ownerless ready pickup lacks an unambiguous developer routing contract; return to PM triage as blocked",
+    transition: "atomic-pm-triage-block",
+  };
+}
+
 export function auditIssue(issue, allIssues = [], openPullRequests = [], healthOptions = {}) {
   const labels = labelsFor(issue);
   const contract = parseIssueContract(issue);
   const owners = canonicalOwners(labels);
   const statuses = canonicalStatuses(labels);
-  const repair = reconcileRoutineLabels(issue);
+  const routineRepair = reconcileRoutineLabels(issue);
   const health = auditQueueHealth(issue, healthOptions);
   const reasons = [];
   let category = "not-pickup-candidate";
@@ -92,9 +122,30 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
     reasons.push("readable pending-review Issue requires triage");
     nextAction = eligible ? "pm-triage records the decision register and routes one next role" : "named owner resolves the pending question";
   } else if (labels.includes("status: ready to pickup")) {
-    category = "developer-ready";
-    reasons.push("developer pickup status is active");
-    nextAction = "developer pickup requires exactly one developer owner and validated inputs";
+    const dependencies = dependencyReport(issue, allIssues);
+    const ownerRepair = reconcileOwnerlessReadyPickup(issue, contract, dependencies);
+    if (ownerRepair) {
+      category = contract.owners.length === 0 && ownerRepair.transition === "atomic-ready-pickup"
+        ? "routine-metadata-repair"
+        : "metadata-repair-required";
+      reasons.push(ownerRepair.reason);
+      nextAction = "pm-triage applies one atomic full-label update for the missing owner/status, records evidence, then re-audits the Issue";
+    } else {
+      category = "developer-ready";
+      reasons.push("developer pickup status is active");
+      nextAction = "developer pickup requires exactly one developer owner and validated inputs";
+    }
+    return {
+      number: issue?.number ?? null,
+      category,
+      eligible,
+      owners,
+      statuses,
+      reasons,
+      nextAction,
+      repair: { ...routineRepair, ...(ownerRepair || {}) },
+      health,
+    };
   } else if (issue?.state === "open") {
     category = "missing-or-noncanonical-workflow-state";
     reasons.push("open Issue has no canonical actionable workflow state");
@@ -119,7 +170,7 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
     statuses,
     reasons,
     nextAction,
-    repair,
+    repair: routineRepair,
     health,
   };
 }

@@ -42,6 +42,11 @@ replacement. Implementation pickup requires `agent: developer`; social
 producers must declare their social owner. Workflows must use one full-label
 `issues.update`/`issues.create` mutation, not separate blocker removal and
 ready-status addition calls. Ownerless or multi-owner pickup fails closed.
+PM triage must actively repair ownerless pickup during its queue audit: add the
+developer owner only when the Issue's explicit machine-readable contract proves
+that route; otherwise atomically replace the invalid pickup state with
+`agent: pm-triage` + `status: blocked` and record the missing routing evidence.
+Ownerless or multi-owner pickup never remains an unexplained empty-queue result.
 
 Queue health recovery is defined by `src/queue-health-recovery.mjs`. The audit
 must detect stale claims, closed Issues with active workflow labels, open Issues
