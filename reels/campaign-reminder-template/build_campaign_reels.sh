@@ -7,13 +7,25 @@ FREE_SCENE="${FREE_SCENE:-$ROOT/assets/free-scene.png}"
 EARLY_BIRD_SCENE="${EARLY_BIRD_SCENE:-$ROOT/assets/early-bird-scene.png}"
 OUT="${OUT:-$ROOT/exports}"
 TMP="${TMP:-$ROOT/.tmp/campaign-build}"
-FREE_START_DATE="${FREE_START_DATE:-10/26}"
-FREE_ENDING_DATE="${FREE_ENDING_DATE:-10/18}"
-SALE_START_DATE="${SALE_START_DATE:-10/22}"
-SALE_ENDING_DATE="${SALE_ENDING_DATE:-10/28}"
-FREE_DEADLINE="${FREE_DEADLINE:-October 21}"
-SALE_DEADLINE="${SALE_DEADLINE:-October 31}"
-SALE_PRICE="${SALE_PRICE:-2.75}"
+: "${FREE_START_DATE:?FREE_START_DATE is required}"
+: "${FREE_ENDING_DATE:?FREE_ENDING_DATE is required}"
+: "${SALE_START_DATE:?SALE_START_DATE is required}"
+: "${SALE_ENDING_DATE:?SALE_ENDING_DATE is required}"
+: "${FREE_DEADLINE:?FREE_DEADLINE is required}"
+: "${SALE_DEADLINE:?SALE_DEADLINE is required}"
+: "${SALE_PRICE:?SALE_PRICE is required}"
+: "${FREE_START_TITLE:?FREE_START_TITLE is required}"
+: "${FREE_START_LINE1:?FREE_START_LINE1 is required}"
+: "${FREE_START_LINE2:?FREE_START_LINE2 is required}"
+: "${FREE_ENDING_TITLE:?FREE_ENDING_TITLE is required}"
+: "${FREE_ENDING_LINE1:?FREE_ENDING_LINE1 is required}"
+: "${FREE_ENDING_LINE2:?FREE_ENDING_LINE2 is required}"
+: "${SALE_START_TITLE:?SALE_START_TITLE is required}"
+: "${SALE_START_LINE1:?SALE_START_LINE1 is required}"
+: "${SALE_START_LINE2:?SALE_START_LINE2 is required}"
+: "${SALE_ENDING_TITLE:?SALE_ENDING_TITLE is required}"
+: "${SALE_ENDING_LINE1:?SALE_ENDING_LINE1 is required}"
+: "${SALE_ENDING_LINE2:?SALE_ENDING_LINE2 is required}"
 
 FREE_START_MM="${FREE_START_DATE%%/*}"; FREE_START_DD="${FREE_START_DATE##*/}"
 FREE_ENDING_MM="${FREE_ENDING_DATE%%/*}"; FREE_ENDING_DD="${FREE_ENDING_DATE##*/}"
@@ -36,16 +48,16 @@ for variant in free-start free-ending-soon early-bird-start early-bird-ending-so
   case "$variant" in
     free-start)
       BG="$FREE_SCENE"; DATE_MM="$FREE_START_MM"; DATE_DD="$FREE_START_DD"; OUT_NAME="free-worksheets-start.mp4"
-      TITLE="FREE NOVEMBER WORKSHEETS"; LINE1="Free through $FREE_DEADLINE"; LINE2="Link in bio" ;;
+      TITLE="$FREE_START_TITLE"; LINE1="$FREE_START_LINE1"; LINE2="$FREE_START_LINE2" ;;
     free-ending-soon)
       BG="$FREE_SCENE"; DATE_MM="$FREE_ENDING_MM"; DATE_DD="$FREE_ENDING_DD"; OUT_NAME="free-worksheets-ending-soon.mp4"
-      TITLE="FREE WORKSHEETS END IN 3 DAYS"; LINE1="Download before $FREE_DEADLINE"; LINE2="Link in bio" ;;
+      TITLE="$FREE_ENDING_TITLE"; LINE1="$FREE_ENDING_LINE1"; LINE2="$FREE_ENDING_LINE2" ;;
     early-bird-start)
       BG="$EARLY_BIRD_SCENE"; DATE_MM="$SALE_START_MM"; DATE_DD="$SALE_START_DD"; OUT_NAME="early-bird-sale-start.mp4"
-      TITLE="EARLY-BIRD SALE IS LIVE"; LINE1="Get the complete resource for \$$SALE_PRICE"; LINE2="Through $SALE_DEADLINE • Link in bio" ;;
+      TITLE="$SALE_START_TITLE"; LINE1="$SALE_START_LINE1"; LINE2="$SALE_START_LINE2" ;;
     early-bird-ending-soon)
       BG="$EARLY_BIRD_SCENE"; DATE_MM="$SALE_ENDING_MM"; DATE_DD="$SALE_ENDING_DD"; OUT_NAME="early-bird-sale-ending-soon.mp4"
-      TITLE="EARLY-BIRD PRICING ENDS IN 3 DAYS"; LINE1="Save through $SALE_DEADLINE"; LINE2="Link in bio" ;;
+      TITLE="$SALE_ENDING_TITLE"; LINE1="$SALE_ENDING_LINE1"; LINE2="$SALE_ENDING_LINE2" ;;
   esac
 
   printf '%s' "$TITLE" > "$TMP/title.txt"
