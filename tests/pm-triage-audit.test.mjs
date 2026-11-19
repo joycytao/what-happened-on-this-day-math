@@ -95,3 +95,15 @@ test("owner repair is idempotent after the canonical label replacement", () => {
   assert.equal(second.category, "developer-ready");
   assert.equal(second.repair.changed, false);
 });
+
+test("ownerless ready items with missing evidence are repaired to PM blocked", () => {
+  const body = [
+    "# Social reel",
+    "- Dependency: none",
+    "- Asset resources: prose only",
+  ].join("\n");
+  const result = auditIssue(issue(12, ["status: ready to pickup", "social: product-reel"], body));
+  assert.equal(result.category, "source-asset-blocked");
+  assert.deepEqual(result.repair.labels, ["social: product-reel", "agent: pm-triage", "status: blocked"]);
+  assert.match(result.reasons.join("\n"), /source asset/i);
+});

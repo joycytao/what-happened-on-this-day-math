@@ -38,6 +38,9 @@ PM triage also performs a scheduled proactive queue audit. It must diagnose an
 empty pickup queue, identify malformed or conflicting owner/status labels, and
 repair only unambiguous routine metadata with idempotent evidence. It must not
 guess when more than one state or owner is plausible.
+The same audit must run immediately after a pull request merges, before any
+post-merge queue report is emitted, so merged-PR label drift and ownerless
+ready-to-pickup metadata cannot be reported as a clean empty queue.
 
 Source or brand asset prerequisites must use the machine-readable
 `CODEX_SOURCE_ASSET_DEPENDENCY` contract. Free-text asset descriptions are not
