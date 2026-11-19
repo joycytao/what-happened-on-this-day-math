@@ -41,14 +41,17 @@ jobs:
             const comments = [...prComments, ...issueComments];
             const sha = pr.data.head.sha.slice(0, 12);
             const already = (id) => comments.some(comment => comment.body?.includes(`Handoff ID: \`${id}\``));
+            const outputKinds = { 'pm-triage': 'triage-decision', 'product-manager': 'product-decision', architect: 'architecture-decision', 'social-expert': 'social-decision', developer: 'implementation', 'quality-engineer': 'qa-result' };
             const body = (handoffId, from, to, status, nextAction, evidence) => [
               '<!-- CODEX_HANDOFF:v1 -->', '', '## Handoff', '',
               `- Handoff ID: \`${handoffId}\``, `- From: \`${from}\``, `- To: \`${to}\``,
               `- Work item: \`${owner}/${repo}#${workItemNumber}\``, `- Status: \`${status}\``,
                   `- Reason: ${nextAction}`, `- Preconditions: PR event and linked Issue are available`, `- Review gate: ${reviewGate}`, `- Human decision: ${to === 'ready-for-human' && humanDecisionRequired ? 'yes' : 'no; operational merge only'}`,
-              '- Completed:', '  - PR event recorded', '- Required next action:', `  - ${nextAction}`,
+              '- Completed:', ...(status === 'blocked' || status === 'rejected' ? [] : ['  - PR event recorded']), '- Required next action:', `  - ${nextAction}`,
               '- Evidence:', `  - ${evidence}`, '- Constraints:', '  - do not merge automatically',
-              '- Blockers:', '  - none', '- Expected output:', '  - reviewed handoff evidence',
+              '- Blockers:', ...(status === 'blocked' || status === 'rejected' ? [`  - ${nextAction}`] : ['  - none']), '- Expected output:', '  - reviewed handoff evidence',
+              `- Output kind: ${outputKinds[from]}`, `- Return path: ${from === 'quality-engineer' && to === 'ready-for-human' ? 'developer' : 'pm-triage'}`,
+              '- Prerequisites satisfied:', '  - PR event and linked Issue are available', '- Prerequisites missing:',
             ].join('\n');
             const mergeableState = pr.data.mergeable_state || 'unknown';
             const isConflict = mergeableState === 'dirty' || (pr.data.mergeable === false && !['blocked', 'unknown'].includes(mergeableState));

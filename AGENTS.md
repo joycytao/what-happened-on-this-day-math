@@ -327,6 +327,13 @@ Use `ready-for-human` only for a named human decision or an explicit
 approval, use `status: ready to dispatch`. Do not add a second owner or emit
 handoff comments during polling.
 
+Every role result must use the unified output schema in
+`src/role-output-contract.mjs`. Before accepting a handoff, validate its one
+role-specific `Output kind`, legal target and return path, mutually exclusive
+completed/blocked evidence, and explicit prerequisite lists. An unsatisfied
+prerequisite can only produce a blocked return to `pm-triage`; it cannot be
+crossed by a completed handoff.
+
 ## Worksheet template reuse
 
 Worksheet designs supplied later as PDF or PNG files are reusable project

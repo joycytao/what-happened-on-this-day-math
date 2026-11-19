@@ -3,6 +3,7 @@ import test from "node:test";
 
 import { routeHandoff } from "../src/agent-handoff-routing.mjs";
 
+const outputKinds = { "pm-triage": "triage-decision", "product-manager": "product-decision", architect: "architecture-decision", "social-expert": "social-decision", developer: "implementation", "quality-engineer": "qa-result" };
 const handoff = (overrides = {}) => ({
   handoffId: "repo:187:architect:developer:1",
   from: "architect",
@@ -15,6 +16,10 @@ const handoff = (overrides = {}) => ({
   constraints: ["do not change readiness"],
   blockers: ["none"],
   expectedOutput: ["triage update"],
+  outputKind: outputKinds[overrides.from || "architect"],
+  returnPath: "pm-triage",
+  prerequisitesSatisfied: ["scope is defined"],
+  prerequisitesMissing: [],
   ...overrides,
 });
 
@@ -54,6 +59,7 @@ test("routes a completed developer PR to quality-engineer", () => {
   const result = routeHandoff(handoff({
     from: "developer",
     to: "quality-engineer",
+    outputKind: "implementation",
     workItem: "joycytao/what-happened-on-this-day-math#203",
   }), context({ isPullRequest: true }));
 
@@ -63,7 +69,7 @@ test("routes a completed developer PR to quality-engineer", () => {
 });
 
 test("marks routine PR completion as an operational merge gate, not content review", () => {
-  const result = routeHandoff(handoff({ from: "quality-engineer", to: "pm-triage" }), context({ isPullRequest: true, reviewGate: "final-merge" }));
+  const result = routeHandoff(handoff({ from: "quality-engineer", to: "ready-for-human", outputKind: "qa-result" }), context({ isPullRequest: true, reviewGate: "final-merge" }));
 
   assert.equal(result.valid, true, result.errors.join("\n"));
   assert.equal(result.reviewGate, "final-merge");
@@ -71,7 +77,7 @@ test("marks routine PR completion as an operational merge gate, not content revi
 });
 
 test("rejects a routine review gate at the human workflow terminal", () => {
-  const result = routeHandoff(handoff({ from: "quality-engineer", to: "developer", status: "completed" }), {
+  const result = routeHandoff(handoff({ from: "quality-engineer", to: "ready-for-human", outputKind: "qa-result", status: "completed" }), {
     isPullRequest: true,
     reviewGate: "routine",
   });
@@ -80,7 +86,7 @@ test("rejects a routine review gate at the human workflow terminal", () => {
 });
 
 test("marks explicit final-copy completion as requiring human judgment", () => {
-  const result = routeHandoff(handoff({ from: "quality-engineer", to: "pm-triage" }), context({ isPullRequest: true, reviewGate: "final-copy", humanDecisionRequestCount: 1 }));
+  const result = routeHandoff(handoff({ from: "quality-engineer", to: "ready-for-human", outputKind: "qa-result" }), context({ isPullRequest: true, reviewGate: "final-copy", humanDecisionRequestCount: 1 }));
 
   assert.equal(result.valid, true, result.errors.join("\n"));
   assert.equal(result.reviewGate, "final-copy");
@@ -92,6 +98,10 @@ test("routes a rejected QA handoff back to developer", () => {
     from: "quality-engineer",
     to: "developer",
     status: "rejected",
+    outputKind: "qa-result",
+    completed: [],
+    blockers: ["failed QA check"],
+    returnPath: "developer",
     requiredNextAction: ["fix the failed QA check"],
   }), context({ isPullRequest: true }));
 

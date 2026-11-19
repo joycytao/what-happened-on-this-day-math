@@ -6,11 +6,14 @@ import { routeHandoff } from "../src/agent-handoff-routing.mjs";
 import { listEligibleWork } from "../src/agent-pickup.mjs";
 
 const fixture = JSON.parse(await readFile(new URL("./fixtures/agent-handoff-issues.json", import.meta.url)));
+const outputKinds = { "pm-triage": "triage-decision", "product-manager": "product-decision", architect: "architecture-decision", "social-expert": "social-decision", developer: "implementation", "quality-engineer": "qa-result" };
 const handoff = (overrides = {}) => ({
   handoffId: "repo:191:architect:pm-triage:1",
   from: "architect", to: "pm-triage", workItem: "joycytao/what-happened-on-this-day-math#191",
   status: "completed", completed: ["decision recorded"], requiredNextAction: ["record decision"],
   evidence: ["fixture evidence"], constraints: ["preserve readiness gate"], blockers: ["none"], expectedOutput: ["triage update"],
+  outputKind: outputKinds[overrides.from || "architect"], returnPath: "pm-triage",
+  prerequisitesSatisfied: ["decision register is available"], prerequisitesMissing: [],
   ...overrides,
 });
 
@@ -29,14 +32,14 @@ test("offline fixture proves the complete handoff route", () => {
   const approved = routeHandoff(handoff({ from: "pm-triage", to: "developer" }), { labels: ["status: ready to pickup"] });
   assert.equal(approved.nextRole, "developer");
 
-  const qa = routeHandoff(handoff({ from: "developer", to: "quality-engineer", workItem: "joycytao/what-happened-on-this-day-math#203" }), { isPullRequest: true });
+  const qa = routeHandoff(handoff({ from: "developer", to: "quality-engineer", outputKind: "implementation", workItem: "joycytao/what-happened-on-this-day-math#203" }), { isPullRequest: true });
   assert.equal(qa.nextRole, "quality-engineer");
   assert.equal(qa.nextState, "qa");
 
-  const failed = routeHandoff(handoff({ from: "quality-engineer", to: "developer", status: "rejected" }), { isPullRequest: true });
+  const failed = routeHandoff(handoff({ from: "quality-engineer", to: "developer", status: "rejected", outputKind: "qa-result", completed: [], blockers: ["failed check"], returnPath: "developer" }), { isPullRequest: true });
   assert.equal(failed.nextState, "changes-requested");
 
-  const passed = routeHandoff(handoff({ from: "quality-engineer", to: "developer", status: "completed" }), { isPullRequest: true });
+  const passed = routeHandoff(handoff({ from: "quality-engineer", to: "ready-for-human", status: "completed", outputKind: "qa-result", returnPath: "developer" }), { isPullRequest: true, reviewGate: "final-merge" });
   assert.equal(passed.nextRole, null);
   assert.equal(passed.nextState, "ready-for-human");
 });
@@ -46,7 +49,7 @@ test("offline recovery rules do not claim unsafe work", () => {
   assert.equal(duplicate.duplicate, true);
   assert.equal(duplicate.shouldComment, false);
 
-  const blocked = routeHandoff(handoff({ status: "blocked", blockers: ["missing evidence"] }), {});
+  const blocked = routeHandoff(handoff({ status: "blocked", to: "pm-triage", completed: [], blockers: ["missing evidence"], prerequisitesMissing: ["source data"] }), {});
   assert.equal(blocked.nextRole, "pm-triage");
   assert.equal(blocked.nextState, "blocked");
 

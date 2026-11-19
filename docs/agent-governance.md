@@ -345,6 +345,22 @@ The normal implementation chain is:
 pm-triage → domain owner or developer → quality-engineer → ready-for-human
 ```
 
+### Unified role-output contract
+
+Every new `CODEX_HANDOFF:v1` result carries one `outputKind`, one legal `To`,
+one legal `Return path`, and explicit `Prerequisites satisfied` and
+`Prerequisites missing` lists. The machine contract in
+`src/role-output-contract.mjs` assigns exactly one output kind to each role:
+triage decision, product decision, architecture decision, social decision,
+implementation, or QA result.
+
+The validator rejects mixed completed/blocked evidence, rejects completed or
+accepted outputs with missing prerequisites, and permits an unsatisfied
+prerequisite only on a `blocked` handoff returning to `pm-triage`. It also
+enforces the role transition graph: domain decisions return to PM triage,
+developer work goes to QE, QE rejection returns to developer, and successful
+QE goes to `ready-for-human`.
+
 At `ready-for-human`, the workstream stops until the named decision is
 recorded. After approval it resumes at `status: ready to dispatch`; it does
 not regenerate the package.

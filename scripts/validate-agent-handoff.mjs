@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFile } from "node:fs/promises";
 import { parseHandoff } from "../src/agent-handoff.mjs";
+import { validateRoleOutput } from "../src/role-output-contract.mjs";
 
 function parseArgs(argv) {
   const fileIndex = argv.indexOf("--file");
@@ -25,8 +26,9 @@ async function readInput({ file }) {
 try {
   const input = await readInput(parseArgs(process.argv.slice(2)));
   const result = parseHandoff(input);
-  if (!result.valid) {
-    console.error(result.errors.join("\n"));
+  const output = result.valid ? validateRoleOutput(result.handoff) : { valid: true, errors: [] };
+  if (!result.valid || !output.valid) {
+    console.error([...result.errors, ...output.errors].join("\n"));
     process.exitCode = 1;
   } else {
     process.stdout.write(`${JSON.stringify(result.handoff, null, 2)}\n`);
