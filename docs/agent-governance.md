@@ -108,6 +108,22 @@ UI adoption; or invent missing evidence. Missing evidence or a misrouted
 question is a named `pm-triage` blocker. Human requests are limited to one
 explicit UI/UX, final-copy, final-product, credential/access, public
 publication, or downstream-dispatch decision.
+
+### `architect` responsibility boundary
+
+`architect` is eligible only when it is the single Decision Owner on an
+explicit technical row and the Issue has `agent: architect` plus
+`state: decision-requested`. It decides system boundaries, schemas, interfaces,
+storage/artifact boundaries, orchestration and failure policy, dependency
+direction, technical trade-offs, and technical acceptance criteria from
+repository evidence. It records one conclusion, alternatives, interface or
+behavior impact, migration/failure impact, and verification implications, then
+hands the Issue back to `pm-triage` with `CODEX_HANDOFF:v1`.
+
+It must not answer product, implementation, domain, quality, process, or release
+questions; mutate workflow labels; merge, publish, or dispatch; or invent
+performance requirements, platform limits, or product intent. Missing technical
+evidence is a named `pm-triage` blocker.
 - Instagram or Facebook format and channel requirements: the corresponding
   domain expert.
 - Test strategy, verification evidence, and release quality: Quality Engineer.

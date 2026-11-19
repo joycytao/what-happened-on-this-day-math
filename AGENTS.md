@@ -50,6 +50,15 @@ code, mutate workflow labels, merge, publish, dispatch, approve UI adoption, or
 invent missing evidence; incomplete or misrouted questions return to pm-triage
 as named blockers.
 
+The architect is the Decision Owner only for explicitly routed technical
+questions: system boundaries, schemas, interfaces, storage/artifact boundaries,
+orchestration and failure policy, dependency direction, technical trade-offs,
+and technical acceptance criteria. It must record one evidence-backed technical
+decision with interface, migration, failure, and verification impact, then hand
+back to pm-triage. It must not decide product priority, implement code, mutate
+labels, merge, publish, dispatch, or invent technical requirements or platform
+limits.
+
 ## GitHub App connectivity gate
 
 Repeated automation runs showed that direct App-wrapper calls can collapse to
