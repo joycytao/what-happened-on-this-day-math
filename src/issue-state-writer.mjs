@@ -36,11 +36,9 @@ export async function transitionIssueState({ github, owner, repo, issueNumber, e
   const plan = planIssueStateTransition({ currentLabels, expectedLabels: expectedLabels ?? currentLabels, nextLabels, body: body ?? issue.data.body ?? "", comments });
   if (!plan.valid) throw new Error(plan.errors.join("; "));
   if (plan.add.length || plan.remove.length) {
-    const etag = issue.headers?.etag || issue.headers?.ETag;
-    await github.rest.issues.update({
-      owner, repo, issue_number: issueNumber, labels: plan.labels,
-      ...(etag ? { headers: { "if-match": etag } } : {}),
-    });
+    // GitHub's Issues PATCH endpoint rejects If-Match. The compare-and-swap
+    // guard is the exact label snapshot plus serialized workflow concurrency.
+    await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: plan.labels });
   }
   let commentCreated = false;
   if (commentBody && (!commentFingerprint || !comments.some((comment) => String(comment.body ?? "").includes(commentFingerprint)))) {

@@ -1,4 +1,4 @@
-import { GOVERNANCE_OWNERS, GOVERNANCE_STATUSES, parseIssueContract, dependencyReport } from "./issue-governance.mjs";
+import { GOVERNANCE_OWNERS, GOVERNANCE_STATUSES, parseIssueContract, dependencyReport, validateGovernanceIssue } from "./issue-governance.mjs";
 import { auditQueueHealth } from "./queue-health-recovery.mjs";
 import { buildAtomicReadyPickupLabels, reconcileDerivedLabels } from "./derived-label-reconciliation.mjs";
 
@@ -85,6 +85,7 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
   const reasons = [];
   let category = "not-pickup-candidate";
   let eligible = false;
+  let role = null;
   let nextAction = "no autonomous action; preserve the current gate";
 
   if (issue?.state !== "open" || issue?.pull_request) {
@@ -119,6 +120,7 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
   } else if (contract.status === "status: pending review" && contract.readable) {
     category = owners.length === 0 || owners[0] === "agent: pm-triage" ? "pm-triage-intake" : "pending-owner-follow-up";
     eligible = category === "pm-triage-intake";
+    role = eligible ? "pm-triage" : null;
     reasons.push("readable pending-review Issue requires triage");
     nextAction = eligible ? "pm-triage records the decision register and routes one next role" : "named owner resolves the pending question";
   } else if (labels.includes("status: ready to pickup")) {
@@ -144,13 +146,17 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
         : "pm-triage applies one atomic full-label update for the missing owner/status, records evidence, then re-audits the Issue";
     } else {
       category = "developer-ready";
-      reasons.push("developer pickup status is active");
-      nextAction = "developer pickup requires exactly one developer owner and validated inputs";
+      const validation = validateGovernanceIssue(issue, allIssues);
+      eligible = validation.valid && owners.length === 1 && owners[0] === "agent: developer" && contract.kind !== "parent";
+      role = eligible ? "developer" : null;
+      reasons.push("developer pickup status is active", ...validation.errors);
+      nextAction = eligible ? "developer may claim the oldest verified implementation candidate" : "developer pickup requires exactly one developer owner and validated inputs";
     }
     return {
       number: issue?.number ?? null,
       category,
       eligible,
+      role,
       owners,
       statuses,
       reasons,
@@ -178,6 +184,7 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
     number: issue?.number ?? null,
     category,
     eligible,
+    role,
     owners,
     statuses,
     reasons,
@@ -190,15 +197,34 @@ export function auditIssue(issue, allIssues = [], openPullRequests = [], healthO
 export function auditQueue(issues = [], openPullRequests = [], healthOptions = {}) {
   const entries = issues.filter((issue) => !issue?.pull_request).map((issue) => auditIssue(issue, issues, openPullRequests, healthOptions));
   const eligible = entries.filter((entry) => entry.eligible);
+  const executionPlan = buildQueueExecutionPlan(entries);
   const repairable = entries.filter((entry) => entry.repair.changed || entry.health.repair.add.length || entry.health.repair.remove.length);
   const byCategory = Object.fromEntries([...new Set(entries.map((entry) => entry.category))].sort().map((category) => [category, entries.filter((entry) => entry.category === category).length]));
   return {
     entries,
     eligible,
+    executionPlan,
     repairable,
     noPickup: eligible.length === 0,
     byCategory,
     nextAction: eligible.length ? "pm-triage claims the oldest eligible intake" : "pm-triage reviews the category counts and repairs only routine metadata gaps",
+  };
+}
+
+export function buildQueueExecutionPlan(entries = []) {
+  const byRole = new Map();
+  for (const entry of entries.filter((candidate) => candidate.eligible && candidate.role)) {
+    const current = byRole.get(entry.role);
+    if (!current || Number(entry.number) < Number(current.number)) byRole.set(entry.role, entry);
+  }
+  const selected = [...byRole.values()].sort((left, right) => Number(left.number) - Number(right.number));
+  const diagnostics = entries.map((entry) => ({ number: entry.number, category: entry.category, eligible: entry.eligible, role: entry.role, reasons: entry.reasons, nextAction: entry.nextAction }));
+  return {
+    selected,
+    pmIntake: selected.filter((entry) => entry.role === "pm-triage"),
+    developerPickup: selected.filter((entry) => entry.role === "developer"),
+    diagnostics,
+    fingerprint: JSON.stringify({ selected: selected.map((entry) => [entry.number, entry.role]), diagnostics }),
   };
 }
 
@@ -209,6 +235,8 @@ export function renderAuditComment(audit) {
     "CODEX_TRIAGE_AUDIT:v1",
     "",
     `- Eligible pickup count: ${audit.eligible.length}`,
+    `- Executor plan: ${audit.executionPlan.selected.map((entry) => `#${entry.number} → ${entry.role}`).join(", ") || "none"}`,
+    `- Executor plan fingerprint: ${audit.executionPlan.fingerprint}`,
     `- No-pickup diagnosis: ${audit.noPickup ? "yes" : "no"}`,
     `- Category counts: ${Object.entries(audit.byCategory).map(([key, value]) => `${key}=${value}`).join(", ") || "none"}`,
     `- Next action: ${audit.nextAction}`,
