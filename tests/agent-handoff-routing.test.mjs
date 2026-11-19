@@ -26,12 +26,13 @@ const context = (overrides = {}) => ({
 });
 
 test("routes a completed architect decision to pm-triage", () => {
-  const result = routeHandoff(handoff(), context());
+  const result = routeHandoff(handoff(), context({ labels: ["agent-requested", "status:pending review"] }));
 
   assert.equal(result.valid, true, result.errors.join("\n"));
   assert.equal(result.nextRole, "pm-triage");
   assert.equal(result.nextState, "pending review");
   assert.deepEqual(result.addLabels, ["agent: pm-triage", "status: pending review"]);
+  assert.deepEqual(result.removeLabels, ["agent-requested", "status:pending review"]);
 });
 
 test("routes a human-approved ready Issue to developer", () => {
@@ -107,4 +108,15 @@ test("does not route duplicate handoff IDs twice", () => {
   assert.equal(result.duplicate, true);
   assert.deepEqual(result.addLabels, []);
   assert.equal(result.shouldComment, false);
+});
+
+test("handoff routing never emits deprecated or duplicate derived labels", () => {
+  const result = routeHandoff(handoff({ from: "developer", to: "quality-engineer" }), context({
+    isPullRequest: true,
+    labels: ["agent: developer", "agent-requested", "status:ready to pickup"],
+  }));
+  assert.equal(result.valid, true, result.errors.join("\n"));
+  assert.deepEqual(result.addLabels, ["agent: quality-engineer", "status: qa"]);
+  assert.deepEqual(result.removeLabels, ["agent: developer", "agent-requested", "status:ready to pickup"]);
+  assert.equal(result.addLabels.some((label) => label === "agent-requested" || label === "status:ready to pickup"), false);
 });

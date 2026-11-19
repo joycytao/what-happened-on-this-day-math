@@ -95,11 +95,19 @@ jobs:
             }
 
             const current = issue.data.labels.map(label => label.name);
-            const remove = current.filter(label => label.startsWith('agent: ') || label.startsWith('state: '));
+            const deprecated = new Set([
+              'agent-requested', 'needs-info', 'needs-triage', 'ready-for-agent',
+              'state: decision-complete', 'state: ready-to-pickup', 'state: blocked',
+              'state: qa', 'state: human-review', 'state: done',
+              'status:pending review', 'status:blocked', 'status:ready to pickup',
+              'status:qa', 'status:paused', 'status:ready to dispatch', 'status:done',
+            ]);
+            const derived = (label) => label.startsWith('agent: ') || label.startsWith('state: ') || label.startsWith('status:') || label === 'ready-for-human' || deprecated.has(label);
+            const remove = current.filter(derived);
             for (const name of remove) {
               await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name });
             }
-            const labels = [];
+            const labels = current.filter((label) => !derived(label));
             if (handoff.nextRole) labels.push(`agent: ${handoff.nextRole}`);
             if (handoff.nextState === 'ready-for-human') labels.push('ready-for-human');
             else if (handoff.nextState?.startsWith('status: ')) labels.push(handoff.nextState);

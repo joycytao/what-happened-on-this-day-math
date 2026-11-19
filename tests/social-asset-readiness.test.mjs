@@ -30,8 +30,8 @@ test("monthly social pickup remains blocked until resources are declared", () =>
   const blocked = buildMonthlySocialIssuePlan({ ...base, assetResources: [] });
   assert.equal(blocked.valid, true);
   assert.equal(blocked.assetReady, false);
-  assert.ok(blocked.issues.slice(1).every((issue) => issue.labels.includes("status:blocked")));
+  assert.ok(blocked.issues.slice(1).every((issue) => issue.labels.includes("status: blocked")));
   const ready = buildMonthlySocialIssuePlan({ ...base, assetResources: [base.manifestPath, base.contentPath, base.thumbnailManifestPath] });
   assert.equal(ready.assetReady, true);
-  assert.ok(ready.issues[1].labels.includes("status:ready to pickup"));
+  assert.ok(ready.issues[1].labels.includes("status: ready to pickup"));
 });

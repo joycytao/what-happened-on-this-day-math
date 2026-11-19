@@ -1,5 +1,6 @@
 import { AGENT_ROLES, HANDOFF_TARGETS, validateHandoff } from "./agent-handoff.mjs";
 import { classifyHumanReview } from "./human-review-policy.mjs";
+import { canonicalDerivedLabelsForPlan } from "./derived-label-reconciliation.mjs";
 
 const DECISION_ROLES = new Set(["architect", "product-manager", "social-expert"]);
 
@@ -17,6 +18,11 @@ function result(overrides = {}) {
   };
 }
 
+function routedResult(context, derived, overrides = {}) {
+  const reconciled = canonicalDerivedLabelsForPlan(context.labels ?? [], derived);
+  return result({ addLabels: reconciled.add, removeLabels: reconciled.remove, ...overrides });
+}
+
 function invalid(errors) {
   return result({ valid: false, errors: [...new Set(errors)], shouldComment: false });
 }
@@ -32,8 +38,7 @@ export function routeHandoff(handoff, context = {}) {
   if ((context.seenHandoffIds ?? []).includes(handoff.handoffId)) return result({ duplicate: true, shouldComment: false });
 
   if (handoff.status === "blocked") {
-    return result({
-      addLabels: ["status: blocked"],
+    return routedResult(context, ["agent: pm-triage", "status: blocked"], {
       nextRole: "pm-triage",
       nextState: "blocked",
     });
@@ -41,8 +46,7 @@ export function routeHandoff(handoff, context = {}) {
 
   if (DECISION_ROLES.has(handoff.from) && handoff.status === "completed") {
     if (handoff.to !== "pm-triage") return invalid(["decision_handoff_must_return_to_pm_triage"]);
-    return result({
-      addLabels: ["agent: pm-triage", "status: pending review"],
+    return routedResult(context, ["agent: pm-triage", "status: pending review"], {
       nextRole: "pm-triage",
       nextState: "pending review",
     });
@@ -50,8 +54,7 @@ export function routeHandoff(handoff, context = {}) {
 
   if (handoff.from === "pm-triage" && handoff.to === "developer" && ["accepted", "completed"].includes(handoff.status)) {
     if (!hasLabel(context, "status: ready to pickup")) return invalid(["developer_gate_missing"]);
-    return result({
-      addLabels: ["agent: developer", "state: implementation"],
+    return routedResult(context, ["agent: developer", "state: implementation"], {
       nextRole: "developer",
       nextState: "implementation",
     });
@@ -59,8 +62,7 @@ export function routeHandoff(handoff, context = {}) {
 
   if (handoff.from === "developer" && handoff.to === "quality-engineer" && handoff.status === "completed") {
     if (!context.isPullRequest) return invalid(["pull_request_required"]);
-    return result({
-      addLabels: ["agent: quality-engineer", "status: qa"],
+    return routedResult(context, ["agent: quality-engineer", "status: qa"], {
       nextRole: "quality-engineer",
       nextState: "qa",
     });
@@ -68,8 +70,7 @@ export function routeHandoff(handoff, context = {}) {
 
   if (handoff.from === "quality-engineer" && handoff.to === "developer" && handoff.status === "rejected") {
     if (!context.isPullRequest) return invalid(["pull_request_required"]);
-    return result({
-      addLabels: ["agent: developer", "state: changes-requested"],
+    return routedResult(context, ["agent: developer", "state: changes-requested"], {
       nextRole: "developer",
       nextState: "changes-requested",
     });
@@ -83,8 +84,7 @@ export function routeHandoff(handoff, context = {}) {
     } catch (error) {
       return invalid([error.message]);
     }
-    return result({
-      addLabels: ["ready-for-human"],
+    return routedResult(context, ["ready-for-human"], {
       nextRole: null,
       nextState: "ready-for-human",
       humanDecisionRequired: review.humanDecisionRequired,

@@ -4,10 +4,10 @@ export const SOCIAL_LABELS = Object.freeze({
   utilityReel: "social:utility-reel",
   monthly: "content:monthly",
   utility: "content:utility",
-  ready: "status:ready to pickup",
-  qa: "status:qa",
-  blocked: "status:blocked",
-  pending: "status:pending review",
+  ready: "status: ready to pickup",
+  qa: "status: qa",
+  blocked: "status: blocked",
+  pending: "status: pending review",
 });
 
 const PLACEHOLDER_RESOURCE = /^(?:tbd|todo|n\/a|none|placeholder(?:\.[a-z0-9]+)?|<[^>]+>)$/i;
