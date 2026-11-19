@@ -1,10 +1,26 @@
 name: PM triage proactive queue audit
 
 on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened]
+  issue_comment:
+    types: [created, edited, deleted]
+  pull_request:
+    types: [opened, synchronize, closed, reopened]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+  workflow_run:
+    types: [completed]
+  repository_dispatch:
+    types: [source-asset-available, dependency-closed, queue-reconcile]
+  push:
+    paths:
+      - "assets/**"
+      - "content/**"
+      - "data/**"
+      - "history_today_*.csv"
   schedule:
     - cron: "*/15 * * * *"
-  pull_request:
-    types: [closed]
   workflow_dispatch:
 
 permissions:
@@ -18,7 +34,7 @@ concurrency:
 
 jobs:
   audit:
-    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'failure'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

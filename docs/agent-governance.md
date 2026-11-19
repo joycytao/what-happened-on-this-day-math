@@ -71,6 +71,14 @@ and records `CODEX_TRIAGE_AUDIT:v1` evidence even when the eligible set is empty
 The same audit runs on a merged pull-request event before post-merge queue
 reporting, so stale derived labels are reconciled immediately rather than
 waiting for the next schedule tick.
+
+Queue reconciliation is event-driven. The PM audit runs on Issue metadata and
+label changes, Issue comments (including human decisions), PR lifecycle/review
+changes, failed workflow completions, repository dispatch signals for source
+assets/dependencies, and pushes to source/content/asset paths. Its 15-minute
+schedule is only a safety net. The workflow excludes its own successful
+`workflow_run` completion and serializes runs with `cancel-in-progress: false`
+so the audit comment cannot create an uncontrolled self-trigger loop.
 It may normalize only unambiguous routine label aliases or stale derived labels
 proved by handoff evidence. Multiple plausible owners or statuses must remain
 unresolved and be returned as a named reconciliation blocker; PM triage must not
