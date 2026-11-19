@@ -246,6 +246,17 @@ Human review is not a blanket precondition for ordinary implementation. It is
 required only for explicit human-only gates. Use `ready-for-human` plus one
 `HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
 
+### `ready-for-human` integrity invariant
+
+The `ready-for-human` label is derived state, not evidence by itself. It is
+valid only when the Issue declares either `Review gate: final-merge` for the
+operational merge action, or one of the explicit human decision gates
+(`ui-design`, `final-copy`, `final-product`, `credentials`, or
+`public-dispatch`) and has exactly one `HUMAN_DECISION_REQUEST:v1` comment.
+Routine work must fail closed and remain outside the human gate until its
+operational `final-merge` gate is explicitly declared. Handoff and PR routers
+must verify this invariant before adding `ready-for-human`.
+
 For a release approval, the owner replies with one `HUMAN_APPROVAL:v1`
 comment that includes the exact `Release identity` from the Issue. The
 approval is valid only when that identity matches the current release

@@ -84,6 +84,10 @@ export function routeHandoff(handoff, context = {}) {
     } catch (error) {
       return invalid([error.message]);
     }
+    if (review.reviewGate === "routine") return invalid(["routine work cannot enter ready-for-human; declare final-merge or a human decision gate"]);
+    if (review.humanDecisionRequired && context.humanDecisionRequestCount !== 1) {
+      return invalid(["human decision gate requires exactly one HUMAN_DECISION_REQUEST:v1 comment"]);
+    }
     return routedResult(context, ["ready-for-human"], {
       nextRole: null,
       nextState: "ready-for-human",
