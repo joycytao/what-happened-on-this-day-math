@@ -497,3 +497,6 @@ The governance invariant suite runs locally with
   reason to claim work from local assumptions.
 - The offline route proof is in
   `tests/agent-workflow-integration.test.mjs` and uses no token or network.
+# Authoritative state writer
+
+All owner/status/phase/`ready-for-human` transitions and their associated audit or handoff comments must pass through `src/issue-state-writer.mjs`. The module is the only state writer: it reads the Issue, validates the expected label snapshot, validates canonical derived-label and human-gate invariants, writes the complete replacement label set once, and creates fingerprinted comments idempotently. The GitHub Issue ETag is sent as `If-Match`; a concurrent mutation therefore fails instead of overwriting newer state. Workflows that call the writer must serialize by Issue/PR with `cancel-in-progress: false`. Direct `issues.update`, `addLabels`, `removeLabel`, or `createComment` calls are prohibited in transition workflows and enforced by `scripts/validate-issue-state-writer.mjs`.

@@ -12,6 +12,10 @@ permissions:
   issues: write
   pull-requests: read
 
+concurrency:
+  group: issue-state-pm-triage-${{ github.repository }}
+  cancel-in-progress: false
+
 jobs:
   audit:
     if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
@@ -24,6 +28,7 @@ jobs:
           script: |
             const { pathToFileURL } = require('node:url');
             const audit = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/pm-triage-audit.mjs`).href);
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
             const { owner, repo } = context.repo;
             const all = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100, sort: 'created', direction: 'asc' });
             const allPullRequests = await github.paginate(github.rest.pulls.list, { owner, repo, state: 'all', per_page: 100, sort: 'created', direction: 'asc' });
@@ -63,12 +68,9 @@ jobs:
                 ? [...entry.labels]
                 : current.filter((label) => !entry.remove.includes(label));
               for (const label of entry.add) if (!next.includes(label)) next.push(label);
-              await github.rest.issues.update({ owner, repo, issue_number: item.number, labels: next });
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: item.number, per_page: 100 });
               const marker = `<!-- CODEX_TRIAGE_REPAIR:${item.number}:${Buffer.from(JSON.stringify(entry)).toString('base64url')} -->`;
-              if (!comments.some((comment) => (comment.body || '').includes(marker))) {
-                await github.rest.issues.createComment({ owner, repo, issue_number: item.number, body: `${marker}\nCODEX_TRIAGE_REPAIR:v1\n\n- Before: ${current.join(', ') || 'none'}\n- After: ${next.join(', ') || 'none'}\n- Category: ${entry.category}\n- Reason: ${entry.reason}\n- Authority boundary: no product, architecture, domain, implementation, quality, or release decision was changed.` });
-              }
+              await transitionIssueState({ github, owner, repo, issueNumber: item.number, expectedLabels: current, nextLabels: next, body: item.body || '', commentBody: `${marker}\nCODEX_TRIAGE_REPAIR:v1\n\n- Before: ${current.join(', ') || 'none'}\n- After: ${next.join(', ') || 'none'}\n- Category: ${entry.category}\n- Reason: ${entry.reason}\n- Authority boundary: no product, architecture, domain, implementation, quality, or release decision was changed.`, commentFingerprint: marker });
             }
 
             const anchor = openIssues[0] || issues[0];
@@ -76,7 +78,9 @@ jobs:
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: anchor.number, per_page: 100 });
               const marker = `<!-- CODEX_TRIAGE_AUDIT:${Buffer.from(fingerprint).toString('base64url')} -->`;
               if (!comments.some((comment) => (comment.body || '').includes(marker))) {
-                await github.rest.issues.createComment({ owner, repo, issue_number: anchor.number, body: `${marker}\n${audit.renderAuditComment(result)}` });
+                const anchorIssue = await github.rest.issues.get({ owner, repo, issue_number: anchor.number });
+                const anchorLabels = anchorIssue.data.labels.map((label) => label.name);
+                await transitionIssueState({ github, owner, repo, issueNumber: anchor.number, expectedLabels: anchorLabels, nextLabels: anchorLabels, body: anchorIssue.data.body || '', commentBody: `${marker}\n${audit.renderAuditComment(result)}`, commentFingerprint: marker });
               }
             }
             core.notice(`PM triage queue audit: ${result.entries.length} open Issues, ${result.eligible.length} eligible pickup, ${result.repairable.length} routine repairs, noPickup=${result.noPickup}`);

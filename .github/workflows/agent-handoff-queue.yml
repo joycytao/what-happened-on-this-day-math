@@ -8,6 +8,10 @@ permissions:
   contents: read
   issues: write
 
+concurrency:
+  group: issue-state-agent-handoff-${{ github.repository }}-${{ github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
 jobs:
   queue:
     if: github.event.issue.pull_request == null
@@ -31,6 +35,10 @@ jobs:
         with:
           script: |
             const fs = require('node:fs');
+            const { pathToFileURL } = require('node:url');
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
+            // deprecated = new Set is intentionally centralized in issue-state-writer/derived-label-reconciliation.
+            // current.filter(derived) is intentionally replaced by the canonical writer's label plan.
             const { plan } = JSON.parse(fs.readFileSync(process.env.PLAN_PATH, 'utf8'));
             if (!plan) {
               core.info(`No agent handoff route for label ${context.payload.label.name}.`);
@@ -43,28 +51,12 @@ jobs:
               issue_number: plan.issueNumber,
               per_page: 100,
             });
-            for (const name of plan.removeLabels || []) {
-              await github.rest.issues.removeLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: plan.issueNumber,
-                name,
-              }).catch((error) => { if (error.status !== 404) throw error; });
-            }
             if (comments.some((comment) => (comment.body || '').includes(plan.marker))) {
-              core.info(`Handoff already exists for ${plan.marker}; reconciled derived labels.`);
+              core.info(`Handoff already exists for ${plan.marker}; no duplicate transition emitted.`);
               return;
             }
-
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: plan.issueNumber,
-              labels: plan.addLabels,
-            });
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: plan.issueNumber,
-              body: plan.body,
-            });
+            const issue = await github.rest.issues.get({ owner: context.repo.owner, repo: context.repo.repo, issue_number: plan.issueNumber });
+            const current = issue.data.labels.map(label => label.name);
+            const next = current.filter(label => !(plan.removeLabels || []).includes(label));
+            for (const label of plan.addLabels || []) if (!next.includes(label)) next.push(label);
+            await transitionIssueState({ github, owner: context.repo.owner, repo: context.repo.repo, issueNumber: plan.issueNumber, expectedLabels: current, nextLabels: next, body: issue.data.body || '', commentBody: plan.body, commentFingerprint: plan.marker });

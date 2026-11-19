@@ -7,14 +7,21 @@ on:
 permissions:
   issues: write
 
+concurrency:
+  group: issue-state-social-dependency-${{ github.repository }}-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
 jobs:
   unblock:
     if: github.event.issue.pull_request == null
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/github-script@v7
         with:
           script: |
+            const { pathToFileURL } = require('node:url');
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
             const body = context.payload.issue.body || '';
             const month = body.match(/<!-- codex-social-monthly:([^:]+):(reel|carousel):(\d+) -->/);
             const utility = body.match(/<!-- codex-social-utility:([^:]+):week:(\d+) -->/);
@@ -31,5 +38,4 @@ jobs:
             const next = current.filter(label => label !== 'status:blocked' && label !== 'status: blocked');
             if (owners.length === 0) next.push('agent: social-expert');
             if (!next.includes('status: ready to pickup')) next.push('status: ready to pickup');
-            await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, labels: [...new Set(next)] });
-            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, body: `Dependency #${context.payload.issue.number} closed. This social workstream Issue is now ready for Codex pickup after the normal PR and QA gates.` });
+            await transitionIssueState({ github, owner: context.repo.owner, repo: context.repo.repo, issueNumber: dependent.number, expectedLabels: current, nextLabels: [...new Set(next)], body: dependent.body || '', commentBody: `Dependency #${context.payload.issue.number} closed. This social workstream Issue is now ready for Codex pickup after the normal PR and QA gates.`, commentFingerprint: `Dependency #${context.payload.issue.number} closed.` });

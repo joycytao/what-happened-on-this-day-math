@@ -1,5 +1,9 @@
 # AGENTS.md
 
+## Authoritative Issue state transitions
+
+Workflow state transitions are single-writer operations. State-mutating workflows must call `src/issue-state-writer.mjs` and must not call the GitHub Issues label/comment mutation APIs directly. The writer validates the complete next label set, canonical/deprecated-label invariants, human-gate integrity, comment fingerprints, and the read snapshot. Its label write uses the Issue ETag as a compare-and-swap guard; a stale write fails closed. Transition workflows must also declare `concurrency` with `cancel-in-progress: false`. Content producers may create Issues, but must not overwrite an active workflow owner/status state.
+
 ## Agent skills
 
 Use the following skills when the task matches their purpose:

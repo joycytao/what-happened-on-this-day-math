@@ -11,6 +11,10 @@ permissions:
   issues: write
   pull-requests: write
 
+concurrency:
+  group: issue-state-pr-${{ github.repository }}-${{ github.event.pull_request.number || github.event.review.pull_request_url || github.run_id }}
+  cancel-in-progress: false
+
 # Consultation labels emitted by this workflow: agent: architect and
 # agent: social-expert. The primary implementation label is agent: quality-engineer.
 
@@ -36,6 +40,7 @@ jobs:
             const issueComments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: workItemNumber });
             const { pathToFileURL } = require('node:url');
             const { validateReadyForHumanGate } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/human-gate-integrity.mjs`).href);
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
             const reviewGate = linkedIssue.data.body?.match(/^Review gate:\s*([a-z-]+)\s*$/im)?.[1]?.toLowerCase() || 'routine';
             const humanDecisionRequired = new Set(['ui-design', 'final-copy', 'final-product', 'credentials', 'public-dispatch']).has(reviewGate);
             const comments = [...prComments, ...issueComments];
@@ -58,20 +63,9 @@ jobs:
             const isConflictResolved = pr.data.mergeable === true && !['dirty', 'unknown'].includes(mergeableState);
             const conflictAlertId = `issue:${workItemNumber}:pr:${number}:conflict:${sha}:${mergeableState}`;
             const conflictResolutionId = `issue:${workItemNumber}:pr:${number}:conflict-resolved:${sha}`;
-            const removeWorkflowLabels = async () => {
-              const current = linkedIssue.data.labels.map(label => label.name);
-              const deprecated = new Set([
-                'agent-requested', 'needs-info', 'needs-triage', 'ready-for-agent',
-                'state: decision-complete', 'state: ready-to-pickup', 'state: blocked',
-                'state: qa', 'state: human-review', 'state: done',
-                'status:pending review', 'status:blocked', 'status:ready to pickup',
-                'status:qa', 'status:paused', 'status:ready to dispatch', 'status:done',
-              ]);
-              for (const label of current.filter(label =>
-                label.startsWith('agent: ') || label.startsWith('state: ') || label.startsWith('status:') || label === 'ready-for-human' || deprecated.has(label)
-              )) {
-                await github.rest.issues.removeLabel({ owner, repo, issue_number: workItemNumber, name: label });
-              }
+            const stateTransition = async (nextLabels, commentBody, fingerprint) => {
+              const fresh = await github.rest.issues.get({ owner, repo, issue_number: workItemNumber });
+              return transitionIssueState({ github, owner, repo, issueNumber: workItemNumber, expectedLabels: fresh.data.labels.map(label => label.name), nextLabels, body: fresh.data.body || '', commentBody, commentFingerprint: fingerprint });
             };
             const conflictBody = (id, resolved = false) => [
               '<!-- CODEX_CONFLICT_ALERT:v1 -->', '',
@@ -91,20 +85,18 @@ jobs:
                 : '- Return path: pm-triage for ambiguous, out-of-scope, or permission-blocked conflicts.',
             ].join('\n');
             if (isConflict && !comments.some(comment => comment.body?.includes(`Alert ID: \`${conflictAlertId}\``))) {
-              await removeWorkflowLabels();
-              await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: ['agent: developer', 'state: changes-requested'] });
-              await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: conflictBody(conflictAlertId) });
+              const current = linkedIssue.data.labels.map(label => label.name);
+              const preserved = current.filter(label => !label.startsWith('agent: ') && !label.startsWith('state: ') && !label.startsWith('status:') && label !== 'ready-for-human');
+              await stateTransition([...preserved, 'agent: developer', 'state: changes-requested'], conflictBody(conflictAlertId), `Alert ID: \`${conflictAlertId}\``);
               const handoffId = `issue:${workItemNumber}:pr:${number}:quality-engineer:developer:conflict:${sha}`;
               if (!already(handoffId)) {
-                await github.rest.issues.createComment({
-                  owner, repo, issue_number: workItemNumber,
-                  body: body(handoffId, 'quality-engineer', 'developer', 'rejected', `resolve PR #${number} merge conflicts before QA`, `PR #${number} reports mergeable_state=${mergeableState}; ${pr.data.base.ref} ← ${pr.data.head.ref} @ ${pr.data.head.sha}`),
-                });
+                await stateTransition([...preserved, 'agent: developer', 'state: changes-requested'], body(handoffId, 'quality-engineer', 'developer', 'rejected', `resolve PR #${number} merge conflicts before QA`, `PR #${number} reports mergeable_state=${mergeableState}; ${pr.data.base.ref} ← ${pr.data.head.ref} @ ${pr.data.head.sha}`), `Handoff ID: \`${handoffId}\``);
               }
               return;
             }
             if (isConflictResolved && comments.some(comment => comment.body?.includes('<!-- CODEX_CONFLICT_ALERT:v1 -->')) && !comments.some(comment => comment.body?.includes(`Alert ID: \`${conflictResolutionId}\``))) {
-              await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: conflictBody(conflictResolutionId, true) });
+              const current = linkedIssue.data.labels.map(label => label.name);
+              await stateTransition(current, conflictBody(conflictResolutionId, true), `Alert ID: \`${conflictResolutionId}\``);
             }
             const hasDeveloperHandoff = comments.some(comment =>
               comment.body?.includes('<!-- CODEX_HANDOFF:v1 -->') &&
@@ -118,16 +110,17 @@ jobs:
               const hasSocialPath = paths.some(path => /social|carousel|reel|template/i.test(path));
               const qaId = `issue:${workItemNumber}:pr:${number}:developer:quality-engineer:${sha}`;
               if (!already(qaId)) {
-                await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: body(qaId, 'developer', 'quality-engineer', 'completed', `review PR #${number} against the Issue acceptance criteria`, `PR ${sha}: https://github.com/${owner}/${repo}/pull/${number}`) });
-                await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: ['agent: quality-engineer', 'status: qa'] });
+                const current = linkedIssue.data.labels.map(label => label.name);
+                const preserved = current.filter(label => !label.startsWith('agent: ') && !label.startsWith('state: ') && !label.startsWith('status:') && label !== 'ready-for-human');
+                await stateTransition([...preserved, 'agent: quality-engineer', 'status: qa'], body(qaId, 'developer', 'quality-engineer', 'completed', `review PR #${number} against the Issue acceptance criteria`, `PR ${sha}: https://github.com/${owner}/${repo}/pull/${number}`), `Handoff ID: \`${qaId}\``);
               }
               if (hasArchitectPath) {
                 const id = `issue:${workItemNumber}:pr:${number}:architect:consult:${sha}`;
-                if (!already(id)) await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: body(id, 'pm-triage', 'architect', 'requested', 'review governance, schema, or orchestration impact', paths.filter(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md').join(', ')) });
+                if (!already(id)) await stateTransition(linkedIssue.data.labels.map(label => label.name), body(id, 'pm-triage', 'architect', 'requested', 'review governance, schema, or orchestration impact', paths.filter(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md').join(', ')), `Handoff ID: \`${id}\``);
               }
               if (hasSocialPath) {
                 const id = `issue:${workItemNumber}:pr:${number}:social-expert:consult:${sha}`;
-                if (!already(id)) await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: body(id, 'pm-triage', 'social-expert', 'requested', 'review social format and template impact', paths.filter(path => /social|carousel|reel|template/i.test(path)).join(', ')) });
+                if (!already(id)) await stateTransition(linkedIssue.data.labels.map(label => label.name), body(id, 'pm-triage', 'social-expert', 'requested', 'review social format and template impact', paths.filter(path => /social|carousel|reel|template/i.test(path)).join(', ')), `Handoff ID: \`${id}\``);
               }
               return;
             }
@@ -149,5 +142,6 @@ jobs:
             if (already(id)) return;
             const next = failed ? 'developer' : 'ready-for-human';
             const state = failed ? 'changes-requested' : 'ready-for-human';
-            await github.rest.issues.createComment({ owner, repo, issue_number: workItemNumber, body: body(id, 'quality-engineer', next, failed ? 'rejected' : 'completed', failed ? `address QA evidence and update PR #${number}` : `human maintainer reviews PR #${number} and decides whether to merge`, review.html_url || `review on PR #${number}`) });
-            await github.rest.issues.addLabels({ owner, repo, issue_number: workItemNumber, labels: failed ? ['agent: developer', 'state: changes-requested'] : ['ready-for-human'] });
+            const current = linkedIssue.data.labels.map(label => label.name);
+            const preserved = current.filter(label => !label.startsWith('agent: ') && !label.startsWith('state: ') && !label.startsWith('status:') && label !== 'ready-for-human');
+            await stateTransition(failed ? [...preserved, 'agent: developer', 'state: changes-requested'] : [...preserved, 'ready-for-human'], body(id, 'quality-engineer', next, failed ? 'rejected' : 'completed', failed ? `address QA evidence and update PR #${number}` : `human maintainer reviews PR #${number} and decides whether to merge`, review.html_url || `review on PR #${number}`), `Handoff ID: \`${id}\``);

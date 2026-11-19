@@ -11,6 +11,10 @@ permissions:
   issues: write
   pull-requests: write
 
+concurrency:
+  group: issue-state-handoff-${{ github.repository }}-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
 jobs:
   route:
     if: >-
@@ -55,6 +59,7 @@ jobs:
             });
             const { pathToFileURL } = require('node:url');
             const { validateReadyForHumanGate } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/human-gate-integrity.mjs`).href);
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
             const duplicate = comments.some(comment =>
               comment.body?.includes(`"handoffId":"${handoff.handoffId}"`) ||
               comment.body?.includes(`Handoff ID: \`${handoff.handoffId}\``) ||
@@ -119,33 +124,18 @@ jobs:
             }
 
             const current = issue.data.labels.map(label => label.name);
-            const deprecated = new Set([
-              'agent-requested', 'needs-info', 'needs-triage', 'ready-for-agent',
-              'state: decision-complete', 'state: ready-to-pickup', 'state: blocked',
-              'state: qa', 'state: human-review', 'state: done',
-              'status:pending review', 'status:blocked', 'status:ready to pickup',
-              'status:qa', 'status:paused', 'status:ready to dispatch', 'status:done',
-            ]);
-            const derived = (label) => label.startsWith('agent: ') || label.startsWith('state: ') || label.startsWith('status:') || label === 'ready-for-human' || deprecated.has(label);
-            const remove = current.filter(derived);
-            for (const name of remove) {
-              await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name });
-            }
+            const derived = (label) => label.startsWith('agent: ') || label.startsWith('state: ') || label.startsWith('status:') || label === 'ready-for-human';
             const labels = current.filter((label) => !derived(label));
             if (handoff.nextRole) labels.push(`agent: ${handoff.nextRole}`);
             if (handoff.nextState === 'ready-for-human') labels.push('ready-for-human');
             else if (handoff.nextState?.startsWith('status: ')) labels.push(handoff.nextState);
             else if (handoff.nextState) labels.push(`state: ${handoff.nextState}`);
-            if (labels.length) {
-              await github.rest.issues.addLabels({ owner, repo, issue_number: issueNumber, labels });
-            }
-            await github.rest.issues.createComment({
-              owner, repo, issue_number: issueNumber,
-              body: [
+            const routedBody = [
                 `<!-- CODEX_HANDOFF_ROUTED:v1 -->`,
+                `<!-- CODEX_HANDOFF_ROUTE:${handoff.handoffId} -->`,
                 `Handoff ${handoff.handoffId} routed successfully.`,
                 handoff.nextRole ? `Next role: ${handoff.nextRole}` : 'Next role: human review',
                 handoff.nextState ? `State: ${handoff.nextState}` : null,
                 'GitHub Actions coordinated this handoff; no model or API token was invoked.'
-              ].filter(Boolean).join('\n')
-            });
+              ].filter(Boolean).join('\n');
+            await transitionIssueState({ github, owner, repo, issueNumber, expectedLabels: current, nextLabels: labels, body: issue.data.body || '', commentBody: routedBody, commentFingerprint: `<!-- CODEX_HANDOFF_ROUTE:${handoff.handoffId} -->` });
