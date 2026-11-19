@@ -1,0 +1,13 @@
+{
+  "month": "November",
+  "productName": "November Morning Work",
+  "redirectUrl": "https://6pm-studio.com/go/november",
+  "assets": {
+    "cover": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-cover.png",
+    "preview": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-different-math.png",
+    "readingPassage": "reports/november-worksheet-pages/page-002-reading-passage.png",
+    "level1": "reports/november-worksheet-pages/page-003-level1.png",
+    "level2": "reports/november-worksheet-pages/page-004-level2.png",
+    "level3": "reports/november-worksheet-pages/page-005-level3.png"
+  }
+}

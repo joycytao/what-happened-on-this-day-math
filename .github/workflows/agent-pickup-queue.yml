@@ -13,37 +13,23 @@ jobs:
     if: github.event.issue.pull_request == null
     runs-on: ubuntu-latest
     steps:
-      - name: Find and announce bootstrap and ready Issues
+      - uses: actions/checkout@v4
+      - name: Find and announce verified governance candidates
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.PROJECTS_TOKEN || github.token }}
           script: |
-            const q = `repo:${context.repo.owner}/${context.repo.repo} is:open -label:"status: blocked" -label:"status: paused" (label:"status: pending review" OR label:"status: ready to pickup")`;
-            const result = await github.paginate(github.rest.search.issuesAndPullRequests, {
-              q,
-              per_page: 100,
-              sort: 'created',
-              order: 'asc'
-            });
-            const candidates = result.filter(item => !item.pull_request);
-
-            if (!candidates.length) {
-              core.info('No open, unblocked Issue is ready for pickup.');
-              return;
-            }
+            const { pathToFileURL } = require('node:url');
+            const governance = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-governance.mjs`).href);
+            const candidates = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100, sort: 'created', direction: 'asc' });
+            const queue = governance.selectVerifiedQueue(candidates);
 
             const marker = '<!-- codex-agent-intake -->';
-            const existing = await github.paginate(github.rest.issues.listComments, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.issue.number,
-              per_page: 100
-            });
-            if (existing.some(comment => (comment.body || '').includes(marker))) {
-              core.info('Governance intake was already announced for this Issue.');
-              return;
-            }
-            const list = candidates.map(item => `- #${item.number} ${item.title} — ${item.html_url}`).join('\n');
-            const body = `${marker}\nCODEX_AGENT_INTAKE\n\nGovernance intake queue after Issue #${context.payload.issue.number} changed:\n\n${list}\n\nBootstrap rule: pm-triage routes readable \`status: pending review\` Issues. Routine implementation proceeds with one owner, complete inputs, and resolved dependencies at \`status: ready to pickup\`. Only UI/UX adoption, credential/account changes, publication, and downstream dispatch require Human Accountable Owner review.`;
+            const existing = await github.paginate(github.rest.issues.listComments, { owner: context.repo.owner, repo: context.repo.repo, issue_number: context.payload.issue.number, per_page: 100 });
+            if (existing.some(comment => (comment.body || '').includes(marker))) return core.info('Governance intake was already announced for this Issue.');
+            const format = (items, label) => items.length ? `### ${label}\n${items.map(item => `- #${item.number} ${item.title} — ${item.html_url}`).join('\n')}` : `### ${label}\n- None`;
+            const body = `${marker}\nCODEX_AGENT_INTAKE\n\nVerified governance queue after Issue #${context.payload.issue.number} changed:\n\n${format(queue.pmIntake, 'PM triage intake')}\n\n${format(queue.developerPickup, 'Developer pickup (all checks passed)')}\n\nOnly Issues that pass owner, status, parent/implementation, acceptance, input, and dependency checks appear here. A missing candidate is intentionally omitted, not an invitation to infer ownership.`;
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,

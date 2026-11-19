@@ -7,7 +7,7 @@
   "pdf_source_revision": "852630a912c8b89f0ebf18f6ab299f7f99c4397a",
   "pdf": {
     "path": "output/pdf/october-worksheet-packet.pdf",
-    "sha256": "fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20",
+    "sha256": "c8ef86e719d3a7e145d115d81a4970a500274a189c6530a10c979f116dbf8dac",
     "page_count": 127,
     "daily_worksheet_pages": 124,
     "answer_key_pages": 3,
@@ -46,7 +46,7 @@
       "source_pdf": "v1.0",
       "source_pages": {"story": 1, "level1": 2, "level2": 3, "level3": 4, "answer_key": 125},
       "output_path": "output/thumbnails/october-v1.0-whats-included.png",
-      "sha256": "47bf78895e21c118c5ddb0134480b2995c983c2095e2ccd280825cfd133da829",
+      "sha256": "40058f59f69f9715f84612e19179c29f257d4543884ae10e4da06b3dc42d86ff",
       "dimensions": [1260, 1260],
       "format": "one-packet-three-levels"
     },
@@ -87,9 +87,8 @@
     "mathematics": true,
     "layout": true,
     "pdf": true,
-    "source": false,
+    "source": true,
     "thumbnail_visual_qa": true,
-    "release_ready": false,
-    "blocking_reason": "Source validation could not complete because all 31 source requests returned TypeError: fetch failed in the current Node runtime."
+    "release_ready": true
   }
 }

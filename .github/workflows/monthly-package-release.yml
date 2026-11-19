@@ -1,0 +1,123 @@
+name: Monthly package release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "releases/*.manifest.json"
+  workflow_dispatch:
+    inputs:
+      manifest_path:
+        description: Repository-relative release manifest path
+        required: true
+        type: string
+      content_path:
+        description: Optional repository-relative monthly content path override
+        required: false
+        type: string
+      thumbnail_manifest_path:
+        description: Optional repository-relative thumbnail manifest override
+        required: false
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: monthly-package-release-${{ inputs.manifest_path || github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Resolve and validate release dispatch plan
+        id: plan
+        env:
+          INPUT_MANIFEST: ${{ inputs.manifest_path }}
+          INPUT_CONTENT: ${{ inputs.content_path }}
+          INPUT_HANDOFF: ${{ inputs.thumbnail_manifest_path }}
+        run: |
+          set -euo pipefail
+          manifest="$INPUT_MANIFEST"
+          if [ -z "$manifest" ]; then
+            manifest="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^releases/.*\.manifest\.json$' | head -n 1 || true)"
+          fi
+          test -n "$manifest" || { echo 'No release manifest changed by this commit.' >&2; exit 1; }
+          args=(--manifest "$manifest")
+          if [ -n "$INPUT_CONTENT" ]; then args+=(--content "$INPUT_CONTENT"); fi
+          if [ -n "$INPUT_HANDOFF" ]; then args+=(--thumbnail-manifest "$INPUT_HANDOFF"); fi
+          node scripts/build-monthly-release-dispatch.mjs "${args[@]}" > /tmp/monthly-release-dispatch.json
+          node --input-type=module -e 'import fs from "node:fs"; const plan=JSON.parse(fs.readFileSync("/tmp/monthly-release-dispatch.json","utf8")); if (!plan.valid) throw new Error(plan.errors.join("; ")); for (const key of ["month","year","packageId","manifestPath","contentPath","thumbnailManifestPath"]) { if (!plan[key]) throw new Error(`Missing dispatch field: ${key}`); } console.log(JSON.stringify(plan));'
+          {
+            echo "manifest_path=$manifest"
+            echo "month=$(node -p 'JSON.parse(require("fs").readFileSync("/tmp/monthly-release-dispatch.json")).month')"
+            echo "year=$(node -p 'JSON.parse(require("fs").readFileSync("/tmp/monthly-release-dispatch.json")).year')"
+            echo "package_id=$(node -p 'JSON.parse(require("fs").readFileSync("/tmp/monthly-release-dispatch.json")).packageId')"
+            echo "content_path=$(node -p 'JSON.parse(require("fs").readFileSync("/tmp/monthly-release-dispatch.json")).contentPath')"
+            echo "thumbnail_manifest_path=$(node -p 'JSON.parse(require("fs").readFileSync("/tmp/monthly-release-dispatch.json")).thumbnailManifestPath')"
+          } >> "$GITHUB_OUTPUT"
+      - name: Dispatch downstream social queue
+        uses: actions/github-script@v7
+        env:
+          MONTH: ${{ steps.plan.outputs.month }}
+          YEAR: ${{ steps.plan.outputs.year }}
+          PACKAGE_ID: ${{ steps.plan.outputs.package_id }}
+          MANIFEST_PATH: ${{ steps.plan.outputs.manifest_path }}
+          CONTENT_PATH: ${{ steps.plan.outputs.content_path }}
+          THUMBNAIL_MANIFEST_PATH: ${{ steps.plan.outputs.thumbnail_manifest_path }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const input = {
+              ref: 'main',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'social-monthly-queue.yml',
+              inputs: {
+                month: process.env.MONTH,
+                year: process.env.YEAR,
+                package_id: process.env.PACKAGE_ID,
+                manifest_path: process.env.MANIFEST_PATH,
+                content_path: process.env.CONTENT_PATH,
+                thumbnail_manifest_path: process.env.THUMBNAIL_MANIFEST_PATH,
+              },
+            };
+            await github.rest.actions.createWorkflowDispatch(input);
+            core.info(`Dispatched social queue for ${process.env.PACKAGE_ID}.`);
+      - name: Dispatch TPT and landing-page handoff
+        uses: actions/github-script@v7
+        env:
+          MONTH: ${{ steps.plan.outputs.month }}
+          YEAR: ${{ steps.plan.outputs.year }}
+          PACKAGE_ID: ${{ steps.plan.outputs.package_id }}
+          MANIFEST_PATH: ${{ steps.plan.outputs.manifest_path }}
+          CONTENT_PATH: ${{ steps.plan.outputs.content_path }}
+          THUMBNAIL_MANIFEST_PATH: ${{ steps.plan.outputs.thumbnail_manifest_path }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              ref: 'main',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'tpt-release-trigger.yml',
+              inputs: {
+                month: process.env.MONTH,
+                year: process.env.YEAR,
+                package_id: process.env.PACKAGE_ID,
+                manifest_path: process.env.MANIFEST_PATH,
+                content_path: process.env.CONTENT_PATH,
+                thumbnail_manifest_path: process.env.THUMBNAIL_MANIFEST_PATH,
+              },
+            });
+            core.info(`Dispatched TPT workflow for ${process.env.PACKAGE_ID}; its success path will dispatch the landing-page handoff.`);

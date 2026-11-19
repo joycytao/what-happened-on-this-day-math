@@ -1,0 +1,191 @@
+{
+  "valid": true,
+  "issue": 221,
+  "month": "2026-12",
+  "dayCount": 31,
+  "contract": {
+    "dayCount": 31,
+    "basePages": 127,
+    "coverPages": 0,
+    "dailyPages": 124,
+    "answerKeyPages": 3,
+    "followUpPages": 1,
+    "totalPages": 128
+  },
+  "actualPageCount": 128,
+  "pageRanges": {
+    "daily": [
+      1,
+      124
+    ],
+    "answerKey": [
+      125,
+      127
+    ],
+    "followUp": [
+      128,
+      128
+    ]
+  },
+  "sourceToOutput": {
+    "content": "data/monthly/2026-12-content.json",
+    "source": "data/monthly/2026-12-source.json",
+    "csv": "history_today_2026-12.csv",
+    "daily": "worksheet-package pages 1-124",
+    "answerKey": "worksheet-package pages 125-127",
+    "followUp": "references /worksheet-assets/follow-up-page-reference.png"
+  },
+  "contentMathSourceValidation": {
+    "month": "2026-12",
+    "expectedDays": 31,
+    "contentDays": 31,
+    "csvRows": 31,
+    "sourceDays": 31,
+    "equationsChecked": 218,
+    "studentFacingFieldsChecked": 155,
+    "provenanceMappingsChecked": 31
+  },
+  "manifestValidation": {
+    "valid": true,
+    "errors": [],
+    "contract": {
+      "dayCount": 31,
+      "basePages": 127,
+      "coverPages": 0,
+      "dailyPages": 124,
+      "answerKeyPages": 3,
+      "followUpPages": 1,
+      "totalPages": 128
+    },
+    "finalRoles": [
+      "answer_key:level1",
+      "answer_key:level2",
+      "answer_key:level3",
+      "follow_up"
+    ]
+  },
+  "reference": {
+    "version": "1.0.0",
+    "asset": "references /worksheet-assets/follow-up-page-reference.png",
+    "sha256": "47a58a4831063ae84d99ccecc77efe9dbf7b9084154decd328bab20233e3e83e",
+    "path": "/private/tmp/math-221/references /worksheet-assets/follow-up-page-reference.png",
+    "valid": true,
+    "actualSha256": "47a58a4831063ae84d99ccecc77efe9dbf7b9084154decd328bab20233e3e83e"
+  },
+  "visualQa": {
+    "passed": true,
+    "promptVersion": "1.0.0",
+    "iteration": 1,
+    "reference": {
+      "path": "/private/tmp/math-221/references /worksheet-assets/follow-up-page-reference.png",
+      "width": 1024,
+      "height": 1536
+    },
+    "candidate": {
+      "path": "/private/tmp/math-221/references /worksheet-assets/follow-up-page-reference.png",
+      "width": 1024,
+      "height": 1536
+    },
+    "dimensionsPass": true,
+    "copy": {
+      "valid": true,
+      "errors": [],
+      "copy": {
+        "headline": [
+          "FOLLOW",
+          "FOR WHAT’S NEXT"
+        ],
+        "subtitle": "Get first notice of new monthly resources",
+        "panels": [
+          {
+            "title": "FOLLOW",
+            "body": "for new releases"
+          },
+          {
+            "title": "LEAVE FEEDBACK",
+            "body": "to help us create better content"
+          },
+          {
+            "title": "HELP SHAPE WHAT’S NEXT",
+            "body": [
+              "More flexible challenge levels",
+              "More critical-thinking opportunities"
+            ]
+          }
+        ],
+        "pricingNote": "Early-month pricing may end when the month begins.",
+        "logo": "6 pm studio"
+      }
+    },
+    "fixedRegionThresholds": {
+      "meanSimilarity": 0.98,
+      "exactRatio": 0.95
+    },
+    "fixedRegionSimilarity": 1,
+    "regions": {
+      "frame": {
+        "similarity": 1,
+        "exactRatio": 1,
+        "pixels": 1482000
+      },
+      "headline": {
+        "similarity": 1,
+        "exactRatio": 1,
+        "pixels": 303600
+      },
+      "followPanel": {
+        "similarity": 1,
+        "exactRatio": 1,
+        "pixels": 236600
+      },
+      "feedbackPanel": {
+        "similarity": 1,
+        "exactRatio": 1,
+        "pixels": 236600
+      },
+      "roadmapPanel": {
+        "similarity": 1,
+        "exactRatio": 1,
+        "pixels": 259350
+      },
+      "footer": {
+        "similarity": 1,
+        "exactRatio": 1,
+        "pixels": 229075
+      }
+    },
+    "artifacts": [
+      "side-by-side.png",
+      "overlay.png",
+      "pixel-diff-heatmap.png"
+    ],
+    "recoveryLoop": "not required"
+  },
+  "pageSizes": [
+    {
+      "page": 1,
+      "size": "1158.75 x 1500 pts"
+    },
+    {
+      "page": 124,
+      "size": "1158.75 x 1500 pts"
+    },
+    {
+      "page": 125,
+      "size": "1158.75 x 1499.25 pts"
+    },
+    {
+      "page": 127,
+      "size": "1158.75 x 1499.25 pts"
+    },
+    {
+      "page": 128,
+      "size": "1158.75 x 1500 pts"
+    }
+  ],
+  "samples": "/private/tmp/issue-221-december-release/samples",
+  "finalPdf": "/private/tmp/issue-221-december-release/december-2026-final.pdf",
+  "finalSha256": "d43dab1a6797df225ccdb90528fafbcfadd00c011107421694c9a3ac066819bf",
+  "reproduction": "npm run release:qa:december",
+  "errors": []
+}

@@ -13,16 +13,24 @@ BG = np.array([254, 255, 239], dtype=np.uint8)
 NAVY = np.array([43, 49, 63], dtype=np.uint8)
 ORANGE = np.array([255, 138, 0], dtype=np.uint8)
 FIXED_REGIONS = {
-    "month_and_rules": (55, 55, 1205, 205),
     "headline": (75, 205, 1185, 330),
-    "subtitle": (120, 335, 1140, 420),
     "labels": (55, 965, 1205, 1070),
     "footer": (35, 1115, 1225, 1225),
+    "top_frame": (30, 30, 1230, 45),
+    "left_frame": (30, 30, 45, 1230),
+    "right_frame": (1215, 30, 1230, 1230),
+    "bottom_frame": (30, 1215, 1230, 1230),
+    "left_month_rule": (65, 145, 275, 165),
+    "right_month_rule": (985, 145, 1195, 165),
 }
 VARIABLE_CARDS = {
-    "level1": (45, 435, 430, 965),
-    "level2": (430, 435, 830, 965),
-    "level3": (830, 435, 1220, 965),
+    "level1": (45, 435, 435, 965),
+    "level2": (425, 425, 835, 965),
+    "level3": (825, 435, 1220, 965),
+}
+VARIABLE_COPY = {
+    "month": (270, 45, 990, 205),
+    "day_count": (80, 335, 1180, 425),
 }
 
 
@@ -80,11 +88,12 @@ def main():
     side.save(args.output_dir / "thumbnail-3-side-by-side.png")
     fixed = {name: compare(reference, generated, box) for name, box in FIXED_REGIONS.items()}
     variable = {name: compare(reference, generated, box) for name, box in VARIABLE_CARDS.items()}
+    variable_copy = {name: compare(reference, generated, box) for name, box in VARIABLE_COPY.items()}
     fixed_ssim = min(metric["ssim"] for metric in fixed.values())
     report = {
         "reference": str(args.reference), "generated": str(args.generated),
         "normalized": {"size": list(SIZE), "mode": "RGB"},
-        "fixedRegions": fixed, "variableCards": variable,
+        "fixedRegions": fixed, "variableCards": variable, "variableCopy": variable_copy,
         "visualAcceptance": {"fixedRegionMinSsim": fixed_ssim,
                               "fixedRegionThreshold": args.threshold,
                               "passed": fixed_ssim >= args.threshold},

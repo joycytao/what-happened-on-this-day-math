@@ -1,0 +1,10 @@
+{
+  "month": "2026-12",
+  "expectedDays": 31,
+  "contentDays": 31,
+  "csvRows": 31,
+  "sourceDays": 31,
+  "equationsChecked": 218,
+  "studentFacingFieldsChecked": 155,
+  "provenanceMappingsChecked": 31
+}

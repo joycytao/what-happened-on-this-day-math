@@ -1,0 +1,12 @@
+{
+  "gate": "sources",
+  "valid": true,
+  "generatedAt": "2026-09-17",
+  "checks": {
+    "researchRecords": 30,
+    "contentRecords": 30,
+    "linkedSourceRecords": 30,
+    "sourceErrors": []
+  },
+  "errors": []
+}

@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "december-morning-work-math",
+  "packageVersion": "v1.0.0",
+  "month": "December",
+  "sourceCommit": "6369faa",
+  "answerKeyPolicy": "excluded-by-default",
+  "assets": [
+    {
+      "id": "coverPdfPage",
+      "kind": "png",
+      "source": "output/tpt/december-morning-work-math/visual-assets/2026-12-cover.png",
+      "target": "assets/coverPdfPage",
+      "bytes": 161119,
+      "sha256": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe"
+    },
+    {
+      "id": "pageMappings",
+      "kind": "json",
+      "source": "reports/december-tpt/page-mappings.json",
+      "target": "assets/pageMappings",
+      "bytes": 4646,
+      "sha256": "8f70696d1459ed222c7acb708a13dee5663efe77509e14907986a5663b2ffaf8"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/2026-12-cover.png",
+      "bytes": 161119,
+      "sha256": "451c6d9715e287b15caf49f7a570ce160903a7debf7f03f94ad5ec27580b2efe"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/december-v1.0-cover.png",
+      "bytes": 160878,
+      "sha256": "a0516e14546d8f3ed7ff0e5523101621eaa5a92e75880da2cdd8db34542bdc39"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/december-v1.0-daily-practice.png",
+      "bytes": 769734,
+      "sha256": "42d06e7848ffcbe435393211ef122273e76422fadfe5d0b8f7b0819281f9196b"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/december-v1.0-different-math.png",
+      "bytes": 749001,
+      "sha256": "9e0c6dda41d0b0b54126a1087ab8366281d0d057fde6639b105a9c3ca7c59c41"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/december-v1.0-doodle.png",
+      "bytes": 434971,
+      "sha256": "b54cd8ab73753f4786f9fd19a46667329b101c43c1c9fee43e9a7b19b9c38bae"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/december-v1.0-landing-page.png",
+      "bytes": 529006,
+      "sha256": "4cac518cff175a56c10eaaa4aecdada06e8d96c7d49745cdec6efe2fea7fcc33"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/december-v1.0-whats-included.png",
+      "bytes": 802964,
+      "sha256": "e56f52d41cbc54499d5f6027407bc460c5faaffdb4f0bbd83e8d8f8b87d4c3de"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/landing-page-handoff.json",
+      "bytes": 3880,
+      "sha256": "3012fc7cdc363b4107858536f8812ab35a9e21ffca3ea2890a84e5c00714bbb4"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/landing-page-overlay.png",
+      "bytes": 1028901,
+      "sha256": "d15b65ea6e28a6d4fb7dbcd3ceb6976bf2348a4b4acd140685c8c017d3da0985"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/landing-page-pixel-diff.png",
+      "bytes": 265363,
+      "sha256": "24602db6e05a0c8e53d2a9b4b50f906e684d1baab2739e61f3d23463c844bca5"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/monthly-cover-report.json",
+      "bytes": 535,
+      "sha256": "f45860b983cdb35ec7ea0ad6fa6ad9ba7338ffe1714a6a8878896be5f261f7e0"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/monthly-thumbnail-report.json",
+      "bytes": 8190,
+      "sha256": "cf57947d64d6518d9e2f9d82567264529abf966d8f57af35ddd044ebe8f20a77"
+    },
+    {
+      "id": "thumbnails",
+      "kind": "directory",
+      "source": "output/tpt/december-morning-work-math/visual-assets",
+      "target": "assets/thumbnails/visual-structure-qa.json",
+      "bytes": 10320,
+      "sha256": "619da0cde3e1c6ebd8f5d0e06c8bde8d3eef23e604be57190b3a748502497b23"
+    },
+    {
+      "id": "thumbnailQa",
+      "kind": "json",
+      "source": "reports/december-tpt/thumbnail-qa.json",
+      "target": "assets/thumbnailQa",
+      "bytes": 913,
+      "sha256": "4cd6f4d96e54431fe7ac9e6cc07c24407146adb7ae1de950bf51966e2bdb1b88"
+    }
+  ],
+  "deterministic": true,
+  "archiveIntegrity": true
+}

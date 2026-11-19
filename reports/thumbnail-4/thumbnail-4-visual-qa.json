@@ -1,6 +1,6 @@
 {
   "reference": "references /thumbnail-assets/thumbnail-4-reference.png",
-  "generated": "output/thumbnails/october-v1.0-daily-practice.png",
+  "generated": "output/tpt/november-morning-work-math/visual-assets/november-v1.0-daily-practice.png",
   "normalized": {
     "size": [
       1260,
@@ -20,10 +20,43 @@
       "changed_pixel_ratio": 0.0,
       "ssim": 1.0
     },
-    "preview_frame": {
+    "preview_shadow_top": {
       "box": [
         300,
         315,
+        960,
+        323
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "preview_shadow_left": {
+      "box": [
+        300,
+        315,
+        329,
+        1020
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "preview_shadow_right": {
+      "box": [
+        930,
+        315,
+        960,
+        1020
+      ],
+      "mean_absolute_error": 0.0,
+      "changed_pixel_ratio": 0.0,
+      "ssim": 1.0
+    },
+    "preview_shadow_bottom": {
+      "box": [
+        300,
+        1019,
         960,
         1030
       ],
@@ -62,9 +95,9 @@
         935,
         1020
       ],
-      "mean_absolute_error": 0.0,
-      "changed_pixel_ratio": 0.0,
-      "ssim": 1.0
+      "mean_absolute_error": 6.624478532396565,
+      "changed_pixel_ratio": 0.06305386416861827,
+      "ssim": 0.09114653998134309
     }
   },
   "visualAcceptance": {

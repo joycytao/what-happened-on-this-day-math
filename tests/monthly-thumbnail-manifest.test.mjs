@@ -29,6 +29,10 @@ const validManifest = {
       output: "output/thumbnails/october-v1.0-daily-practice.png",
       source_pages: { worksheet: 2 },
     },
+    landing_page: {
+      output: "output/thumbnails/october-v1.0-landing-page.png",
+      source_pages: { reading_passage: 1, level1: 2, level2: 3, level3: 4, answer_key: 125 },
+    },
   },
 };
 

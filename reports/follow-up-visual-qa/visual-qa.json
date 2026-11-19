@@ -1,0 +1,89 @@
+{
+  "passed": true,
+  "promptVersion": "1.0.0",
+  "iteration": 1,
+  "reference": {
+    "path": "references /worksheet-assets/follow-up-page-reference.png",
+    "width": 1024,
+    "height": 1536
+  },
+  "candidate": {
+    "path": "/private/tmp/math-issue-116-visual/references /worksheet-assets/follow-up-page-reference.png",
+    "width": 1024,
+    "height": 1536
+  },
+  "dimensionsPass": true,
+  "copy": {
+    "valid": true,
+    "errors": [],
+    "copy": {
+      "headline": [
+        "FOLLOW",
+        "FOR WHAT’S NEXT"
+      ],
+      "subtitle": "Get first notice of new monthly resources",
+      "panels": [
+        {
+          "title": "FOLLOW",
+          "body": "for new releases"
+        },
+        {
+          "title": "LEAVE FEEDBACK",
+          "body": "to help us create better content"
+        },
+        {
+          "title": "HELP SHAPE WHAT’S NEXT",
+          "body": [
+            "More flexible challenge levels",
+            "More critical-thinking opportunities"
+          ]
+        }
+      ],
+      "pricingNote": "Early-month pricing may end when the month begins.",
+      "logo": "6 pm studio"
+    }
+  },
+  "fixedRegionThresholds": {
+    "meanSimilarity": 0.98,
+    "exactRatio": 0.95
+  },
+  "fixedRegionSimilarity": 1,
+  "regions": {
+    "frame": {
+      "similarity": 1,
+      "exactRatio": 1,
+      "pixels": 1482000
+    },
+    "headline": {
+      "similarity": 1,
+      "exactRatio": 1,
+      "pixels": 303600
+    },
+    "followPanel": {
+      "similarity": 1,
+      "exactRatio": 1,
+      "pixels": 236600
+    },
+    "feedbackPanel": {
+      "similarity": 1,
+      "exactRatio": 1,
+      "pixels": 236600
+    },
+    "roadmapPanel": {
+      "similarity": 1,
+      "exactRatio": 1,
+      "pixels": 259350
+    },
+    "footer": {
+      "similarity": 1,
+      "exactRatio": 1,
+      "pixels": 229075
+    }
+  },
+  "artifacts": [
+    "side-by-side.png",
+    "overlay.png",
+    "pixel-diff-heatmap.png"
+  ],
+  "recoveryLoop": "not required"
+}

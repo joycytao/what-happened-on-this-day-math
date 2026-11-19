@@ -1,0 +1,11 @@
+{
+  "gate": "mathematics",
+  "valid": true,
+  "generatedAt": "2026-09-17",
+  "checks": {
+    "promptErrors": [],
+    "recomputedEquations": 90,
+    "mathErrors": []
+  },
+  "errors": []
+}

@@ -1,0 +1,38 @@
+name: Reconcile issue governance
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  reconcile:
+    if: github.event.issue.pull_request == null || github.event_name != 'issues'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PROJECTS_TOKEN || github.token }}
+          script: |
+            const { pathToFileURL } = require('node:url');
+            const governance = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-governance.mjs`).href);
+            const all = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'all', per_page: 100 });
+            for (const issue of all.filter(item => !item.pull_request && item.state === 'open')) {
+              const contract = governance.parseIssueContract(issue);
+              if (issue.labels.every(label => label.name !== 'status: blocked') || contract.reconcileTo !== 'developer') continue;
+              const result = governance.validateGovernanceIssue(issue, all);
+              if (!result.dependencies.satisfied || !contract.inputsValidated || result.dependencies.missing.length) continue;
+              const labels = issue.labels.map(label => label.name).filter(name => !['status: blocked', 'agent: pm-triage'].includes(name));
+              for (const name of ['status: ready to pickup', 'agent: developer']) if (!labels.includes(name)) labels.push(name);
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, labels });
+              const comments = await github.paginate(github.rest.issues.listComments, { owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, per_page: 100 });
+              if (comments.some(comment => (comment.body || '').includes('<!-- CODEX_RECONCILIATION:v1 -->'))) continue;
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, body: `<!-- CODEX_RECONCILIATION:v1 -->\nCODEX_RECONCILIATION:v1\n\n- Issue: #${issue.number}\n- From: status: blocked / agent: pm-triage\n- To: status: ready to pickup / agent: developer\n- Reason: all declared dependencies are closed and inputs are marked validated.\n- Evidence: ${result.dependencies.dependencies.map(item => item.resolved ? `#${item.resolved.number} closed` : item.dependency).join(', ')}\n- Preconditions satisfied: dependency closure, validated inputs, implementation work item.\n- Preconditions still missing: developer pickup and implementation verification.\n- Human decision needed: no\n- Next action: developer may claim this Issue and implement the acceptance criteria.\n- Return path: developer -> quality-engineer; rejected QA -> developer.` });
+            }

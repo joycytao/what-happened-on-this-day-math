@@ -1,0 +1,30 @@
+name: Unblock social workstream dependencies
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  unblock:
+    if: github.event.issue.pull_request == null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const month = body.match(/<!-- codex-social-monthly:([^:]+):(reel|carousel):(\d+) -->/);
+            const utility = body.match(/<!-- codex-social-utility:([^:]+):week:(\d+) -->/);
+            let marker = null;
+            if (month?.[2] === 'reel') marker = `<!-- codex-social-monthly:${month[1]}:carousel:${month[3]} -->`;
+            if (utility) marker = `<!-- codex-social-utility:${utility[1]}:week:${Number(utility[2]) + 1} -->`;
+            if (!marker) { core.info('Closed Issue is not a social dependency producer.'); return; }
+            const issues = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
+            const dependent = issues.find(issue => !issue.pull_request && (issue.body || '').includes(marker));
+            if (!dependent) { core.info(`No open dependent Issue found for ${marker}.`); return; }
+            await github.rest.issues.removeLabel({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, name: 'status:blocked' }).catch(error => { if (error.status !== 404) throw error; });
+            await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, labels: ['status:ready to pickup'] });
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, body: `Dependency #${context.payload.issue.number} closed. This social workstream Issue is now ready for Codex pickup after the normal PR and QA gates.` });

@@ -1,0 +1,63 @@
+{
+  "valid": true,
+  "issue": 61,
+  "month": 11,
+  "templateVersion": "1.0.0",
+  "expectedPageCounts": {
+    "source": 123,
+    "final": 125
+  },
+  "errors": [],
+  "sourcePageCount": 123,
+  "finalPageCount": 125,
+  "coverPages": 1,
+  "pageOneRole": "worksheet-coversheet",
+  "mappings": {
+    "cover": {
+      "finalPage": 1,
+      "sourcePages": []
+    },
+    "dailyWorksheets": {
+      "sourcePages": [
+        1,
+        120
+      ],
+      "finalPages": [
+        2,
+        121
+      ]
+    },
+    "answerKeys": {
+      "sourcePages": [
+        121,
+        123
+      ],
+      "finalPages": [
+        122,
+        124
+      ],
+      "order": [
+        "level1",
+        "level2",
+        "level3"
+      ]
+    },
+    "followUp": {
+      "sourcePages": [],
+      "finalPages": [
+        125
+      ],
+      "asset": "references /worksheet-assets/follow-up-page-reference.png"
+    }
+  },
+  "failureLoop": "optimize prompt/layout -> regenerate -> rerun complete QA",
+  "artifacts": {
+    "sourcePdf": "/private/tmp/math-issue-152-page-count/output/pdf/november-worksheet-packet.pdf",
+    "finalPdf": "/private/tmp/math-issue-152-page-count/output/pdf/november-worksheet-packet-final.pdf",
+    "manifest": "/private/tmp/math-issue-152-page-count/reports/issue-61-november-orchestration.json"
+  },
+  "actualPageCounts": {
+    "source": 123,
+    "final": 125
+  }
+}

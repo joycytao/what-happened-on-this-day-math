@@ -1,0 +1,12 @@
+{
+  "issue": 115,
+  "manifest": "examples/monthly-release-manifest.example.json",
+  "valid": true,
+  "releaseEligible": true,
+  "errors": [],
+  "fileVerification": {
+    "valid": true,
+    "errors": [],
+    "skipped": true
+  }
+}

@@ -4,10 +4,60 @@
 
 Use the following skills when the task matches their purpose:
 
-- `triage`: classify GitHub Issues, answer open questions, identify the Decision Owner, and decide whether an issue is ready for pickup.
+- `pm-triage`: classify GitHub Issues, answer process questions, identify the Decision Owner, and decide whether an issue is ready for pickup.
 - `ask-matt`: use a question-driven process to clarify repository process and agent workflow decisions.
 - `code-review`: review changes against repository standards and requirements.
 - `pr`: prepare pull request descriptions and review context.
+- `developer`: implement an approved Issue within its accepted scope, with
+  validated inputs, resolved dependencies, reproducible tests, and a single
+  QA handoff.
+- `quality-engineer`: verify an implementation or PR against acceptance criteria.
+- `social-expert`: answer social-format and channel-specific domain questions.
+
+Governance work-item metadata and queue eligibility are defined in
+`docs/agent-governance.md` and implemented in `src/issue-governance.mjs`; keep
+those sources aligned instead of adding new labels for parent/implementation
+relationships.
+
+Routine work proceeds from deterministic validation and quality engineering
+without a human content review. Human decisions are reserved for UI/UX
+adoption, final copy, final product adoption, credential or permission changes,
+and public or downstream dispatch. The current automation contract keeps final
+merge operations human-controlled; do not enable auto-merge from this workflow.
+
+When a role can resolve a scope, acceptance-criteria, or routing gap from
+repository evidence, keep the Issue in `status: pending review` and dispatch
+that role. Reserve `status: blocked` and `ready-for-human` for named external
+inputs, permissions, dependencies, or explicit human-only decisions. See
+`docs/agent-governance.md` for the complete rule and transition evidence.
+
+PM triage also performs a scheduled proactive queue audit. It must diagnose an
+empty pickup queue, identify malformed or conflicting owner/status labels, and
+repair only unambiguous routine metadata with idempotent evidence. It must not
+guess when more than one state or owner is plausible.
+
+The quality-engineer is the independent verification owner: it keeps content,
+mathematics, source, layout/PDF, visual, workflow, and deterministic checks
+separate, records reproducible evidence, and returns rejected work to the
+developer or blocked work to pm-triage. It must not merge, publish, dispatch,
+weaken acceptance criteria, or silently repair implementation defects.
+
+## GitHub App connectivity gate
+
+Repeated automation runs showed that direct App-wrapper calls can collapse to
+the ambiguous `fetch failed` message. For every GitHub CLI read or write in
+this repository, use the repository runner rather than invoking the wrapper
+directly:
+
+```bash
+node scripts/github-app-command.mjs -- gh <args...>
+```
+
+The runner performs a read-only preflight, bounded retries for network or
+transient failures, and writes `reports/github-app-connectivity.json` without
+secrets. Authentication failures are not retried and personal-token fallback
+is forbidden. A failed GitHub read must never be interpreted as an empty PR,
+issue, comment, or dependency result.
 
 ## Project purpose
 
@@ -38,7 +88,8 @@ report the problem before generating final content.
 ## Monthly production model
 
 The packet has one four-page module for every calendar day in the requested
-month, followed by a three-page answer key.
+month, followed by a three-page answer key and, when the final follow-up
+workflow is enabled, exactly one final follow-up page after the Answer Key.
 
 Each daily module is always ordered as follows:
 
@@ -51,10 +102,18 @@ The answer key is placed after the daily modules. Its rendered page count is
 part of the approved packet layout and must be measured from the final PDF;
 do not infer it from a fixed formula.
 
-The approved total page counts are:
+The approved base packet totals (cover + daily modules + Answer Keys, before the optional approved follow-up page) are:
 
 - 30-day month: `124 pages`
 - 31-day month: `127 pages`
+
+The final release contract adds one approved follow-up page to those base
+totals: `125 pages` for a 30-day month and `128 pages` for a 31-day month.
+For November specifically, the source/pre-cover packet is `123` pages, the
+cover-only packet is `124` pages, and the final release PDF is `125` pages.
+The follow-up must be the final rendered page, and the preceding three pages
+must be Answer Key levels 1–3. See
+`docs/final-follow-up-page-validation.md` and Issue #116.
 
 The page-count rules for February have not been specified and must not be
 invented until the project owner confirms them.
@@ -180,8 +239,13 @@ Before delivering a monthly packet, verify all of the following:
 - There are exactly four pages/modules per day in the required order.
 - The answer-key section appears at the end, with the final rendered page
   count determined by the approved month-specific packet layout.
-- The computed total is 124 pages for a 30-day month or 127 pages for a
-  31-day month.
+- When enabled, exactly one approved follow-up page appears after Answer Key
+  levels 1–3 and is the final rendered page.
+- The final follow-up page is independently checked for reference identity,
+  page order, page count, margins, clipping, overflow, and visual comparison.
+- The computed base total is 124 pages for a 30-day month or 127 pages for a
+  31-day month; when the approved follow-up is enabled, the final release is
+  125 or 128 pages respectively.
 - Every date appears exactly once and is in calendar order.
 - Every entry uses one preferred theme and avoids unsuitable subject matter.
 - Every Reading Passage is 150–250 English words and starts with a relatable
@@ -224,36 +288,16 @@ does not prove that the historical claims or answers are correct.
 
 ## Issue triage and agent governance
 
-Before changing the Issue workflow, assigning work, or deciding whether an
-Issue is ready for pickup, read `docs/agent-governance.md`.
+Before changing the Issue workflow or assigning work, read
+`docs/agent-governance.md`. It is the single source of truth for routing,
+state transitions, human gates, release identity, and handoff comments.
 
-When a human decision is required, use the `HUMAN_DECISION_REQUEST:v1`
-template in `docs/agent-governance.md`: state one concrete decision, list the
-options and evidence, name the exact blocked actions, and describe the result
-of approval, revision, or rejection. When a task changes state or owner, use
-the `CODEX_HANDOFF:v1` transition template from the same document. A label
-without that explanation is incomplete and must not be treated as a usable
-handoff.
-
-The `pm-triage` agent owns question routing and Issue completeness. Every open
-question must have exactly one Decision Owner; consulted agents provide input
-but do not compete with that owner. A readable `status: pending review` Issue
-is a PM intake candidate even before it has an `agent:*` label. PM triage may
-assign exactly one owner and record a `CODEX_HANDOFF:v1` comment; implementation
-still requires `status: ready to pickup`, complete declared inputs, and resolved
-dependencies.
-
-UI/UX previews require Human Accountable Owner review before adoption. New or
-elevated key/token/account access also requires that review; existing approved
-secrets may be used only through the runtime interface and must never be read
-or exported. Missing monthly content, final PDFs, canonical references, source
-data, or approved brand assets are named blockers. Public publication and
-downstream dispatch remain human-approved gates.
-
-Before modifying the issue workflow, recalculate the dependency graph from the
-current open Issues and update the documented order when a new Issue, scope
-change, closure, or prerequisite changes the graph. Preserve unrelated local
-changes and report any unresolved evidence gap instead of guessing.
+Use `skills/pm-triage/SKILL.md` for triage and
+`scripts/agent-pickup.mjs` for claims/releases. Keep exactly one owner label.
+Use `ready-for-human` only for a named human decision or an explicit
+`final-merge` operational gate; after matching release
+approval, use `status: ready to dispatch`. Do not add a second owner or emit
+handoff comments during polling.
 
 ## Worksheet template reuse
 
@@ -345,6 +389,16 @@ The current default dependency order is:
 Issue #41 is a cross-month workflow-template task and may run in parallel with
 the October chain; it does not block the October research artifact or content
 records.
+
+The current independent follow-up set is #79 + #80 + #81 + #82. Their current
+Issue bodies and comments define complete acceptance criteria but do not state
+prerequisites among these four issues or a dependency on #77. They may run in
+parallel with one another and with unrelated open PRs; do not infer an order
+from issue number or display order. Issue #61 still depends on #60 as stated
+above. This rule was added after the user explicitly corrected the workflow so
+that Issue #77 must not block other tasks; its acceptance criterion is that the
+dependency report identifies each of #79–#82 as independently eligible when
+open and otherwise unblocked.
 ```
 
 The order means:
@@ -389,10 +443,11 @@ The order means:
   mathematics before rendering.
 - #57 and #58 depend on #56 and may run in parallel: #57 renders 120 November
   daily pages, while #58 renders three November Answer Key pages.
-- #59 depends on #57 and #58 and assembles/QA-checks the 123-page November PDF.
+- #59 depends on #57 and #58 and assembles/QA-checks the 123-page November source PDF.
 - #60 depends on #59 and is the November content/PDF release report gate.
 - #61 depends on #60 and integrates the month-only orchestration for
-  `node scripts/generate-monthly.mjs --month 11`.
+  `node scripts/generate-monthly.mjs --month 11`, including the approved
+  follow-up page in the final 125-page release.
 
 When a new issue is created, an existing issue changes scope or status, or a
 new dependency is discovered, recalculate the execution order before starting

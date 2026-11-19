@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "october-morning-work-math",
+  "packageVersion": "v1.0.0",
+  "month": "October",
+  "year": 2026,
+  "sourceCommit": "6adca38",
+  "releaseStatus": "released",
+  "stale": false,
+  "artifacts": [
+    {"id":"finalPdf","kind":"pdf","path":"output/pdf/october-worksheet-packet.pdf","sha256":"fe9d271700296c85cfb8b34bc08e54c4b808db2d4097d0d8db427ce05f0c3c20","required":true},
+    {"id":"coverPdfPage","kind":"pdf-page","path":"output/worksheet-cover/november-cover.pdf","sha256":"0000000000000000000000000000000000000000000000000000000000000000","required":true},
+    {"id":"pageMappings","kind":"json","path":"reports/october-worksheet-pages/manifest.json","sha256":"0000000000000000000000000000000000000000000000000000000000000000","required":true},
+    {"id":"thumbnails","kind":"directory","path":"output/thumbnails","sha256":"0000000000000000000000000000000000000000000000000000000000000000","required":true},
+    {"id":"thumbnailQa","kind":"json","path":"output/thumbnails/monthly-thumbnail-report.json","sha256":"0000000000000000000000000000000000000000000000000000000000000000","required":true}
+  ],
+  "gates": {
+    "content": true,
+    "mathematics": true,
+    "source": true,
+    "layout": true,
+    "pdf": true,
+    "cover": true,
+    "derivedAssets": true
+  }
+}

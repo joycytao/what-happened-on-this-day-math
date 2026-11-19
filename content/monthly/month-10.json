@@ -1228,14 +1228,14 @@
       "month": 10,
       "day": 8,
       "eventYear": null,
-      "eventYearNote": "World Octopus Day is a recurring calendar observance rather than a single historical event.",
+      "eventYearNote": "NOAA describes Cephalopod Awareness Days as an annual Oct. 8-12 observance; this entry uses Oct. 8 as its starting day.",
       "emoji": "🐙",
       "theme": "animals_dinosaurs",
-      "title": "Octopus Day",
-      "hook": "An octopus solves problems with a body very different from ours.",
-      "readingPassage": "How would you solve a puzzle if you had eight arms to use on an October day? World Octopus Day celebrates an animal with eight arms. Octopuses can use their arms to explore, hold food, and investigate objects around them. The celebration focuses on an animal that lives in the ocean and uses its arms and suckers to explore its surroundings. An octopus does not need to look like a person to be a clever problem solver. It can learn from what it touches and change its actions when a puzzle changes. An octopus can change color, squeeze through narrow spaces, and use its arms in different ways. Scientists watch these animals because their actions can reveal how they learn. World Octopus Day celebrates their unusual bodies without pretending that they think exactly like people. The animal's unusual body is the heart of the celebration. Its arms, colors, and problem-solving skills make the octopus unlike almost any other sea animal. An octopus reminds us that intelligence can appear in many forms, including bodies and ways of solving problems that are different from our own.",
+      "title": "Cephalopod Awareness Days begin",
+      "hook": "What could you explore if you had eight arms and a puzzle to solve?",
+      "readingPassage": "What could you explore if you had eight arms and a puzzle to solve? NOAA's Cephalopod Awareness Days begin on October 8 and celebrate fascinating ocean animals. NOAA explains that octopuses have eight arms and no tentacles. Their arms have suckers that help them sense the world around them. An octopus can use its arms to explore and manipulate objects, much like a child testing how a puzzle piece fits. NOAA educators describe octopuses as intelligent animals and explain that one octopus named Pi learned to open jars and work with food puzzles. That does not mean an octopus thinks exactly like a person. It means animals can solve problems in ways that fit their bodies and habitats. Octopuses can also change color, crawl across the sea floor, and squeeze into small spaces. On October 8, the observance gives us a reason to notice these unusual animals and ask how scientists learn from them. The next time you see a puzzle, imagine having eight helpful arms ready to investigate it.",
       "trivia": [
-        "World Octopus Day celebrates an animal with eight arms and remarkable problem-solving skills."
+        "NOAA's Cephalopod Awareness Days begin on October 8; octopuses have eight arms and can learn to open jars and work with food puzzles."
       ],
       "mathLevels": {
         "level1": {
@@ -1403,7 +1403,8 @@
         "10-08:level3"
       ],
       "sourceIds": [
-        "smithsonian-octopus"
+        "noaa-cephalopod-days",
+        "noaa-octopus-intelligence"
       ]
     },
     {
@@ -6301,11 +6302,18 @@
       "accessedDate": "2026-09-09"
     },
     {
-      "id": "smithsonian-octopus",
-      "title": "Octopus facts",
-      "publisher": "Smithsonian Magazine",
-      "url": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
-      "accessedDate": "2026-09-09"
+      "id": "noaa-cephalopod-days",
+      "title": "Cephalopod Awareness Days",
+      "publisher": "NOAA Office of National Marine Sanctuaries",
+      "url": "https://sanctuaries.noaa.gov/news/oct20/cephalopod-days.html",
+      "accessedDate": "2026-10-05"
+    },
+    {
+      "id": "noaa-octopus-intelligence",
+      "title": "A View From Inside the Kodiak Lab Aquarium - Post 4",
+      "publisher": "NOAA Fisheries",
+      "url": "https://www.fisheries.noaa.gov/science-blog/view-inside-kodiak-lab-aquarium-post-4",
+      "accessedDate": "2026-10-05"
     },
     {
       "id": "fifa-pele",

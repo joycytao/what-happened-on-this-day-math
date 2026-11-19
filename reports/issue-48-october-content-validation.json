@@ -182,10 +182,17 @@
         "ok": true
       },
       {
-        "id": "smithsonian-octopus",
-        "url": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
+        "id": "noaa-cephalopod-days",
+        "url": "https://sanctuaries.noaa.gov/news/oct20/cephalopod-days.html",
         "status": 200,
-        "finalUrl": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
+        "finalUrl": "https://sanctuaries.noaa.gov/news/oct20/cephalopod-days.html",
+        "ok": true
+      },
+      {
+        "id": "noaa-octopus-intelligence",
+        "url": "https://www.fisheries.noaa.gov/science-blog/view-inside-kodiak-lab-aquarium-post-4",
+        "status": 200,
+        "finalUrl": "https://www.fisheries.noaa.gov/science-blog/view-inside-kodiak-lab-aquarium-post-4",
         "ok": true
       },
       {

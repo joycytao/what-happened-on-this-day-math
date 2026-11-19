@@ -1,0 +1,38 @@
+name: Social — Perspective Sharing Reel
+description: Create a perspective-sharing Reel from the registered template.
+title: "[Social Reel][Perspective]: "
+labels:
+  - "social:product-reel"
+  - "content:monthly"
+  - "status: pending review"
+body:
+  - type: input
+    id: month_cycle
+    attributes: { label: Month or cycle, description: Use the released month and stable package_id when applicable. }
+    validations: { required: true }
+  - type: textarea
+    id: asset_resources
+    attributes: { label: Asset resources, description: List usable repository paths or attached assets; placeholder links are not sufficient. }
+    validations: { required: true }
+  - type: dropdown
+    id: asset_source
+    attributes:
+      label: Asset source
+      options: [Internal repository/template assets, External, student, customer, or third-party assets]
+    validations: { required: true }
+  - type: textarea
+    id: asset_usage_notes
+    attributes: { label: Asset usage notes, description: Required for external, student, customer, personal, or third-party assets; record permission, privacy, attribution, and redaction. Write “not applicable” for internal-only assets. }
+    validations: { required: true }
+  - type: textarea
+    id: perspective_statement
+    attributes: { label: Perspective statement, description: State the audience insight, contrast, and educational point. }
+    validations: { required: true }
+  - type: textarea
+    id: expected_output
+    attributes: { label: Expected output, description: State expected MP4, dimensions, duration, sidecar, and QA evidence. }
+    validations: { required: true }
+  - type: input
+    id: cta_destination
+    attributes: { label: CTA or destination, description: CTA text and destination URL or description. }
+    validations: { required: true }

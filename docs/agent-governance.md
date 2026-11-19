@@ -19,13 +19,23 @@ replacement for the repository's content, layout, or release requirements.
    Decision Owners.
 4. `pm-triage` owns routing, completeness, and follow-up; it must not guess
    answers outside its authority.
-5. `pm-triage` may bootstrap a readable `status: pending review` Issue, assign exactly one `agent:*` owner, and set the next legal state without answering another role's domain question.
-6. An Issue remains blocked when a blocking question, dependency, or required
-   acceptance criterion is unresolved.
+5. `pm-triage` may route routine work directly to `status: ready to pickup` when its inputs, dependencies, and acceptance criteria are complete.
+6. An Issue remains blocked only when a named external dependency, required
+   input, unavailable permission, or explicit human-only gate is unresolved.
+   Missing acceptance criteria, unclear routing, and ordinary dependency
+   classification are role-owned remediation work: keep the Issue in
+   `status: pending review` and dispatch the role that can resolve it.
 7. A decision must include its conclusion and the evidence or reasoning that
    supports it.
-8. Human Accountable Owner review is required after a UI/UX or visual preview is complete and before adoption, for new or elevated key/token/account access, and before public publication or downstream dispatch.
-9. Required inputs are hard gates. Missing monthly content, final PDF, canonical reference, source data, approved brand asset, or another declared input must produce a named blocked reason.
+
+Routine review policy:
+
+- `Review gate: routine` means deterministic validation and QA are sufficient;
+  no human content review is requested.
+- Human decisions are reserved for `ui-design`, `final-copy`, `final-product`,
+  `credentials`, or `public-dispatch`.
+- Final merge remains an operational human gate under the current automation
+  contract, not a request for ordinary code or content review.
 
 ## Roles and decision boundaries
 
@@ -38,12 +48,35 @@ replacement for the repository's content, layout, or release requirements.
 - Assigns one Decision Owner and identifies consulted agents.
 - Marks questions as blocking or non-blocking.
 - Updates the Issue with the decision register and triage summary.
-- Recommends `ready to pickup` only after all blocking questions are resolved.
-- May add or correct one `agent:*` owner label during bootstrap routing.
-- May move `status: pending review` to `state: decision-requested`, `status: blocked`, `status: ready to pickup`, or `ready-for-human` when the evidence supports that transition.
+- Routes `ready to pickup` only after all blocking questions and required inputs are resolved.
+- Owns ordinary completeness repair. If acceptance criteria, scope wording, or
+  dependency classification is incomplete but can be resolved from the Issue
+  and repository evidence, PM triage must repair it and keep the Issue in
+  `status: pending review`; it must not create a Human Accountable Owner gate.
 
 `pm-triage` does not make architecture, product, domain, or release decisions
 on behalf of the designated owner.
+
+PM triage has a proactive queue-audit duty. On each scheduled cycle it inspects
+all open Issues and open PRs, classifies why each item is or is not pickup-ready,
+and records `CODEX_TRIAGE_AUDIT:v1` evidence even when the eligible set is empty.
+It may normalize only unambiguous routine label aliases or stale derived labels
+proved by handoff evidence. Multiple plausible owners or statuses must remain
+unresolved and be returned as a named reconciliation blocker; PM triage must not
+guess or change product, architecture, domain, implementation, quality, or
+release decisions.
+
+### `quality-engineer`
+
+The quality engineer owns independent verification after implementation. QE
+maps each acceptance criterion to reproducible commands, workflow evidence, and
+artifacts, keeping content, mathematics, source, layout/PDF, visual, workflow,
+and deterministic checks separate. QE returns concrete defects or missing
+implementation evidence to `developer` with a rejected handoff, and returns
+external dependencies, missing inputs, permissions, or ambiguous human-only
+decisions to `pm-triage` as blocked. A passing routine QA may move to
+`ready-for-human`; QE never merges, publishes, dispatches, or silently changes
+the accepted scope.
 
 ### Decision Owner
 
@@ -57,8 +90,8 @@ Typical ownership:
 - Architecture, interfaces, storage boundaries, and system trade-offs:
   Architect.
 - Code-level implementation details: Developer.
-- TPT listing, packaging, and teacher-facing marketplace requirements:
-  TPT Expert.
+- TPT listing and teacher-facing marketplace requirements: Product Manager;
+  technical packaging and orchestration: Architect. Split mixed questions.
 - Instagram or Facebook format and channel requirements: the corresponding
   domain expert.
 - Test strategy, verification evidence, and release quality: Quality Engineer.
@@ -72,7 +105,7 @@ answering every question. This person:
 - Reviews high-risk or cross-domain triage summaries.
 - Resolves escalations when the designated owners cannot reach a decision.
 - Audits a sample of routine triage decisions.
-- Reviews UI/UX and visual previews before adoption, approves new or elevated key/token/account access, and approves public publication or downstream dispatch.
+- Reviews only explicit human-only gates: UI/UX adoption, credential/account changes, publication, downstream dispatch, and final merge/release approval.
 - Updates the governance rules when repeated failures show that a boundary is
   unclear.
 
@@ -99,8 +132,10 @@ flowchart TD
     D --> L{Any blocking item unresolved?}
     K --> L
 
-    L -- Yes --> M[Mark blocked or needs clarification]
+    L -- External / human-only --> M[Mark blocked with named reason]
     M --> B
+    L -- Role-owned gap --> M2[Keep pending review and dispatch owning role]
+    M2 --> B
     L -- No --> N[pm-triage sets ready to pickup for routine work]
     N --> R[Developer implements]
     R --> S[Open pull request]
@@ -146,89 +181,6 @@ The triage summary should state:
 - Reason: ...
 ```
 
-## Execution authority and gates
-
-Agents may act autonomously when an Issue has one owner, complete declared inputs, resolved dependencies, and work within the role boundary.
-
-- **UI/UX gate:** an agent may implement and render previews, but the Human Accountable Owner reviews the preview and evidence before adoption.
-- **Credential gate:** agents may use an existing authorized secret through the approved runtime interface without reading or exporting its value. New credentials, account access, permission elevation, rotation, or external login require Human Accountable Owner approval.
-- **Input gate:** monthly content, final PDF, canonical references, source data, brand assets, and other declared inputs must exist and pass validation before generation or dispatch.
-- **Release gate:** QA may mark work ready for human review, but only the Human Accountable Owner may approve public publication, downstream dispatch, or merge.
-
-## Bootstrap and handoff rule
-
-An Issue with `status: pending review` and a readable scope enters `pm-triage` bootstrap even when it does not yet have an `agent:*` label. `pm-triage` assigns exactly one owner, records a `CODEX_HANDOFF:v1` comment, and sets one outcome: `state: decision-requested`, `status: blocked` with a named dependency or missing input, `status: ready to pickup` with the assigned implementation owner, or `ready-for-human` for a human approval gate.
-
-No agent may claim an Issue with multiple `agent:*` labels, an unresolved dependency, a missing required input, or an unapproved high-risk gate.
-
-## Human decision request contract
-
-Whenever work cannot proceed because a Human Accountable Owner must decide,
-the Issue comment must begin with `HUMAN_DECISION_REQUEST:v1` and answer every
-field below. A label such as `ready-for-human` or `state: human-review` is not
-enough on its own.
-
-```markdown
-HUMAN_DECISION_REQUEST:v1
-
-- Issue: #<number>
-- Decision needed: <one concrete question>
-- Why now: <what work is waiting and why this decision is the gate>
-- Options:
-  - A: <option and consequence>
-  - B: <option and consequence>
-- Recommendation: <one option, or `none` when the agent cannot recommend>
-- Evidence: <links, files, tests, previews, or prior decisions>
-- Blocked until decided: <exact actions that must not start>
-- Decision owner: Human Accountable Owner
-- After approval: <exact next label/state and next role>
-- After revision: <where the revised input returns>
-- After rejection: <close, defer, or alternate route>
-```
-
-The comment must contain one decision only. If several decisions are needed,
-create one numbered request per decision and name the dependency between them.
-The requester must not silently convert a human decision into an agent answer.
-
-## Transition record contract
-
-Every state or owner transition must include one `CODEX_HANDOFF:v1` comment
-using this structure. This is the human-readable audit trail for why a task
-changed hands.
-
-```markdown
-CODEX_HANDOFF:v1
-
-- Issue: #<number>
-- From: <current state / owner>
-- To: <next state / owner>
-- Transition reason: <one sentence>
-- Evidence: <specific comment, dependency, file, check, or URL>
-- Preconditions satisfied: <list, or `none`>
-- Preconditions still missing: <list, or `none`>
-- Human decision needed: <yes/no>
-- Next action: <the next actor's concrete action>
-- Return path: <where the task goes if rejected or blocked>
-```
-
-Use these meanings consistently:
-
-| Current state | Next state | Meaning | Next actor |
-|---|---|---|---|
-| `status: pending review` | `state: decision-requested` | A named domain decision is still open | named Decision Owner |
-| `status: pending review` | `status: blocked` | A dependency or required input prevents progress | named dependency owner or Human Accountable Owner |
-| `status: pending review` | `ready-for-human` | Agent analysis is complete; human approval is the gate | Human Accountable Owner |
-| `ready-for-human` | `status: ready to pickup` | The named human approval is recorded and implementation may begin | Developer or named implementation owner |
-| `status: ready to pickup` | `state: implementation` | The assigned developer has started work | Developer |
-| `state: implementation` | `status: qa` | Implementation is complete and verification is requested | Quality Engineer |
-| `status: qa` | `state: changes-requested` | QA found a concrete defect or missing evidence | Developer |
-| `status: qa` | `ready-for-human` | QA passed and a human-only gate remains | Human Accountable Owner |
-| any blocked state | prior legal state | The named dependency or decision is resolved | PM triage recalculates routing |
-
-Do not use a transition label without the matching handoff comment. A handoff
-is complete only when the comment names the current state, next state, next
-actor, evidence, and concrete next action.
-
 ## Readiness rule
 
 `pm-triage` may set `status: ready to pickup` for routine implementation when:
@@ -241,7 +193,186 @@ actor, evidence, and concrete next action.
 - required inputs exist and the work is not behind a human-only gate.
 
 Human review is not a blanket precondition for ordinary implementation. It is
-required only for the explicit gates: UI/UX or visual adoption, new or
-elevated credentials/accounts, public publication, downstream dispatch, and
-final merge/release approval. Those gates must use `ready-for-human` plus a
-single `HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
+required only for explicit human-only gates. Use `ready-for-human` plus one
+`HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.
+
+For a release approval, the owner replies with one `HUMAN_APPROVAL:v1`
+comment that includes the exact `Release identity` from the Issue. The
+approval is valid only when that identity matches the current release
+manifest; the approval workflow then moves the Issue to `status: ready to
+dispatch`. It must not rerun generation as part of approval.
+
+The reusable project skill for applying this process is
+`skills/pm-triage/SKILL.md`.
+
+## Label-to-agent queue
+
+The `Queue agent handoff` workflow creates one idempotent queue comment when an
+Issue receives one of these labels:
+
+- `status: pending review` routes to `agent: pm-triage`.
+- `status: ready to pickup`
+
+Routine pickup requires exactly one supported `agent:` label:
+`pm-triage`, `architect`, `product-manager`, `social-expert`, `developer`, or
+`quality-engineer`. Missing or conflicting routing records a blocked handoff
+instead of choosing a role.
+
+This is a queue producer, not a model runner. GitHub Actions does not call
+OpenAI or another external model. Codex pickup uses the versioned
+`CODEX_HANDOFF:v1` runner described below; after an agent responds,
+`pm-triage` records the decision and evidence.
+
+Developer scope is fail-closed: pickup requires exactly `agent: developer` plus
+`status: ready to pickup`, validated inputs, resolved dependencies, testable
+acceptance criteria, and no explicit human decision gate. The developer may
+implement and test the accepted scope, but may not expand scope, invent missing
+inputs, merge, publish, dispatch, enable auto-merge, or alter human-gate labels.
+Completion requires reproducible evidence and one handoff to
+`quality-engineer`; missing inputs or dependencies return to `pm-triage` with a
+named blocker.
+
+## Canonical release state machine
+
+Publication and downstream dispatch use one exclusive sequence:
+
+```text
+status: qa
+  → ready-for-human
+  → status: ready to dispatch
+  → status: done
+```
+
+`ready-for-human` means QA is complete and one specific Human Accountable
+Owner decision is still required. `status: ready to dispatch` means the
+decision was approved for the exact immutable release identity and the
+dispatch may begin. It never means "approval still pending". A metadata-only
+workflow rerun preserves the release identity; any changed publishable
+artifact hash returns the Issue to `ready-for-human`.
+
+## Versioned agent handoff protocol
+
+Agents write one compact `CODEX_HANDOFF:v1` comment only when the current
+owner or workflow state changes. Polling, queue scans, and internal checks do
+not create handoff comments. The comment names only the current Issue, From,
+To, transition reason, evidence, satisfied or missing preconditions, human
+decision status, next action, and return path. The router must be idempotent
+for the release identity or handoff ID and must not create duplicate routing
+comments.
+
+The compact comment shape is:
+
+```markdown
+<!-- CODEX_HANDOFF:v1 -->
+- Handoff ID: `repo:123:developer:quality-engineer:1`
+- From: `developer`
+- To: `quality-engineer`
+- Work item: `owner/repo#123`
+- Status: `completed`
+- Next action: run the acceptance checks
+- Evidence: PR check link and test command
+- Blockers: none
+- Return path: developer if QA rejects
+```
+
+The older list-shaped comment remains parseable for historical records, but
+new pickup comments use this compact form.
+
+The normal implementation chain is:
+
+```text
+pm-triage → domain owner or developer → quality-engineer → ready-for-human
+```
+
+At `ready-for-human`, the workstream stops until the named decision is
+recorded. After approval it resumes at `status: ready to dispatch`; it does
+not regenerate the package.
+
+## Scheduled role eligibility
+
+The scheduled dispatcher must allow `pm-triage` to pick up a readable
+`status: pending review` Issue, including the ownerless bootstrap case. This is
+the queue path for role-owned remediation such as missing acceptance criteria.
+Legacy labels such as `needs-triage` and `state: decision-complete` are not
+eligibility signals. `status: blocked` is reserved for a named external
+dependency, missing required input, unavailable permission, or explicit
+human-only gate and is not dispatched as routine PM work.
+
+`.github/workflows/handoff-router.yml` performs coordination only: it validates
+the marker, checks duplicates, derives canonical labels, and records the next
+handoff. It never calls an LLM. The Codex pickup runner reads
+eligible work through `scripts/github-app-command.mjs`, claims at most one
+item, starts from the latest remote `main` in a dedicated worktree, performs
+the role's work, and writes the next handoff comment. A blocked handoff returns
+to `pm-triage` with an explicit blocker; an invalid transition fails closed.
+
+`status: ready to pickup` is the routine implementation gate once PM triage has
+recorded complete inputs, dependencies, and acceptance criteria. A
+`ready-for-human` label is reserved for a specific human-only decision.
+
+### Role-owned remediation versus true blockers
+
+The distinction is operational, not cosmetic:
+
+| Evidence | Queue state | Next actor | Human decision |
+|---|---|---|---|
+| Acceptance criteria or routing wording is incomplete but repository evidence is sufficient | `status: pending review` | PM triage or the named domain role | No |
+| A domain decision is genuinely open | `state: decision-requested` | Named Decision Owner | No, unless the decision is explicitly human-only |
+| Required monthly content, source data, permission, or an external dependency is absent | `status: blocked` | Named dependency owner or PM triage for routing | No |
+| UI/UX adoption, final copy, final product adoption, credential/account change, publication, downstream dispatch, or final release approval | `ready-for-human` | Human Accountable Owner | Yes |
+
+The Issue must say which evidence applies. A role must return a completed
+handoff or a named true blocker; it must not leave a routine completeness gap
+idle or convert it into a blanket Human Owner request. This rule was triggered
+by Issue #216: its missing testable acceptance criteria were PM-owned
+remediation, not a human decision or an external input blocker.
+
+## Machine-readable work-item contract
+
+Generated parent and implementation Issues declare their relationship in the
+body; labels remain limited to owner, workflow status, type, and content. The
+contract is:
+
+```text
+CODEX_WORK_ITEM_KIND: parent|implementation
+CODEX_PARENT_KEY: monthly-production:YYYY-MM:parent
+CODEX_DEPENDS_ON: owner/repository#123
+CODEX_DEPENDS_ON_KEY: context-source
+CODEX_INPUTS_VALIDATED: true
+CODEX_RECONCILE_TO: developer
+```
+
+`CODEX_DEPENDS_ON` is preferred when the Issue number exists. A key dependency
+resolves to the sibling Issue with the same monthly-production marker. An
+implementation Issue is a verified developer pickup candidate only when its
+dependencies are closed, inputs and acceptance criteria are declared, it has
+exactly `agent: developer` and `status: ready to pickup`, and it is not a
+parent. The implementation is in `src/issue-governance.mjs` and is tested by
+`tests/issue-governance.test.mjs`.
+
+## Automatic reconciliation and queue behavior
+
+`.github/workflows/reconcile-issue-governance.yml` rechecks dependency closure
+after Issue changes and on a scheduled sweep. It promotes a blocked child only
+when the body explicitly opts into reconciliation with
+`CODEX_RECONCILE_TO: developer` and `CODEX_INPUTS_VALIDATED: true`; otherwise
+it leaves the Issue blocked for PM triage. This prevents a closed dependency
+from silently bypassing missing inputs or acceptance criteria.
+
+`.github/workflows/agent-pickup-queue.yml` announces only candidates returned
+by the same validator. It separates PM triage intake from verified developer
+pickup and never treats a label by itself as proof that work is ready.
+
+The governance invariant suite runs locally with
+`npm run governance:validate` and in `.github/workflows/governance-invariants.yml`.
+
+## Recovery rules
+
+- A blocked handoff returns to `pm-triage` with the blocker and evidence.
+- A duplicate `handoffId` is ignored without a second comment or label change.
+- A stale claim is not silently released; a human or `pm-triage` must verify it
+  before using the guarded `release` command.
+- A GitHub connectivity failure is a blocker, never an empty queue and never a
+  reason to claim work from local assumptions.
+- The offline route proof is in
+  `tests/agent-workflow-integration.test.mjs` and uses no token or network.

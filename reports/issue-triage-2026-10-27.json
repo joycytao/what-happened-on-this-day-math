@@ -1,0 +1,15 @@
+{
+  "valid": false,
+  "status": "blocked_before_inventory",
+  "repository": "joycytao/what-happened-on-this-day-math",
+  "attemptedAt": "2026-10-27T00:00:00Z",
+  "inventory": null,
+  "dispositionReview": "not_started",
+  "mutationsApplied": 0,
+  "connectivity": {
+    "category": "network",
+    "message": "GitHub App runner returned fetch failed after three attempts",
+    "evidence": "reports/github-app-connectivity.json"
+  },
+  "nextAction": "Retry the read-only inventory after api.github.com connectivity is restored; obtain owner approval for each disposition before using --confirm."
+}

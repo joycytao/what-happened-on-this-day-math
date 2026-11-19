@@ -1,5 +1,5 @@
 {
-  "valid": false,
+  "valid": true,
   "month": 10,
   "dayCount": 31,
   "expectedPageCount": 127,
@@ -14,13 +14,11 @@
   "validation": {
     "content": true,
     "mathematics": true,
-    "source": false,
+    "source": true,
     "layout": true,
     "pdf": true
   },
-  "failureDetails": [
-    "source: nps-edison-light source request failed: TypeError: fetch failed"
-  ],
+  "failureDetails": [],
   "visualInspection": {
     "valid": true,
     "pages": [
@@ -46,11 +44,9 @@
       "errors": []
     },
     "source": {
-      "valid": false,
+      "valid": true,
       "checked": true,
-      "errors": [
-        "nps-edison-light source request failed: TypeError: fetch failed"
-      ],
+      "errors": [],
       "results": [
         {
           "id": "ford-model-t",
@@ -111,8 +107,9 @@
         {
           "id": "nps-edison-light",
           "url": "https://www.npshistory.com/publications/edis/brochures/2008.pdf",
-          "error": "TypeError: fetch failed",
-          "ok": false
+          "status": 200,
+          "finalUrl": "https://www.npshistory.com/publications/edis/brochures/2008.pdf",
+          "ok": true
         },
         {
           "id": "nps-statue-liberty",
@@ -220,10 +217,17 @@
           "ok": true
         },
         {
-          "id": "smithsonian-octopus",
-          "url": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
+          "id": "noaa-cephalopod-days",
+          "url": "https://sanctuaries.noaa.gov/news/oct20/cephalopod-days.html",
           "status": 200,
-          "finalUrl": "https://www.smithsonianmag.com/smart-news/scientists-map-the-ways-octopuses-use-their-complex-arms-revealing-preferences-for-certain-tasks-180987333/",
+          "finalUrl": "https://sanctuaries.noaa.gov/news/oct20/cephalopod-days.html",
+          "ok": true
+        },
+        {
+          "id": "noaa-octopus-intelligence",
+          "url": "https://www.fisheries.noaa.gov/science-blog/view-inside-kodiak-lab-aquarium-post-4",
+          "status": 200,
+          "finalUrl": "https://www.fisheries.noaa.gov/science-blog/view-inside-kodiak-lab-aquarium-post-4",
           "ok": true
         },
         {
@@ -281,7 +285,7 @@
       "actualPageCount": 127,
       "firstPageSize": "1158.75 x 1500 pts",
       "lastPageSize": "1158.75 x 1499.25 pts",
-      "path": "/private/tmp/what-happened-on-this-day-math-issue-10/output/pdf/october-worksheet-packet.pdf"
+      "path": "/private/tmp/math-issue-142-product-reel-manifest/output/pdf/october-worksheet-packet.pdf"
     }
   }
 }

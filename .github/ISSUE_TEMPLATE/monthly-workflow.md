@@ -60,11 +60,13 @@ status, branch, PR, verification command, and blocker (or `none`).
 
 ## Release gate
 
+Review gate: `final-product`
+
 - [ ] All child Issues are closed or explicitly approved for release.
 - [ ] All source claims and historical dates have reliable citations.
 - [ ] Content and math checks pass.
 - [ ] Layout checks pass, including page dimensions, orientation, margins, clipping, overflow, and legibility.
-- [ ] Human review confirms the final packet.
+- [ ] Human decision confirms adoption of the final product packet.
 - [ ] Release PR: `{{PR_URL}}` with `Fixes #{{PARENT_ISSUE}}`
 
 ## Dependency map
