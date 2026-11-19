@@ -9,6 +9,10 @@ permissions:
   issues: read
   issues: write
 
+concurrency:
+  group: issue-state-release-${{ github.repository }}-${{ github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
 jobs:
   dispatch:
     if: github.event.issue.pull_request == null && startsWith(github.event.comment.body, 'HUMAN_APPROVAL:v1')
@@ -23,6 +27,8 @@ jobs:
           script: |
             const fs = require('node:fs');
             const crypto = require('node:crypto');
+            const { pathToFileURL } = require('node:url');
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
             const issue = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -50,13 +56,7 @@ jobs:
 
             const labels = issue.data.labels.map(label => label.name).filter(name => name !== 'ready-for-human' && name !== 'status: pending review');
             if (!labels.includes('status: ready to dispatch')) labels.push('status: ready to dispatch');
-            await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: Number(process.env.ISSUE_NUMBER), labels });
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: Number(process.env.ISSUE_NUMBER),
-              body: `<!-- CODEX_HANDOFF:v1 -->\nCODEX_HANDOFF:v1\n\n- Issue: #${process.env.ISSUE_NUMBER}\n- From: ready-for-human\n- To: status: ready to dispatch\n- Transition reason: Human approval matches the immutable release identity.\n- Evidence: release identity \`${identity}\`\n- Preconditions satisfied: QA passed; exact HUMAN_APPROVAL:v1 comment; matching release identity.\n- Preconditions still missing: downstream dispatch completion.\n- Human decision needed: no\n- Next action: dispatch the approved handoff exactly once.\n- Return path: reopen ready-for-human if the release identity changes.`,
-            });
+            await transitionIssueState({ github, owner: context.repo.owner, repo: context.repo.repo, issueNumber: Number(process.env.ISSUE_NUMBER), expectedLabels: issue.data.labels.map(label => label.name), nextLabels: labels, body, commentBody: `<!-- CODEX_HANDOFF:v1 -->\nCODEX_HANDOFF:v1\n\n- Issue: #${process.env.ISSUE_NUMBER}\n- From: ready-for-human\n- To: status: ready to dispatch\n- Transition reason: Human approval matches the immutable release identity.\n- Evidence: release identity \`${identity}\`\n- Preconditions satisfied: QA passed; exact HUMAN_APPROVAL:v1 comment; matching release identity.\n- Preconditions still missing: downstream dispatch completion.\n- Human decision needed: no\n- Next action: dispatch the approved handoff exactly once.\n- Return path: reopen ready-for-human if the release identity changes.`, commentFingerprint: `release identity \`${identity}\`` });
 
             const packageId = body.match(/^# TPT package: ([^\n]+)$/m)?.[1]?.trim();
             const handoffPath = packageId

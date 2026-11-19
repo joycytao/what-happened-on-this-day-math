@@ -9,6 +9,10 @@ permissions:
   issues: write
   pull-requests: read
 
+concurrency:
+  group: issue-state-recovery-${{ github.repository }}-${{ github.event.workflow_run.id || github.run_id }}
+  cancel-in-progress: false
+
 jobs:
   recover:
     if: github.event.workflow_run.conclusion != 'success' && github.event.workflow_run.conclusion != 'skipped'
@@ -21,6 +25,7 @@ jobs:
           script: |
             const { pathToFileURL } = require('node:url');
             const health = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/queue-health-recovery.mjs`).href);
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
             const { owner, repo } = context.repo;
             const run = context.payload.workflow_run;
             const prRefs = run.pull_requests || [];
@@ -42,11 +47,8 @@ jobs:
               const marker = `<!-- CODEX_WORKFLOW_FAILURE_RECOVERY:${issueNumber}:${run.id} -->`;
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issueNumber, per_page: 100 });
               if (comments.some((comment) => (comment.body || '').includes(marker))) continue;
-              if (result.repair.add.length || result.repair.remove.length) {
-                const current = issue.data.labels.map((label) => label.name);
-                const next = current.filter((label) => !result.repair.remove.includes(label));
-                for (const label of result.repair.add) if (!next.includes(label)) next.push(label);
-                await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: next });
-              }
-              await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body: `${marker}\nCODEX_WORKFLOW_FAILURE_RECOVERY:v1\n\n- Workflow run: ${run.html_url}\n- Conclusion: ${run.conclusion}\n- Health category: ${result.category}\n- Next role: ${result.nextRole || 'pm-triage required'}\n- Action: ${result.action}\n- Evidence: ${result.evidence.join('; ') || 'none'}\n- Blockers: ${result.blockers.join('; ') || 'none'}\n- No role was inferred when the workflow evidence was ambiguous.` });
+              const current = issue.data.labels.map((label) => label.name);
+              const next = current.filter((label) => !result.repair.remove.includes(label));
+              for (const label of result.repair.add) if (!next.includes(label)) next.push(label);
+              await transitionIssueState({ github, owner, repo, issueNumber, expectedLabels: current, nextLabels: next, body: issue.data.body || '', commentBody: `${marker}\nCODEX_WORKFLOW_FAILURE_RECOVERY:v1\n\n- Workflow run: ${run.html_url}\n- Conclusion: ${run.conclusion}\n- Health category: ${result.category}\n- Next role: ${result.nextRole || 'pm-triage required'}\n- Action: ${result.action}\n- Evidence: ${result.evidence.join('; ') || 'none'}\n- Blockers: ${result.blockers.join('; ') || 'none'}\n- No role was inferred when the workflow evidence was ambiguous.`, commentFingerprint: marker });
             }
