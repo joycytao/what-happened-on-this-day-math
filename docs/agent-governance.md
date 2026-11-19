@@ -68,6 +68,9 @@ on behalf of the designated owner.
 PM triage has a proactive queue-audit duty. On each scheduled cycle it inspects
 all open Issues and open PRs, classifies why each item is or is not pickup-ready,
 and records `CODEX_TRIAGE_AUDIT:v1` evidence even when the eligible set is empty.
+The same audit runs on a merged pull-request event before post-merge queue
+reporting, so stale derived labels are reconciled immediately rather than
+waiting for the next schedule tick.
 It may normalize only unambiguous routine label aliases or stale derived labels
 proved by handoff evidence. Multiple plausible owners or statuses must remain
 unresolved and be returned as a named reconciliation blocker; PM triage must not
