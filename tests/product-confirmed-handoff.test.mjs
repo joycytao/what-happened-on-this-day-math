@@ -41,7 +41,7 @@ test("builds an idempotent actionable Product Reel story with complete payload",
   const { root, input } = fixture();
   const result = buildProductReelStory(input, { root });
   assert.equal(result.valid, true, result.errors.join("\n"));
-  assert.deepEqual(result.labels, ["status: ready to pickup", "type: feature"]);
+  assert.deepEqual(result.labels, ["type: feature", "agent: social-expert", "status: ready to pickup"]);
   assert.match(result.story, /<!-- product-handoff-id: what-happened-on-this-day-math:november:reel -->/);
   assert.match(result.story, /product-confirmed\/v1/);
   assert.match(result.story, /reel-v1/);

@@ -9,6 +9,7 @@ test("Product Reel handoff workflow is approval-gated and idempotent", () => {
   assert.match(workflow, /approval_label_missing/);
   assert.match(workflow, /product-handoff-id/);
   assert.match(workflow, /status: ready to pickup/);
+  assert.match(workflow, /agent: social-expert/);
   assert.match(workflow, /type: feature/);
   assert.match(workflow, /github\.rest\.issues\.update/);
   assert.match(workflow, /github\.rest\.issues\.create/);

@@ -36,6 +36,13 @@ empty pickup queue, identify malformed or conflicting owner/status labels, and
 repair only unambiguous routine metadata with idempotent evidence. It must not
 guess when more than one state or owner is plausible.
 
+`status: ready to pickup` is an atomic derived state: it must never exist
+without exactly one supported `agent:` owner in the same complete labels
+replacement. Implementation pickup requires `agent: developer`; social
+producers must declare their social owner. Workflows must use one full-label
+`issues.update`/`issues.create` mutation, not separate blocker removal and
+ready-status addition calls. Ownerless or multi-owner pickup fails closed.
+
 Queue health recovery is defined by `src/queue-health-recovery.mjs`. The audit
 must detect stale claims, closed Issues with active workflow labels, open Issues
 whose linked PR merged, and failed workflow runs. A stale claim may be released

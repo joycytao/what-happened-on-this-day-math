@@ -242,6 +242,14 @@ The triage summary should state:
 - dependencies are identified and not blocking execution; and
 - required inputs exist and the work is not behind a human-only gate.
 
+`status: ready to pickup` is an atomic derived state, never a standalone
+label. Entering it requires exactly one supported `agent:` owner in the same
+complete labels replacement. Implementation work must use `agent: developer`;
+social producers must declare their explicit social owner. Workflows must not
+remove `status: blocked` and add `status: ready to pickup` in separate API
+calls. The shared `buildAtomicReadyPickupLabels()` helper and governance
+validators fail closed on ownerless or multi-owner pickup states.
+
 Human review is not a blanket precondition for ordinary implementation. It is
 required only for explicit human-only gates. Use `ready-for-human` plus one
 `HUMAN_DECISION_REQUEST:v1` comment naming the exact decision.

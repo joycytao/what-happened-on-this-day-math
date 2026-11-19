@@ -1,4 +1,7 @@
+import { buildAtomicReadyPickupLabels } from "./derived-label-reconciliation.mjs";
+
 export const SOCIAL_LABELS = Object.freeze({
+  owner: "agent: social-expert",
   productReel: "social:product-reel",
   carousel: "social:carousel",
   utilityReel: "social:utility-reel",
@@ -115,12 +118,15 @@ function monthlyChild(value, kind, week, dependency = null, assetStatus = { vali
     "- Preserve source, mathematics, layout, PDF, renderer, and human-QA gates.",
     "- Record the branch, PR, artifact path, verification, and blocker (or none) in the Issue.",
   ].join("\n");
+  const labels = dependency || !assetStatus.valid
+    ? ["type: feature", label, SOCIAL_LABELS.monthly, SOCIAL_LABELS.blocked]
+    : buildAtomicReadyPickupLabels(["type: feature", label, SOCIAL_LABELS.monthly], SOCIAL_LABELS.owner).labels;
   return {
     kind,
     week,
     key: `monthly:${value.packageId}:${isReel ? "reel" : "carousel"}:${week}`,
     title: `[Social ${isReel ? "Reel" : "Carousel"}] ${value.packageId} week ${week}`,
-    labels: ["type: feature", label, SOCIAL_LABELS.monthly, dependency || !assetStatus.valid ? SOCIAL_LABELS.blocked : SOCIAL_LABELS.ready],
+    labels,
     marker,
     body,
   };
@@ -172,12 +178,15 @@ export function buildUtilitySocialIssuePlan(input = {}) {
   for (let week = 1; week <= 3; week += 1) {
     const marker = `<!-- codex-social-utility:${cycleId}:week:${week} -->`;
     const dependency = week === 1 ? "- Dependency: none; start only after the intake Issue is owner-approved." : `- Dependency: wait for Utility Reel week ${week - 1} to close.\n- CODEX_DEPENDS_ON_UTILITY_WEEK:${week - 1}`;
+    const labels = week === 1 && assetStatus.valid
+      ? buildAtomicReadyPickupLabels(["type: feature", SOCIAL_LABELS.utilityReel, SOCIAL_LABELS.utility], SOCIAL_LABELS.owner).labels
+      : ["type: feature", SOCIAL_LABELS.utilityReel, SOCIAL_LABELS.utility, SOCIAL_LABELS.blocked];
     issues.push({
       kind: `utility-week-${week}`,
       week,
       key: `utility:${cycleId}:week:${week}`,
       title: `[Utility Reel] ${cycleId} week ${week}`,
-      labels: ["type: feature", SOCIAL_LABELS.utilityReel, SOCIAL_LABELS.utility, week === 1 && assetStatus.valid ? SOCIAL_LABELS.ready : SOCIAL_LABELS.blocked],
+      labels,
       marker,
       body: [
         marker,

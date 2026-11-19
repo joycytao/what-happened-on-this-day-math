@@ -76,7 +76,7 @@ jobs:
               repo: context.repo.repo,
               title: `Product Reel handoff: ${payload.product_title}`,
               body,
-              labels: ['status: ready to pickup', 'type: feature', 'social:product-reel'],
+              labels: ['status: ready to pickup', 'agent: social-expert', 'type: feature', 'social:product-reel'],
             };
             const result = existing
               ? await github.rest.issues.update({ ...input, issue_number: existing.number })

@@ -66,7 +66,7 @@ jobs:
             const marker = `<!-- product-handoff-id: ${payload.handoff_id} -->`;
             const all = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
             const existing = all.find((issue) => !issue.pull_request && (issue.body || '').includes(marker));
-            const input = { owner: context.repo.owner, repo: context.repo.repo, title: `Carousel handoff: ${payload.product_title}`, body, labels: ['status: ready to pickup', 'type: feature', 'social:carousel'] };
+            const input = { owner: context.repo.owner, repo: context.repo.repo, title: `Carousel handoff: ${payload.product_title}`, body, labels: ['status: ready to pickup', 'agent: social-expert', 'type: feature', 'social:carousel'] };
             const result = existing ? await github.rest.issues.update({ ...input, issue_number: existing.number }) : await github.rest.issues.create(input);
             core.info(`${existing ? 'Updated' : 'Created'} Carousel story #${result.data.number}`);
             const projectData = await github.graphql(`query($login:String!,$number:Int!){ user(login:$login){ projectV2(number:$number){ id title items(first:100){nodes{content{... on Issue{id}}}} } } }`, { login: process.env.SOCIAL_PROJECT_OWNER, number: Number(process.env.SOCIAL_PROJECT_NUMBER) });

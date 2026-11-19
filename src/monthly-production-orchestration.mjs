@@ -1,3 +1,5 @@
+import { buildAtomicReadyPickupLabels } from "./derived-label-reconciliation.mjs";
+
 const WORKSTREAMS = [
   { key: "context-source", title: "Context and source validation", blockedBy: [], ready: true },
   { key: "content-conversion", title: "Chinese-to-English content conversion", blockedBy: ["context-source"] },
@@ -64,7 +66,9 @@ function issueBody({ month, inputIssue, inputArtifact, runUrl, project, key, tit
 
 function issueFor(input, descriptor) {
   const marker = `<!-- monthly-production:${input.month}:${descriptor.key} -->`;
-  const labels = [LABELS.feature, LABELS.monthly, descriptor.ready ? LABELS.ready : LABELS.blocked];
+  const labels = descriptor.ready
+    ? buildAtomicReadyPickupLabels([LABELS.feature, LABELS.monthly], "agent: developer").labels
+    : [LABELS.feature, LABELS.monthly, LABELS.blocked];
   return {
     key: descriptor.key,
     marker,

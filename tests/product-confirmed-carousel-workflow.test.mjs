@@ -10,5 +10,6 @@ test("Carousel handoff workflow uses the same approval and idempotency gates", (
   assert.match(workflow, /approval_label_missing/);
   assert.match(workflow, /product-handoff-id/);
   assert.match(workflow, /status: ready to pickup/);
+  assert.match(workflow, /agent: social-expert/);
   assert.match(workflow, /type: feature/);
 });

@@ -25,7 +25,11 @@ jobs:
             const issues = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
             const dependent = issues.find(issue => !issue.pull_request && (issue.body || '').includes(marker));
             if (!dependent) { core.info(`No open dependent Issue found for ${marker}.`); return; }
-            await github.rest.issues.removeLabel({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, name: 'status:blocked' }).catch(error => { if (error.status !== 404) throw error; });
-            await github.rest.issues.removeLabel({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, name: 'status: blocked' }).catch(error => { if (error.status !== 404) throw error; });
-            await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, labels: ['status: ready to pickup'] });
+            const current = dependent.labels.map(label => typeof label === 'string' ? label : label.name);
+            const owners = current.filter(label => label.startsWith('agent: '));
+            if (owners.length > 1) throw new Error(`Cannot atomically ready #${dependent.number}: multiple owners ${owners.join(', ')}`);
+            const next = current.filter(label => label !== 'status:blocked' && label !== 'status: blocked');
+            if (owners.length === 0) next.push('agent: social-expert');
+            if (!next.includes('status: ready to pickup')) next.push('status: ready to pickup');
+            await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, labels: [...new Set(next)] });
             await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: dependent.number, body: `Dependency #${context.payload.issue.number} closed. This social workstream Issue is now ready for Codex pickup after the normal PR and QA gates.` });

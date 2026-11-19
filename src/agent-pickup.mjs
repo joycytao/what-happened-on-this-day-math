@@ -1,5 +1,6 @@
 import { AGENT_ROLES, validateHandoff } from "./agent-handoff.mjs";
 import { ROLE_OUTPUT_KINDS, validateRoleOutput } from "./role-output-contract.mjs";
+import { validateDerivedLabelInvariant } from "./derived-label-reconciliation.mjs";
 
 const REPO_SLUG = "what-happened-on-this-day-math";
 const DECISION_ROLES = new Set(["product-manager", "architect", "social-expert"]);
@@ -18,6 +19,7 @@ function labelNames(item) {
 
 function isEligible(item, role) {
   const labels = labelNames(item);
+  if (!validateDerivedLabelInvariant([...labels]).valid) return false;
   if (labels.has("status: blocked") || labels.has("state: paused")) return false;
   if (labels.has("state: implementation")) return false;
   if (labels.has("state: changes-requested") && role !== "developer") return false;

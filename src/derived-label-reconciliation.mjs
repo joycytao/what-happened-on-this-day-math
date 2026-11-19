@@ -55,8 +55,29 @@ export function validateDerivedLabelInvariant(labels = []) {
   const errors = [];
   if (owners.length > 1) errors.push("derived labels must contain exactly one owner at most");
   if (lifecycle.length > 1) errors.push("derived labels must contain exactly one workflow state at most");
+  if (current.includes("status: ready to pickup") && owners.length !== 1) {
+    errors.push("ready to pickup requires exactly one owner in the same label state");
+  }
   if (deprecated.length) errors.push(`deprecated derived labels present: ${deprecated.join(", ")}`);
   return { valid: errors.length === 0, errors, owners, lifecycle, deprecated };
+}
+
+/**
+ * Build the complete label replacement for entering developer pickup.
+ *
+ * GitHub's Issues API accepts a complete `labels` array atomically. Callers
+ * must use the returned `labels` with one `issues.update`/`issues.create`
+ * request; they must not remove the blocker and add the pickup status in
+ * separate requests.
+ */
+export function buildAtomicReadyPickupLabels(currentLabels = [], owner = "agent: developer") {
+  if (!GOVERNANCE_OWNERS.has(owner)) {
+    return { valid: false, atomic: true, errors: [`unsupported ready-to-pickup owner: ${owner}`], labels: names(currentLabels), add: [], remove: [] };
+  }
+  const current = names(currentLabels);
+  const preserved = current.filter((label) => !isDerived(label));
+  const result = reconcileDerivedLabels(current, [...preserved, owner, "status: ready to pickup"]);
+  return { ...result, atomic: true };
 }
 
 export function reconcileDerivedLabels(currentLabels = [], desiredDerivedLabels = null) {

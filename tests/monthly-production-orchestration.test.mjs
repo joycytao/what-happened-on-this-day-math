@@ -63,6 +63,7 @@ test("plan markers and issue bodies are deterministic", () => {
   assert.match(first.parent.marker, /monthly-production:2027-01:parent/);
   assert.match(first.issues[0].body, /Source context Issue: #201/);
   assert.ok(first.issues[0].labels.includes("status: ready to pickup"));
+  assert.ok(first.issues[0].labels.includes("agent: developer"));
   assert.ok(first.issues[1].labels.includes("status: blocked"));
 });
 
