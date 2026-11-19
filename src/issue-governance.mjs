@@ -1,6 +1,7 @@
 const OWNER_PREFIX = "agent: ";
 const STATUS_PREFIX = "status: ";
 import { classifyHumanReview } from "./human-review-policy.mjs";
+import { validateDerivedLabelInvariant } from "./derived-label-reconciliation.mjs";
 
 export const GOVERNANCE_OWNERS = new Set([
   "agent: pm-triage",
@@ -133,6 +134,7 @@ export function dependencyReport(issue, allIssues = []) {
 export function validateGovernanceIssue(issue, allIssues = []) {
   const contract = parseIssueContract(issue);
   const errors = [];
+  errors.push(...validateDerivedLabelInvariant(contract.labels).errors);
   if (contract.owners.length > 1) errors.push("exactly one supported agent owner is required");
   if (contract.status && !GOVERNANCE_STATUSES.has(contract.status)) errors.push(`unsupported workflow status: ${contract.status}`);
   if (contract.status === "status: ready to pickup" && contract.owners[0] !== "agent: developer") errors.push("ready to pickup requires agent: developer");

@@ -19,9 +19,9 @@ test("monthly queue is release-driven and manually dispatchable, not a productio
 test("utility queue requires owner-ready intake and keeps later weeks blocked", () => {
   assert.match(utility, /issues:/);
   assert.match(utility, /types: \[labeled\]/);
-  assert.match(utility, /status:ready to pickup/);
+  assert.match(utility, /status: ready to pickup/);
   assert.match(utility, /\[Utility Reel intake\]/);
   assert.match(utility, /build-social-issue-plan\.mjs/);
   assert.match(unblock, /codex-social-utility/);
-  assert.match(unblock, /status:ready to pickup/);
+  assert.match(unblock, /status: ready to pickup/);
 });

@@ -20,7 +20,7 @@ test("needs-triage routes to pm-triage", () => {
   assert.equal(plan.kind, "handoff");
   assert.equal(plan.role, "pm-triage");
   assert.equal(plan.skill, "skills/pm-triage/SKILL.md");
-  assert.deepEqual(plan.addLabels, ["agent-requested"]);
+  assert.deepEqual(plan.addLabels, []);
 });
 
 test("ready-for-agent routes through exactly one agent label", () => {
@@ -60,7 +60,7 @@ test("adding an agent label directly queues that agent", () => {
 test("ready-for-agent without a role is blocked", () => {
   const plan = buildAgentHandoffPlan(event("ready-for-agent"));
   assert.equal(plan.kind, "blocked");
-  assert.deepEqual(plan.addLabels, ["needs-info"]);
+  assert.deepEqual(plan.addLabels, []);
   assert.match(plan.body, /exactly one supported `agent:` label/);
 });
 

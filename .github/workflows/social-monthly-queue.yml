@@ -106,9 +106,9 @@ jobs:
               ['social:product-reel', '5319e7', 'Product Reel workstream'],
               ['social:carousel', '5319e7', 'Carousel workstream'],
               ['content:monthly', '1d76db', 'Monthly content source'],
-              ['status:ready to pickup', '0e8a16', 'Approved for Codex pickup'],
-              ['status:blocked', 'e4e669', 'Blocked by a dependency'],
-              ['status:pending review', 'fbca04', 'Waiting for human review']
+              ['status: ready to pickup', '0e8a16', 'Approved for Codex pickup'],
+              ['status: blocked', 'e4e669', 'Blocked by a dependency'],
+              ['status: pending review', 'fbca04', 'Waiting for human review']
             ];
             for (const [name, color, description] of labels) {
               try { await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name }); }

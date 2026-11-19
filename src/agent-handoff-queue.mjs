@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
+import { reconcileDerivedLabels } from "./derived-label-reconciliation.mjs";
 
 export const AGENT_ROUTES = Object.freeze({
   "agent: pm-triage": { role: "pm-triage", skill: "skills/pm-triage/SKILL.md" },
@@ -34,6 +35,7 @@ export function buildAgentHandoffPlan(event = {}) {
   const issueUrl = issue.html_url || `https://github.com/${event.repository?.full_name}/issues/${issueNumber}`;
   const markerRole = route?.role || "unrouted";
   const marker = `<!-- codex-agent-handoff:${issueNumber}:${triggerLabel}:${markerRole} -->`;
+  const labelReconciliation = reconcileDerivedLabels([...labels]);
 
   if (!route) {
     const reason = triggerLabel === "needs-triage"
@@ -45,7 +47,8 @@ export function buildAgentHandoffPlan(event = {}) {
       issueNumber,
       issueUrl,
       triggerLabel,
-      addLabels: ["needs-info"],
+      addLabels: labelReconciliation.valid ? labelReconciliation.add : [],
+      removeLabels: labelReconciliation.valid ? labelReconciliation.remove : [],
       body: [
         marker,
         "CODEX_AGENT_HANDOFF_BLOCKED",
@@ -79,7 +82,8 @@ export function buildAgentHandoffPlan(event = {}) {
     triggerLabel,
     role: route.role,
     skill: route.skill,
-    addLabels: ["agent-requested"],
+    addLabels: labelReconciliation.valid ? labelReconciliation.add : [],
+    removeLabels: labelReconciliation.valid ? labelReconciliation.remove : [],
     prompt,
     body: [
       marker,

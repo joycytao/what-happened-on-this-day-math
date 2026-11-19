@@ -57,8 +57,15 @@ jobs:
             const conflictResolutionId = `issue:${workItemNumber}:pr:${number}:conflict-resolved:${sha}`;
             const removeWorkflowLabels = async () => {
               const current = linkedIssue.data.labels.map(label => label.name);
+              const deprecated = new Set([
+                'agent-requested', 'needs-info', 'needs-triage', 'ready-for-agent',
+                'state: decision-complete', 'state: ready-to-pickup', 'state: blocked',
+                'state: qa', 'state: human-review', 'state: done',
+                'status:pending review', 'status:blocked', 'status:ready to pickup',
+                'status:qa', 'status:paused', 'status:ready to dispatch', 'status:done',
+              ]);
               for (const label of current.filter(label =>
-                label.startsWith('agent: ') || label.startsWith('state: ') || label === 'ready-for-human' || label === 'status: qa'
+                label.startsWith('agent: ') || label.startsWith('state: ') || label.startsWith('status:') || label === 'ready-for-human' || deprecated.has(label)
               )) {
                 await github.rest.issues.removeLabel({ owner, repo, issue_number: workItemNumber, name: label });
               }

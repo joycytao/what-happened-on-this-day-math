@@ -33,7 +33,7 @@ permissions:
 
 jobs:
   queue:
-    if: github.event_name == 'workflow_dispatch' || (github.event.label.name == 'status:ready to pickup' && startsWith(github.event.issue.title, '[Utility Reel intake]'))
+    if: github.event_name == 'workflow_dispatch' || (github.event.label.name == 'status: ready to pickup' && startsWith(github.event.issue.title, '[Utility Reel intake]'))
     runs-on: ubuntu-latest
     env:
       PROJECT_OWNER: ${{ inputs.project_owner || vars.SOCIAL_PROJECT_OWNER || 'joycytao' }}
@@ -87,9 +87,9 @@ jobs:
               ['type: feature', 'a2eeef', 'A request for new or improved functionality'],
               ['social:utility-reel', '5319e7', 'Utility Reel workstream'],
               ['content:utility', '1d76db', 'User-provided utility source'],
-              ['status:ready to pickup', '0e8a16', 'Approved for Codex pickup'],
-              ['status:blocked', 'e4e669', 'Blocked by a dependency'],
-              ['status:pending review', 'fbca04', 'Waiting for human review']
+              ['status: ready to pickup', '0e8a16', 'Approved for Codex pickup'],
+              ['status: blocked', 'e4e669', 'Blocked by a dependency'],
+              ['status: pending review', 'fbca04', 'Waiting for human review']
             ];
             for (const [name, color, description] of labels) {
               try { await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name }); }
