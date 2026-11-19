@@ -24,4 +24,6 @@ test("utility queue requires owner-ready intake and keeps later weeks blocked", 
   assert.match(utility, /build-social-issue-plan\.mjs/);
   assert.match(unblock, /codex-social-utility/);
   assert.match(unblock, /status: ready to pickup/);
+  assert.match(unblock, /agent: social-expert/);
+  assert.doesNotMatch(unblock, /removeLabel[\s\S]*status: blocked[\s\S]*addLabels/);
 });

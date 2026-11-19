@@ -1,13 +1,14 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { buildAtomicReadyPickupLabels } from "./derived-label-reconciliation.mjs";
 
 export const PRODUCT_CONFIRMED_SCHEMA = "product-confirmed/v1";
 export const PRODUCT_CONFIRMED_EVENT = "product.confirmed";
 export const PRODUCT_REEL_TEMPLATE_ID = "reel-v1";
 export const PRODUCT_CAROUSEL_TEMPLATE_ID = "carousel-v1";
 export const APPROVAL_LABEL = "status: ready to dispatch";
-export const STORY_LABELS = ["status: ready to pickup", "type: feature"];
+export const STORY_LABELS = buildAtomicReadyPickupLabels(["type: feature"], "agent: social-expert").labels;
 
 const MONTHS = new Set([
   "january", "february", "march", "april", "may", "june",

@@ -40,8 +40,8 @@ test("routes a completed architect decision to pm-triage", () => {
   assert.deepEqual(result.removeLabels, ["agent-requested", "status:pending review"]);
 });
 
-test("routes a human-approved ready Issue to developer", () => {
-  const result = routeHandoff(handoff({ from: "pm-triage", to: "developer" }), context({ labels: ["status: ready to pickup"] }));
+test("routes a ready Issue with its atomic developer owner bundle", () => {
+  const result = routeHandoff(handoff({ from: "pm-triage", to: "developer" }), context({ labels: ["status: ready to pickup", "agent: developer"] }));
 
   assert.equal(result.valid, true, result.errors.join("\n"));
   assert.equal(result.nextRole, "developer");

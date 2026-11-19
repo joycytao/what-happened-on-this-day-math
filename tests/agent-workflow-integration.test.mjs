@@ -29,7 +29,7 @@ test("offline fixture proves the complete handoff route", () => {
   assert.equal(withoutApproval.valid, false);
   assert.ok(withoutApproval.errors.includes("developer_gate_missing"));
 
-  const approved = routeHandoff(handoff({ from: "pm-triage", to: "developer" }), { labels: ["status: ready to pickup"] });
+  const approved = routeHandoff(handoff({ from: "pm-triage", to: "developer" }), { labels: ["status: ready to pickup", "agent: developer"] });
   assert.equal(approved.nextRole, "developer");
 
   const qa = routeHandoff(handoff({ from: "developer", to: "quality-engineer", outputKind: "implementation", workItem: "joycytao/what-happened-on-this-day-math#203" }), { isPullRequest: true });

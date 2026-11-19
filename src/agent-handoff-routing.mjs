@@ -1,7 +1,7 @@
 import { AGENT_ROLES, HANDOFF_TARGETS, validateHandoff } from "./agent-handoff.mjs";
 import { classifyHumanReview } from "./human-review-policy.mjs";
 import { validateRoleOutput } from "./role-output-contract.mjs";
-import { canonicalDerivedLabelsForPlan } from "./derived-label-reconciliation.mjs";
+import { canonicalDerivedLabelsForPlan, validateDerivedLabelInvariant } from "./derived-label-reconciliation.mjs";
 
 const DECISION_ROLES = new Set(["architect", "product-manager", "social-expert"]);
 
@@ -33,6 +33,13 @@ function hasLabel(context, label) {
 }
 
 export function routeHandoff(handoff, context = {}) {
+  let currentLabels;
+  try {
+    currentLabels = validateDerivedLabelInvariant(canonicalDerivedLabelsForPlan(context.labels ?? [], null).labels);
+  } catch (error) {
+    return invalid([error.message]);
+  }
+  if (!currentLabels.valid) return invalid(currentLabels.errors);
   const validation = validateHandoff(handoff);
   if (!validation.valid) return invalid(validation.errors);
   const outputValidation = validateRoleOutput(handoff);

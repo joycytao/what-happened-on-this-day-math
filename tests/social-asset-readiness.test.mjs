@@ -34,4 +34,5 @@ test("monthly social pickup remains blocked until resources are declared", () =>
   const ready = buildMonthlySocialIssuePlan({ ...base, assetResources: [base.manifestPath, base.contentPath, base.thumbnailManifestPath] });
   assert.equal(ready.assetReady, true);
   assert.ok(ready.issues[1].labels.includes("status: ready to pickup"));
+  assert.ok(ready.issues[1].labels.includes("agent: social-expert"));
 });

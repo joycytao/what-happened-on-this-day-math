@@ -35,6 +35,8 @@ test("monthly social plan creates one parent and ordered Reel then Carousel chil
     "carousel",
   ]);
   assert.ok(plan.issues[1].labels.includes(SOCIAL_LABELS.productReel));
+  assert.ok(plan.issues[1].labels.includes(SOCIAL_LABELS.owner));
+  assert.ok(!plan.issues[2].labels.includes(SOCIAL_LABELS.owner));
   assert.ok(plan.issues[2].labels.includes(SOCIAL_LABELS.blocked));
   assert.match(plan.issues[2].body, /CODEX_DEPENDS_ON_WEEK:1/);
   assert.match(plan.issues[1].body, /Codex automation is the production worker/);
@@ -60,6 +62,7 @@ test("utility plan creates three sequential ready-to-pickup children", () => {
   assert.deepEqual(plan.issues.slice(1).map((issue) => issue.kind), ["utility-week-1", "utility-week-2", "utility-week-3"]);
   assert.ok(plan.issues.slice(1).every((issue) => issue.labels.includes(SOCIAL_LABELS.utilityReel)));
   assert.ok(plan.issues[1].labels.includes(SOCIAL_LABELS.ready));
+  assert.ok(plan.issues[1].labels.includes(SOCIAL_LABELS.owner));
   assert.ok(plan.issues.slice(2).every((issue) => issue.labels.includes(SOCIAL_LABELS.blocked)));
   assert.match(plan.issues[3].body, /CODEX_DEPENDS_ON_UTILITY_WEEK:2/);
 });
