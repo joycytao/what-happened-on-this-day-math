@@ -37,6 +37,9 @@ jobs:
               ...item,
               pullRequests: allPullRequests.filter((pr) => linkPattern(item.number).test(pr.body || '') || (item.body || '').includes(`pull/${pr.number}`)),
             }));
+            for (const item of issues.filter((candidate) => candidate.labels.some((label) => label.name === 'ready-for-human'))) {
+              item.comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: item.number, per_page: 100 });
+            }
             for (const item of issues.filter((candidate) => candidate.labels.some((label) => label.name === 'state: claimed'))) {
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: item.number, per_page: 100 });
               const claim = [...comments].reverse().map((comment) => comment.body || '').find((body) => /Claimed at:\s*`[^`]+`/i.test(body));

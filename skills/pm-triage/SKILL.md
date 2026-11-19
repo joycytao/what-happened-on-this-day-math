@@ -74,6 +74,14 @@ canonical workflow state. Record a `CODEX_TRIAGE_AUDIT:v1` diagnosis with the
 category, evidence, and one next action. An empty pickup set is an outcome that
 requires this diagnosis; it is not permission to stop without inspection.
 
+For every Issue carrying `ready-for-human`, validate the complete gate contract
+before classifying it as human-gated: `Review gate: final-merge` is valid for the
+operational merge gate; each other human gate requires exactly one
+`HUMAN_DECISION_REQUEST:v1` comment. If validation fails, treat the label as stale
+metadata, remove it atomically, and route the Issue to
+`agent: pm-triage` + `status: pending review` with an evidence comment. Never wait
+for a human decision that was never declared.
+
 PM triage may proactively repair only routine metadata that is unambiguous from
 the Issue, handoff, dependency, and PR evidence: normalize known status-label
 aliases, remove stale derived labels when a terminal handoff proves the next

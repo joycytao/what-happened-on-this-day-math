@@ -22,7 +22,7 @@ test("queue audit explains why no Issue is eligible for pickup", () => {
   const result = auditQueue([
     issue(3, ["status: blocked"]),
     issue(4, ["status: paused"]),
-    issue(5, ["ready-for-human"]),
+    issue(5, ["ready-for-human"], "# Merge\n\nReview gate: final-merge\n\n## Acceptance Criteria\n- merge after QA"),
   ]);
   assert.equal(result.noPickup, true);
   assert.equal(result.eligible.length, 0);
@@ -30,6 +30,27 @@ test("queue audit explains why no Issue is eligible for pickup", () => {
   assert.equal(result.byCategory.paused, 1);
   assert.equal(result.byCategory["human-gated"], 1);
   assert.match(renderAuditComment(result), /No-pickup diagnosis: yes/);
+});
+
+test("invalid ready-for-human metadata is routed back to PM triage", () => {
+  const candidate = issue(8, ["ready-for-human", "agent: developer", "status: qa"], "# Work\n\nReview gate: final-copy\n\n## Acceptance Criteria\n- exact copy");
+  candidate.comments = [];
+  const result = auditIssue(candidate);
+  assert.equal(result.category, "invalid-human-gate");
+  assert.equal(result.eligible, true);
+  assert.equal(result.humanGate.valid, false);
+  assert.deepEqual(result.repair.add, ["agent: pm-triage", "status: pending review"]);
+  assert.deepEqual(result.repair.remove, ["ready-for-human", "agent: developer", "status: qa"]);
+  assert.match(result.nextAction, /removes the stale human-gate label/i);
+});
+
+test("valid final-merge gate remains a human gate", () => {
+  const candidate = issue(9, ["ready-for-human"], "# Merge\n\nReview gate: final-merge\n\n## Acceptance Criteria\n- merge after QA");
+  const result = auditIssue(candidate);
+  assert.equal(result.category, "human-gated");
+  assert.equal(result.eligible, false);
+  assert.equal(result.humanGate.valid, true);
+  assert.equal(result.repair.changed, false);
 });
 
 test("readable pending review with no owner is an eligible PM intake", () => {
