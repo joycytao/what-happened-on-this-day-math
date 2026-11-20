@@ -8,7 +8,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: issue-state-${{ github.repository }}
+  group: issue-state-${{ github.repository }}-${{ github.event.issue.number || 'batch' }}
   cancel-in-progress: false
 
 jobs:
