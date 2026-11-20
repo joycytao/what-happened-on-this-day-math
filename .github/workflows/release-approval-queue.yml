@@ -10,7 +10,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: issue-state-release-${{ github.repository }}-${{ github.event.issue.number || github.run_id }}
+  group: issue-state-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:

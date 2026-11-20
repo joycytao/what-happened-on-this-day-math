@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: issue-state-pr-${{ github.repository }}-${{ github.event.pull_request.number || github.event.review.pull_request_url || github.run_id }}
+  group: issue-state-${{ github.repository }}
   cancel-in-progress: false
 
 # Consultation labels emitted by this workflow: agent: architect and

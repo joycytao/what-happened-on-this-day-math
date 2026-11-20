@@ -9,7 +9,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: issue-state-dependency-${{ github.repository }}-${{ github.event.issue.number }}
+  group: issue-state-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:

@@ -37,7 +37,8 @@ export async function transitionIssueState({ github, owner, repo, issueNumber, e
   if (!plan.valid) throw new Error(plan.errors.join("; "));
   if (plan.add.length || plan.remove.length) {
     // GitHub's Issues PATCH endpoint rejects If-Match. The compare-and-swap
-    // guard is the exact label snapshot plus serialized workflow concurrency.
+    // guard is the exact label snapshot plus the canonical repository-wide
+    // serialized workflow concurrency lock required by every caller.
     await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: plan.labels });
   }
   let commentCreated = false;
