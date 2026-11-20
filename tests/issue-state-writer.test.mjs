@@ -1,7 +1,16 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { planIssueStateTransition, transitionIssueState } from "../src/issue-state-writer.mjs";
+import { buildTransitionFingerprint, planIssueStateTransition, transitionIssueState } from "../src/issue-state-writer.mjs";
+
+test("transition fingerprint is deterministic and scoped to one Issue and label snapshot", () => {
+  const first = buildTransitionFingerprint({ issueNumber: 42, expectedLabels: ["status: qa", "agent: quality-engineer"], nextLabels: ["ready-for-human"], commentFingerprint: "handoff-1" });
+  const same = buildTransitionFingerprint({ issueNumber: 42, expectedLabels: ["agent: quality-engineer", "status: qa"], nextLabels: ["ready-for-human"], commentFingerprint: "handoff-1" });
+  const differentIssue = buildTransitionFingerprint({ issueNumber: 43, expectedLabels: ["status: qa", "agent: quality-engineer"], nextLabels: ["ready-for-human"], commentFingerprint: "handoff-1" });
+  assert.equal(first, same);
+  assert.notEqual(first, differentIssue);
+  assert.match(first, /^<!-- CODEX_TRANSITION:v1:[a-f0-9]{64} -->$/);
+});
 
 test("state writer rejects stale label snapshots", () => {
   const result = planIssueStateTransition({
@@ -68,4 +77,32 @@ test("state writer skips a duplicate fingerprint comment", async () => {
   });
   assert.equal(result.commentCreated, false);
   assert.equal(calls.length, 0);
+});
+
+test("state writer rejects a stale transition after its preparation snapshot changes", async () => {
+  const calls = [];
+  let reads = 0;
+  const github = {
+    rest: { issues: {
+      get: async () => {
+        reads += 1;
+        return { data: { body: "Review gate: final-merge", labels: [{ name: reads === 1 ? "agent: quality-engineer" : "ready-for-human" }] } };
+      },
+      update: async (payload) => calls.push(payload),
+      listComments: {},
+    } },
+    paginate: async () => [],
+  };
+  await assert.rejects(
+    transitionIssueState({ github, owner: "o", repo: "r", issueNumber: 3, expectedLabels: ["agent: quality-engineer"], nextLabels: ["ready-for-human"], commentBody: "route", commentFingerprint: "handoff-3" }),
+    /stale transition rejected/i,
+  );
+  assert.equal(calls.length, 0);
+});
+
+test("state writer requires an expected label snapshot", async () => {
+  await assert.rejects(
+    transitionIssueState({ github: { rest: { issues: {} } }, owner: "o", repo: "r", issueNumber: 4, nextLabels: ["ready-for-human"] }),
+    /expectedLabels is required/i,
+  );
 });

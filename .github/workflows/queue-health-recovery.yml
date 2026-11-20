@@ -10,7 +10,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: issue-state-${{ github.repository }}
+  group: issue-state-${{ github.repository }}-batch
   cancel-in-progress: false
 
 jobs:

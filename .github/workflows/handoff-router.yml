@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: issue-state-${{ github.repository }}
+  group: issue-state-${{ github.repository }}-${{ github.event.issue.number || github.event.pull_request.number || 'batch' }}
   cancel-in-progress: false
 
 jobs:
