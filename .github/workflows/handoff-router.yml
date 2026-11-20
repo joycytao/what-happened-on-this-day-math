@@ -118,6 +118,7 @@ jobs:
                 comments,
               });
               if (!gateValidation.valid) errors.push(...gateValidation.errors);
+              handoff.gateSubtype = gateValidation.gateSubtype;
               handoff.nextState = 'ready-for-human';
             } else {
               errors.push('unsupported_transition');
@@ -140,6 +141,7 @@ jobs:
                 `Handoff ${handoff.handoffId} routed successfully.`,
                 handoff.nextRole ? `Next role: ${handoff.nextRole}` : 'Next role: human review',
                 handoff.nextState ? `State: ${handoff.nextState}` : null,
+                handoff.gateSubtype ? `Human gate subtype: ${handoff.gateSubtype}` : null,
                 'GitHub Actions coordinated this handoff; no model or API token was invoked.'
               ].filter(Boolean).join('\n');
             await transitionIssueState({ github, owner, repo, issueNumber, expectedLabels: current, nextLabels: labels, body: issue.data.body || '', commentBody: routedBody, commentFingerprint: `<!-- CODEX_HANDOFF_ROUTE:${handoff.handoffId} -->` });

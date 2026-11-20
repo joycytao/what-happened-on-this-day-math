@@ -50,6 +50,8 @@ test("valid final-merge gate remains a human gate", () => {
   assert.equal(result.category, "human-gated");
   assert.equal(result.eligible, false);
   assert.equal(result.humanGate.valid, true);
+  assert.equal(result.humanGate.gateSubtype, "final-merge");
+  assert.match(renderAuditComment(auditQueue([candidate])), /humanGate=final-merge\/final-merge\/valid/);
   assert.equal(result.repair.changed, false);
 });
 

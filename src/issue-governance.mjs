@@ -1,7 +1,7 @@
 const OWNER_PREFIX = "agent: ";
 const STATUS_PREFIX = "status: ";
 import { classifyHumanReview } from "./human-review-policy.mjs";
-import { validateReadyForHumanGate } from "./human-gate-integrity.mjs";
+import { humanGateSubtypeFromBody, validateReadyForHumanGate } from "./human-gate-integrity.mjs";
 import { validateDerivedLabelInvariant } from "./derived-label-reconciliation.mjs";
 import { parseSourceAssetDependencies, requiresSourceAssetDependency } from "./source-asset-dependency.mjs";
 
@@ -77,6 +77,7 @@ export function parseIssueContract(issue = {}) {
   const body = String(issue.body || "");
   const labels = labelNames(issue.labels);
   const review = reviewPolicy(body);
+  const gateSubtype = humanGateSubtypeFromBody(body);
   const sourceAssets = parseSourceAssetDependencies(body);
   const sourceAssetErrors = [...sourceAssets.errors];
   if (requiresSourceAssetDependency(labels) && sourceAssets.dependencies.length === 0) {
@@ -114,6 +115,8 @@ export function parseIssueContract(issue = {}) {
     sourceAssetsSatisfied: sourceAssets.satisfied && sourceAssetErrors.length === 0,
     humanDecisionRequired: review.humanDecisionRequired,
     humanActionRequired: review.humanActionRequired,
+    humanGateSubtype: gateSubtype.subtype,
+    humanGateSubtypeSource: gateSubtype.source,
     reviewErrors: review.errors,
   };
 }

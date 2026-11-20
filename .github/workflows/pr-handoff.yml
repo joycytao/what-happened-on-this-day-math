@@ -51,7 +51,7 @@ jobs:
               '<!-- CODEX_HANDOFF:v1 -->', '', '## Handoff', '',
               `- Handoff ID: \`${handoffId}\``, `- From: \`${from}\``, `- To: \`${to}\``,
               `- Work item: \`${owner}/${repo}#${workItemNumber}\``, `- Status: \`${status}\``,
-                  `- Reason: ${nextAction}`, `- Preconditions: PR event and linked Issue are available`, `- Review gate: ${reviewGate}`, `- Human decision: ${to === 'ready-for-human' && humanDecisionRequired ? 'yes' : 'no; operational merge only'}`,
+                  `- Reason: ${nextAction}`, `- Preconditions: PR event and linked Issue are available`, `- Review gate: ${reviewGate}`, `- Human gate subtype: ${humanDecisionRequired ? 'human-decision' : reviewGate === 'final-merge' ? 'final-merge' : 'unknown'}`, `- Human decision: ${to === 'ready-for-human' && humanDecisionRequired ? 'yes' : 'no; operational merge only'}`,
               '- Completed:', ...(status === 'blocked' || status === 'rejected' ? [] : ['  - PR event recorded']), '- Required next action:', `  - ${nextAction}`,
               '- Evidence:', `  - ${evidence}`, '- Constraints:', '  - do not merge automatically',
               '- Blockers:', ...(status === 'blocked' || status === 'rejected' ? [`  - ${nextAction}`] : ['  - none']), '- Expected output:', '  - reviewed handoff evidence',

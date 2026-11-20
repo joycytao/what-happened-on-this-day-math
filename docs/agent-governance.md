@@ -289,6 +289,11 @@ valid only when the Issue declares either `Review gate: final-merge` for the
 operational merge action, or one of the explicit human decision gates
 (`ui-design`, `final-copy`, `final-product`, `credentials`, or
 `public-dispatch`) and has exactly one `HUMAN_DECISION_REQUEST:v1` comment.
+Every new gate also declares `Human gate subtype: final-merge` or
+`Human gate subtype: human-decision`. The shared validator returns the subtype
+for reporting and rejects an explicit subtype that disagrees with `Review gate`;
+legacy Issues derive the subtype from their existing Review gate during
+migration.
 Routine work must fail closed and remain outside the human gate until its
 operational `final-merge` gate is explicitly declared. Handoff and PR routers
 must call `src/human-gate-integrity.mjs` and verify the prospective label set

@@ -254,7 +254,7 @@ export function buildQueueExecutionPlan(entries = []) {
 }
 
 export function renderAuditComment(audit) {
-  const rows = audit.entries.map((entry) => `- #${entry.number}: ${entry.category}; humanGate=${entry.humanGate.reviewGate}/${entry.humanGate.valid ? "valid" : "invalid"}; health=${entry.health.category}; next=${entry.nextAction}; healthAction=${entry.health.action}; reasons=${entry.reasons.join(" | ") || "none"}`);
+  const rows = audit.entries.map((entry) => `- #${entry.number}: ${entry.category}; humanGate=${entry.humanGate.reviewGate}/${entry.humanGate.gateSubtype || "unknown"}/${entry.humanGate.valid ? "valid" : "invalid"}; health=${entry.health.category}; next=${entry.nextAction}; healthAction=${entry.health.action}; reasons=${entry.reasons.join(" | ") || "none"}`);
   return [
     "<!-- CODEX_TRIAGE_AUDIT:v1 -->",
     "CODEX_TRIAGE_AUDIT:v1",
