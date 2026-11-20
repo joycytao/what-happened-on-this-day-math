@@ -16,5 +16,6 @@ if (!prHandoffSource.includes("changes requested") || !prHandoffSource.includes(
 if (!handoffRouterSource.includes("linkedIssueNumbers") || !handoffRouterSource.includes("issueNumber = linkedIssueNumbers[0] || eventNumber")) errors.push("handoff router must resolve PR review events to the linked Issue");
 if (!handoffRouterSource.includes("(?=^- [A-Za-z]")) errors.push("handoff router must parse list fields until the next handoff field");
 if (!handoffRouterSource.includes("matchAll(/^\\s{2}- (.+)$/gm)")) errors.push("handoff router must parse indented list items as whitespace");
+if (!handoffRouterSource.includes("list('Prerequisites missing').filter(value => value.toLowerCase() !== 'none')")) errors.push("handoff router must treat an explicit none prerequisite sentinel as empty");
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
 console.log("End-to-end state-machine lifecycle contract passed");

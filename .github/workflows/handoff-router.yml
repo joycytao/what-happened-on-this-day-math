@@ -44,7 +44,7 @@ jobs:
               evidence: list('Evidence'), constraints: list('Constraints'),
               blockers: list('Blockers'), expectedOutput: list('Expected output'),
               outputKind: field('Output kind'), returnPath: field('Return path'),
-              prerequisitesSatisfied: list('Prerequisites satisfied'), prerequisitesMissing: list('Prerequisites missing'),
+              prerequisitesSatisfied: list('Prerequisites satisfied'), prerequisitesMissing: list('Prerequisites missing').filter(value => value.toLowerCase() !== 'none'),
             };
             if (!handoff.handoffId) {
               core.setFailed('Invalid CODEX_HANDOFF:v1 markdown: missing Handoff ID');
