@@ -51,8 +51,12 @@ jobs:
               return;
             }
 
-            const issueNumber = context.payload.issue?.number ?? context.payload.pull_request?.number;
             const { owner, repo } = context.repo;
+            const eventNumber = context.payload.issue?.number ?? context.payload.pull_request?.number;
+            const linkedIssueNumbers = context.payload.pull_request
+              ? [...(context.payload.pull_request.body || '').matchAll(/(?:close[sd]?|fix(?:e[sd]?|ing)?|resolve[sd]?)\s+(?:(?:[^\s/]+)\/[^\s#]+)?#(\d+)/gi)].map(match => Number(match[1]))
+              : [];
+            const issueNumber = linkedIssueNumbers[0] || eventNumber;
             const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner, repo, issue_number: issueNumber, per_page: 100
