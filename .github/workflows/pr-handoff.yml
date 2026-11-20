@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: issue-state-pr-${{ github.repository }}-${{ github.event.pull_request.number || github.event.review.pull_request_url || github.run_id }}
+  group: issue-state-${{ github.repository }}
   cancel-in-progress: false
 
 # Consultation labels emitted by this workflow: agent: architect and
@@ -67,6 +67,7 @@ jobs:
               const fresh = await github.rest.issues.get({ owner, repo, issue_number: workItemNumber });
               return transitionIssueState({ github, owner, repo, issueNumber: workItemNumber, expectedLabels: fresh.data.labels.map(label => label.name), nextLabels, body: fresh.data.body || '', commentBody, commentFingerprint: fingerprint });
             };
+            const currentLabels = async () => (await github.rest.issues.get({ owner, repo, issue_number: workItemNumber })).data.labels.map(label => label.name);
             const conflictBody = (id, resolved = false) => [
               '<!-- CODEX_CONFLICT_ALERT:v1 -->', '',
               resolved ? '## PR conflict resolved' : '## PR conflict detected', '',
@@ -103,7 +104,8 @@ jobs:
               comment.body?.includes('From: `developer`') &&
               comment.body?.includes('To: `quality-engineer`'));
             if (context.eventName === 'pull_request') {
-              if (!hasDeveloperHandoff) return;
+              const issueAlreadyNeedsRepair = linkedIssue.data.labels.some(label => label.name === 'state: changes-requested');
+              if (!hasDeveloperHandoff && !issueAlreadyNeedsRepair) return;
               const files = await github.paginate(github.rest.pulls.listFiles, { owner, repo, pull_number: Number(number), per_page: 100 });
               const paths = files.map(file => file.filename);
               const hasArchitectPath = paths.some(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md');
@@ -116,16 +118,18 @@ jobs:
               }
               if (hasArchitectPath) {
                 const id = `issue:${workItemNumber}:pr:${number}:architect:consult:${sha}`;
-                if (!already(id)) await stateTransition(linkedIssue.data.labels.map(label => label.name), body(id, 'pm-triage', 'architect', 'requested', 'review governance, schema, or orchestration impact', paths.filter(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md').join(', ')), `Handoff ID: \`${id}\``);
+                if (!already(id)) await stateTransition(await currentLabels(), body(id, 'pm-triage', 'architect', 'requested', 'review governance, schema, or orchestration impact', paths.filter(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md').join(', ')), `Handoff ID: \`${id}\``);
               }
               if (hasSocialPath) {
                 const id = `issue:${workItemNumber}:pr:${number}:social-expert:consult:${sha}`;
-                if (!already(id)) await stateTransition(linkedIssue.data.labels.map(label => label.name), body(id, 'pm-triage', 'social-expert', 'requested', 'review social format and template impact', paths.filter(path => /social|carousel|reel|template/i.test(path)).join(', ')), `Handoff ID: \`${id}\``);
+                if (!already(id)) await stateTransition(await currentLabels(), body(id, 'pm-triage', 'social-expert', 'requested', 'review social format and template impact', paths.filter(path => /social|carousel|reel|template/i.test(path)).join(', ')), `Handoff ID: \`${id}\``);
               }
               return;
             }
 
             const review = context.payload.review;
+            const isDeveloperToQualityHandoff = (review.body || '').includes('From: `developer`') && (review.body || '').includes('To: `quality-engineer`');
+            if (isDeveloperToQualityHandoff) return;
             const failed = review.state === 'changes_requested' || /\b(?:fail(?:ed|ure|s)?|reject(?:ed|ion|s)?|block(?:ed|ing)?|changes requested)\b/i.test(review.body || '');
             if (!failed) {
               const gateValidation = validateReadyForHumanGate({

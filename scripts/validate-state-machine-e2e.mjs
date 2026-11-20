@@ -2,6 +2,7 @@ import fs from "node:fs";
 
 const source = fs.readFileSync("tests/state-machine-lifecycle.e2e.test.mjs", "utf8");
 const prHandoffSource = fs.readFileSync(".github/workflows/pr-handoff.yml", "utf8");
+const handoffRouterSource = fs.readFileSync(".github/workflows/handoff-router.yml", "utf8");
 const errors = [];
 for (const phase of ["issue-created", "pm-audit", "developer-pickup", "pr-created", "conflict", "developer-repair", "qa-pass", "post-merge"]) {
   if (!source.includes(phase)) errors.push(`e2e lifecycle fixture missing phase ${phase}`);
@@ -12,7 +13,9 @@ for (const token of ["auditIssue", "listEligibleWork", "routeHandoff", "planIssu
 if (!source.includes("status: done") || !source.includes("state, \"closed\"")) errors.push("e2e lifecycle fixture must assert terminal closed/done state");
 if (prHandoffSource.includes("/fail|reject|block/i")) errors.push("PR handoff review classifier must not treat `Blockers: none` as a failure");
 if (!prHandoffSource.includes("changes requested") || !prHandoffSource.includes("fail(?:ed|ure|s)?")) errors.push("PR handoff review classifier must use explicit failure terms");
-const handoffRouterSource = fs.readFileSync(".github/workflows/handoff-router.yml", "utf8");
 if (!handoffRouterSource.includes("linkedIssueNumbers") || !handoffRouterSource.includes("issueNumber = linkedIssueNumbers[0] || eventNumber")) errors.push("handoff router must resolve PR review events to the linked Issue");
+if (!handoffRouterSource.includes("(?=^- [A-Za-z]")) errors.push("handoff router must parse list fields until the next handoff field");
+if (!handoffRouterSource.includes("matchAll(/^\\s{2}- (.+)$/gm)")) errors.push("handoff router must parse indented list items as whitespace");
+if (!handoffRouterSource.includes("list('Prerequisites missing').filter(value => value.toLowerCase() !== 'none')")) errors.push("handoff router must treat an explicit none prerequisite sentinel as empty");
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
 console.log("End-to-end state-machine lifecycle contract passed");

@@ -8,7 +8,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: issue-state-reconcile-${{ github.repository }}
+  group: issue-state-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:

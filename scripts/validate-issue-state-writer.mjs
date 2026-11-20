@@ -20,6 +20,9 @@ for (const file of workflows) {
   if (!text.includes("concurrency:") || !text.includes("cancel-in-progress: false")) {
     errors.push(`${file} must serialize issue-state transitions with workflow concurrency`);
   }
+  if (!text.includes("group: issue-state-${{ github.repository }}")) {
+    errors.push(`${file} must use the canonical repository-wide issue-state lock`);
+  }
   if (/github\.rest\.issues\.(update|addLabels|removeLabel|createComment)\s*\(/.test(text)) {
     errors.push(`${file} contains a direct Issue mutation outside the authoritative state writer`);
   }

@@ -10,7 +10,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: issue-state-recovery-${{ github.repository }}-${{ github.event.workflow_run.id || github.run_id }}
+  group: issue-state-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:
