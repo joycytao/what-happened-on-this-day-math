@@ -126,7 +126,7 @@ jobs:
             }
 
             const review = context.payload.review;
-            const failed = review.state === 'changes_requested' || /fail|reject|block/i.test(review.body || '');
+            const failed = review.state === 'changes_requested' || /\b(?:fail(?:ed|ure|s)?|reject(?:ed|ion|s)?|block(?:ed|ing)?|changes requested)\b/i.test(review.body || '');
             if (!failed) {
               const gateValidation = validateReadyForHumanGate({
                 labels: [...linkedIssue.data.labels.map(label => label.name), 'ready-for-human'],
