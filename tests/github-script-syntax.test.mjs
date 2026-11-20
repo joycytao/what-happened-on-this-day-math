@@ -38,3 +38,9 @@ test("PR handoff workflow ignores the developer-to-QE review handoff", async () 
   assert.match(workflow, /isDeveloperToQualityHandoff/);
   assert.match(workflow, /if \(isDeveloperToQualityHandoff\) return;/);
 });
+
+test("PR synchronize can resume QA routing after a rejected handoff", async () => {
+  const workflow = await readFile(".github/workflows/pr-handoff.yml", "utf8");
+  assert.match(workflow, /issueAlreadyNeedsRepair/);
+  assert.match(workflow, /!hasDeveloperHandoff && !issueAlreadyNeedsRepair/);
+});

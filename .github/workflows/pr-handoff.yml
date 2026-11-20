@@ -103,7 +103,8 @@ jobs:
               comment.body?.includes('From: `developer`') &&
               comment.body?.includes('To: `quality-engineer`'));
             if (context.eventName === 'pull_request') {
-              if (!hasDeveloperHandoff) return;
+              const issueAlreadyNeedsRepair = linkedIssue.data.labels.some(label => label.name === 'state: changes-requested');
+              if (!hasDeveloperHandoff && !issueAlreadyNeedsRepair) return;
               const files = await github.paginate(github.rest.pulls.listFiles, { owner, repo, pull_number: Number(number), per_page: 100 });
               const paths = files.map(file => file.filename);
               const hasArchitectPath = paths.some(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md');
