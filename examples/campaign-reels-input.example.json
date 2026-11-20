@@ -1,0 +1,45 @@
+{
+  "campaigns": [
+    {
+      "campaignId": "free-november-2026",
+      "campaignName": "Free November Worksheets",
+      "campaignType": "free-worksheets",
+      "templateId": "free-worksheets-campaign-reel",
+      "campaignStartDate": "2026-11-10",
+      "campaignEndDate": "2026-11-21",
+      "offerClaim": "Free November worksheets through November 21.",
+      "freeScope": "November worksheets",
+      "contentIds": { "START": "reminder-001", "ENDING_SOON": "reminder-002" },
+      "scenePath": "reels/campaign-reminder-template/assets/free-scene.png",
+      "avatarPath": "reels/campaign-reminder-template/assets/profile-avatar.png",
+      "cta": "Link in bio",
+      "caption": "Free November worksheets are ready. Download before the deadline.",
+      "hashtags": ["#freeworksheets", "#homeschooling", "#education"],
+      "copy": {
+        "START": { "title": "FREE NOVEMBER WORKSHEETS", "line1": "Free through November 21", "line2": "Link in bio" },
+        "ENDING_SOON": { "title": "FREE WORKSHEETS END IN 3 DAYS", "line1": "Download before November 21", "line2": "Link in bio" }
+      }
+    },
+    {
+      "campaignId": "early-bird-2026",
+      "campaignName": "Early-Bird Sale",
+      "campaignType": "early-bird-sale",
+      "templateId": "early-bird-sale-reel",
+      "campaignStartDate": "2026-11-22",
+      "campaignEndDate": "2026-11-30",
+      "offerClaim": "Early-bird pricing is $2.75 through November 30.",
+      "salePrice": "2.75",
+      "currency": "USD",
+      "contentIds": { "START": "reminder-003", "ENDING_SOON": "reminder-004" },
+      "scenePath": "reels/campaign-reminder-template/assets/early-bird-scene.png",
+      "avatarPath": "reels/campaign-reminder-template/assets/profile-avatar.png",
+      "cta": "Link in bio",
+      "caption": "The early-bird sale is live. Save before the campaign ends.",
+      "hashtags": ["#teacherspayteachers", "#education", "#printables"],
+      "copy": {
+        "START": { "title": "EARLY-BIRD SALE IS LIVE", "line1": "Get the complete resource for $2.75", "line2": "Through November 30 • Link in bio" },
+        "ENDING_SOON": { "title": "EARLY-BIRD PRICING ENDS IN 3 DAYS", "line1": "Save through November 30", "line2": "Link in bio" }
+      }
+    }
+  ]
+}
