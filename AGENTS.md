@@ -97,6 +97,17 @@ separate, records reproducible evidence, and returns rejected work to the
 developer or blocked work to pm-triage. It must not merge, publish, dispatch,
 weaken acceptance criteria, or silently repair implementation defects.
 
+The governance suite must include one deterministic end-to-end state-machine
+fixture in `tests/state-machine-lifecycle.e2e.test.mjs`. It must exercise the
+complete implementation lifecycle: Issue creation, PM audit, developer pickup,
+PR creation, PR conflict, QA rejection, developer repair, QA pass, final human
+gate, merge, and post-merge reconciliation. Every phase must assert the exact
+canonical labels, owner cardinality, idempotent handoff/comment evidence, and
+terminal closed + `status: done` state. The fixture uses production audit,
+handoff-routing, state-writer, queue-health, and derived-label validators; it
+must be offline, deterministic, fixture-based, and free of sleeps or network
+access. `npm run governance:validate` must execute its structural contract.
+
 The product-manager is the Decision Owner only for explicitly routed product
 questions: audience, scope, priority, acceptance intent, and offer facts. It
 must record one evidence-backed conclusion or a named human decision request,

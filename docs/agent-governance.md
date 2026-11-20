@@ -512,6 +512,29 @@ idempotent `CODEX_DEPENDENCY_RECOVERY:v1` comment.
 The governance invariant suite runs locally with
 `npm run governance:validate` and in `.github/workflows/governance-invariants.yml`.
 
+### End-to-end lifecycle invariant
+
+Unit and static contract tests are not sufficient to prove that the workflow
+can recover from a real multi-stage sequence. The required deterministic
+fixture is `tests/state-machine-lifecycle.e2e.test.mjs`; its structural guard is
+`scripts/validate-state-machine-e2e.mjs`. The fixture must verify, after every
+transition, the complete label set, exactly one valid owner while work is
+active, fingerprinted `CODEX_HANDOFF:v1` evidence without duplicates, and the
+next legal role. It must cover:
+
+```text
+Issue creation → PM audit → developer pickup → PR creation → conflict
+→ QA rejection → developer repair → QA pass → final human gate → merge
+→ post-merge reconciliation
+```
+
+The fixture calls the production audit, handoff router, state-writer planner,
+queue-health recovery, and derived-label validator. It must remain offline and
+deterministic, and its terminal assertion is a closed Issue with no active
+owner or human-gate label and canonical `status: done`. The normal
+`npm run governance:validate` command runs the structural guard so deleting or
+shortening the lifecycle cannot silently remove end-to-end coverage.
+
 ## Recovery rules
 
 - A blocked handoff returns to `pm-triage` with the blocker and evidence.
