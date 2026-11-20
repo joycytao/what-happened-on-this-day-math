@@ -17,12 +17,16 @@ if (!prHandoff.includes("src/human-gate-integrity.mjs")) errors.push("PR handoff
 if (!tptWorkstream.includes("validateReadyForHumanGate")) errors.push("TPT workstream must call the gate integrity validator before adding ready-for-human");
 if (!tptWorkstream.includes("Review gate: final-product")) errors.push("TPT workstream must declare its human product gate");
 if (!tptWorkstream.includes("tpt-human-gate-request:v1")) errors.push("TPT workstream must create an idempotent human decision request");
+if (!router.includes("Human gate subtype")) errors.push("handoff router must report a machine-readable gate subtype");
+if (!prHandoff.includes("Human gate subtype")) errors.push("PR handoff must report a machine-readable gate subtype");
+if (!tptWorkstream.includes("Human gate subtype: human-decision")) errors.push("TPT workstream must declare human-decision subtype");
 if (!pmAudit.includes("validateReadyForHumanGate")) errors.push("PM audit must validate every existing ready-for-human Issue");
 if (!pmAudit.includes("invalid-human-gate")) errors.push("PM audit must classify stale human-gate metadata");
 if (!pmAudit.includes("agent: pm-triage") || !pmAudit.includes("status: pending review")) errors.push("invalid human gates must route to PM triage pending review");
 if (!pmAuditWorkflow.includes("candidate.labels.some((label) => label.name === 'ready-for-human')")) errors.push("PM audit workflow must load comments for every ready-for-human Issue");
 if (validateReadyForHumanGate({ labels: ["ready-for-human"], body: "Review gate: routine" }).valid) errors.push("routine ready-for-human must fail closed");
 if (!validateReadyForHumanGate({ labels: ["ready-for-human"], body: "Review gate: final-merge" }).valid) errors.push("final-merge must be accepted");
+if (validateReadyForHumanGate({ labels: ["ready-for-human"], body: "Review gate: final-merge\nHuman gate subtype: human-decision" }).valid) errors.push("mismatched gate subtype must fail closed");
 
 if (errors.length) {
   console.error(errors.join("\n"));

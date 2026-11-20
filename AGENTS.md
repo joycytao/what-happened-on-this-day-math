@@ -30,6 +30,10 @@ without a human content review. Human decisions are reserved for UI/UX
 adoption, final copy, final product adoption, credential or permission changes,
 and public or downstream dispatch. The current automation contract keeps final
 merge operations human-controlled; do not enable auto-merge from this workflow.
+`ready-for-human` remains the single routing label, but every new gate must
+declare `Human gate subtype: human-decision` or `Human gate subtype: final-merge`
+alongside `Review gate`; reporting and validation must use the subtype to
+distinguish product/content decisions from operational merge approval.
 Every workflow that writes `ready-for-human` must call the shared gate integrity
 validator against the prospective label set; the label alone is never evidence
 of a valid human gate.
@@ -389,7 +393,9 @@ state transitions, human gates, release identity, and handoff comments.
 Use `skills/pm-triage/SKILL.md` for triage and
 `scripts/agent-pickup.mjs` for claims/releases. Keep exactly one owner label.
 Use `ready-for-human` only for a named human decision or an explicit
-`final-merge` operational gate; after matching release
+`final-merge` operational gate. Every new human-gate Issue must declare the
+machine-readable `Human gate subtype`; legacy Issues may be interpreted from
+their existing `Review gate` during migration. After matching release
 approval, use `status: ready to dispatch`. Do not add a second owner or emit
 handoff comments during polling.
 

@@ -103,6 +103,7 @@ export function routeHandoff(handoff, context = {}) {
       nextState: "ready-for-human",
       humanDecisionRequired: review.humanDecisionRequired,
       reviewGate: review.reviewGate,
+      gateSubtype: context.gateSubtype || (review.humanDecisionRequired ? "human-decision" : "final-merge"),
     });
   }
 

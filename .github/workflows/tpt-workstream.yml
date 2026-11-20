@@ -205,6 +205,7 @@ jobs:
               marker,
               `# TPT package: ${process.env.PACKAGE_ID}`,
               'Review gate: final-product',
+              'Human gate subtype: human-decision',
               '',
               `- Status: **${status}**`,
               `- Package version: \`${result.packageVersion || 'unknown'}\``,
