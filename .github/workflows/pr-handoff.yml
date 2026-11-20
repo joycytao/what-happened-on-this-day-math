@@ -126,6 +126,8 @@ jobs:
             }
 
             const review = context.payload.review;
+            const isDeveloperToQualityHandoff = (review.body || '').includes('From: `developer`') && (review.body || '').includes('To: `quality-engineer`');
+            if (isDeveloperToQualityHandoff) return;
             const failed = review.state === 'changes_requested' || /\b(?:fail(?:ed|ure|s)?|reject(?:ed|ion|s)?|block(?:ed|ing)?|changes requested)\b/i.test(review.body || '');
             if (!failed) {
               const gateValidation = validateReadyForHumanGate({

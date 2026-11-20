@@ -32,3 +32,9 @@ test("PR handoff workflow delegates human-gate validation to the shared validato
   assert.match(workflow, /\|\| 'routine'/);
   assert.doesNotMatch(workflow, /\|\| 'final-merge'/);
 });
+
+test("PR handoff workflow ignores the developer-to-QE review handoff", async () => {
+  const workflow = await readFile(".github/workflows/pr-handoff.yml", "utf8");
+  assert.match(workflow, /isDeveloperToQualityHandoff/);
+  assert.match(workflow, /if \(isDeveloperToQualityHandoff\) return;/);
+});
