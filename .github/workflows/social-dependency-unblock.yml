@@ -8,7 +8,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: issue-state-social-dependency-${{ github.repository }}-${{ github.event.issue.number }}
+  group: issue-state-reconcile-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:
