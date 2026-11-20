@@ -67,6 +67,7 @@ jobs:
               const fresh = await github.rest.issues.get({ owner, repo, issue_number: workItemNumber });
               return transitionIssueState({ github, owner, repo, issueNumber: workItemNumber, expectedLabels: fresh.data.labels.map(label => label.name), nextLabels, body: fresh.data.body || '', commentBody, commentFingerprint: fingerprint });
             };
+            const currentLabels = async () => (await github.rest.issues.get({ owner, repo, issue_number: workItemNumber })).data.labels.map(label => label.name);
             const conflictBody = (id, resolved = false) => [
               '<!-- CODEX_CONFLICT_ALERT:v1 -->', '',
               resolved ? '## PR conflict resolved' : '## PR conflict detected', '',
@@ -117,11 +118,11 @@ jobs:
               }
               if (hasArchitectPath) {
                 const id = `issue:${workItemNumber}:pr:${number}:architect:consult:${sha}`;
-                if (!already(id)) await stateTransition(linkedIssue.data.labels.map(label => label.name), body(id, 'pm-triage', 'architect', 'requested', 'review governance, schema, or orchestration impact', paths.filter(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md').join(', ')), `Handoff ID: \`${id}\``);
+                if (!already(id)) await stateTransition(await currentLabels(), body(id, 'pm-triage', 'architect', 'requested', 'review governance, schema, or orchestration impact', paths.filter(path => path.startsWith('.github/') || path.startsWith('src/') || path.startsWith('docs/') || path === 'AGENTS.md').join(', ')), `Handoff ID: \`${id}\``);
               }
               if (hasSocialPath) {
                 const id = `issue:${workItemNumber}:pr:${number}:social-expert:consult:${sha}`;
-                if (!already(id)) await stateTransition(linkedIssue.data.labels.map(label => label.name), body(id, 'pm-triage', 'social-expert', 'requested', 'review social format and template impact', paths.filter(path => /social|carousel|reel|template/i.test(path)).join(', ')), `Handoff ID: \`${id}\``);
+                if (!already(id)) await stateTransition(await currentLabels(), body(id, 'pm-triage', 'social-expert', 'requested', 'review social format and template impact', paths.filter(path => /social|carousel|reel|template/i.test(path)).join(', ')), `Handoff ID: \`${id}\``);
               }
               return;
             }

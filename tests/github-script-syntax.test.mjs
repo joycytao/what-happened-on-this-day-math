@@ -44,3 +44,9 @@ test("PR synchronize can resume QA routing after a rejected handoff", async () =
   assert.match(workflow, /issueAlreadyNeedsRepair/);
   assert.match(workflow, /!hasDeveloperHandoff && !issueAlreadyNeedsRepair/);
 });
+
+test("PR consultation handoffs preserve the live QA state", async () => {
+  const workflow = await readFile(".github/workflows/pr-handoff.yml", "utf8");
+  assert.match(workflow, /const currentLabels = async \(\) =>/);
+  assert.doesNotMatch(workflow, /stateTransition\(linkedIssue\.data\.labels\.map\(label => label\.name\), body\(id, 'pm-triage', '(?:architect|social-expert)'/);
+});
