@@ -78,6 +78,19 @@ receive only terminal `status: done`; a failed run returns to an explicitly
 identified role. Missing claim age, ambiguous failure ownership, or an active
 human gate is a PM blocker, never a guessed dispatch.
 
+Dependency recovery is event-driven. `src/dependency-recovery.mjs` defines the
+machine-readable `CODEX_DEPENDENCY_EVENT:v1` contract and the only safe blocked
+Issue transition plan. `.github/workflows/reconcile-issue-governance.yml`
+re-audits on dependency closure, source-asset availability, Issue state
+changes, source/content/asset pushes, and workflow recovery; its schedule is
+only a safety net. A blocked Issue may move to `status: ready to pickup` only
+when the dependency report, required inputs, acceptance criteria, source-asset
+contract, and routine human-gate checks all pass. Otherwise dependency closure
+moves it to `agent: pm-triage` + `status: pending review` for a fresh readiness
+decision. All such changes go through `transitionIssueState` with serialized
+concurrency and idempotent evidence; no workflow may remove `status: blocked`
+or add a pickup label through separate direct mutations.
+
 The quality-engineer is the independent verification owner: it keeps content,
 mathematics, source, layout/PDF, visual, workflow, and deterministic checks
 separate, records reproducible evidence, and returns rejected work to the

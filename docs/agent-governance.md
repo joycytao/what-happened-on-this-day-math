@@ -487,6 +487,28 @@ from silently bypassing missing inputs or acceptance criteria.
 by the same validator. It separates PM triage intake from verified developer
 pickup and never treats a label by itself as proof that work is ready.
 
+### Event-driven dependency recovery
+
+Dependency closure is not a schedule-only condition. The machine-readable
+contract is `CODEX_DEPENDENCY_EVENT:v1` with an `eventId`, one supported `kind`
+(`dependency-closed`, `source-asset-available`, or `dependency-reconcile`), and
+the relevant dependency Issue, asset identifier, or commit evidence. The
+dependency watcher re-audits blocked Issues immediately on those repository
+dispatch events, Issue state changes, source/content/asset pushes, and workflow
+recovery events. The existing schedule remains only a safety net.
+
+`src/dependency-recovery.mjs` is the authoritative planner. It never guesses
+that a dependency is available: it re-evaluates the current Issue body and
+closed dependency/source-asset contracts. When all evidence is satisfied, an
+implementation Issue with `CODEX_RECONCILE_TO: developer`, validated inputs,
+acceptance criteria, and a routine review gate transitions atomically to
+`agent: developer` + `status: ready to pickup`. If dependency closure is known
+but readiness evidence is incomplete, it transitions atomically to
+`agent: pm-triage` + `status: pending review`. Unresolved, ambiguous, or
+human-gated work remains blocked. Both paths use `transitionIssueState`, the
+label snapshot compare-and-swap guard, serialized workflow concurrency, and an
+idempotent `CODEX_DEPENDENCY_RECOVERY:v1` comment.
+
 The governance invariant suite runs locally with
 `npm run governance:validate` and in `.github/workflows/governance-invariants.yml`.
 
