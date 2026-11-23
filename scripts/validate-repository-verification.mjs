@@ -9,7 +9,7 @@ if (!existsSync("package-lock.json")) errors.push("package-lock.json is required
 if (!existsSync("scripts/verify-visual-pdf.mjs")) errors.push("visual/PDF verification script is missing");
 
 const workflow = existsSync(workflowPath) ? readFileSync(workflowPath, "utf8") : "";
-for (const required of ["npm ci", "npm test", "npm run verification:visual-pdf", "npm run governance:validate", "python -m pip install", "npx playwright install --with-deps chromium"]) {
+for (const required of ["npm ci", "npm test", "npm run verification:visual-pdf", "npm run governance:validate", "python -m pip install", "sudo apt-get install --yes poppler-utils", "npx playwright install --with-deps chromium", "TMPDIR: /tmp"]) {
   if (!workflow.includes(required)) errors.push(`repository verification workflow must run ${required}`);
 }
 if (!packageJson.scripts?.test?.includes("node --test tests/*.test.mjs")) {
