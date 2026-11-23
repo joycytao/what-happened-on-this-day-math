@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1",
+  "owners": ["pm-triage", "product-manager", "architect", "social-expert", "developer", "quality-engineer"],
+  "statuses": ["pending review", "blocked", "ready to pickup", "qa", "paused", "ready to dispatch", "done"],
+  "handoffStatuses": ["requested", "accepted", "completed", "blocked", "rejected"],
+  "humanGate": {
+    "label": "ready-for-human",
+    "subtypes": ["human-decision", "final-merge"]
+  },
+  "verificationScopes": ["focused", "repository-wide"],
+  "roles": {
+    "pm-triage": {
+      "outputKind": "triage-decision",
+      "targets": ["pm-triage", "product-manager", "architect", "social-expert", "developer"],
+      "returnPaths": ["pm-triage"]
+    },
+    "product-manager": {
+      "outputKind": "product-decision",
+      "targets": ["pm-triage"],
+      "returnPaths": ["pm-triage"]
+    },
+    "architect": {
+      "outputKind": "architecture-decision",
+      "targets": ["pm-triage"],
+      "returnPaths": ["pm-triage"]
+    },
+    "social-expert": {
+      "outputKind": "social-decision",
+      "targets": ["pm-triage"],
+      "returnPaths": ["pm-triage"]
+    },
+    "developer": {
+      "outputKind": "implementation",
+      "targets": ["quality-engineer", "pm-triage"],
+      "returnPaths": ["pm-triage"]
+    },
+    "quality-engineer": {
+      "outputKind": "qa-result",
+      "targets": ["ready-for-human", "developer", "pm-triage"],
+      "returnPaths": ["developer", "pm-triage"]
+    }
+  },
+  "verification": {
+    "workflow": ".github/workflows/repository-verification.yml",
+    "requiredCommands": ["npm ci", "npm test", "npm run verification:visual-pdf", "npm run governance:validate"]
+  }
+}

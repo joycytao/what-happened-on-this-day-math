@@ -53,6 +53,15 @@ A focused test result must be labeled `Verification scope: focused`; it cannot
 be used as evidence for a repository-wide claim. A repository-wide claim is
 valid only when all required CI steps pass in the same run.
 
+The canonical governance schema is
+`governance/governance-schema.json`. Role/status/handoff validators import its
+runtime projection from `src/governance-schema.mjs`; generated governance
+documentation is written by `npm run governance:generate` to
+`docs/generated/governance-contract.md`. Changes to governance rules must edit
+the schema and regenerate the derived documentation. `npm run governance:validate`
+fails when the generated contract is stale or a role, target, return path,
+human-gate subtype, or verification command is outside the schema.
+
 ## Roles and decision boundaries
 
 ### `pm-triage`

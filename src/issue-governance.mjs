@@ -4,25 +4,8 @@ import { classifyHumanReview } from "./human-review-policy.mjs";
 import { humanGateSubtypeFromBody, validateReadyForHumanGate } from "./human-gate-integrity.mjs";
 import { validateDerivedLabelInvariant } from "./derived-label-reconciliation.mjs";
 import { parseSourceAssetDependencies, requiresSourceAssetDependency } from "./source-asset-dependency.mjs";
-
-export const GOVERNANCE_OWNERS = new Set([
-  "agent: pm-triage",
-  "agent: product-manager",
-  "agent: architect",
-  "agent: social-expert",
-  "agent: developer",
-  "agent: quality-engineer",
-]);
-
-export const GOVERNANCE_STATUSES = new Set([
-  "status: pending review",
-  "status: blocked",
-  "status: ready to pickup",
-  "status: qa",
-  "status: paused",
-  "status: ready to dispatch",
-  "status: done",
-]);
+import { GOVERNANCE_OWNERS, GOVERNANCE_STATUSES } from "./governance-schema.mjs";
+export { GOVERNANCE_OWNERS, GOVERNANCE_STATUSES } from "./governance-schema.mjs";
 
 export const GOVERNANCE_TRANSITIONS = new Map([
   ["status: pending review", new Set([

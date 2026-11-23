@@ -1,23 +1,6 @@
 export const HANDOFF_MARKER = "<!-- CODEX_HANDOFF:v1 -->";
-
-export const AGENT_ROLES = Object.freeze([
-  "pm-triage",
-  "product-manager",
-  "architect",
-  "social-expert",
-  "developer",
-  "quality-engineer",
-]);
-
-export const HANDOFF_TARGETS = Object.freeze([...AGENT_ROLES, "ready-for-human"]);
-
-export const HANDOFF_STATUSES = Object.freeze([
-  "requested",
-  "accepted",
-  "completed",
-  "blocked",
-  "rejected",
-]);
+import { AGENT_ROLES, HANDOFF_TARGETS, HANDOFF_STATUSES } from "./governance-schema.mjs";
+export { AGENT_ROLES, HANDOFF_TARGETS, HANDOFF_STATUSES };
 
 const FIELD_DEFINITIONS = Object.freeze([
   ["handoffId", "Handoff ID"],

@@ -1,31 +1,9 @@
-import { AGENT_ROLES, HANDOFF_STATUSES, HANDOFF_TARGETS } from "./agent-handoff.mjs";
+import { AGENT_ROLES, HANDOFF_STATUSES, HANDOFF_TARGETS, roleOutputContract } from "./governance-schema.mjs";
 
-export const ROLE_OUTPUT_KINDS = Object.freeze({
-  "pm-triage": "triage-decision",
-  "product-manager": "product-decision",
-  architect: "architecture-decision",
-  "social-expert": "social-decision",
-  developer: "implementation",
-  "quality-engineer": "qa-result",
-});
+export const ROLE_OUTPUT_KINDS = Object.freeze(Object.fromEntries(AGENT_ROLES.map((role) => [role, roleOutputContract(role).outputKind])));
 
-export const LEGAL_RETURN_PATHS = Object.freeze({
-  "pm-triage": Object.freeze(["pm-triage"]),
-  "product-manager": Object.freeze(["pm-triage"]),
-  architect: Object.freeze(["pm-triage"]),
-  "social-expert": Object.freeze(["pm-triage"]),
-  developer: Object.freeze(["pm-triage"]),
-  "quality-engineer": Object.freeze(["developer", "pm-triage"]),
-});
-
-const LEGAL_TARGETS = Object.freeze({
-  "pm-triage": Object.freeze(["pm-triage", "product-manager", "architect", "social-expert", "developer"]),
-  "product-manager": Object.freeze(["pm-triage"]),
-  architect: Object.freeze(["pm-triage"]),
-  "social-expert": Object.freeze(["pm-triage"]),
-  developer: Object.freeze(["quality-engineer", "pm-triage"]),
-  "quality-engineer": Object.freeze(["ready-for-human", "developer", "pm-triage"]),
-});
+export const LEGAL_RETURN_PATHS = Object.freeze(Object.fromEntries(AGENT_ROLES.map((role) => [role, Object.freeze([...roleOutputContract(role).returnPaths])] )));
+const LEGAL_TARGETS = Object.freeze(Object.fromEntries(AGENT_ROLES.map((role) => [role, Object.freeze([...roleOutputContract(role).targets])] )));
 
 function hasText(value) {
   return typeof value === "string" && value.trim().length > 0;

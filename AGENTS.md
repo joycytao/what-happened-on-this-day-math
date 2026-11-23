@@ -44,6 +44,11 @@ dependency graph with `npm ci`, run `npm test`, run
 `npm run verification:visual-pdf`, and run `npm run governance:validate`.
 Handoffs and QA reports must state either `Verification scope: focused` or
 `Verification scope: repository-wide`; do not use the former to claim the latter.
+Governance rules are canonical in `governance/governance-schema.json`. Generate
+the derived contract documentation with `npm run governance:generate`; runtime
+validators must import `src/governance-schema.mjs`, and CI must run
+`npm run governance:validate` so stale generated documentation or drifted role,
+status, handoff, and gate contracts fail closed.
 
 When a role can resolve a scope, acceptance-criteria, or routing gap from
 repository evidence, keep the Issue in `status: pending review` and dispatch
