@@ -37,6 +37,13 @@ distinguish product/content decisions from operational merge approval.
 Every workflow that writes `ready-for-human` must call the shared gate integrity
 validator against the prospective label set; the label alone is never evidence
 of a valid human gate.
+Verification scope is explicit. Focused tests are useful evidence for a changed
+area but are never repository-wide verification. A repository-wide verification
+claim requires the `Repository-wide verification` CI job to install the locked
+dependency graph with `npm ci`, run `npm test`, run
+`npm run verification:visual-pdf`, and run `npm run governance:validate`.
+Handoffs and QA reports must state either `Verification scope: focused` or
+`Verification scope: repository-wide`; do not use the former to claim the latter.
 
 When a role can resolve a scope, acceptance-criteria, or routing gap from
 repository evidence, keep the Issue in `status: pending review` and dispatch

@@ -45,6 +45,14 @@ Routine review policy:
 - Final merge remains an operational human gate under the current automation
   contract, not a request for ordinary code or content review.
 
+Repository-wide verification is a separate invariant from focused validation.
+The required CI job must install `package-lock.json` dependencies with `npm ci`,
+run the complete `npm test` command, run the explicit visual/PDF contract
+(`npm run verification:visual-pdf`), and run `npm run governance:validate`.
+A focused test result must be labeled `Verification scope: focused`; it cannot
+be used as evidence for a repository-wide claim. A repository-wide claim is
+valid only when all required CI steps pass in the same run.
+
 ## Roles and decision boundaries
 
 ### `pm-triage`
