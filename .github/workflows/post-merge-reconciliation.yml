@@ -1,0 +1,36 @@
+name: Post-merge issue reconciliation
+on:
+  pull_request:
+    types: [closed]
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+concurrency:
+  group: issue-state-${{ github.repository }}-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+jobs:
+  reconcile:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PROJECTS_TOKEN || github.token }}
+          script: |
+            const { pathToFileURL } = require('node:url');
+            const reconciliation = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/post-merge-reconciliation.mjs`).href);
+            const { transitionIssueState } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/src/issue-state-writer.mjs`).href);
+            const { owner, repo } = context.repo;
+            const pullRequest = context.payload.pull_request;
+            for (const issueNumber of reconciliation.extractLinkedIssueNumbers(pullRequest.body || '')) {
+              const issue = (await github.rest.issues.get({ owner, repo, issue_number: issueNumber })).data;
+              if (!reconciliation.isTerminalReconciliationCandidate(issue, pullRequest)) { core.notice(`Issue #${issueNumber} is not an open active linked-PR candidate; no mutation performed.`); continue; }
+              const currentLabels = issue.labels.map((label) => label.name);
+              const nextLabels = reconciliation.buildTerminalLabels(currentLabels);
+              const fingerprint = reconciliation.postMergeFingerprint({ issueNumber, pullRequestNumber: pullRequest.number, mergeCommit: pullRequest.merge_commit_sha || '' });
+              const comment = `${fingerprint}\n${reconciliation.buildPostMergeComment({ issueNumber, pullRequestNumber: pullRequest.number, currentLabels, nextLabels })}`;
+              await transitionIssueState({ github, owner, repo, issueNumber, expectedLabels: currentLabels, nextLabels, body: issue.body || '', commentBody: comment, commentFingerprint: fingerprint });
+              core.notice(`Issue #${issueNumber} reconciled to terminal status: done.`);
+            }
